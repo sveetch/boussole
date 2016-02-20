@@ -1,0 +1,61 @@
+/*
+ * Webfont for icons
+ */
+@font-face {
+  font-family: 'icomoon';
+  src: font-url('icomoon.eot');
+  src: font-url('icomoon.eot?#iefix') format('embedded-opentype'),
+        font-url('icomoon.ttf') format('truetype'),
+        font-url('icomoon.woff') format('woff'),
+        font-url('icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"]{
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Prepend text button with an icon from a class (without <i class="">)
+.button[class^="icon-"], .button[class*=" icon-"] {
+    font-family: inherit;
+    
+    &:before{
+        font-family: 'icomoon';
+        margin-right: rem-calc(5px);
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+
+        /* Better Font Rendering =========== */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+// Icon Sizes
+.icon-2x{
+    font-size: 2em;
+}
+.icon-3x{
+    font-size: 3em;
+}
+.icon-4x{
+    font-size: 4em;
+}
+
+// Import icon map part
+@import "webfont_icons";

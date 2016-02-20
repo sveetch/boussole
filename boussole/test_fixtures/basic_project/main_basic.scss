@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/*
+ * Basic main scss file
+ */
+
+@import "vendor";
+
+@import "utils/mixins";
+
+@import
+    "sass_filetest",
+    "css_filetest",
+    "empty";
+
+@import 
+    "components/filename_test_1",
+    "components/_filename_test_2",
+    "components/filename_test_3.scss",
+    "components/_filename_test_4.scss";
+
+// Consistant colors names facility
+$white: #ffffff;
+$black: #000000;
+$AliceBlue: #f0f8ff;
+$AntiqueWhite4: #8b8378;
+$Gray20: #333333;
+$Gray63: #a1a1a1;
+$ElectricYellow: #f6b220;
+$PaleMidnightBlue: #0e2f44;
+
+@import url("http://foo.bar/dummy");
