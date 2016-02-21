@@ -21,6 +21,7 @@ If two files has multiple resolutions cases, this leads to an error: ::
     >> @import "main_basic";
     ^
 
+TODO: LIBRARY PATHS FOR FUCKIN SANITY!
 """
 import os
 
@@ -37,7 +38,7 @@ class ImportPathsResolver(object):
     """
     # Order does matter
     CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css', ]
-    STRICT_PATH_VALIDATION = False
+    STRICT_PATH_VALIDATION = True
     
     def sanitize_path(self, path):
         """
@@ -99,9 +100,19 @@ class ImportPathsResolver(object):
             
         return False
     
-    def validate(self, sourcepath, paths, library_paths=None):
+    def resolve(self, sourcepath, paths, library_paths=None):
         """
-        Validate that given paths exists from sourcepath position
+        Resolve given paths from the given source path
+        
+        TODO: ..and from given library paths
+        
+        Return resolved path list.
+        
+        * Raise exception 'InvalidImportRule' if a path does not exist and 
+          ImportPathsResolver.STRICT_PATH_VALIDATION is True, else just 
+          drop the path;
+        * If path exists, add it to the resolved path list;
+        
         
         Note: libsass resolve imported path only from the current main file 
         path position, never from the relative project position. Meaning that 
@@ -111,29 +122,26 @@ class ImportPathsResolver(object):
         position.
         """
         basepath, filename = os.path.split(sourcepath)
+        resolved_paths = []
         
-        print "SOURCEPATH:", sourcepath
-        print "BASEPATH:", basepath
-        print
+        #print "SOURCEPATH:", sourcepath
+        #print "BASEPATH:", basepath
+        #print
         
         for import_rule in paths:
-            print "* @import:", import_rule
+            #print "* @import:", import_rule
             candidates = self.candidate_paths(import_rule)
             existing = self.check_candidate_exists(basepath, candidates)
             if existing:
-                print "   -", existing
+                #print "   -", existing
+                resolved_paths.append(existing)
+                
             # TODO: This would be instead a check in library_paths, some fake 
             # libs have to be added in fixtures before
             elif self.STRICT_PATH_VALIDATION:
                 raise InvalidImportRule("Imported path '{}' does not exist in '{}'".format(import_rule, basepath))
-            else:
-                print "Imported path '{}' does not exist in '{}'".format(import_rule, basepath)
-                
-            #for v in candidates:
-                #print "   -", v
-            print
         
-        return 
+        return resolved_paths
 
 
 # For some development debug
@@ -148,12 +156,19 @@ if __name__ == "__main__":
         with open(filepath) as fp:
             print "Opening:", filepath
             finded_paths = parser.parse(fp.read())
-        
-        print "Finded paths:", finded_paths
         print
         
-        validator = ImportPathsResolver()
-        validator.validate(filepath, finded_paths)
+        print "Finded paths:"
+        for k in finded_paths:
+            print "-", k
+        print
+        
+        resolver = ImportPathsResolver()
+        resolved_paths = resolver.resolve(filepath, finded_paths)
+        print "Resolved paths:"
+        for k in resolved_paths:
+            print "-", k
+        print
     
     
     boussole_dir = os.path.dirname(boussole.__file__)
@@ -162,6 +177,8 @@ if __name__ == "__main__":
     fixture_path = os.path.join(fixtures_dir, 'basic_project/main_basic.scss')
     test(fixture_path)
     
+    #print 
+    #print "#"*80
     #fixture_path = os.path.join(fixtures_dir, 'basic_project/main_error.scss')
     #test(fixture_path)
     

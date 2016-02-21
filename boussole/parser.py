@@ -63,5 +63,5 @@ if __name__ == "__main__":
     parser = ScssImportsParser()
     
     with open(os.path.join(fixtures_dir, 'basic_project/main_basic.scss')) as fp:
-        result = parser.parse(fp.read())
+        finded_paths = parser.parse(fp.read())
     print result

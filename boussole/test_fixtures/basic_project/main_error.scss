@@ -8,6 +8,12 @@
 // Error case, Path that don't exists
 @import "dont_exists";
 
-// Error case, Second path filename exist but with another extension
+// Error cases, First does not exists and Second path filename exist 
+// but with another extension
 @import "scss_filetest",
     "css_filetest.sass";
+
+// Following are ok
+@import "components/filename_test_1";
+
+@import "components/../empty";

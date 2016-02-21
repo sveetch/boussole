@@ -67,7 +67,7 @@ class case_02_ResolverTestCase(unittest.TestCase):
             print content
     
     def test_001_candidate_basic(self):
-        """parser.ImportPathsResolver: Underscore leading and candidate extensions"""
+        """resolver.ImportPathsResolver: Underscore leading and candidate extensions"""
         self.assertEquals(self.resolver.candidate_paths("foo"), [
             "foo.scss",
             "_foo.scss",
@@ -78,7 +78,7 @@ class case_02_ResolverTestCase(unittest.TestCase):
         ])
     
     def test_002_extension_uncandidate(self):
-        """parser.ImportPathsResolver: Uncandidate extension"""
+        """resolver.ImportPathsResolver: Uncandidate extension"""
         self.assertEquals(self.resolver.candidate_paths("foo.plop"), [
             "foo.plop.scss",
             "_foo.plop.scss",
@@ -89,21 +89,21 @@ class case_02_ResolverTestCase(unittest.TestCase):
         ])
     
     def test_003_candidate_extension_ready(self):
-        """parser.ImportPathsResolver: Candidate extension allready in place"""
+        """resolver.ImportPathsResolver: Candidate extension allready in place"""
         self.assertEquals(self.resolver.candidate_paths("foo.scss"), [
             "foo.scss",
             "_foo.scss",
         ])
     
     def test_004_candidate_complex1(self):
-        """parser.ImportPathsResolver: Complex case 1 for candidates"""
+        """resolver.ImportPathsResolver: Complex case 1 for candidates"""
         self.assertEquals(self.resolver.candidate_paths("components/addons/foo.plop.scss"), [
             "components/addons/foo.plop.scss",
             "components/addons/_foo.plop.scss",
         ])
     
     def test_005_candidate_complex2(self):
-        """parser.ImportPathsResolver: Complex case 2 for candidates"""
+        """resolver.ImportPathsResolver: Complex case 2 for candidates"""
         self.assertEquals(self.resolver.candidate_paths("../components/../addons/foo.plop"), [
             "../components/../addons/foo.plop.scss",
             "../components/../addons/_foo.plop.scss",
@@ -114,46 +114,64 @@ class case_02_ResolverTestCase(unittest.TestCase):
         ])
     
     def test_010_check_candidate_ok1(self):
-        """parser.ImportPathsResolver: Check candidates correct case 1"""
+        """resolver.ImportPathsResolver: Check candidates correct case 1"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("vendor")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "_vendor.scss")
     
     def test_011_check_candidate_ok2(self):
-        """parser.ImportPathsResolver: Check candidates correct case 2"""
+        """resolver.ImportPathsResolver: Check candidates correct case 2"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("components/_filename_test_2")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "components/_filename_test_2.scss")
     
     def test_012_check_candidate_ok3(self):
-        """parser.ImportPathsResolver: Check candidates correct case 3"""
+        """resolver.ImportPathsResolver: Check candidates correct case 3"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("components/filename_test_6.plop.scss")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "components/_filename_test_6.plop.scss")
     
     def test_013_check_candidate_ok4(self):
-        """parser.ImportPathsResolver: Check candidates correct case 4"""
+        """resolver.ImportPathsResolver: Check candidates correct case 4"""
         basepath = os.path.join(self.fixtures_dir, "basic_project", "components")
         candidates = self.resolver.candidate_paths("webfont")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "_webfont.scss")
     
     def test_014_check_candidate_ok5(self):
-        """parser.ImportPathsResolver: Check candidates correct case 5"""
+        """resolver.ImportPathsResolver: Check candidates correct case 5"""
         basepath = os.path.join(self.fixtures_dir, "basic_project", "components")
         candidates = self.resolver.candidate_paths("../components/webfont_icons")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "../components/_webfont_icons.scss")
     
     def test_015_check_candidate_wrong1(self):
-        """parser.ImportPathsResolver: Check candidates wrong case 1"""
+        """resolver.ImportPathsResolver: Check candidates wrong case 1"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("dont_exists")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), False)
     
     def test_016_check_candidate_wrong2(self):
-        """parser.ImportPathsResolver: Check candidates wrong case 2"""
+        """resolver.ImportPathsResolver: Check candidates wrong case 2"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("css_filetest.sass")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), False)
+    
+    def test_100_resolver(self):
+        """resolver.ImportPathsResolver: Resolve paths from main_basic.scss"""
+        sourcepath = os.path.join(self.fixtures_dir, 'basic_project/main_basic.scss')
+        with open(sourcepath) as fp:
+            finded_paths = self.parser.parse(fp.read())
+        resolved_paths = self.resolver.resolve(sourcepath, finded_paths)
+        self.assertEquals(resolved_paths, ['_vendor.scss',
+            'utils/_mixins.scss', '_sass_filetest.sass',
+            '_css_filetest.css', '_empty.scss',
+            'components/_filename_test_1.scss',
+            'components/_filename_test_2.scss',
+            'components/_filename_test_3.scss',
+            'components/_filename_test_4.scss',
+            'components/_filename_test_5.plop.scss',
+            'components/_filename_test_6.plop.scss',
+            'components/../_empty.scss'
+        ])
 
 
 if __name__ == "__main__":
