@@ -202,6 +202,14 @@
 .foo {
   position: relative; }
 
+/* Nothing here just for filename extension test #5 */
+.foo {
+  position: relative; }
+
+/* Nothing here just for filename extension test #6 */
+.foo {
+  position: relative; }
+
 /*
  * Webfont for icons
  */

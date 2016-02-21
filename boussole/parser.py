@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 SCSS parser
+
+SASS Reference about "@import" rule: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 """
 import os, re
 
@@ -38,6 +40,8 @@ class ScssImportsParser(object):
             # Split multiple rule in the same declaration and unquote them
             rules.extend( [self.strip_quotes(v.strip()) 
                            for v in paths.split(',')] )
+            # TODO: Drop paths starting with http:// or https://, this for external load
+            # TODO: Drop paths ending with ".css", they are not intended to be compiled
             
         return rules
     
@@ -52,8 +56,12 @@ class ScssImportsParser(object):
 
 # For some development debug
 if __name__ == "__main__":
-    fixtures_paths = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'test_fixtures')
+    import boussole
+    
+    fixtures_dir = os.path.join(os.path.abspath(os.path.dirname(boussole.__file__)), 'test_fixtures')
+    
     parser = ScssImportsParser()
-    with open(os.path.join(fixtures_paths, 'basic_project/main_basic.scss')) as fp:
+    
+    with open(os.path.join(fixtures_dir, 'basic_project/main_basic.scss')) as fp:
         result = parser.parse(fp.read())
     print result

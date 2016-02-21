@@ -10,13 +10,17 @@
 @import
     "sass_filetest",
     "css_filetest",
-    "empty";
+    "_empty";
 
 @import 
     "components/filename_test_1",
     "components/_filename_test_2",
     "components/filename_test_3.scss",
-    "components/_filename_test_4.scss";
+    "components/_filename_test_4.scss",
+    "components/filename_test_5.plop",
+    "components/filename_test_6.plop.scss";
+
+@import "components/../empty";
 
 // Consistant colors names facility
 $white: #ffffff;

@@ -1,8 +1,13 @@
 @charset "UTF-8";
 /*
- * Basic main scss file with path that dont exists
+ * Basic main scss file with some path that dont exists
  */
 
 @import "vendor";
 
+// Error case, Path that don't exists
 @import "dont_exists";
+
+// Error case, Second path filename exist but with another extension
+@import "scss_filetest",
+    "css_filetest.sass";
