@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/*
+ * Main scss file that use some things from imported libraries
+ */
+
+@import "addons/some_addon";
+
+@import "main_basic";
+
+@import "components/webfont";
+
+@import "library_1_fullstack.scss";

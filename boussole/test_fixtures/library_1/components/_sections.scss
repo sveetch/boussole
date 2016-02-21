@@ -1,0 +1,15 @@
+/*
+ * 
+ * Library #1 : sections component
+ * 
+ */
+$section-padding: 85px !default;
+$section-inner-padding: 65px !default;
+
+.section {
+    padding: $section-padding 0;
+        
+    .inner{
+        padding: $section-inner-padding 0;
+    }
+}

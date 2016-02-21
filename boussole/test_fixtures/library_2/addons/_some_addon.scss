@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/*
+ * Libary sample #2: some dummy addon
+ */
+
+$some-addon-width: 50% !default;
+
+.some_addon{
+    width: $some-addon-width;
+}
+
+@import "another_addon";

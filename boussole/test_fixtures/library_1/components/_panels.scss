@@ -1,0 +1,13 @@
+/*
+ * 
+ * Library #1 : panels component
+ * 
+ */
+$panel-padding: 45px !default;
+
+.panel {
+    padding: $panel-padding;
+    color: #333333;
+    background-color: #f0f0f0;
+    border: 1px solid #333333;
+}

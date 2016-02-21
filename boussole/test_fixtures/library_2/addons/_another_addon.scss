@@ -1,0 +1,15 @@
+/*
+ * Libary sample #2: another dummy addon
+ */
+$another-addon-margin: 10px !default;
+$another-addon-inner-padding: 0 !default;
+$another-addon-inner-bg: #ffffff !default;
+
+.another_addon{
+    margin: $another-addon-margin;
+    
+    .inner{
+        padding: $another-addon-inner-padding;
+        background-color: $another-addon-inner-bg;
+    }
+}

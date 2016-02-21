@@ -21,7 +21,58 @@ class case_01_ParserTestCase(unittest.TestCase):
         if self.debug:
             print content
     
-    def test_001_basic(self):
+    
+    def test_001_unquote1(self):
+        """parser.ScssImportsParser: unquote test 1"""
+        self.assertEquals(self.parser.strip_quotes("'foo'"), "foo")
+    
+    def test_002_unquote2(self):
+        """parser.ScssImportsParser: unquote test 2"""
+        self.assertEquals(self.parser.strip_quotes('"foo"'), "foo")
+    
+    def test_003_unquote3(self):
+        """parser.ScssImportsParser: unquote test 3"""
+        self.assertEquals(self.parser.strip_quotes("foo"), "foo")
+    
+    def test_004_unquote4(self):
+        """parser.ScssImportsParser: unquote test 4"""
+        self.assertEquals(self.parser.strip_quotes("'foo"), "'foo")
+    
+    
+    def test_010_flatten_rules1(self):
+        """parser.ScssImportsParser: flatten_rules test 1"""
+        rules = self.parser.flatten_rules([
+            ('', '"foo"'),
+        ])
+        self.assertEquals(rules, [
+            'foo',
+        ])
+    
+    def test_011_flatten_rules2(self):
+        """parser.ScssImportsParser: flatten_rules test 2"""
+        rules = self.parser.flatten_rules([
+            ('', "'bar'"),
+        ])
+        self.assertEquals(rules, [
+            'bar',
+        ])
+    
+    def test_012_flatten_rules3(self):
+        """parser.ScssImportsParser: flatten_rules test 3"""
+        rules = self.parser.flatten_rules([
+            ('', "'bar'"),
+            ('url', '"wrong"'),
+            ('', '"cool", "plop"'),
+            ('', '"wrong.css"'),
+            ('', '"https://wrong"'),
+        ])
+        self.assertEquals(rules, [
+            'bar',
+            'cool', 'plop',
+        ])
+    
+    
+    def test_100_basic(self):
         """parser.ScssImportsParser: basic file"""
         with open(os.path.join(self.fixtures_dir, 'basic_project/main_basic.scss')) as fp:
             result = self.parser.parse(fp.read())
@@ -36,14 +87,14 @@ class case_01_ParserTestCase(unittest.TestCase):
             'components/../empty',
         ])
     
-    def test_001_empty(self):
+    def test_101_empty(self):
         """parser.ScssImportsParser: empty file"""
         with open(os.path.join(self.fixtures_dir, 'basic_project/_empty.scss')) as fp:
             result = self.parser.parse(fp.read())
         self.dummy_output(result)
         self.assertEquals(result, [])
     
-    def test_002_noimport(self):
+    def test_102_noimport(self):
         """parser.ScssImportsParser: no import rules"""
         with open(os.path.join(self.fixtures_dir, 'basic_project/_vendor.scss')) as fp:
             result = self.parser.parse(fp.read())
@@ -113,6 +164,7 @@ class case_02_ResolverTestCase(unittest.TestCase):
             "../components/../addons/_foo.plop.css",
         ])
     
+    
     def test_010_check_candidate_ok1(self):
         """resolver.ImportPathsResolver: Check candidates correct case 1"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
@@ -155,22 +207,19 @@ class case_02_ResolverTestCase(unittest.TestCase):
         candidates = self.resolver.candidate_paths("css_filetest.sass")
         self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), False)
     
-    def test_100_resolver(self):
-        """resolver.ImportPathsResolver: Resolve paths from main_basic.scss"""
-        sourcepath = os.path.join(self.fixtures_dir, 'basic_project/main_basic.scss')
+    def test_100_check_library1(self):
+        """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss that use included libraries"""
+        sourcepath = os.path.join(self.fixtures_dir, 'basic_project/main_using_libs.scss')
+        lib1path = os.path.join(self.fixtures_dir, 'library_1')
+        lib2path = os.path.join(self.fixtures_dir, 'library_2')
         with open(sourcepath) as fp:
             finded_paths = self.parser.parse(fp.read())
-        resolved_paths = self.resolver.resolve(sourcepath, finded_paths)
-        self.assertEquals(resolved_paths, ['_vendor.scss',
-            'utils/_mixins.scss', '_sass_filetest.sass',
-            '_css_filetest.css', '_empty.scss',
-            'components/_filename_test_1.scss',
-            'components/_filename_test_2.scss',
-            'components/_filename_test_3.scss',
-            'components/_filename_test_4.scss',
-            'components/_filename_test_5.plop.scss',
-            'components/_filename_test_6.plop.scss',
-            'components/../_empty.scss'
+        resolved_paths = self.resolver.resolve(sourcepath, finded_paths, library_paths=[lib1path, lib2path])
+        self.assertEquals(resolved_paths, [
+            'addons/_some_addon.scss',
+            'main_basic.scss',
+            'components/_webfont.scss',
+            'library_1_fullstack.scss',
         ])
 
 

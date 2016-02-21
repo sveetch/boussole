@@ -22,10 +22,11 @@ class ScssImportsParser(object):
         """
         Naive quote stripping because regex return them in results (sic..)
         """
-        if not content.startswith('"') and not content.startswith("'"):
-            return content
+        if (content.startswith('"') and content.endswith('"')) or \
+           (content.startswith("'") and content.endswith("'")):
+            return content[1:-1]
         
-        return content[1:-1]
+        return content
     
     def flatten_rules(self, declarations):
         """
@@ -33,17 +34,22 @@ class ScssImportsParser(object):
         line are not cleanly parsed as distinct matchs
         """
         rules = []
+        
         for protocole,paths in declarations:
+            #print protocole, ",",paths
             # If there is a protocole (like 'url), drop it
             if protocole:
                 continue
-            # Split multiple rule in the same declaration and unquote them
+            # Unquote and possibly split multiple rule in the same declaration
             rules.extend( [self.strip_quotes(v.strip()) 
                            for v in paths.split(',')] )
-            # TODO: Drop paths starting with http:// or https://, this for external load
-            # TODO: Drop paths ending with ".css", they are not intended to be compiled
+        
+        # Lambda to filter items that:
+        # * Starts with http:// or https:// (this for external load only)
+        # * Ends with ".css" (they are not intended to be compiled)
+        drop_unprocessed = lambda x: not(x.startswith('http://') or x.startswith('https://') or x.endswith('.css'))
             
-        return rules
+        return filter(drop_unprocessed, rules)
     
     def parse(self, content):
         """
@@ -64,4 +70,4 @@ if __name__ == "__main__":
     
     with open(os.path.join(fixtures_dir, 'basic_project/main_basic.scss')) as fp:
         finded_paths = parser.parse(fp.read())
-    print result
+    print finded_paths
