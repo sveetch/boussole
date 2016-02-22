@@ -95,7 +95,7 @@ class ImportPathsResolver(object):
             abspath = os.path.join(basepath, item)
             if os.path.exists(abspath):
                 #print "    - (X)", abspath
-                return item
+                return abspath
             #else:
                 #print "    - ( )", abspath
             
@@ -131,7 +131,8 @@ class ImportPathsResolver(object):
         
         # Add given library paths to the basepaths for resolving
         # Accept a string if not allready in basepaths
-        if library_paths and isinstance(library_paths, basestring) and library_paths not in basepaths:
+        if library_paths and isinstance(library_paths, basestring) and \
+            library_paths not in basepaths:
             basepaths.append(library_paths)
         # Add path item from list if not allready in basepaths
         elif library_paths:
@@ -159,7 +160,11 @@ class ImportPathsResolver(object):
                     break
 
             if not existing and self.STRICT_PATH_VALIDATION:
-                raise InvalidImportRule("Imported path '{}' does not exist in '{}'".format(import_rule, basedir))
+                raise InvalidImportRule(
+                    "Imported path '{}' does not exist in '{}'".format(
+                        import_rule, basedir
+                    )
+                )
         
         return resolved_paths
 

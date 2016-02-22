@@ -2,7 +2,9 @@
 """
 SCSS parser
 
-SASS Reference about "@import" rule: http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
+SASS Reference about "@import" rule:
+
+    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 """
 import os, re
 
@@ -47,7 +49,8 @@ class ScssImportsParser(object):
         # Lambda to filter items that:
         # * Starts with http:// or https:// (this for external load only)
         # * Ends with ".css" (they are not intended to be compiled)
-        drop_unprocessed = lambda x: not(x.startswith('http://') or x.startswith('https://') or x.endswith('.css'))
+        drop_unprocessed = lambda x: not(x.startswith('http://') or \
+                            x.startswith('https://') or x.endswith('.css'))
             
         return filter(drop_unprocessed, rules)
     
@@ -64,10 +67,12 @@ class ScssImportsParser(object):
 if __name__ == "__main__":
     import boussole
     
-    fixtures_dir = os.path.join(os.path.abspath(os.path.dirname(boussole.__file__)), 'test_fixtures')
+    fixtures = os.path.join(
+        os.path.abspath(os.path.dirname(boussole.__file__)),
+        'test_fixtures')
     
     parser = ScssImportsParser()
     
-    with open(os.path.join(fixtures_dir, 'basic_project/main_basic.scss')) as fp:
+    with open(os.path.join(fixtures, 'basic_project/main_basic.scss')) as fp:
         finded_paths = parser.parse(fp.read())
     print finded_paths

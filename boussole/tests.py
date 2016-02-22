@@ -169,31 +169,41 @@ class case_02_ResolverTestCase(unittest.TestCase):
         """resolver.ImportPathsResolver: Check candidates correct case 1"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("vendor")
-        self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "_vendor.scss")
+        self.assertEquals(
+            self.resolver.check_candidate_exists(basepath, candidates),
+            os.path.join(basepath, "_vendor.scss"))
     
     def test_011_check_candidate_ok2(self):
         """resolver.ImportPathsResolver: Check candidates correct case 2"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("components/_filename_test_2")
-        self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "components/_filename_test_2.scss")
+        self.assertEquals(
+            self.resolver.check_candidate_exists(basepath, candidates),
+            os.path.join(basepath, "components/_filename_test_2.scss"))
     
     def test_012_check_candidate_ok3(self):
         """resolver.ImportPathsResolver: Check candidates correct case 3"""
         basepath = os.path.join(self.fixtures_dir, "basic_project")
         candidates = self.resolver.candidate_paths("components/filename_test_6.plop.scss")
-        self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "components/_filename_test_6.plop.scss")
+        self.assertEquals(
+            self.resolver.check_candidate_exists(basepath, candidates),
+            os.path.join(basepath, "components/_filename_test_6.plop.scss"))
     
     def test_013_check_candidate_ok4(self):
         """resolver.ImportPathsResolver: Check candidates correct case 4"""
         basepath = os.path.join(self.fixtures_dir, "basic_project", "components")
         candidates = self.resolver.candidate_paths("webfont")
-        self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "_webfont.scss")
+        self.assertEquals(
+            self.resolver.check_candidate_exists(basepath, candidates),
+            os.path.join(basepath, "_webfont.scss"))
     
     def test_014_check_candidate_ok5(self):
         """resolver.ImportPathsResolver: Check candidates correct case 5"""
         basepath = os.path.join(self.fixtures_dir, "basic_project", "components")
         candidates = self.resolver.candidate_paths("../components/webfont_icons")
-        self.assertEquals(self.resolver.check_candidate_exists(basepath, candidates), "../components/_webfont_icons.scss")
+        self.assertEquals(
+            self.resolver.check_candidate_exists(basepath, candidates),
+            os.path.join(basepath, "../components/_webfont_icons.scss"))
     
     def test_015_check_candidate_wrong1(self):
         """resolver.ImportPathsResolver: Check candidates wrong case 1"""
@@ -209,17 +219,18 @@ class case_02_ResolverTestCase(unittest.TestCase):
     
     def test_100_check_library1(self):
         """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss that use included libraries"""
-        sourcepath = os.path.join(self.fixtures_dir, 'basic_project/main_using_libs.scss')
+        basepath = os.path.join(self.fixtures_dir, "basic_project")
+        sourcepath = os.path.join(basepath, 'main_using_libs.scss')
         lib1path = os.path.join(self.fixtures_dir, 'library_1')
         lib2path = os.path.join(self.fixtures_dir, 'library_2')
         with open(sourcepath) as fp:
             finded_paths = self.parser.parse(fp.read())
         resolved_paths = self.resolver.resolve(sourcepath, finded_paths, library_paths=[lib1path, lib2path])
         self.assertEquals(resolved_paths, [
-            'addons/_some_addon.scss',
-            'main_basic.scss',
-            'components/_webfont.scss',
-            'library_1_fullstack.scss',
+            os.path.join(lib2path, 'addons/_some_addon.scss'),
+            os.path.join(basepath, 'main_basic.scss'),
+            os.path.join(basepath, 'components/_webfont.scss'),
+            os.path.join(lib1path, 'library_1_fullstack.scss'),
         ])
 
 
