@@ -218,5 +218,3 @@ if __name__ == "__main__":
     fixture_path = os.path.join(fixtures_dir, 'basic_project/main_using_libs.scss')
     test(fixture_path, library_paths=[library1_path, library2_path])
     #print 
-    
-    

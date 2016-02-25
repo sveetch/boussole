@@ -6,20 +6,27 @@ SASS Reference about "@import" rule:
 
     http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 """
-import os, re
+import re
 
 class ScssImportsParser(object):
     """
     A modest SCSS parser that is just able to find import rules
     
-    Sass syntax (also known as "indented syntax") is not supported (yet?), 
-    import rules is different: they are not quoted and don't finish on 
-    semi-colon ";", so the current regex can't match them. It would need an 
-    dedicated regex to use on some extension (sass/scss) detect.
+    Sass syntax (also known as "indented syntax") is not supported, 
+    import rules is different (not quoted and don't finish on 
+    semi-colon ";", just a newline), so current regex can't match them. It 
+    would need another dedicated regex to parse them.
     """
+    # TODO: Regex is buggy, it does not honor comments // or /*..*/ so 
+    # commented imports are matched too..  Solutions:
+    # 1. Find a perfect regex, this not seems possible;
+    # 2. Code a "Finite-state machine" parser;
+    # 3. Pre process content using regexes to remove all comments;
     REGEX_IMPORT_RULE = re.compile(ur'@import\s*(url)?\s*\(?([^;]+?)\)?;', 
                                    re.IGNORECASE)
-    
+    REGEX_COMMENTS = re.compile(r'(/\*.*?\*/)|(//.*?(\n|$))', 
+                                         re.IGNORECASE | re.DOTALL)
+
     def strip_quotes(self, content):
         """
         Naive quote stripping because regex return them in results (sic..)
@@ -29,6 +36,12 @@ class ScssImportsParser(object):
             return content[1:-1]
         
         return content
+    
+    def remove_comments(self, content):
+        """
+        Remove all comment kind (inline and multiline)
+        """
+        return self.REGEX_COMMENTS.sub("", content)
     
     def flatten_rules(self, declarations):
         """
@@ -59,12 +72,17 @@ class ScssImportsParser(object):
         Parse a stylesheet document with a regex to extract all import rules 
         and return them
         """
-        declarations = self.REGEX_IMPORT_RULE.findall(content)    
+        # Remove all comments before searching for import rules, to not catch 
+        # commented breaked import rules
+        declarations = self.REGEX_IMPORT_RULE.findall(
+            self.remove_comments(content)
+        )
         return self.flatten_rules(declarations)
 
 
 # For some development debug
 if __name__ == "__main__":
+    import os
     import boussole
     
     fixtures = os.path.join(
@@ -76,3 +94,4 @@ if __name__ == "__main__":
     with open(os.path.join(fixtures, 'basic_project/main_basic.scss')) as fp:
         finded_paths = parser.parse(fp.read())
     print finded_paths
+    

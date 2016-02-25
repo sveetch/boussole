@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Unittests
+
+TODO: Parser is bugged with commented import.
 """
 import os, unittest
 
@@ -23,24 +25,77 @@ class case_01_ParserTestCase(unittest.TestCase):
     
     
     def test_001_unquote1(self):
-        """parser.ScssImportsParser: unquote test 1"""
+        """parser.ScssImportsParser: unquote case 1"""
         self.assertEquals(self.parser.strip_quotes("'foo'"), "foo")
     
     def test_002_unquote2(self):
-        """parser.ScssImportsParser: unquote test 2"""
+        """parser.ScssImportsParser: unquote case 2"""
         self.assertEquals(self.parser.strip_quotes('"foo"'), "foo")
     
     def test_003_unquote3(self):
-        """parser.ScssImportsParser: unquote test 3"""
+        """parser.ScssImportsParser: unquote case 3"""
         self.assertEquals(self.parser.strip_quotes("foo"), "foo")
     
     def test_004_unquote4(self):
-        """parser.ScssImportsParser: unquote test 4"""
+        """parser.ScssImportsParser: unquote case 4"""
         self.assertEquals(self.parser.strip_quotes("'foo"), "'foo")
     
     
-    def test_010_flatten_rules1(self):
-        """parser.ScssImportsParser: flatten_rules test 1"""
+    def test_010_remove_comment(self):
+        """parser.ScssImportsParser: removing singleline comment case 1"""
+        self.assertEquals(self.parser.remove_comments("""// foo"""), "")
+    
+    def test_011_remove_comment(self):
+        """parser.ScssImportsParser: removing singleline comment case 2"""
+        self.assertEquals(self.parser.remove_comments("""//foo
+            """).strip(), "")
+    
+    def test_012_remove_comment(self):
+        """parser.ScssImportsParser: removing singleline comment case 3"""
+        self.assertEquals(self.parser.remove_comments("""
+            //foo
+        """).strip(), "")
+    
+    def test_013_remove_comment(self):
+        """parser.ScssImportsParser: removing singleline comment case 4"""
+        self.assertEquals(self.parser.remove_comments("""$foo: true;
+            // foo
+            $bar: false;
+            """).strip(), """$foo: true;\n                        $bar: false;""")
+    
+    def test_015_remove_comment(self):
+        """parser.ScssImportsParser: removing multiline comment case 1"""
+        self.assertEquals(self.parser.remove_comments("""/* foo */"""), "")
+    
+    def test_016_remove_comment(self):
+        """parser.ScssImportsParser: removing multiline comment case 2"""
+        self.assertEquals(self.parser.remove_comments("""
+            /* 
+             * foo
+             */""").strip(), "")
+    
+    def test_017_remove_comment(self):
+        """parser.ScssImportsParser: removing multiline comment case 3"""
+        self.assertEquals(self.parser.remove_comments("""
+            /* 
+             * foo
+             */
+             $bar: true;""").strip(), "$bar: true;")
+    
+    def test_018_remove_comment(self):
+        """parser.ScssImportsParser: removing singleline and multiline comments"""
+        self.assertEquals(self.parser.remove_comments("""//Start
+/* 
+ * Pika
+ */
+$foo: true;
+// Boo
+$bar: false;
+// End""").strip(), "$foo: true;\n$bar: false;")
+    
+    
+    def test_020_flatten_rules1(self):
+        """parser.ScssImportsParser: flatten_rules case 1"""
         rules = self.parser.flatten_rules([
             ('', '"foo"'),
         ])
@@ -48,8 +103,8 @@ class case_01_ParserTestCase(unittest.TestCase):
             'foo',
         ])
     
-    def test_011_flatten_rules2(self):
-        """parser.ScssImportsParser: flatten_rules test 2"""
+    def test_021_flatten_rules2(self):
+        """parser.ScssImportsParser: flatten_rules case 2"""
         rules = self.parser.flatten_rules([
             ('', "'bar'"),
         ])
@@ -57,8 +112,8 @@ class case_01_ParserTestCase(unittest.TestCase):
             'bar',
         ])
     
-    def test_012_flatten_rules3(self):
-        """parser.ScssImportsParser: flatten_rules test 3"""
+    def test_022_flatten_rules3(self):
+        """parser.ScssImportsParser: flatten_rules case 3"""
         rules = self.parser.flatten_rules([
             ('', "'bar'"),
             ('url', '"wrong"'),
@@ -99,6 +154,23 @@ class case_01_ParserTestCase(unittest.TestCase):
         with open(os.path.join(self.fixtures_dir, 'basic_project/_vendor.scss')) as fp:
             result = self.parser.parse(fp.read())
         self.dummy_output(result)
+        self.assertEquals(result, [])
+    
+    def test_103_comment1(self):
+        """parser.ScssImportsParser: commented import 1 (buggy behavior)"""
+        result = self.parser.parse("""//@import "compass/css3";""")
+        self.assertEquals(result, [])
+    
+    def test_104_comment2(self):
+        """parser.ScssImportsParser: commented import 2 (buggy behavior)"""
+        result = self.parser.parse("""//      @import "compass/css3";""")
+        self.assertEquals(result, [])
+    
+    def test_105_comment3(self):
+        """parser.ScssImportsParser: commented import 3 (buggy behavior)"""
+        result = self.parser.parse("""/*
+            @import "compass/css3";
+            */""")
         self.assertEquals(result, [])
 
 
