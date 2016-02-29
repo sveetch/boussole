@@ -7,14 +7,13 @@ import os, unittest
 import boussole
 from boussole.parser import ScssImportsParser
 from boussole.resolver import InvalidImportRule, ImportPathsResolver
+from boussole.inspector import ScssInspector
 
 
-class ParserTestMixin(unittest.TestCase):
-    """Unittest mixin for parser"""
+class FixturesSettingsTestMixin(unittest.TestCase):
+    """Unittest mixin containing some basic settings"""
     def setUp(self):
         self.debug = False
-        
-        self.parser = ScssImportsParser()
         
         # Base fixture datas directory
         self.fixtures_dir = 'test_fixtures'
@@ -39,12 +38,26 @@ class ParserTestMixin(unittest.TestCase):
         if self.debug:
             print content
 
+class ParserTestMixin(FixturesSettingsTestMixin):
+    """Unittest mixin for parser"""
+    def setUp(self):
+        super(ParserTestMixin, self).setUp()
+        
+        self.parser = ScssImportsParser()
+
 class ResolverTestMixin(ParserTestMixin):
     """Unittest mixin for resolver"""
     def setUp(self):
         super(ResolverTestMixin, self).setUp()
         
         self.resolver = ImportPathsResolver()
+
+class InspectorTestMixin(FixturesSettingsTestMixin):
+    """Unittest mixin for inspector"""
+    def setUp(self):
+        super(InspectorTestMixin, self).setUp()
+        
+        self.inspector = ScssInspector()
 
 
 
@@ -263,7 +276,7 @@ class case_10_ResolverCandidatesTestCase(ResolverTestMixin):
 
 
 
-class case_10_ResolverCheckingTestCase(ResolverTestMixin):
+class case_11_ResolverCheckingTestCase(ResolverTestMixin):
     """Unittests for resolver: Checking candidates (rely on FS)"""
     
     def test_010_check_candidate_ok1(self):
@@ -315,7 +328,7 @@ class case_10_ResolverCheckingTestCase(ResolverTestMixin):
 
 
 
-class case_10_ResolverResolvingTestCase(ResolverTestMixin):
+class case_12_ResolverResolvingTestCase(ResolverTestMixin):
     """Unittests for resolver: Resolving import paths from a source (rely on FS)"""
     
     def test_100_check_basic(self):
@@ -362,6 +375,25 @@ class case_10_ResolverResolvingTestCase(ResolverTestMixin):
         self.assertRaises(InvalidImportRule, self.resolver.resolve, sourcepath,
                           finded_paths, 
                           library_paths=self.libraries_fixture_paths)
+
+
+
+class case_20_InspectorTestCase(InspectorTestMixin):
+    """Unittests for inspector: Retrieving dependancies from a sources (rely on FS)"""
+    
+    def tearDown(self):
+        """Reset inspector memory after each test"""
+        self.inspector.reset()
+    
+    def test_inspector_001_basic(self):
+        """inspector.ScssInspector: Dependancies of basic sample"""
+        sourcepath = os.path.join(self.sample_path, 'main_basic.scss')
+        self.inspector.inspect(sourcepath)
+        self.assertEquals(list(self.inspector.dependancies(sourcepath)), [
+            os.path.join(self.sample_path, '_vendor.scss'), 
+            os.path.join(self.sample_path, '_empty.scss'),
+        ])
+    
 
 
 if __name__ == "__main__":

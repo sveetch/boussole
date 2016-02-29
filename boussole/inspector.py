@@ -52,7 +52,6 @@ REVERSE_DEPENDANCIES = {
 }
 
 """
-import os, re
 from collections import defaultdict
 
 from boussole.parser import ScssImportsParser
@@ -73,7 +72,6 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         imports
         """
         with open(sourcepath) as fp:
-            print "Opening:", sourcepath
             finded_paths = self.parse(fp.read())
         
         resolved_paths = self.resolve(sourcepath, finded_paths, 
@@ -115,8 +113,6 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         Return dependancies from a source
         """
         # Direct dependancies
-        print "Searching dependancies for:", sourcepath
-        print
         deps = set([])
         deps.update(self._PATHS_MAP.get(sourcepath, []))
         
@@ -131,8 +127,6 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         Return reverse dependancies from a source
         """
         # Direct dependancies
-        print "Searching reverse dependancies for:", sourcepath
-        print
         deps = set([])
         deps.update(self._DEPENDANCIES.get(sourcepath, []))
         
@@ -145,8 +139,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
 # For some development debug
 if __name__ == "__main__":
+    import os, json
     import boussole
-    import json
     
     def shortpath(path, base_dir):
         if path.startswith(base_dir):
@@ -167,23 +161,33 @@ if __name__ == "__main__":
     inspector = ScssInspector()
     
     sources = [
-        os.path.join(fixtures_dir, 'sample_project/main_full.scss'),
-        os.path.join(fixtures_dir, 'sample_project/main_commented.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_full.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_commented.scss'),
         os.path.join(fixtures_dir, 'sample_project/main_basic.scss'),
-        os.path.join(fixtures_dir, 'sample_project/main_with_subimports.scss'),
-        os.path.join(fixtures_dir, 'sample_project/main_using_libs.scss'),
-        os.path.join(fixtures_dir, 'sample_project/main_circular_1.scss'),
-        os.path.join(fixtures_dir, 'sample_project/main_circular_2.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_with_subimports.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_using_libs.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_circular_1.scss'),
+        #os.path.join(fixtures_dir, 'sample_project/main_circular_2.scss'),
     ]
     
     results_full = inspector.inspect(*sources, library_paths=[library1_path, library2_path])
     
-    #print json.dumps(results_basic, indent=4)
+    #print json.dumps(results_full, indent=4)
     #print
     #print "#"*100
     #print
     
-    print json.dumps(shortenize_paths(inspector._PATHS_MAP, fixtures_dir), indent=4)
+    #print json.dumps(shortenize_paths(inspector._PATHS_MAP, fixtures_dir), indent=4)
+    #print
+    #print "#"*100
+    #print
+    
+    print json.dumps(
+        list(
+            inspector.dependancies(os.path.join(fixtures_dir, 'sample_project/main_basic.scss'))
+        ),
+        indent=4
+    )
     print
     print "#"*100
     print
@@ -192,16 +196,6 @@ if __name__ == "__main__":
     #print
     #print "#"*100
     #print
-    
-    print json.dumps(
-        list(
-            inspector.dependancies(os.path.join(fixtures_dir, 'sample_project/main_using_libs.scss'))
-        ),
-        indent=4
-    )
-    print
-    print "#"*100
-    print
     
     #print json.dumps(
         #list(
