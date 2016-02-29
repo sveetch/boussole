@@ -17,11 +17,6 @@ class ScssImportsParser(object):
     semi-colon ";", just a newline), so current regex can't match them. It 
     would need another dedicated regex to parse them.
     """
-    # TODO: Regex is buggy, it does not honor comments // or /*..*/ so 
-    # commented imports are matched too..  Solutions:
-    # 1. Find a perfect regex, this not seems possible;
-    # 2. Code a "Finite-state machine" parser;
-    # 3. Pre process content using regexes to remove all comments;
     REGEX_IMPORT_RULE = re.compile(ur'@import\s*(url)?\s*\(?([^;]+?)\)?;', 
                                    re.IGNORECASE)
     REGEX_COMMENTS = re.compile(r'(/\*.*?\*/)|(//.*?(\n|$))', 
@@ -91,7 +86,7 @@ if __name__ == "__main__":
     
     parser = ScssImportsParser()
     
-    with open(os.path.join(fixtures, 'basic_project/main_basic.scss')) as fp:
+    with open(os.path.join(fixtures, 'sample_project/main_basic.scss')) as fp:
         finded_paths = parser.parse(fp.read())
     print finded_paths
     

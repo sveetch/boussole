@@ -112,9 +112,6 @@ class ImportPathsResolver(object):
           continu to resolve path from given library paths (order does matter);
         * If path exists, add it to the resolved path list;
         
-        TODO: Returned resolved paths should contain the absolute path, as we 
-        wont be able to distinct libraries path only from relative paths
-        
         Note: libsass resolve imported path only from the current main file 
         path position, never from the relative project position. Meaning that 
         a file ``a/foo.scss`` cannot import something like 
@@ -156,7 +153,8 @@ class ImportPathsResolver(object):
                 #print "  * Candidates:"
                 existing = self.check_candidate_exists(basepath, candidates)
                 if existing:
-                    resolved_paths.append(existing)
+                    # Normalized resolved path
+                    resolved_paths.append(os.path.normpath(existing))
                     break
 
             if not existing and self.STRICT_PATH_VALIDATION:
@@ -203,18 +201,18 @@ if __name__ == "__main__":
     
     print "#"*100
     print 
-    fixture_path = os.path.join(fixtures_dir, 'basic_project/main_basic.scss')
+    fixture_path = os.path.join(fixtures_dir, 'sample_project/main_basic.scss')
     test(fixture_path)
     print 
     
     #print "#"*100
     #print 
-    #fixture_path = os.path.join(fixtures_dir, 'basic_project/main_error.scss')
+    #fixture_path = os.path.join(fixtures_dir, 'sample_project/main_error.scss')
     #test(fixture_path)
     #print 
     
     print 
     print "#"*100
-    fixture_path = os.path.join(fixtures_dir, 'basic_project/main_using_libs.scss')
+    fixture_path = os.path.join(fixtures_dir, 'sample_project/main_using_libs.scss')
     test(fixture_path, library_paths=[library1_path, library2_path])
     #print 

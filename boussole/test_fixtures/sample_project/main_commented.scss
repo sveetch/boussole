@@ -1,0 +1,26 @@
+@charset "UTF-8";
+/*
+ * Basic scss file with some comments
+ */
+
+@import "vendor";
+
+// Wrong path commented
+// @import "dont_exists";
+
+@import "components/filename_test_1";
+
+/*
+@import 
+    "components/filename_test_1",
+    "components/_filename_test_2";
+
+    */
+
+/*@import  "components/filename_test_3.scss",
+ * "components/_filename_test_4.scss";
+ *
+*/
+
+// sdsd
+@import "components/../empty";

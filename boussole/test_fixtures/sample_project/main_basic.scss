@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Basic main scss file
+ */
+
+@import "vendor"; // Correct
+
+@import "components/../empty"; // Correct but path have to be normalized
+
+@import url("http://foo.bar/dummy"); // Correct but external ressource so wont be catched
