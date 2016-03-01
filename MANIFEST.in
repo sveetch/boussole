@@ -1,4 +1,7 @@
 include MANIFEST.in
 include LICENCE.txt
 include README.rst
-recursive-include boussole/test_fixtures *
+
+recursive-include tests *
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

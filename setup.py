@@ -26,6 +26,9 @@ setup(
         'pathtools==0.1.2',
         'watchdog==0.8.3',
     ],
+    tests_require=[
+        'pytest',
+    ],
     #entry_points={
         #'console_scripts': [
             #'boussole = boussole.console_script:main',
