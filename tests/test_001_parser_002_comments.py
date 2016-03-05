@@ -6,16 +6,19 @@ def test_parser_010_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline comment case 1"""
     assert parser.remove_comments("""// foo""") == ""
 
+
 def test_parser_011_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline comment case 2"""
     assert parser.remove_comments("""//foo
         """).strip() == ""
+
 
 def test_parser_012_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline comment case 3"""
     assert parser.remove_comments("""
         //foo
     """).strip() == ""
+
 
 def test_parser_013_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline comment case 4"""
@@ -24,13 +27,17 @@ def test_parser_013_remove_comment(settings, parser):
 $bar: false;
 """).strip() == """$foo: true;\n$bar: false;"""
 
+
 def test_parser_014_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline comment case 5"""
-    assert parser.remove_comments("""@import "vendor"; //foo""").strip() == """@import "vendor";"""
+    results = parser.remove_comments("""@import "vendor"; //foo""").strip()
+    assert results == """@import "vendor";"""
+
 
 def test_parser_015_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing multiline comment case 1"""
     assert parser.remove_comments("""/* foo */""") == ""
+
 
 def test_parser_016_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing multiline comment case 2"""
@@ -39,6 +46,7 @@ def test_parser_016_remove_comment(settings, parser):
             * foo
             */""").strip() == ""
 
+
 def test_parser_017_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing multiline comment case 3"""
     assert parser.remove_comments("""
@@ -46,6 +54,7 @@ def test_parser_017_remove_comment(settings, parser):
             * foo
             */
             $bar: true;""").strip() == "$bar: true;"
+
 
 def test_parser_018_remove_comment(settings, parser):
     """parser.ScssImportsParser: removing singleline and multiline comments"""

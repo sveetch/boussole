@@ -1,0 +1,8 @@
+@charset "UTF-8";
+/*
+ * Depth import sample case 2
+ */
+
+@import "vendor";
+
+@import "main_depth_import-1"; // This one will import main_basic

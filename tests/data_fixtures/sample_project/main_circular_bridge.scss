@@ -1,10 +1,10 @@
 @charset "UTF-8";
 /*
- * Do direct circular import with "main_circular_2.scss"
+ * A bridge for circular import between "main_circular_3.scss" and "main_circular_4.scss"
  * 
  * Note that this is an error and this file can't be compiled through libsass
  */
 
-@import "main_circular_2";
+@import "main_circular_4";
 
 @import "components/../empty";

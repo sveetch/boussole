@@ -1,10 +1,10 @@
 @charset "UTF-8";
 /*
- * Do direct circular import with "main_circular_2.scss"
+ * Try to import itself
  * 
  * Note that this is an error and this file can't be compiled through libsass
  */
 
-@import "main_circular_2";
+@import "main_circular_0";
 
 @import "components/../empty";

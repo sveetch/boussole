@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Involve a sub circular import caused by import of "main_circular_3.scss"
+ * 
+ * Note that this is an error and this file can't be compiled through libsass
+ */
+
+@import "main_basic";
+
+@import "main_circular_3";

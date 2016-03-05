@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Do some indirect circular import with "main_circular_4.scss" through direct import "main_circular_bridge.scss"
+ * 
+ * Note that this is an error and this file can't be compiled through libsass
+ */
+
+@import "vendor";
+
+@import "main_circular_bridge";

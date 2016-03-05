@@ -13,6 +13,7 @@ def test_001_candidate_basic(settings, parser, resolver):
         "_foo.css",
     ]
 
+
 def test_002_extension_uncandidate(settings, parser, resolver):
     """resolver.ImportPathsResolver: Uncandidate extension"""
     assert resolver.candidate_paths("foo.plop") == [
@@ -24,6 +25,7 @@ def test_002_extension_uncandidate(settings, parser, resolver):
         "_foo.plop.css",
     ]
 
+
 def test_003_candidate_extension_ready(settings, parser, resolver):
     """resolver.ImportPathsResolver: Candidate extension allready in place"""
     assert resolver.candidate_paths("foo.scss") == [
@@ -31,12 +33,14 @@ def test_003_candidate_extension_ready(settings, parser, resolver):
         "_foo.scss",
     ]
 
+
 def test_004_candidate_complex1(settings, parser, resolver):
     """resolver.ImportPathsResolver: Complex case 1 for candidates"""
     assert resolver.candidate_paths("components/addons/foo.plop.scss") == [
         "components/addons/foo.plop.scss",
         "components/addons/_foo.plop.scss",
     ]
+
 
 def test_005_candidate_complex2(settings, parser, resolver):
     """resolver.ImportPathsResolver: Complex case 2 for candidates"""

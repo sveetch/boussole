@@ -80,13 +80,12 @@ if __name__ == "__main__":
     import os
     import boussole
     
-    fixtures = os.path.join(
-        os.path.abspath(os.path.dirname(boussole.__file__)),
-        'test_fixtures')
+    fixtures_dir = os.path.normpath(os.path.join(os.path.abspath(boussole_dir), '..', 'tests', 'data_fixtures'))
+    sample_path = os.path.join(fixtures_dir, 'sample_project')
     
     parser = ScssImportsParser()
     
-    with open(os.path.join(fixtures, 'sample_project/main_basic.scss')) as fp:
+    with open(os.path.join(sample_path, 'main_basic.scss')) as fp:
         finded_paths = parser.parse(fp.read())
     print finded_paths
     

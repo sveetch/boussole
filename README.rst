@@ -19,3 +19,21 @@ Install
 First install the package ::
 
     pip install boussole
+
+TODO
+****
+
+* Finish API;
+
+  * [x] SCSS parser for import rules;
+  * [x] Path resolving through scss project and libraries;
+  * [x] Project inspector to find import dependancies;
+  * [ ] Finish API;
+  * [x] unittests on API;
+  * [ ] Documentation coverage on API;
+  
+    * Docstring for arguments and module/class descriptions;
+    * Renaming unittests test case;
+    * Clean every debug pointers;
+
+* Commandline interface;

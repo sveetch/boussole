@@ -1,17 +1,19 @@
 @charset "UTF-8";
 /*
- * Basic main scss file
+ * More complex sample than the basic one with various import rule syntax cases
  */
 
+// Simple
 @import "vendor";
-
 @import "utils/mixins";
 
+// Multiline case 1
 @import
     "sass_filetest",
     "css_filetest",
     "_empty";
 
+// Multiline case 2
 @import 
     "components/filename_test_1",
     "components/_filename_test_2",
@@ -20,9 +22,10 @@
     "components/filename_test_5.plop",
     "components/filename_test_6.plop.scss";
 
+// Involve some path normalize
 @import "components/../empty";
 
-// Consistant colors names facility
+// Some variables just for fill in with something else than import and comments
 $white: #ffffff;
 $black: #000000;
 $AliceBlue: #f0f8ff;
@@ -32,4 +35,5 @@ $Gray63: #a1a1a1;
 $ElectricYellow: #f6b220;
 $PaleMidnightBlue: #0e2f44;
 
+// External url that will be ignored
 @import url("http://foo.bar/dummy");

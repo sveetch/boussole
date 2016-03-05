@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /*
- * Basic scss file doing some circular import with "main_circular_1.scss"
+ * Do direct circular import with "main_circular_2.scss"
  * 
- * Note that this is an error and these files can't be compiled through libsass
+ * Note that this is an error and this file can't be compiled through libsass
  */
 
 @import "main_circular_1";

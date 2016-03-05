@@ -37,6 +37,7 @@ class FixturesSettingsTestMixin(object):
             self.lib2_path,
         ]
 
+
 @pytest.fixture(scope="module")
 def settings():
     """Initialize and return settings (mostly paths) for fixtures (scope at module level)"""

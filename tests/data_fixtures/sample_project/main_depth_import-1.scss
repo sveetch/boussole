@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Import some main file that import another one
+ */
+
+@import "vendor";
+
+@import "components/../empty";
+
+@import "main_basic";

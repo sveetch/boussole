@@ -1,12 +1,16 @@
 @charset "UTF-8";
 /*
- * Main scss file that use some things from imported libraries
+ * Import some components from imported libraries
  */
 
+// Component from library 2
 @import "addons/some_addon";
 
+// Import another main file
 @import "main_basic";
 
+// Component that import another component (_webfont_icons.scss)
 @import "components/webfont";
 
+// Import full library 1 stack
 @import "library_1_fullstack.scss";

@@ -23,9 +23,7 @@ If two files has multiple resolutions cases, this leads to an error: ::
 """
 import os
 
-class InvalidImportRule(Exception):
-    pass
-
+from boussole.exceptions import InvalidImportRule
 
 class ImportPathsResolver(object):
     """
@@ -195,24 +193,25 @@ if __name__ == "__main__":
     
     
     boussole_dir = os.path.dirname(boussole.__file__)
-    fixtures_dir = os.path.join(os.path.abspath(boussole_dir), 'test_fixtures')
+    fixtures_dir = os.path.normpath(os.path.join(os.path.abspath(boussole_dir), '..', 'tests', 'data_fixtures'))
+    sample_path = os.path.join(fixtures_dir, 'sample_project')
     library1_path = os.path.join(fixtures_dir, 'library_1/')
     library2_path = os.path.join(fixtures_dir, 'library_2/')
     
     print "#"*100
     print 
-    fixture_path = os.path.join(fixtures_dir, 'sample_project/main_basic.scss')
+    fixture_path = os.path.join(sample_path, 'main_basic.scss')
     test(fixture_path)
     print 
     
     #print "#"*100
     #print 
-    #fixture_path = os.path.join(fixtures_dir, 'sample_project/main_error.scss')
+    #fixture_path = os.path.join(sample_path, 'main_error.scss')
     #test(fixture_path)
     #print 
     
     print 
     print "#"*100
-    fixture_path = os.path.join(fixtures_dir, 'sample_project/main_using_libs.scss')
+    fixture_path = os.path.join(sample_path, 'main_using_libs.scss')
     test(fixture_path, library_paths=[library1_path, library2_path])
     #print 
