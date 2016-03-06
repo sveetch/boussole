@@ -23,7 +23,7 @@ First install the package ::
 TODO
 ****
 
-* Finish API;
+* [ ] Finish API;
 
   * [x] SCSS parser for import rules;
   * [x] Path resolving through scss project and libraries;
@@ -32,8 +32,15 @@ TODO
   * [x] unittests on API;
   * [ ] Documentation coverage on API;
   
-    * Docstring for arguments and module/class descriptions;
-    * Renaming unittests test case;
-    * Clean every debug pointers;
+    * [ ] Docstring for arguments and module/class descriptions;
+    * [ ] Renaming unittests test case;
+    * [ ] Clean every debug pointers;
+    * [ ] Pep8 ?
 
-* Commandline interface;
+* [ ] Commandline interface;
+
+Development
+***********
+
+* Unittests with Pytest;
+* Code docstring with Sphinx+Napoleon (https://sphinxcontrib-napoleon.readthedocs.org);

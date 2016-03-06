@@ -2,7 +2,7 @@
 import os
 import pytest
 
-from boussole.exceptions import InvalidImportRule
+from boussole.exceptions import UnresolvablePath
 
 def test_100_check_basic(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from basic sample"""
@@ -60,7 +60,7 @@ def test_110_check_error(settings, parser, resolver):
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
         
-    with pytest.raises(InvalidImportRule):
+    with pytest.raises(UnresolvablePath):
         resolver.resolve(
             sourcepath, 
             finded_paths, 

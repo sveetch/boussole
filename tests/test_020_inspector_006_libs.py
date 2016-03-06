@@ -2,7 +2,7 @@
 import os
 import pytest
 
-from boussole.exceptions import InvalidImportRule
+from boussole.exceptions import UnresolvablePath
 
 def test_inspector_libs_001_empty(settings, inspector):
     """inspector.ScssInspector: Some lib components used but no given library"""
@@ -12,7 +12,9 @@ def test_inspector_libs_001_empty(settings, inspector):
         sourcepath,
     ]
     
-    with pytest.raises(InvalidImportRule):
+    # Some imports use libraries that was not given, so resolver raise 
+    # an error
+    with pytest.raises(UnresolvablePath):
         inspector.inspect(*sources)
 
 def test_inspector_libs_002_children(settings, inspector):

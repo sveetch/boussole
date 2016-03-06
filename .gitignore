@@ -21,3 +21,6 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+
+# Various
+boussole/dev_inspector.py

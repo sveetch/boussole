@@ -1,65 +1,70 @@
 # -*- coding: utf-8 -*-
 """
-Resolver
+Resolvers
+=========
 
-Name resolving cases: ::
+.. _SASS @import Reference:
+    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 
-    //For Real filename: "components/_header.scss"
-    @import "components/header"; //OK
-    @import "components/_header"; //OK
-    @import "components/header.scss"; //OK
-    @import "components/_header.scss"; //OK
+.. _SASS partials Reference:
+    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#partials
 
-If two files has multiple resolutions cases, this leads to an error: ::
-
-    sassc: error: Error: It's not clear which file to import for '@import "main_basic"'.
-        Candidates:
-            main_basic.scss
-            main_basic.css
-        Please delete or rename all but one of these files.
-            on line 6 of main_with_subimports.scss
-    >> @import "main_basic";
-    ^
 """
 import os
 
-from boussole.exceptions import InvalidImportRule
+from boussole.exceptions import UnresolvablePath
 
 class ImportPathsResolver(object):
     """
-    Import paths resolver
+    Import paths resolver.
+    
+    Resolve given paths from SCSS source to absolute paths.
+
+    Example:
+        These rules will be resolved: ::
+
+            // Real filename: "components/_header.scss"
+            @import "components/header";
+            @import "components/_header";
+            @import "components/header.scss";
+            @import "components/_header.scss";
+    
+    It's a mixin, meaning without own ``__init__`` method so it's should be 
+    safe enough to inherit it from another class.
+
+    Attributes:
+        CANDIDATE_EXTENSIONS (list): List of extensions available to build 
+            candidate paths. Beware, order does matter, the first extension 
+            will be the top candidate.
+        STRICT_PATH_VALIDATION (bool): A switch to enabled (``True``) or 
+            disable (``False``) exception raising when a path can not be 
+            resolved.
     """
-    # Order does matter
     CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css', ]
     STRICT_PATH_VALIDATION = True
     
-    def sanitize_path(self, path):
-        """
-        Allways return an absolute path, with expanded home user (if any) and 
-        normalized path
-        """
-        path = os.path.expanduser(path)
-        if not os.path.isabs(path):
-            path = os.path.abspath(fixture_filepath)
-        path = os.path.normpath(path)
-        return path
-
     def candidate_paths(self, filepath):
         """
         Return candidates path for given path
         
-        * Three available extensions (scss, sass, css);
-        * Filename can be prefixed or not with '_' character;
+        * If Filename does not starts with ``_``, will build a candidate for 
+          both with and without ``_`` prefix;
+        * Will build For each available extensions if filename does not have 
+          an explicit extension;
+        * Leading path directory is preserved;
+        
+        Args:
+            filepath (str): Relative path as finded in an import rule from a 
+                SCSS source.
+
+        Returns:
+            list: Builded candidate paths (as relative paths).
         """
         filelead, filetail = os.path.split(filepath)
         name, extension = os.path.splitext(filetail)
         # Removed leading dot from extension
         if extension:
             extension = extension[1:]
-        #print "<filelead:{}> <name:{}> <extension:{}>".format(
-            #filelead,
-            #name,
-            #extension)
         
         filenames = [name]
         # If underscore prefix is present, dont need to double underscore
@@ -79,23 +84,24 @@ class ImportPathsResolver(object):
                 new.extend([".".join([k, ext]) for k in filenames])
             filenames = new
         
-        #print "filenames:", filenames
         # Return candidates with restored leading path if any
         return [os.path.join(filelead, v) for v in filenames]
     
     def check_candidate_exists(self, basepath, candidates):
         """
-        Check that at least one candidate exist into basepath
+        Check that at least one candidate exist into a directory.
         
-        Return False if don't exists, else return the elected candidate
+        Args:
+            basepath (str): Directory path where to search for candidate.
+            candidates (list): List of candidate file paths.
+
+        Returns:
+            ``False`` if no candidate exists else return the elected path.
         """
         for item in candidates:
             abspath = os.path.join(basepath, item)
             if os.path.exists(abspath):
-                #print "    - (X)", abspath
                 return abspath
-            #else:
-                #print "    - ( )", abspath
             
         return False
     
@@ -105,17 +111,26 @@ class ImportPathsResolver(object):
         
         Return resolved path list.
         
-        * Raise exception 'InvalidImportRule' if a path does not exist and 
-          ImportPathsResolver.STRICT_PATH_VALIDATION is True, else just 
-          continu to resolve path from given library paths (order does matter);
-        * If path exists, add it to the resolved path list;
+        Note: 
+            Resolving strategy is made like libsass do, meaning paths in 
+            import rules is resolved from the source where the import rules 
+            have been finded.
         
-        Note: libsass resolve imported path only from the current main file 
-        path position, never from the relative project position. Meaning that 
-        a file ``a/foo.scss`` cannot import something like 
-        ``@import "a/bar.scss"``, it must do instead ``@import "bar.scss"``.
-        Then if not finded, it can try to resolve from imported library root 
-        position.
+        Args:
+            sourcepath (str): Source file path, its directory is used to 
+                resolve given paths. The path must be an absolute path to 
+                avoid errors on resolving.
+            paths (list): Relative paths (from ``sourcepath``) to resolve.
+            library_paths (list): List of directory paths for libraries to 
+                resolve paths if resolving fails on the base source path.
+                Default to None.
+
+        Raises:
+            UnresolvablePath: If a path does not exist and 
+                ``STRICT_PATH_VALIDATION`` attribute is ``True``.
+
+        Returns:
+            list: List of resolved path.
         """
         # Split basedir/filename from sourcepath, so the first resolving 
         # basepath is the sourcepath directory, then the optionnal 
@@ -135,20 +150,12 @@ class ImportPathsResolver(object):
                 if k not in basepaths:
                     basepaths.append(k)
         
-        #print "SOURCEPATH:", sourcepath
-        #print "BASEDIR:", basedir
-        #print "BASEPATHS:", basepaths
-        #print
-        
         for import_rule in paths:
-            #print "* @import:", import_rule
             candidates = self.candidate_paths(import_rule)
             
             existing = False
             # The first resolved candidate from basepaths wins
             for i,basepath in enumerate(basepaths):
-                #print "  * Into basepath:", basepath
-                #print "  * Candidates:"
                 existing = self.check_candidate_exists(basepath, candidates)
                 if existing:
                     # Normalized resolved path
@@ -156,62 +163,10 @@ class ImportPathsResolver(object):
                     break
 
             if not existing and self.STRICT_PATH_VALIDATION:
-                raise InvalidImportRule(
+                raise UnresolvablePath(
                     "Imported path '{}' does not exist in '{}'".format(
                         import_rule, basedir
                     )
                 )
         
         return resolved_paths
-
-
-# For some development debug
-if __name__ == "__main__":
-    import boussole
-    from boussole.parser import ScssImportsParser
-    
-    
-    def test(filepath, library_paths=None):
-        parser = ScssImportsParser()
-        
-        with open(filepath) as fp:
-            print "Opening:", filepath
-            finded_paths = parser.parse(fp.read())
-        print
-        
-        print "Finded paths:"
-        for k in finded_paths:
-            print "-", k
-        print
-        
-        resolver = ImportPathsResolver()
-        resolved_paths = resolver.resolve(filepath, finded_paths, library_paths=library_paths)
-        print "Resolved paths:"
-        for k in resolved_paths:
-            print "-", k
-        print
-    
-    
-    boussole_dir = os.path.dirname(boussole.__file__)
-    fixtures_dir = os.path.normpath(os.path.join(os.path.abspath(boussole_dir), '..', 'tests', 'data_fixtures'))
-    sample_path = os.path.join(fixtures_dir, 'sample_project')
-    library1_path = os.path.join(fixtures_dir, 'library_1/')
-    library2_path = os.path.join(fixtures_dir, 'library_2/')
-    
-    print "#"*100
-    print 
-    fixture_path = os.path.join(sample_path, 'main_basic.scss')
-    test(fixture_path)
-    print 
-    
-    #print "#"*100
-    #print 
-    #fixture_path = os.path.join(sample_path, 'main_error.scss')
-    #test(fixture_path)
-    #print 
-    
-    print 
-    print "#"*100
-    fixture_path = os.path.join(sample_path, 'main_using_libs.scss')
-    test(fixture_path, library_paths=[library1_path, library2_path])
-    #print 

@@ -1,21 +1,31 @@
 # -*- coding: utf-8 -*-
 """
-SCSS parser
+Parsers
+=======
 
-SASS Reference about "@import" rule:
-
+.. _SASS Reference:
     http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 """
 import re
 
+from boussole.exceptions import InvalidImportRule
+
 class ScssImportsParser(object):
     """
-    A modest SCSS parser that is just able to find import rules
+    SCSS parser to find import rules.
     
-    Sass syntax (also known as "indented syntax") is not supported, 
-    import rules is different (not quoted and don't finish on 
-    semi-colon ";", just a newline), so current regex can't match them. It 
-    would need another dedicated regex to parse them.
+    Builded from `SASS Reference`_ about "@import" rule.
+    
+    This does not support the old SASS syntax (also known as "indented 
+    syntax").
+    
+    It's a mixin, meaning without own ``__init__`` method so it's should be 
+    safe enough to inherit it from another class.
+
+    Attributes:
+        REGEX_IMPORT_RULE: Compiled regex used to find import rules.
+        REGEX_COMMENTS: Compiled regex used to find and remove comments.
+    
     """
     REGEX_IMPORT_RULE = re.compile(ur'@import\s*(url)?\s*\(?([^;]+?)\)?;', 
                                    re.IGNORECASE)
@@ -24,29 +34,61 @@ class ScssImportsParser(object):
 
     def strip_quotes(self, content):
         """
-        Naive quote stripping because regex return them in results (sic..)
+        Unquote given rule.
+        
+        Args:
+            content (str): An import rule.
+
+        Raises:
+            InvalidImportRule: Raise exception if the rule is badly quoted 
+            (not started or not ended quotes).
+
+        Returns:
+            string: The given rule unquoted.
         """
         if (content.startswith('"') and content.endswith('"')) or \
            (content.startswith("'") and content.endswith("'")):
             return content[1:-1]
+        # Quote starting but not ended
+        elif (content.startswith('"') and not content.endswith('"')) or \
+             (content.startswith("'") and not content.endswith("'")):
+            raise InvalidImportRule("Following rule is badly quoted: {}".format(content))
+        # Quote ending but not started
+        elif (not content.startswith('"') and content.endswith('"')) or \
+             (not content.startswith("'") and content.endswith("'")):
+            raise InvalidImportRule("Following rule is badly quoted: {}".format(content))
         
         return content
     
     def remove_comments(self, content):
         """
-        Remove all comment kind (inline and multiline)
+        Remove all comment kind (inline and multiline) from given content.
+        
+        Args:
+            content (str): A SCSS source.
+
+        Returns:
+            string: Given SCSS source with all comments removed.
         """
         return self.REGEX_COMMENTS.sub("", content)
     
     def flatten_rules(self, declarations):
         """
-        Flatten returned rules from regex because import rules on multiple 
-        line are not cleanly parsed as distinct matchs
+        Flatten returned import rules from regex.
+        
+        Because import rules can contains multiple items in the same rule 
+        (called multiline import rule), the regex ``REGEX_IMPORT_RULE`` 
+        return a list of unquoted items for each rule.
+        
+        Args:
+            declarations (list): A SCSS source.
+
+        Returns:
+            list: Given SCSS source with all comments removed.
         """
         rules = []
         
         for protocole,paths in declarations:
-            #print protocole, ",",paths
             # If there is a protocole (like 'url), drop it
             if protocole:
                 continue
@@ -64,8 +106,14 @@ class ScssImportsParser(object):
     
     def parse(self, content):
         """
-        Parse a stylesheet document with a regex to extract all import rules 
-        and return them
+        Parse a stylesheet document with a regex (``REGEX_IMPORT_RULE``) 
+        to extract all import rules and return them.
+        
+        Args:
+            content (str): A SCSS source.
+
+        Returns:
+            list: Finded paths in import rules.
         """
         # Remove all comments before searching for import rules, to not catch 
         # commented breaked import rules
@@ -73,19 +121,3 @@ class ScssImportsParser(object):
             self.remove_comments(content)
         )
         return self.flatten_rules(declarations)
-
-
-# For some development debug
-if __name__ == "__main__":
-    import os
-    import boussole
-    
-    fixtures_dir = os.path.normpath(os.path.join(os.path.abspath(boussole_dir), '..', 'tests', 'data_fixtures'))
-    sample_path = os.path.join(fixtures_dir, 'sample_project')
-    
-    parser = ScssImportsParser()
-    
-    with open(os.path.join(sample_path, 'main_basic.scss')) as fp:
-        finded_paths = parser.parse(fp.read())
-    print finded_paths
-    

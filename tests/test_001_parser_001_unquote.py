@@ -1,22 +1,36 @@
 # -*- coding: utf-8 -*-
 import pytest
 
+from boussole.exceptions import InvalidImportRule
 
-def test_parser_001_unquote1(settings, parser):
-    """parser.ScssImportsParser: unquote case 1"""
+def test_parser_unquote_ok_001(settings, parser):
+    """parser.ScssImportsParser: Single quote"""
     assert parser.strip_quotes("'foo'") == "foo"
 
 
-def test_parser_002_unquote2(settings, parser):
-    """parser.ScssImportsParser: unquote case 2"""
+def test_parser_unquote_ok_002(settings, parser):
+    """parser.ScssImportsParser: Double quotes"""
     assert parser.strip_quotes('"foo"') == "foo"
 
 
-def test_parser_003_unquote3(settings, parser):
-    """parser.ScssImportsParser: unquote case 3"""
+def test_parser_unquote_ok_003(settings, parser):
+    """parser.ScssImportsParser: Without quotes"""
     assert parser.strip_quotes("foo") == "foo"
 
 
-def test_parser_004_unquote4(settings, parser):
-    """parser.ScssImportsParser: unquote case 4"""
-    assert parser.strip_quotes("'foo") == "'foo"
+def test_parser_unquote_error_001(settings, parser):
+    """parser.ScssImportsParser: Error, quote starting but not ended"""
+    with pytest.raises(InvalidImportRule):
+        parser.strip_quotes("'foo")
+        
+    with pytest.raises(InvalidImportRule):
+        parser.strip_quotes('"foo')
+
+
+def test_parser_unquote_error_002(settings, parser):
+    """parser.ScssImportsParser: Error, quote ending but not started"""
+    with pytest.raises(InvalidImportRule):
+        parser.strip_quotes('foo"')
+        
+    with pytest.raises(InvalidImportRule):
+        parser.strip_quotes("foo'")
