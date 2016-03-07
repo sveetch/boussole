@@ -2,7 +2,7 @@
 import os
 import pytest
 
-def test_inspector_reset_001(settings, inspector):
+def test_inspector_reset(settings, inspector):
     """inspector.ScssInspector: Ensure inspection maps are well reset"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     

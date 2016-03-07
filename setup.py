@@ -28,6 +28,8 @@ setup(
     ],
     tests_require=[
         'pytest',
+        'colorama',
+        'sphinx>=1.6',
     ],
     #entry_points={
         #'console_scripts': [

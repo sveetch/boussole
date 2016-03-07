@@ -4,7 +4,7 @@ import pytest
 
 from boussole.exceptions import CircularImport
 
-def test_inspector_circular_001_self(settings, inspector):
+def test_inspector_circular_self(settings, inspector):
     """inspector.ScssInspector: Ensure self import is detected"""
     sourcepath_0 = os.path.join(settings.sample_path, 'main_circular_0.scss')
     
@@ -21,7 +21,7 @@ def test_inspector_circular_001_self(settings, inspector):
     with pytest.raises(CircularImport):
         parents = list(inspector.parents(sourcepath_0))
 
-def test_inspector_circular_002_direct(settings, inspector):
+def test_inspector_circular_direct(settings, inspector):
     """inspector.ScssInspector: Ensure direct circular imports are detected"""
     sourcepath_1 = os.path.join(settings.sample_path, 'main_circular_1.scss')
     sourcepath_2 = os.path.join(settings.sample_path, 'main_circular_2.scss')
@@ -48,7 +48,7 @@ def test_inspector_circular_002_direct(settings, inspector):
         parents = list(inspector.parents(sourcepath_2))
 
 
-def test_inspector_circular_003_indirect(settings, inspector):
+def test_inspector_circular_indirect(settings, inspector):
     """inspector.ScssInspector: Ensure indirect circular imports are detected"""
     sourcepath_3 = os.path.join(settings.sample_path, 'main_circular_3.scss')
     sourcepath_4 = os.path.join(settings.sample_path, 'main_circular_4.scss')

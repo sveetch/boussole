@@ -22,7 +22,7 @@ import pytest
 #]
 
 
-def test_inspector_basic_001_confined(settings, inspector):
+def test_inspector_basic(settings, inspector):
     """inspector.ScssInspector: Basic sample in confined space"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     inspector.inspect(sourcepath)

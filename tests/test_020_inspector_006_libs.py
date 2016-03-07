@@ -4,7 +4,7 @@ import pytest
 
 from boussole.exceptions import UnresolvablePath
 
-def test_inspector_libs_001_empty(settings, inspector):
+def test_inspector_libs_empty(settings, inspector):
     """inspector.ScssInspector: Some lib components used but no given library"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
     
@@ -17,7 +17,7 @@ def test_inspector_libs_001_empty(settings, inspector):
     with pytest.raises(UnresolvablePath):
         inspector.inspect(*sources)
 
-def test_inspector_libs_002_children(settings, inspector):
+def test_inspector_libs_children(settings, inspector):
     """inspector.ScssInspector: Children with some lib components used"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
     

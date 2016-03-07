@@ -4,7 +4,7 @@ import pytest
 
 from boussole.exceptions import UnresolvablePath
 
-def test_100_check_basic(settings, parser, resolver):
+def test_resolver_resolve_basic(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from basic sample"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     with open(sourcepath) as fp:
@@ -18,7 +18,7 @@ def test_100_check_basic(settings, parser, resolver):
     ]
 
 
-def test_101_check_library(settings, parser, resolver):
+def test_resolver_resolve_library(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss 
     that use included libraries"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
@@ -39,7 +39,7 @@ def test_101_check_library(settings, parser, resolver):
     ]
 
 
-def test_103_check_commented(settings, parser, resolver):
+def test_resolver_resolve_commented(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from sample with comments"""
     sourcepath = os.path.join(settings.sample_path, 'main_commented.scss')
     with open(sourcepath) as fp:
@@ -54,7 +54,7 @@ def test_103_check_commented(settings, parser, resolver):
     ]
 
 
-def test_110_check_error(settings, parser, resolver):
+def test_resolver_resolve_error(settings, parser, resolver):
     """resolver.ImportPathsResolver: Exception on wrong import path"""
     sourcepath = os.path.join(settings.sample_path, 'main_error.scss')
     with open(sourcepath) as fp:

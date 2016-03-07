@@ -2,7 +2,7 @@
 import os
 import pytest
 
-def test_inspector_depth_001(settings, inspector):
+def test_inspector_depth(settings, inspector):
     """inspector.ScssInspector: Sample doing depth imports"""
     sources = [
         os.path.join(settings.sample_path, 'main_depth_import-1.scss'),

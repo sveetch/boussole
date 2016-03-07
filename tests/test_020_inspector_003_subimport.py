@@ -2,7 +2,7 @@
 import os
 import pytest
 
-def test_inspector_subimport_001(settings, inspector):
+def test_inspector_subimport(settings, inspector):
     """inspector.ScssInspector: Sub import dependencies"""
     sourcepath = os.path.join(settings.sample_path, 'main_with_subimports.scss')
     sources = [

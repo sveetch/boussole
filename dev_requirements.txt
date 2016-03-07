@@ -1,0 +1,5 @@
+ -e https://github.com/sveetch/boussole.git
+colorama
+pytest
+flake8
+sphinx>=1.6

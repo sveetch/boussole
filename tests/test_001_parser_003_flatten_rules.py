@@ -2,7 +2,7 @@
 import pytest
 
 
-def test_parser_020_flatten_rules1(settings, parser):
+def test_parser_flatten_rules_001(settings, parser):
     """parser.ScssImportsParser: flatten_rules case 1"""
     rules = parser.flatten_rules([
         ('', '"foo"'),
@@ -10,7 +10,7 @@ def test_parser_020_flatten_rules1(settings, parser):
     assert rules == ['foo']
 
 
-def test_parser_021_flatten_rules2(settings, parser):
+def test_parser_flatten_rules_002(settings, parser):
     """parser.ScssImportsParser: flatten_rules case 2"""
     rules = parser.flatten_rules([
         ('', "'bar'"),
@@ -18,7 +18,7 @@ def test_parser_021_flatten_rules2(settings, parser):
     assert rules == ['bar']
 
 
-def test_parser_022_flatten_rules3(settings, parser):
+def test_parser_flatten_rules_003(settings, parser):
     """parser.ScssImportsParser: flatten_rules case 3"""
     rules = parser.flatten_rules([
         ('', "'bar'"),
