@@ -12,6 +12,7 @@ Resolver
 import os
 
 from boussole.exceptions import UnresolvablePath
+from boussole.exceptions import UnclearResolution
 
 
 class ImportPathsResolver(object):
@@ -105,6 +106,28 @@ class ImportPathsResolver(object):
 
         return False
 
+    def new_check_candidate_exists(self, basepath, candidates):
+        """
+        Check that at least one candidate exist into a directory.
+        
+        WARNING: Changed behavior to return a list of all existing candidates, this will have to be unittested
+
+        Args:
+            basepath (str): Directory path where to search for candidate.
+            candidates (list): List of candidate file paths.
+
+        Returns:
+            ``False`` if no candidate exists else return the elected path.
+        """
+        checked = []
+        for item in candidates:
+            abspath = os.path.join(basepath, item)
+            print "  - Checking:", abspath, os.path.exists(abspath)
+            if os.path.exists(abspath):
+                checked.append(abspath)
+
+        return checked
+
     def resolve(self, sourcepath, paths, library_paths=None):
         """
         Resolve given paths from given base paths
@@ -151,22 +174,42 @@ class ImportPathsResolver(object):
                     basepaths.append(k)
 
         for import_rule in paths:
+            print "Import rule:", import_rule
             candidates = self.candidate_paths(import_rule)
 
+            # Old:The first resolved candidate from basepaths wins
+            # New: find all existing candidates, if more than one raise error, if only one accept it, if no existing raise error
             existing = False
-            # The first resolved candidate from basepaths wins
+            foo = []
             for i, basepath in enumerate(basepaths):
-                existing = self.check_candidate_exists(basepath, candidates)
-                if existing:
-                    # Normalized resolved path
-                    resolved_paths.append(os.path.normpath(existing))
-                    break
-
-            if not existing and self.STRICT_PATH_VALIDATION:
-                raise UnresolvablePath(
-                    "Imported path '{}' does not exist in '{}'".format(
-                        import_rule, basedir
+                checked = self.new_check_candidate_exists(basepath, candidates)
+                if checked:
+                    foo.extend(checked)
+                    print "* Checked:", checked
+                    ## Normalized resolved path
+                    #resolved_paths.append(os.path.normpath(checked))
+                    #break
+            print foo
+            
+            if len(foo)>1:
+                # More than one validated candidate, raise error
+                raise UnclearResolution(
+                    "rule '{}' This is not clear for these paths: {}".format(
+                        import_rule, ', '.join(foo)
                     )
                 )
+            elif len(foo)==1:
+                # Accept the first item
+                resolved_paths.append(os.path.normpath(foo[0]))
+            # No validated candidate, raise error
+            else:
+                if self.STRICT_PATH_VALIDATION:
+                    raise UnresolvablePath(
+                        "Imported path '{}' does not exist in '{}'".format(
+                            import_rule, basedir
+                        )
+                    )
+            
+            print
 
         return resolved_paths

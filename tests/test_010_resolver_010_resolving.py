@@ -3,6 +3,7 @@ import os
 import pytest
 
 from boussole.exceptions import UnresolvablePath
+from boussole.exceptions import UnclearResolution
 
 def test_resolver_resolve_basic(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from basic sample"""
@@ -54,7 +55,7 @@ def test_resolver_resolve_commented(settings, parser, resolver):
     ]
 
 
-def test_resolver_resolve_error(settings, parser, resolver):
+def test_resolver_resolve_error_unresolvable(settings, parser, resolver):
     """resolver.ImportPathsResolver: Exception on wrong import path"""
     sourcepath = os.path.join(settings.sample_path, 'main_error.scss')
     with open(sourcepath) as fp:
@@ -66,3 +67,49 @@ def test_resolver_resolve_error(settings, parser, resolver):
             finded_paths, 
             library_paths=settings.libraries_fixture_paths
         )
+
+
+def test_resolver_resolve_error_unclear_001(settings, parser, resolver):
+    """resolver.ImportPathsResolver: Check candidates on unclear resolution"""
+    sourcepath = os.path.join(settings.sample_path, 'main_twins_1.scss')
+    with open(sourcepath) as fp:
+        finded_paths = parser.parse(fp.read())
+        
+    with pytest.raises(UnclearResolution):
+        resolver.resolve(
+            sourcepath, 
+            finded_paths, 
+            library_paths=settings.libraries_fixture_paths
+        )
+
+
+def test_resolver_resolve_error_unclear_002(settings, parser, resolver):
+    """resolver.ImportPathsResolver: Check candidates on unclear resolution"""
+    sourcepath = os.path.join(settings.sample_path, 'main_twins_2.scss')
+    with open(sourcepath) as fp:
+        finded_paths = parser.parse(fp.read())
+        
+    with pytest.raises(UnclearResolution):
+        resolver.resolve(
+            sourcepath, 
+            finded_paths, 
+            library_paths=settings.libraries_fixture_paths
+        )
+
+
+def test_resolver_resolve_error_unclear_003(settings, parser, resolver):
+    """resolver.ImportPathsResolver: Check candidates on explicit resolution"""
+    sourcepath = os.path.join(settings.sample_path, 'main_twins_3.scss')
+    with open(sourcepath) as fp:
+        finded_paths = parser.parse(fp.read())
+        
+    results = resolver.resolve(
+        sourcepath, 
+        finded_paths, 
+        library_paths=settings.libraries_fixture_paths
+    )
+    
+    assert results == [
+        os.path.join(settings.sample_path, '_vendor.scss'),
+        os.path.join(settings.sample_path, 'components/_twin_3.scss'),
+    ]

@@ -28,6 +28,14 @@ class UnresolvablePath(BoussoleBaseException):
     pass
 
 
+class UnclearResolution(BoussoleBaseException):
+    """
+    Exception to be raised when the resolver encounts multiple existing
+    candidates for a path.
+    """
+    pass
+
+
 class CircularImport(BoussoleBaseException):
     """
     Exception to be raised when inspector detect a circular import from

@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Testing resolving on identical filename
+ * 
+ * Note that this is an error and this file can't be compiled through libsass
+ */
+
+@import "vendor";
+
+@import "components/twin_1"; // This should trigger exception about unclear resolution

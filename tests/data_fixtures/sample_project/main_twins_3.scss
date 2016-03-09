@@ -1,0 +1,8 @@
+@charset "UTF-8";
+/*
+ * Testing resolving on identical filename but explicit (so correct)
+ */
+
+@import "vendor";
+
+@import "components/_twin_3.scss"; // Exact explicit name does not raise anything
