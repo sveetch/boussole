@@ -2,19 +2,6 @@
 """
 Inspector
 =========
-
-.. todo::
-    Does Compass trigger compile when there is changes on some library_paths
-    files ?
-
-.. todo::
-    Identical path resolving for different file: ::
-
-        sassc: error: Error:
-            It's not clear which file to import for '@import "main_basic"'.
-            Candidates:
-                main_basic.scss
-                main_basic.css
 """
 from collections import defaultdict
 

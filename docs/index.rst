@@ -7,6 +7,7 @@
 .. _Compass: http://compass-style.org/
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/6/
+.. _libsass: https://github.com/dahlia/libsass-python
 
 Welcome to Boussole's documentation!
 ====================================
@@ -27,25 +28,7 @@ Requires
 
 * `Watchdog`_ == 0.8.3;
 * `click`_ == 6.2;
-
-TODO
-****
-
-* [ ] Finish API;
-
-  * [x] SCSS parser for import rules;
-  * [x] Path resolving through scss project and libraries;
-  * [x] Project inspector to find import dependancies;
-  * [x] Finish API;
-  * [x] unittests on API;
-  * [x] Documentation coverage on API;
-  
-    * [x] Docstring for arguments and module/class descriptions;
-    * [ ] Renaming unittests test case;
-    * [x] Clean every debug pointers;
-    * [x] Pass Flake8 validation;
-
-* [ ] Commandline interface;
+* `libsass`_ == 0.10.1;
 
 Table of contents
 *****************

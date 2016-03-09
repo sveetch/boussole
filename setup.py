@@ -15,7 +15,7 @@ setup(
         "Programming Language :: Python :: 2.7",
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Software Development :: Libraries :: Python Modules',
@@ -25,17 +25,18 @@ setup(
         'argh==0.24.1',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
+        'libsass==0.10.1',
     ],
     tests_require=[
         'pytest',
         'colorama',
         'sphinx>=1.6',
     ],
-    #entry_points={
-        #'console_scripts': [
-            #'boussole = boussole.console_script:main',
-        #]
-    #},
+    entry_points={
+        'console_scripts': [
+            'boussole = boussole.cli.console_script:main',
+        ]
+    },
     include_package_data=True,
     zip_safe=False
 )

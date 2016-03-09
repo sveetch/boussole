@@ -1,0 +1,189 @@
+/*
+ * Import some components from imported libraries
+ */
+/*
+ * Libary sample #2: some dummy addon
+ */
+@import url("http://foo.bar/dummy");
+.some_addon {
+  width: 50%; }
+
+/*
+ * Libary sample #2: another dummy addon
+ */
+.another_addon {
+  margin: 10px; }
+  .another_addon .inner {
+    padding: 0;
+    background-color: #ffffff; }
+
+/*
+ * Basic main scss file
+ */
+/* 
+ * Just some rules to fill in
+ */
+.flop-slider {
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -ms-touch-action: pan-y;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent; }
+
+.flop-list {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  margin: 0;
+  padding: 0; }
+  .flop-list:focus {
+    outline: none; }
+  .flop-list.dragging {
+    cursor: pointer;
+    cursor: hand; }
+
+.flop-slider .flop-track,
+.flop-slider .flop-list {
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0); }
+
+.flop-track {
+  position: relative;
+  left: 0;
+  top: 0;
+  display: block; }
+  .flop-track:before, .flop-track:after {
+    content: "";
+    display: table; }
+  .flop-track:after {
+    clear: both; }
+  .flop-loading .flop-track {
+    visibility: hidden; }
+
+.flop-slide {
+  float: left;
+  height: 100%;
+  min-height: 1px;
+  display: none; }
+  [dir="rtl"] .flop-slide {
+    float: right; }
+  .flop-slide img {
+    display: block; }
+  .flop-slide.flop-loading img {
+    display: none; }
+  .flop-slide.dragging img {
+    pointer-events: none; }
+  .flop-initialized .flop-slide {
+    display: block; }
+  .flop-loading .flop-slide {
+    visibility: hidden; }
+  .flop-vertical .flop-slide {
+    display: block;
+    height: auto;
+    border: 1px solid transparent; }
+
+/*
+ * Cookie Law banner
+ */
+#cookie-law-container {
+  padding: 10px 0; }
+  #cookie-law-container .explain p {
+    font-size: 12px;
+    margin-bottom: 5px !important; }
+    #cookie-law-container .explain p:last-child {
+      margin-bottom: 0 !important; }
+
+/*
+ * Webfont for icons
+ */
+@font-face {
+  font-family: 'icomoon';
+  src: font-url("icomoon.eot");
+  src: font-url("icomoon.eot?#iefix") format("embedded-opentype"), font-url("icomoon.ttf") format("truetype"), font-url("icomoon.woff") format("woff"), font-url("icomoon.svg#icomoon") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+[class^="icon-"], [class*=" icon-"] {
+  font-family: 'icomoon';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.button[class^="icon-"], .button[class*=" icon-"] {
+  font-family: inherit; }
+  .button[class^="icon-"]:before, .button[class*=" icon-"]:before {
+    font-family: 'icomoon';
+    margin-right: rem-calc(5px);
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale; }
+
+.icon-2x {
+  font-size: 2em; }
+
+.icon-3x {
+  font-size: 3em; }
+
+.icon-4x {
+  font-size: 4em; }
+
+.icon-uni2192:before {
+  content: "\2192"; }
+
+.icon-uni2190:before {
+  content: "\2190"; }
+
+.icon-uni2022:before {
+  content: "\2022"; }
+
+.icon-uni61:before {
+  content: "\61"; }
+
+/*
+ * Libary sample #1
+ */
+/*
+ * Libary sample #1: settings
+ */
+/*
+ * 
+ * Library #1 : sections component
+ * 
+ */
+.section {
+  padding: 40px 0; }
+  .section .inner {
+    padding: 10px 0; }
+
+/*
+ * 
+ * Library #1 : panels component
+ * 
+ */
+.panel {
+  padding: 20px;
+  color: #333333;
+  background-color: #f0f0f0;
+  border: 1px solid #333333; }
