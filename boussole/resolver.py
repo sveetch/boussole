@@ -97,32 +97,11 @@ class ImportPathsResolver(object):
             candidates (list): List of candidate file paths.
 
         Returns:
-            ``False`` if no candidate exists else return the elected path.
-        """
-        for item in candidates:
-            abspath = os.path.join(basepath, item)
-            if os.path.exists(abspath):
-                return abspath
-
-        return False
-
-    def new_check_candidate_exists(self, basepath, candidates):
-        """
-        Check that at least one candidate exist into a directory.
-        
-        WARNING: Changed behavior to return a list of all existing candidates, this will have to be unittested
-
-        Args:
-            basepath (str): Directory path where to search for candidate.
-            candidates (list): List of candidate file paths.
-
-        Returns:
-            ``False`` if no candidate exists else return the elected path.
+            list: List of existing candidates.
         """
         checked = []
         for item in candidates:
             abspath = os.path.join(basepath, item)
-            print "  - Checking:", abspath, os.path.exists(abspath)
             if os.path.exists(abspath):
                 checked.append(abspath)
 
@@ -138,6 +117,12 @@ class ImportPathsResolver(object):
             Resolving strategy is made like libsass do, meaning paths in
             import rules is resolved from the source where the import rules
             have been finded.
+
+            If import rule is not explicit enough and two file are candidates
+            for the same rule, it will raises an error. But contrary to
+            libsass, this happen also for files from given libraries in
+            ``library_paths`` (in this case libsass just silently taking the
+            first candidate).
 
         Args:
             sourcepath (str): Source file path, its directory is used to
@@ -174,34 +159,29 @@ class ImportPathsResolver(object):
                     basepaths.append(k)
 
         for import_rule in paths:
-            print "Import rule:", import_rule
             candidates = self.candidate_paths(import_rule)
 
-            # Old:The first resolved candidate from basepaths wins
-            # New: find all existing candidates, if more than one raise error, if only one accept it, if no existing raise error
-            existing = False
-            foo = []
+            # Search all existing candidates:
+            # * If more than one candidate raise an error;
+            # * If only one, accept it;
+            # * If no existing candidate raise an error;
+            stack = []
             for i, basepath in enumerate(basepaths):
-                checked = self.new_check_candidate_exists(basepath, candidates)
+                checked = self.check_candidate_exists(basepath, candidates)
                 if checked:
-                    foo.extend(checked)
-                    print "* Checked:", checked
-                    ## Normalized resolved path
-                    #resolved_paths.append(os.path.normpath(checked))
-                    #break
-            print foo
-            
-            if len(foo)>1:
-                # More than one validated candidate, raise error
+                    stack.extend(checked)
+
+            # More than one existing candidate
+            if len(stack) > 1:
                 raise UnclearResolution(
                     "rule '{}' This is not clear for these paths: {}".format(
-                        import_rule, ', '.join(foo)
+                        import_rule, ', '.join(stack)
                     )
                 )
-            elif len(foo)==1:
-                # Accept the first item
-                resolved_paths.append(os.path.normpath(foo[0]))
-            # No validated candidate, raise error
+            # Accept the single one
+            elif len(stack) == 1:
+                resolved_paths.append(os.path.normpath(stack[0]))
+            # No validated candidate
             else:
                 if self.STRICT_PATH_VALIDATION:
                     raise UnresolvablePath(
@@ -209,7 +189,5 @@ class ImportPathsResolver(object):
                             import_rule, basedir
                         )
                     )
-            
-            print
 
         return resolved_paths
