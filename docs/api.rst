@@ -6,6 +6,10 @@ API
     :members:
 
 
+.. automodule:: boussole.finder
+    :members:
+
+
 .. automodule:: boussole.resolver
     :members:
 

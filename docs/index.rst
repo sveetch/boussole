@@ -16,6 +16,8 @@ Aims to reproduce the useful Compass commandline tool behavior for 'build' and '
 
 This is under construction, not even an Alpha for now.
 
+Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
+
 Links
 *****
 

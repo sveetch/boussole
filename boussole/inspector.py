@@ -24,10 +24,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
             inspected sources.
         _PARENTS_MAP: Dictionnary of finded direct parents for each inspected
             sources.
-        NOT_INSPECTED_EXTENSIONS: List of file extensions to ignore for
-            path inspection.
     """
-    NOT_INSPECTED_EXTENSIONS = ['css', 'sass']
 
     def __init__(self, *args, **kwargs):
         self.reset()

@@ -6,6 +6,7 @@ import pytest
 
 import boussole
 from boussole.parser import ScssImportsParser
+from boussole.finder import ScssFinder
 from boussole.resolver import ImportPathsResolver
 from boussole.inspector import ScssInspector
 
@@ -57,3 +58,8 @@ def resolver():
 def inspector():
     """Initialize and return SCSS inspector (scope at function level)"""
     return ScssInspector()
+
+@pytest.fixture(scope="module")
+def finder():
+    """Initialize and return SCSS finder (scope at module level)"""
+    return ScssFinder()
