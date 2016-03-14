@@ -3,7 +3,7 @@
 Exceptions
 ==========
 
-Specific exceptions that Boussole code can raise
+Specific exceptions that Boussole code can raise.
 """
 
 
@@ -40,5 +40,12 @@ class CircularImport(BoussoleBaseException):
     """
     Exception to be raised when inspector detect a circular import from
     sources.
+    """
+    pass
+
+
+class SettingsLoadingError(BoussoleBaseException):
+    """
+    Exception to be raised when config loading has failed.
     """
     pass

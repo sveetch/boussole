@@ -1,0 +1,1 @@
+Fake settings file as SettingsLoaderBase dont implement a full usable interface.

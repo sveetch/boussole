@@ -54,6 +54,9 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
             recursive (bool): Switch to enabled recursive finding (if True).
                 Default to True.
 
+        Raises:
+            CircularImport: If circular error is detected from a source.
+
         Returns:
             set: List of dependencies paths.
         """

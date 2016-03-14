@@ -1,0 +1,17 @@
+{
+    "SOURCES_PATHS": [
+        "/home/foo"
+    ],
+    "BAR": [
+        "meep",
+        "meep"
+    ],
+    "LIBRARY_PATHS": [
+        "/home/lib1",
+        "/home/lib2"
+    ],
+    "TARGAT_PATH": "/home/bar",
+    "TARGET_PATH": "/home/bar",
+    "COMPILER_ARGS": [],
+    "FOO": 42
+}

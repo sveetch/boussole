@@ -1,0 +1,2 @@
+.. automodule:: boussole.parser
+    :members:

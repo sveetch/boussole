@@ -12,11 +12,15 @@
 Welcome to Boussole's documentation!
 ====================================
 
-Aims to reproduce the useful Compass commandline tool behavior for 'build' and 'watch' actions.
+This is a commandline interface to build SASS projects using `libsass`_.
 
-This is under construction, not even an Alpha for now.
+Alike the Compass commandline, there is 'build' and 'watch' actions to build all SASS files.
 
-Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
+.. Warning::
+    This is under construction, almost an Alpha for now.
+
+.. Note::
+    Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
 
 Links
 *****
@@ -32,12 +36,24 @@ Requires
 * `click`_ == 6.2;
 * `libsass`_ == 0.10.1;
 
-Table of contents
-*****************
+User’s Guide
+************
 
 .. toctree::
    :maxdepth: 2
 
    install.rst
-   api.rst
    changelog.rst
+
+API
+***
+
+.. toctree::
+   :maxdepth: 2
+
+   api/exceptions.rst
+   api/parser.rst
+   api/resolver.rst
+   api/inspector.rst
+   api/finder.rst
+   api/conf.rst

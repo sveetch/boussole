@@ -1,0 +1,2 @@
+.. automodule:: boussole.finder
+    :members:

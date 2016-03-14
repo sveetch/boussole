@@ -1,0 +1,11 @@
+{
+    "SOURCES_PATHS": [
+        "/home/foo"
+    ],
+    "LIBRARY_PATHS": [
+        "/home/lib1",
+        "/home/lib2"
+    ],
+    "TARGET_PATH": "/home/bar",
+    "COMPILER_ARGS": []
+}

@@ -5,6 +5,7 @@ import os
 import pytest
 
 import boussole
+
 from boussole.parser import ScssImportsParser
 from boussole.finder import ScssFinder
 from boussole.resolver import ImportPathsResolver
@@ -63,3 +64,18 @@ def inspector():
 def finder():
     """Initialize and return SCSS finder (scope at module level)"""
     return ScssFinder()
+
+@pytest.fixture(scope="module")
+def sample_project_settings():
+    """Return default sample settings dictionnary (scope at module level)"""
+    return {
+        'COMPILER_ARGS': [],
+        'LIBRARY_PATHS': [
+            u'/home/lib1',
+            u'/home/lib2',
+        ],
+        'SOURCES_PATHS': [
+            u'/home/foo',
+        ],
+        'TARGET_PATH': u'/home/bar',
+    }

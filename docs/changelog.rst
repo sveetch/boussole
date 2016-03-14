@@ -3,6 +3,23 @@
 Changelog
 =========
 
+Version 0.4.0 - 2016/03/14
+--------------------------
+
+* Added ``conf`` module to manage project settings;
+* Doc, flake8, unittests for ``conf``;
+
+Version 0.3.0 - 2016/03/10
+--------------------------
+
+* Added ``finder`` module;
+* Doc, flake8, unittests for ``finder``;
+
+Version 0.2.0 - 2016/03/09
+--------------------------
+
+* Finished changes for the right path resolving/checking behavior with unclear resolutions;
+
 Version 0.1.0 - 2016/03/06
 --------------------------
 

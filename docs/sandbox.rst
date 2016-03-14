@@ -12,11 +12,11 @@ TODO
   * [x] SCSS parser for import rules;
   * [x] Path resolving through scss project and libraries;
   * [x] Project inspector to find import dependancies;
-  * [ ] All we need to start building/watching:
+  * [x] All we need to start building/watching:
   
     * [x] Resolver and Inspector must follow links for libraries because they will also be watched against changes;
     * [x] When there is more than one file eligible to resolver candidates, Resolver must raise an error about it;
-    * [ ] Inspector should have method(s) to find all compilable file (aka not partials files) from a given directory (recursively);
+    * [x] Inspector should have method(s) to find all compilable file (aka not partials files) from a given directory (recursively);
     
   * [x] unittests on API;
   * [x] Documentation coverage on API;

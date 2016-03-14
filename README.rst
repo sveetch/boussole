@@ -6,9 +6,15 @@
 Boussole
 ========
 
-Aims to reproduce the useful Compass commandline tool behavior for 'build' and 'watch' actions.
+This is a commandline interface to build SASS projects using `libsass`_.
 
-This is currently in Alpha stage construction.
+Alike the Compass commandline, there is 'build' and 'watch' actions to build all SASS files.
+
+.. Warning::
+    This is under construction, almost an Alpha for now.
+
+.. Note::
+    Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
 
 Links
 *****
