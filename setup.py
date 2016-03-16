@@ -21,7 +21,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[
-        'click==6.2',
+        'click==5.1',
         'argh==0.24.1',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
@@ -34,7 +34,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'boussole = boussole.cli.console_script:main',
+            'boussole = boussole.cli.console_script:cli_frontend',
         ]
     },
     include_package_data=True,
