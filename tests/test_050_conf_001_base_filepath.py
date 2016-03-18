@@ -10,14 +10,18 @@ def test_settings_base_filepath_ok_001(settings):
     """conf.base_backendSettingsLoaderBase: Filepath check case 1"""
     settings_loader = SettingsLoaderBase()
     
-    settings_loader.get_filepath(settings.sample_path)
+    result = settings_loader.get_filepath(settings.fixtures_path)
+    
+    assert result == os.path.join(settings.fixtures_path, SettingsLoaderBase._default_filename)
 
 
 def test_settings_base_filepath_ok_002(settings):
     """conf.base_backendSettingsLoaderBase: Filepath check case 2"""
     settings_loader = SettingsLoaderBase()
     
-    settings_loader.get_filepath(settings.sample_path, filename="dummy")
+    result = settings_loader.get_filepath(settings.sample_path, filename="dummy")
+    
+    assert result == os.path.join(settings.sample_path, "dummy")
 
 
 def test_settings_base_filepath_error_001(settings):
@@ -25,7 +29,7 @@ def test_settings_base_filepath_error_001(settings):
     settings_loader = SettingsLoaderBase()
     
     with pytest.raises(SettingsLoadingError):
-        settings_loader.get_filepath(settings.sample_path, filename="dontexists")
+        settings_loader.get_filepath(settings.fixtures_path, filename="dontexists")
 
 
 def test_settings_base_filepath_error_002(settings):

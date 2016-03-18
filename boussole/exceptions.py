@@ -49,3 +49,10 @@ class SettingsLoadingError(BoussoleBaseException):
     Exception to be raised when config loading has failed.
     """
     pass
+
+
+class SettingsInvalidError(BoussoleBaseException):
+    """
+    Exception to be raised when a settings is detected as invalid.
+    """
+    pass

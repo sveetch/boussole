@@ -10,7 +10,7 @@ def test_settings_base_load_ok_001(settings, sample_project_settings):
     """conf.json_backend.SettingsLoaderJson: Load basic JSON settings file"""
     settings_loader = SettingsLoaderJson()
     
-    loaded = settings_loader.load(settings.sample_path)
+    loaded = settings_loader.load(settings.fixtures_path)
     
     assert loaded == sample_project_settings
 
@@ -19,7 +19,7 @@ def test_settings_base_load_ok_002(settings, sample_project_settings):
     """conf.json_backend.SettingsLoaderJson: Load custom JSON settings file"""
     settings_loader = SettingsLoaderJson()
     
-    loaded = settings_loader.load(settings.sample_path, filename="settings_custom.json")
+    loaded = settings_loader.load(settings.fixtures_path, filename="settings_polluted.json")
     
     custom_settings = copy.deepcopy(sample_project_settings)
     

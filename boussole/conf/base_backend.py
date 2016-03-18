@@ -84,6 +84,9 @@ class SettingsLoaderBase(object):
     def clean(self, settings):
         """
         Clean given settings for backend needs.
+        
+        Default backend don't do any cleaning since it's for backends
+        specifics.
 
         Args:
             dict: Loaded settings.

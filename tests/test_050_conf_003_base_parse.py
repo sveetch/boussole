@@ -9,7 +9,7 @@ def test_settings_base_parse_ok_001(settings):
     """conf.base_backend.SettingsLoaderBase: Dummy content parsing"""
     settings_loader = SettingsLoaderBase()
     
-    filepath = settings_loader.get_filepath(settings.sample_path)
+    filepath = settings_loader.get_filepath(settings.fixtures_path)
     
     content = settings_loader.open(filepath)
     

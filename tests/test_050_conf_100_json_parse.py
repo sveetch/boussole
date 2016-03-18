@@ -10,7 +10,7 @@ def test_settings_base_parse_ok_001(settings, sample_project_settings):
     """conf.json_backend.SettingsLoaderJson: JSON content parsing"""
     settings_loader = SettingsLoaderJson()
 
-    filepath = settings_loader.get_filepath(settings.sample_path)
+    filepath = settings_loader.get_filepath(settings.fixtures_path)
 
     content = settings_loader.open(filepath)
 
@@ -21,7 +21,7 @@ def test_settings_base_parse_error_001(settings, sample_project_settings):
     """conf.json_backend.SettingsLoaderJson: JSON content parsing error"""
     settings_loader = SettingsLoaderJson()
 
-    filepath = settings_loader.get_filepath(settings.sample_path, "settings.txt")
+    filepath = settings_loader.get_filepath(settings.fixtures_path, "settings.txt")
 
     content = settings_loader.open(filepath)
 

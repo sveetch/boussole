@@ -1,0 +1,14 @@
+{
+    "SOURCES_PATHS": [
+        "sample_project"
+    ],
+    "LIBRARY_PATHS": [
+        "library_1",
+        "library_2"
+    ],
+    "TARGET_PATH": ".",
+    "COMPILER_ARGS": [
+        "--debug=true",
+        "-a"
+    ]
+}
