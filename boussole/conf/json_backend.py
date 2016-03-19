@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """
-JSON backend settings
+JSON settings backend
 =====================
 """
 import json
 
-from boussole.exceptions import SettingsLoadingError
-from boussole.conf.base_backend import SettingsLoaderBase
+from boussole.exceptions import SettingsBackendError
+from boussole.conf.base_backend import SettingsBackendBase
 
 
-class SettingsLoaderJson(SettingsLoaderBase):
+class SettingsBackendJson(SettingsBackendBase):
     """
-    JSON interface for settings
+    JSON backend for settings
     """
     _default_filename = 'settings.json'
 
@@ -25,8 +25,8 @@ class SettingsLoaderJson(SettingsLoaderBase):
                 backend.
 
         Raises:
-            SettingsLoadingError: If parser can not decode a valid JSON
-                object.
+            boussole.exceptions.SettingsBackendError: If parser can not decode
+                a valid JSON object.
 
         Returns:
             dict: Dictionnary containing parsed setting elements.
@@ -36,5 +36,5 @@ class SettingsLoaderJson(SettingsLoaderBase):
             parsed = json.loads(content)
         except ValueError:
             msg = "No JSON object could be decoded from file: {}"
-            raise SettingsLoadingError(msg.format(filepath))
+            raise SettingsBackendError(msg.format(filepath))
         return parsed

@@ -44,9 +44,9 @@ class CircularImport(BoussoleBaseException):
     pass
 
 
-class SettingsLoadingError(BoussoleBaseException):
+class SettingsBackendError(BoussoleBaseException):
     """
-    Exception to be raised when config loading has failed.
+    Exception to be raised when config loading has failed from a backend.
     """
     pass
 

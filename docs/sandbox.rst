@@ -29,14 +29,14 @@ TODO
 * [ ] Commandline interface;
 
     * [x] Add entry point in setup.py;
-    * [ ] Configuration file for a project (like the config.rb) with:
+    * [x] Configuration file for a project (like the config.rb) with:
         
           * SOURCES_PATHS: paths where to search for files to compile;
           * LIBRARY_PATHS: paths to include as libraries during inspection;
           * TARGET_PATH: Directory where to write all files to compile (preserving their directory structures);
           * COMPILER_ARGS: list/map of arguments to pass to the compiler;
     
-    * [ ] Starts cli structure with click;
+    * [x] Starts cli structure with click;
     * [ ] 'Build' command to invoke libsass API to perform compile on files;
     * [ ] 'Watch' command to start watcher with Watchdog;
-    * [ ] 'Check' command to check about a project without compile (only inspector checking);
+    * [ ] 'Check' command to check about a project without compiling (only inspector checking);

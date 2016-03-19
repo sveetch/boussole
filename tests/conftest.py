@@ -1,5 +1,5 @@
 """
-Some fixture methods 
+Some fixture methods
 """
 import os
 import pytest
@@ -25,11 +25,11 @@ class FixturesSettingsTestMixin(object):
                 self.fixtures_dir
             )
         )
-        
+
         # Sample project
         self.sample_dir = "sample_project"
         self.sample_path = os.path.join(self.fixtures_path, self.sample_dir)
-        
+
         # Some sample libraries
         self.lib1_dir = 'library_1'
         self.lib2_dir = 'library_2'

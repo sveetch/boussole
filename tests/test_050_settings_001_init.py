@@ -2,7 +2,8 @@
 import os
 import pytest
 
-from boussole.conf import DEFAULT_SETTINGS, Settings
+from boussole.conf import DEFAULT_SETTINGS
+from boussole.conf.model import Settings
 
 
 def test_conf_settings_init_001_default(settings, sample_project_settings):

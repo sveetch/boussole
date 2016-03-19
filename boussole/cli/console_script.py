@@ -24,10 +24,6 @@ def cli_frontend(ctx, config):
     # Not really used since settings is imported from its module
     ctx.obj = {}
 
-    ## Override config directory from given option if any
-    #if config_dir:
-        #settings.set_setting('CONFIG_DIR', config_dir)
-
 
 # Attach commands methods to the main grouper
 cli_frontend.add_command(version_command, name="version")

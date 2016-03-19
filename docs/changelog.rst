@@ -1,7 +1,17 @@
+.. _click: http://click.pocoo.org/6/
 
 =========
 Changelog
 =========
+
+Version 0.5.0 - 2016/03/19
+--------------------------
+
+* Added CLI structure with `click`_;
+* Lowered click version requirement to 5.1 (since 6.x is not stable yet);
+* Restructured tests for conf module and added some new ones for Settings object
+* Moved all settings files up the sample project;
+* Finished conf management;
 
 Version 0.4.0 - 2016/03/14
 --------------------------
