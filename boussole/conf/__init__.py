@@ -21,10 +21,6 @@ import copy
 
 # Settings manifest define default values and values patchs for each setting
 SETTINGS_MANIFEST = {
-    'COMPILER_ARGS': {
-        'default': [],
-        'patchs': [],
-    },
     'LIBRARY_PATHS': {
         'default': [],
         'patchs': ['_patch_expand_paths'],
@@ -36,6 +32,14 @@ SETTINGS_MANIFEST = {
     'TARGET_PATH': {
         'default': None,
         'patchs': ['_patch_expand_path'],
+    },
+    'OUTPUT_STYLES': {
+        'default': 'nested',
+        'patchs': [],
+    },
+    'SOURCE_COMMENTS': {
+        'default': False,
+        'patchs': [],
     },
 }
 

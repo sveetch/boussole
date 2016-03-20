@@ -6,8 +6,10 @@ Base settings backend
 Backends are responsible to find settings file, parse it, load its values then
 return a Settings object.
 
-Each loaded setting values can be patched following settings manifest rules,
-see :class:`boussole.conf.patcher`.
+Backends inherit from :class:`boussole.conf.patcher` so they can patch each
+loaded settings values following the settings manifest rules.
+
+Actually the only backend available is JSON.
 
 """
 import os

@@ -298,3 +298,6 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
+
+# Napoleon settings
+napoleon_include_private_with_doc = True

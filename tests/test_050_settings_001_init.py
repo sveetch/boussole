@@ -13,4 +13,4 @@ def test_conf_settings_init_001_default(settings, sample_project_settings):
     assert settings_object._settings == DEFAULT_SETTINGS
 
     assert settings_object.TARGET_PATH == DEFAULT_SETTINGS['TARGET_PATH']
-    assert settings_object.COMPILER_ARGS == DEFAULT_SETTINGS['COMPILER_ARGS']
+    assert settings_object.OUTPUT_STYLES == DEFAULT_SETTINGS['OUTPUT_STYLES']

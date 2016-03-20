@@ -12,6 +12,7 @@
     ],
     "TARGAT_PATH": "/home/bar",
     "TARGET_PATH": "/home/bar",
-    "COMPILER_ARGS": [],
+    "OUTPUT_STYLES": "nested",
+    "SOURCE_COMMENTS": false,
     "FOO": 42
 }

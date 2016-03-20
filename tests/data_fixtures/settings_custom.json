@@ -7,8 +7,6 @@
         "library_2"
     ],
     "TARGET_PATH": ".",
-    "COMPILER_ARGS": [
-        "--debug=true",
-        "-a"
-    ]
+    "OUTPUT_STYLES": "expanded",
+    "SOURCE_COMMENTS": true
 }

@@ -35,7 +35,7 @@ def test_conf_settings_update_003_mixed(settings, sample_project_settings):
 
     # Add one available setting and some other wrong settings
     settings_object.update({
-        'COMPILER_ARGS': ['--dummy',],
+        'OUTPUT_STYLES': 'compressed',
         'PLOP': True,
         'Foo': 42,
         'BAR': [1, 5, 10]
@@ -44,7 +44,7 @@ def test_conf_settings_update_003_mixed(settings, sample_project_settings):
     # New settings reference with modified setting
     mixed = copy.deepcopy(sample_project_settings)
     mixed.update({
-        'COMPILER_ARGS': ['--dummy',],
+        'OUTPUT_STYLES': 'compressed',
     })
 
     assert settings_object._settings == mixed

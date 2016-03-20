@@ -76,7 +76,7 @@ def sample_project_settings():
     """Return sample settings dictionnary with expected values (scope at
        module level)"""
     return {
-        'COMPILER_ARGS': [],
+        #'COMPILER_ARGS': [],
         'LIBRARY_PATHS': [
             u'/home/lib1',
             u'/home/lib2',
@@ -85,6 +85,8 @@ def sample_project_settings():
             u'/home/foo',
         ],
         'TARGET_PATH': u'/home/bar',
+        'OUTPUT_STYLES': u'nested',
+        'SOURCE_COMMENTS': False,
     }
 
 
@@ -94,10 +96,10 @@ def custom_project_settings():
        module level)"""
     fixtures_settings = FixturesSettingsTestMixin()
     return {
-        'COMPILER_ARGS': [
-            u'--debug=true',
-            u'-a',
-        ],
+        #'COMPILER_ARGS': [
+            #u'--debug=true',
+            #u'-a',
+        #],
         'LIBRARY_PATHS': [
             os.path.join(fixtures_settings.fixtures_path, u'library_1'),
             os.path.join(fixtures_settings.fixtures_path, u'library_2'),
@@ -106,4 +108,6 @@ def custom_project_settings():
             os.path.join(fixtures_settings.fixtures_path, u'sample_project'),
         ],
         'TARGET_PATH': fixtures_settings.fixtures_path,
+        'OUTPUT_STYLES': u'expanded',
+        'SOURCE_COMMENTS': True,
     }

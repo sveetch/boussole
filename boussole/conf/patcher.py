@@ -77,7 +77,8 @@ class SettingsPatcher(object):
 
     def _patch_expand_paths(self, settings, name, value):
         """
-        Apply patch ``_patch_expand_paths`` for each element in list.
+        Apply patch ``SettingsPatcher._patch_expand_path`` for each element
+        in list.
 
         Args:
             settings (dict): Initial settings unpatched.
