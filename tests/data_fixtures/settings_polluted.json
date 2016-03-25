@@ -1,7 +1,5 @@
 {
-    "SOURCES_PATHS": [
-        "/home/foo"
-    ],
+    "SOURCES_PATH": "/home/foo",
     "BAR": [
         "meep",
         "meep"
@@ -14,5 +12,6 @@
     "TARGET_PATH": "/home/bar",
     "OUTPUT_STYLES": "nested",
     "SOURCE_COMMENTS": false,
-    "FOO": 42
+    "FOO": 42,
+    "EXCLUDES": []
 }

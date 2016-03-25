@@ -2,6 +2,9 @@
 """
 Inspector
 =========
+
+Inspector is in charge to inspect a project about SASS stylesheets to search
+for their dependencies.
 """
 from collections import defaultdict
 
@@ -13,8 +16,6 @@ from boussole.resolver import ImportPathsResolver
 class ScssInspector(ImportPathsResolver, ScssImportsParser):
     """
     Project inspector for SCSS sources
-
-    Inspect sources to search for their dependencies.
 
     ``__init__`` method use ``reset`` method to initialize some internal
     buffers.

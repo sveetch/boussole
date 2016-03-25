@@ -1,12 +1,11 @@
 {
-    "SOURCES_PATHS": [
-        "/home/foo"
-    ],
+    "SOURCES_PATH": "/home/foo",
     "LIBRARY_PATHS": [
         "/home/lib1",
         "/home/lib2"
     ],
     "TARGET_PATH": "/home/bar",
     "OUTPUT_STYLES": "nested",
-    "SOURCE_COMMENTS": false
+    "SOURCE_COMMENTS": false,
+    "EXCLUDES": []
 }

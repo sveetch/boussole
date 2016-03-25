@@ -16,14 +16,18 @@ class FixturesSettingsTestMixin(object):
     """Mixin containing some basic settings"""
     def __init__(self):
         # Base fixture datas directory
-        self.fixtures_dir = 'data_fixtures'
-        self.fixtures_path = os.path.normpath(
+        self.tests_dir = 'tests'
+        self.tests_path = os.path.normpath(
             os.path.join(
                 os.path.abspath(os.path.dirname(boussole.__file__)),
                 '..',
-                'tests',
-                self.fixtures_dir
+                self.tests_dir,
             )
+        )
+        self.fixtures_dir = 'data_fixtures'
+        self.fixtures_path = os.path.join(
+            self.tests_path,
+            self.fixtures_dir
         )
 
         # Sample project
@@ -39,6 +43,12 @@ class FixturesSettingsTestMixin(object):
             self.lib1_path,
             self.lib2_path,
         ]
+
+
+@pytest.fixture(scope='session')
+def temp_builds_dir(tmpdir_factory):
+    fn = tmpdir_factory.mktemp('builds')
+    return fn
 
 
 @pytest.fixture(scope="module")
@@ -81,12 +91,11 @@ def sample_project_settings():
             u'/home/lib1',
             u'/home/lib2',
         ],
-        'SOURCES_PATHS': [
-            u'/home/foo',
-        ],
+        'SOURCES_PATH': u'/home/foo',
         'TARGET_PATH': u'/home/bar',
         'OUTPUT_STYLES': u'nested',
         'SOURCE_COMMENTS': False,
+        "EXCLUDES": [],
     }
 
 
@@ -96,18 +105,24 @@ def custom_project_settings():
        module level)"""
     fixtures_settings = FixturesSettingsTestMixin()
     return {
-        #'COMPILER_ARGS': [
-            #u'--debug=true',
-            #u'-a',
-        #],
         'LIBRARY_PATHS': [
             os.path.join(fixtures_settings.fixtures_path, u'library_1'),
             os.path.join(fixtures_settings.fixtures_path, u'library_2'),
         ],
-        'SOURCES_PATHS': [
-            os.path.join(fixtures_settings.fixtures_path, u'sample_project'),
-        ],
+        'SOURCES_PATH': os.path.join(fixtures_settings.fixtures_path, u'sample_project'),
         'TARGET_PATH': fixtures_settings.fixtures_path,
         'OUTPUT_STYLES': u'expanded',
         'SOURCE_COMMENTS': True,
+        "EXCLUDES": [
+            "main_error.scss",
+            "main_circular_5.scss",
+            "main_circular_0.scss",
+            "main_circular_4.scss",
+            "main_circular_3.scss",
+            "main_circular_1.scss",
+            "main_circular_2.scss",
+            "main_circular_bridge.scss",
+            "main_twins_*.scss",
+            "*/twin_*.scss"
+        ],
     }

@@ -25,9 +25,9 @@ SETTINGS_MANIFEST = {
         'default': [],
         'patchs': ['_patch_expand_paths'],
     },
-    'SOURCES_PATHS': {
-        'default': [],
-        'patchs': ['_patch_expand_paths'],
+    'SOURCES_PATH': {
+        'default': None,
+        'patchs': ['_patch_expand_path'],
     },
     'TARGET_PATH': {
         'default': None,
@@ -39,6 +39,10 @@ SETTINGS_MANIFEST = {
     },
     'SOURCE_COMMENTS': {
         'default': False,
+        'patchs': [],
+    },
+    'EXCLUDES': {
+        'default': [],
         'patchs': [],
     },
 }

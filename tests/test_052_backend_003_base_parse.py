@@ -7,10 +7,11 @@ from boussole.conf.base_backend import SettingsBackendBase
 
 def test_conf_backend_base_parse_ok_001(settings):
     """conf.base_backend.SettingsBackendBase: Dummy content parsing"""
-    settings_loader = SettingsBackendBase()
+    backend = SettingsBackendBase(basedir=settings.fixtures_path)
 
-    filepath = settings_loader.get_filepath(settings.fixtures_path)
+    path, filename = backend.parse_filepath()
+    filepath = backend.check_filepath(path, filename)
 
-    content = settings_loader.open(filepath)
+    content = backend.open(filepath)
 
-    assert settings_loader.parse(filepath, content) == {}
+    assert backend.parse(filepath, content) == {}

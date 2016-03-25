@@ -6,6 +6,10 @@ Backend values patchs
 Patchs are used to modify given settings items like expanding paths. Backends
 inherit from ``SettingsPatcher`` to be able to use it in their ``clean()``
 method.
+
+Todo:
+    Should be named postprocess.SettingsPostProcessor because it contains
+    patchs but will contain some validations soon.
 """
 import os
 
@@ -17,7 +21,7 @@ class SettingsPatcher(object):
     Mixin object for all available patch methods to use in
     ``SETTINGS_MANIFEST``.
     """
-    basedir = ''
+    projectdir = ''
 
     def patch(self, settings):
         """
@@ -70,8 +74,8 @@ class SettingsPatcher(object):
 
         # If the path is not yet an absolute directory, make it so from base
         # directory if not empty
-        if not os.path.isabs(value) and self.basedir:
-            value = os.path.join(self.basedir, value)
+        if not os.path.isabs(value) and self.projectdir:
+            value = os.path.join(self.projectdir, value)
 
         return os.path.normpath(value)
 

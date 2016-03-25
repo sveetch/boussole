@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 """
+.. _SASS Reference:
+    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
+
 Parser
 ======
 
-.. _SASS Reference:
-    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
+Parser is in charge to find every ``@import`` rules in given SASS content.
+
+It has been builded following `SASS Reference`_ about ``@import`` rule.
 """
 import re
 
@@ -14,8 +18,6 @@ from boussole.exceptions import InvalidImportRule
 class ScssImportsParser(object):
     """
     SCSS parser to find import rules.
-
-    Builded from `SASS Reference`_ about "@import" rule.
 
     This does not support the old SASS syntax (also known as "indented
     syntax").

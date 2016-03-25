@@ -7,20 +7,20 @@ Mind sandbox
 TODO
 ****
 
-* [ ] Finish API;
+* [x] Finish API;
 
   * [x] SCSS parser for import rules;
   * [x] Path resolving through scss project and libraries;
   * [x] Project inspector to find import dependancies;
   * [x] All we need to start building/watching:
-  
+
     * [x] Resolver and Inspector must follow links for libraries because they will also be watched against changes;
     * [x] When there is more than one file eligible to resolver candidates, Resolver must raise an error about it;
     * [x] Inspector should have method(s) to find all compilable file (aka not partials files) from a given directory (recursively);
-    
+
   * [x] unittests on API;
   * [x] Documentation coverage on API;
-  
+
     * [x] Docstring for arguments and module/class descriptions;
     * [x] Renaming unittests test case;
     * [x] Clean every debug pointers;
@@ -30,13 +30,13 @@ TODO
 
     * [x] Add entry point in setup.py;
     * [x] Configuration file for a project (like the config.rb) with:
-        
-          * SOURCES_PATHS: paths where to search for files to compile;
+
+          * SOURCES_PATHS: path where to search for files to compile;
           * LIBRARY_PATHS: paths to include as libraries during inspection;
           * TARGET_PATH: Directory where to write all files to compile (preserving their directory structures);
-          * COMPILER_ARGS: list/map of arguments to pass to the compiler;
-    
+
     * [x] Starts cli structure with click;
-    * [ ] 'Build' command to invoke libsass API to perform compile on files;
+    * [x] 'Compile' command to invoke libsass API to perform compile on files;
+    * [x] 'Version' command to display version information;
     * [ ] 'Watch' command to start watcher with Watchdog;
     * [ ] 'Check' command to check about a project without compiling (only inspector checking);

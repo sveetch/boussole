@@ -1,28 +1,41 @@
 """
 Main entrance to commandline actions
 """
+# import os
 import click
 
 from boussole.cli.version import version_command
 from boussole.cli.compile import compile_command
 from boussole.cli.watch import watch_command
 
-
-def main():
-    print "Hello World!"
+# from boussole.conf.json_backend import SettingsBackendJson
 
 
-@click.group()
-@click.option('--config', default=None, metavar='PATH',
-              help='Path to a Boussole config file')
+CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+
+
+@click.group(context_settings=CONTEXT_SETTINGS)
+# @click.option('--config', default=None, metavar='PATH',
+#              help='Path to a Boussole config file',
+#              type=click.Path(exists=True))
 @click.pass_context
-def cli_frontend(ctx, config):
+def cli_frontend(ctx):
     """
     Boussole is a commandline interface to build SASS projects using libsass.
+
+    Every project will need a config file containing all need settings to
+    build it.
+
+    If no config file is given from argument "--config", default behavior is
+    to search for a "settings.json" in the current directory.
     """
     # Init the default context that will be passed to commands
-    # Not really used since settings is imported from its module
-    ctx.obj = {}
+    ctx.obj = {
+        # 'cwd': os.getcwd(),
+    }
+
+    # backend = SettingsBackendJson(basedir=os.getcwd())
+    # ctx.obj['settings'] = backend.load(filepath=config)
 
 
 # Attach commands methods to the main grouper

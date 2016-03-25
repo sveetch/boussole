@@ -25,7 +25,7 @@ setup(
         'argh==0.24.1',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
-        'libsass==0.10.1',
+        'libsass==0.11.0',
     ],
     tests_require=[
         'pytest',

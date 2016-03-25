@@ -3,11 +3,8 @@
 Resolver
 ========
 
-.. _SASS @import Reference:
-    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
-
-.. _SASS partials Reference:
-    http://sass-lang.com/documentation/file.SASS_REFERENCE.html#partials
+Resolver is in charge to resolve path in import rules, resolving is done using
+given sources path.
 """
 import os
 
@@ -20,15 +17,6 @@ class ImportPathsResolver(object):
     Import paths resolver.
 
     Resolve given paths from SCSS source to absolute paths.
-
-    Example:
-        These rules will be resolved: ::
-
-            // Real filename: "components/_header.scss"
-            @import "components/header";
-            @import "components/_header";
-            @import "components/header.scss";
-            @import "components/_header.scss";
 
     It's a mixin, meaning without own ``__init__`` method so it's should be
     safe enough to inherit it from another class.

@@ -8,22 +8,24 @@ from boussole.conf.json_backend import SettingsBackendJson
 
 def test_conf_backend_json_parse_ok_001(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: JSON content parsing"""
-    settings_loader = SettingsBackendJson()
+    backend = SettingsBackendJson(basedir=settings.fixtures_path)
 
-    filepath = settings_loader.get_filepath(settings.fixtures_path)
+    path, filename = backend.parse_filepath()
+    filepath = backend.check_filepath(path, filename)
 
-    content = settings_loader.open(filepath)
+    content = backend.open(filepath)
 
-    assert settings_loader.parse(filepath, content) == sample_project_settings
+    assert backend.parse(filepath, content) == sample_project_settings
 
 
 def test_conf_backend_json_parse_error_001(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: JSON content parsing error"""
-    settings_loader = SettingsBackendJson()
+    backend = SettingsBackendJson(basedir=settings.fixtures_path)
 
-    filepath = settings_loader.get_filepath(settings.fixtures_path, "settings.txt")
+    path, filename = backend.parse_filepath(filepath="settings.txt")
+    filepath = backend.check_filepath(path, filename)
 
-    content = settings_loader.open(filepath)
+    content = backend.open(filepath)
 
     with pytest.raises(SettingsBackendError):
-        settings_loader.parse(filepath, content)
+        backend.parse(filepath, content)

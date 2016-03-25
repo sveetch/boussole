@@ -4,6 +4,15 @@
 Changelog
 =========
 
+Version 0.6.0 - 2016/03/25
+--------------------------
+
+* Modified conf backend to be more flexible with given base dir and file path;
+* Accorded settings manifest to ``libsass-python`` compiler options;
+* Finished first working version for command line action ``compile``;
+* Upgraded ``libsass-python`` requirement to version ``0.11.0``
+* Improved command line action ``version`` to include both ``libsass-python`` and ``libsass`` versions;
+
 Version 0.5.0 - 2016/03/19
 --------------------------
 

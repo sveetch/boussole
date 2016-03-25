@@ -8,6 +8,6 @@ from boussole.conf.base_backend import SettingsBackendBase
 
 def test_conf_backend_base_clean_001(settings, sample_project_settings):
     """conf.base_backend.SettingsBackendBase: Ensure cleaning dont drop anything"""
-    settings_loader = SettingsBackendBase()
+    backend = SettingsBackendBase()
 
-    assert settings_loader.clean(sample_project_settings) == sample_project_settings
+    assert backend.clean(sample_project_settings) == sample_project_settings

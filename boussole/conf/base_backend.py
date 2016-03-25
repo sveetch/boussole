@@ -24,10 +24,13 @@ class SettingsBackendBase(SettingsPatcher):
     Base project settings backend
 
     Args:
-        basedir (str): Directory path where to search for settings file.
+        basedir (str): Directory path where to search for settings filepath.
+
             Default is empty, meaning it will resolve path from current
-            directory. You are advised to avoid this kind of usage and allways
-            provide an absolute base directory.
+            directory. Don't use an empty ``basedir`` attribute to load
+            settings from non-absolute filepath.
+
+            Given value will fill intial value for ``projectdir`` attribute.
 
     Attributes:
         _default_filename: Filename for settings file to load. Default to
@@ -37,32 +40,60 @@ class SettingsBackendBase(SettingsPatcher):
 
     def __init__(self, basedir=None):
         self.basedir = basedir or ''
+        self.projectdir = self.basedir
 
-    def get_filepath(self, path, filename=None):
+    def parse_filepath(self, filepath=None):
+        """
+        Parse given filepath to split possible path directory from filename.
+
+        * If path directory is empty, will use ``basedir`` attribute as base
+          filepath;
+        * If path directory is absolute, ignore ``basedir`` attribute;
+        * If path directory is relative, join it to ``basedir`` attribute;
+
+        Keyword Arguments:
+            filepath (str): Filepath to use to search for settings file. Will
+                use value from ``_default_filename`` class attribute if empty.
+
+                If filepath contain a directory path, it will be splitted from
+                filename and used as base directory (and update object
+                ``basedir`` attribute).
+
+        Returns:
+            tuple: Separated path directory and filename.
+        """
+        filepath = filepath or self._default_filename
+
+        path, filename = os.path.split(filepath)
+
+        if not path:
+            path = self.basedir
+        elif not os.path.isabs(path):
+            path = os.path.join(self.basedir, path)
+
+        return os.path.normpath(path), filename
+
+    def check_filepath(self, path, filename):
         """
         Check and return the final filepath to settings
 
         Args:
             path (str): Directory path where to search for settings file.
-
-        Keyword Arguments:
-            filename (str): Filename to use to search for settings file. Will
-                use ``_default_filename`` value if empty.
+            filename (str): Filename to use to search for settings file.
 
         Raises:
             boussole.exceptions.SettingsBackendError: If determined filepath
                 does not exists or is a directory.
 
         Returns:
-            string: Settings file path
+            string: Settings file path, joining given path and filename.
 
         """
-        filename = filename or self._default_filename
         settings_path = os.path.join(path, filename)
 
         if not os.path.exists(settings_path) or \
            not os.path.isfile(settings_path):
-            msg = "Unable to load settings file: {}"
+            msg = "Unable to find settings file: {}"
             raise SettingsBackendError(msg.format(settings_path))
 
         return settings_path
@@ -114,22 +145,23 @@ class SettingsBackendBase(SettingsPatcher):
         """
         return self.patch(settings)
 
-    def load(self, filename=None):
+    def load(self, filepath=None):
         """
-        Pretend to load the settings file from given path and optionnal
-        filename.
+        Load settings file from given path and optionnal filepath.
 
-        Final backend settings interface have to implement the final loading.
+        During path resolving, the ``projectdir`` is updated to the file path
+        directory.
 
         Keyword Arguments:
-            filename (str): Filename to use to search for settings file. Will
-                use value from ``_default_filename`` class attribute if empty.
+            filepath (str): Filepath to the settings file.
 
         Returns:
             boussole.conf.model.Settings: Settings object with loaded elements.
 
         """
-        settings_path = self.get_filepath(self.basedir, filename)
+        self.projectdir, filename = self.parse_filepath(filepath)
+
+        settings_path = self.check_filepath(self.projectdir, filename)
 
         parsed = self.parse(settings_path, self.open(settings_path))
 

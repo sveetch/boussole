@@ -2,11 +2,11 @@
    sphinx-quickstart on Sun Mar  6 12:12:38 2016.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-   
+
 .. _virtualenv: http://www.virtualenv.org/
 .. _Compass: http://compass-style.org/
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
-.. _click: http://click.pocoo.org/6/
+.. _click: http://click.pocoo.org/5/
 .. _libsass: https://github.com/dahlia/libsass-python
 
 Welcome to Boussole's documentation!
@@ -33,8 +33,8 @@ Requires
 ********
 
 * `Watchdog`_ == 0.8.3;
-* `click`_ == 6.2;
-* `libsass`_ == 0.10.1;
+* `click`_ == 5.1;
+* `libsass`_ == 0.11.0;
 
 User’s Guide
 ************
@@ -56,4 +56,5 @@ API
    api/resolver.rst
    api/inspector.rst
    api/finder.rst
+   api/utils.rst
    api/conf.rst

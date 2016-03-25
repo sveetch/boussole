@@ -7,8 +7,9 @@ from boussole.conf.base_backend import SettingsBackendBase
 
 def test_conf_backend_base_open_ok_001(settings):
     """conf.base_backend.SettingsBackendBase: Open given filepath"""
-    settings_loader = SettingsBackendBase()
+    backend = SettingsBackendBase(basedir=settings.fixtures_path)
 
-    filepath = settings_loader.get_filepath(settings.fixtures_path)
+    path, filename = backend.parse_filepath()
+    filepath = backend.check_filepath(path, filename)
 
-    assert settings_loader.open(filepath) == """Fake settings file as SettingsBackendBase dont implement a full usable interface."""
+    assert backend.open(filepath) == """Fake settings file as SettingsBackendBase dont implement a full usable interface."""

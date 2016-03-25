@@ -1,5 +1,5 @@
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
-.. _click: http://click.pocoo.org/6/
+.. _click: http://click.pocoo.org/5/
 .. _libsass: https://github.com/dahlia/libsass-python
 
 ========
@@ -27,5 +27,5 @@ Requires
 ********
 
 * `Watchdog`_ == 0.8.3;
-* `click`_ == 6.2;
-* `libsass`_ == 0.10.1;
+* `click`_ == 5.1;
+* `libsass`_ == 0.11.0;
