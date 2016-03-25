@@ -1,4 +1,4 @@
- -e https://github.com/sveetch/boussole.git
+ -e git+https://github.com/sveetch/boussole.git
 colorama
 pytest
 flake8
