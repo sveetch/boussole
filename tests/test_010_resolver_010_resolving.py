@@ -10,9 +10,9 @@ def test_resolver_resolve_basic(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-        
+
     resolved_paths = resolver.resolve(sourcepath, finded_paths)
-    
+
     assert resolved_paths == [
         os.path.join(settings.sample_path, '_vendor.scss'),
         os.path.join(settings.sample_path, '_empty.scss'),
@@ -20,18 +20,18 @@ def test_resolver_resolve_basic(settings, parser, resolver):
 
 
 def test_resolver_resolve_library(settings, parser, resolver):
-    """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss 
+    """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss
     that use included libraries"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-    
+
     resolved_paths = resolver.resolve(
-        sourcepath, 
-        finded_paths, 
+        sourcepath,
+        finded_paths,
         library_paths=settings.libraries_fixture_paths
     )
-    
+
     assert resolved_paths == [
         os.path.join(settings.lib2_path, 'addons/_some_addon.scss'),
         os.path.join(settings.sample_path, 'main_basic.scss'),
@@ -45,13 +45,15 @@ def test_resolver_resolve_commented(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_commented.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-    
+
     resolved_paths = resolver.resolve(sourcepath, finded_paths)
-    
+
     assert resolved_paths == [
         os.path.join(settings.sample_path, '_vendor.scss'),
         os.path.join(settings.sample_path, 'components/_filename_test_1.scss'),
         os.path.join(settings.sample_path, '_empty.scss'),
+        os.path.join(settings.sample_path, 'components/_webfont.scss'),
+        os.path.join(settings.sample_path, 'components/_filename_test_2.scss'),
     ]
 
 
@@ -60,11 +62,11 @@ def test_resolver_resolve_error_unresolvable(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_error.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-        
+
     with pytest.raises(UnresolvablePath):
         resolver.resolve(
-            sourcepath, 
-            finded_paths, 
+            sourcepath,
+            finded_paths,
             library_paths=settings.libraries_fixture_paths
         )
 
@@ -74,11 +76,11 @@ def test_resolver_resolve_error_unclear_001(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_twins_1.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-        
+
     with pytest.raises(UnclearResolution):
         resolver.resolve(
-            sourcepath, 
-            finded_paths, 
+            sourcepath,
+            finded_paths,
             library_paths=settings.libraries_fixture_paths
         )
 
@@ -88,11 +90,11 @@ def test_resolver_resolve_error_unclear_002(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_twins_2.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-        
+
     with pytest.raises(UnclearResolution):
         resolver.resolve(
-            sourcepath, 
-            finded_paths, 
+            sourcepath,
+            finded_paths,
             library_paths=settings.libraries_fixture_paths
         )
 
@@ -102,13 +104,13 @@ def test_resolver_resolve_error_unclear_003(settings, parser, resolver):
     sourcepath = os.path.join(settings.sample_path, 'main_twins_3.scss')
     with open(sourcepath) as fp:
         finded_paths = parser.parse(fp.read())
-        
+
     results = resolver.resolve(
-        sourcepath, 
-        finded_paths, 
+        sourcepath,
+        finded_paths,
         library_paths=settings.libraries_fixture_paths
     )
-    
+
     assert results == [
         os.path.join(settings.sample_path, '_vendor.scss'),
         os.path.join(settings.sample_path, 'components/_twin_3.scss'),

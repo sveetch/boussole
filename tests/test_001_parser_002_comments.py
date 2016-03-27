@@ -42,7 +42,7 @@ def test_parser_comment_remove_006(settings, parser):
 def test_parser_comment_remove_007(settings, parser):
     """parser.ScssImportsParser: removing multiline comment case 2"""
     assert parser.remove_comments("""
-        /* 
+        /*
             * foo
             */""").strip() == ""
 
@@ -50,7 +50,7 @@ def test_parser_comment_remove_007(settings, parser):
 def test_parser_comment_remove_008(settings, parser):
     """parser.ScssImportsParser: removing multiline comment case 3"""
     assert parser.remove_comments("""
-        /* 
+        /*
             * foo
             */
             $bar: true;""").strip() == "$bar: true;"
@@ -59,10 +59,20 @@ def test_parser_comment_remove_008(settings, parser):
 def test_parser_comment_remove_009(settings, parser):
     """parser.ScssImportsParser: removing singleline and multiline comments"""
     assert parser.remove_comments("""//Start
-/* 
+/*
  * Pika
  */
 $foo: true;
 // Boo
 $bar: false;
 // End""").strip() == "$foo: true;\n$bar: false;"
+
+
+def test_parser_comment_remove_010(settings, parser):
+    """parser.ScssImportsParser: trouble with // usage that are not comment"""
+    assert parser.remove_comments("""@import url("http://foo.bar/dummy");""") == """@import url("http://foo.bar/dummy");"""
+
+
+def test_parser_comment_remove_011(settings, parser):
+    """parser.ScssImportsParser: trouble with // usage that are not comment"""
+    assert parser.remove_comments("""@import url("http://foo.bar/dummy"); // This is a comment""") == """@import url("http://foo.bar/dummy"); """

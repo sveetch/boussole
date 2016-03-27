@@ -40,3 +40,18 @@ TODO
     * [x] 'Version' command to display version information;
     * [ ] 'Watch' command to start watcher with Watchdog;
     * [ ] 'Check' command to check about a project without compiling (only inspector checking);
+
+* [ ] Usage features;
+
+   * [ ] Improve command line interface informations through colored logging;
+   * [ ] Better commandline base long help;
+   * [ ] Better short action helps;
+   * [ ] Better long action helps;
+   * [ ] Before compiling, checksum it, then checksum compiled version then
+     display useful short information 'modified', 'identical' (so the user can
+     see when it's changes don't change resulting CSS);
+   * [ ] See for generating source map;
+   * [ ] See to include custom libsass functions;
+   * [ ] Color used for output printing should be configurable from a simple
+     "init" file alike in user home dir (this must no be part of project
+     settings);

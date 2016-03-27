@@ -4,6 +4,14 @@
 Changelog
 =========
 
+Version 0.7.0 - Unreleased
+--------------------------
+
+* Fixed a bug with comment removal from parser: url protocol (``http://``) was matched and leaded to errors in import rule parsing;
+* Added first ``logs`` module;
+* Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it;
+* Started to implement ``watcher`` cli action;
+
 Version 0.6.0 - 2016/03/25
 --------------------------
 

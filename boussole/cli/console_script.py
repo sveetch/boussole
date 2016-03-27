@@ -1,41 +1,45 @@
 """
 Main entrance to commandline actions
 """
-# import os
 import click
+import logging
 
 from boussole.cli.version import version_command
 from boussole.cli.compile import compile_command
 from boussole.cli.watch import watch_command
+from boussole.logs import BOUSSOLE_LOGGER_CONF, init_logger
 
-# from boussole.conf.json_backend import SettingsBackendJson
 
-
+# Help alias on '-h' argument
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-# @click.option('--config', default=None, metavar='PATH',
-#              help='Path to a Boussole config file',
-#              type=click.Path(exists=True))
+@click.option('-v', '--verbose', count=True)
 @click.pass_context
-def cli_frontend(ctx):
+def cli_frontend(ctx, verbose):
     """
     Boussole is a commandline interface to build SASS projects using libsass.
 
-    Every project will need a config file containing all need settings to
+    Every project will need a config file containing all needed settings to
     build it.
-
-    If no config file is given from argument "--config", default behavior is
-    to search for a "settings.json" in the current directory.
     """
+    # Limit verbosity from enabled levels
+    if verbose > len(BOUSSOLE_LOGGER_CONF)-1:
+        verbose = len(BOUSSOLE_LOGGER_CONF)-1
+    # Verbosity is the inverse of logging levels
+    levels = [item[0] for item in BOUSSOLE_LOGGER_CONF]
+    levels.reverse()
+    # Init the logger config
+    root_logger = init_logger(levels[verbose])
+
+    root_logger.info("Logging level fixed to '{}'".format(levels[verbose]))
+
     # Init the default context that will be passed to commands
     ctx.obj = {
-        # 'cwd': os.getcwd(),
+        'verbosity': verbose,
+        'logger': root_logger,
     }
-
-    # backend = SettingsBackendJson(basedir=os.getcwd())
-    # ctx.obj['settings'] = backend.load(filepath=config)
 
 
 # Attach commands methods to the main grouper

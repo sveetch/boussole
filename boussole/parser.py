@@ -31,7 +31,10 @@ class ScssImportsParser(object):
     """
     REGEX_IMPORT_RULE = re.compile(ur'@import\s*(url)?\s*\(?([^;]+?)\)?;',
                                    re.IGNORECASE)
-    REGEX_COMMENTS = re.compile(r'(/\*.*?\*/)|(//.*?(\n|$))',
+    # Second part (for singleline comment) contain a negative lookbehind
+    # assertion to avoid to match on url protocole (http://) and cause issues
+    # in parsing
+    REGEX_COMMENTS = re.compile(r'(/\*.*?\*/)|((?<!(:))//.*?(\n|$))',
                                 re.IGNORECASE | re.DOTALL)
 
     def strip_quotes(self, content):

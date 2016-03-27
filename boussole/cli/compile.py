@@ -3,11 +3,10 @@ import os
 import click
 import sass
 
+from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.finder import ScssFinder
 from boussole.utils import build_target_helper
-
-from boussole.conf.json_backend import SettingsBackendJson
 
 
 @click.command()
@@ -19,28 +18,30 @@ def compile_command(context, config):
     """
     Compile Sass stylesheets to CSS
     """
-    click.echo("Build command")
+    logger = context.obj['logger']
+    click.secho("Building project", fg='green')
 
     # Load settings file
     try:
         backend = SettingsBackendJson(basedir=os.getcwd())
         settings = backend.load(filepath=config)
     except SettingsBackendError as e:
-        raise click.UsageError(e.message)
+        logger.error(e.message)
+        raise click.Abort()
 
-    click.echo("SOURCE DIR: {}".format(settings.SOURCES_PATH))
-    click.echo("TARGET DIR: {}".format(settings.TARGET_PATH))
-    click.echo("EXCLUDES: {}".format(settings.EXCLUDES))
+    logger.info("Project sources directory: {}".format(settings.SOURCES_PATH))
+    logger.info("Project destination directory: {}".format(settings.TARGET_PATH))
+    logger.info("Exclude patterns: {}".format(settings.EXCLUDES))
 
-    # Find all sources with destination path
-    compile_map = ScssFinder().mirror_sources(
+    # Find all sources with their destination path
+    compilable_files = ScssFinder().mirror_sources(
         settings.SOURCES_PATH,
         targetdir=settings.TARGET_PATH,
         excludes=settings.EXCLUDES
     )
 
     # Build all compilable stylesheets
-    for src, dst in compile_map:
+    for src, dst in compilable_files:
         click.echo("Building: {}".format(src))
 
         try:
@@ -56,4 +57,4 @@ def compile_command(context, config):
             build_target_helper(content, dst)
             click.echo("To: {}".format(dst))
 
-        click.echo("---")
+        click.echo("")

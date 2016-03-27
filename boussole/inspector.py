@@ -17,6 +17,10 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
     """
     Project inspector for SCSS sources
 
+    Inspector is stateful, meaning you will need to invoke ``reset()`` then
+    ``inspect()`` each time a project change, else the parents and children
+    maps will be eventually incorrects.
+
     ``__init__`` method use ``reset`` method to initialize some internal
     buffers.
 

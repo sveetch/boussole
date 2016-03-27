@@ -23,7 +23,7 @@ class ScssFinder(object):
         FINDER_COMPILABLE_EXTS: List of file extensions regarded as compilable
             sources.
     """
-    FINDER_COMPILABLE_EXTS = ['scss', 'sass']
+    FINDER_COMPILABLE_EXTS = ['scss',]
 
     def compilable_sources(self, sourcedir, absolute=False, recursive=True,
                            excludes=[]):
@@ -78,6 +78,21 @@ class ScssFinder(object):
                 break
 
         return filepaths
+
+    def is_partial(self, filepath):
+        """
+        Check if file is a SASS partial source (see
+        `SASS partials Reference`_).
+
+        Args:
+            filepath (str): A file path. Can be absolute, relative or just a
+            filename.
+
+        Returns:
+            bool: True if file is a partial source, else False.
+        """
+        path, filename = os.path.split(filepath)
+        return filename.startswith('_')
 
     def is_allowed(self, filepath, excludes=[]):
         """

@@ -11,7 +11,7 @@
 @import "components/filename_test_1";
 
 /*
-@import 
+@import
     "components/filename_test_1",
     "components/_filename_test_2";
 
@@ -22,5 +22,11 @@
  *
 */
 
+@import url("http://foo.bar/dummy"); // Correct but external ressource so wont be catched
+
 // sdsd
 @import "components/../empty";
+
+@import "components/webfont"; // Test comment after rule
+
+@import "components/filename_test_2"; // Test comment after rule again
