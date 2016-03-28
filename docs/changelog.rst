@@ -11,6 +11,8 @@ Version 0.7.0 - Unreleased
 * Added first ``logs`` module;
 * Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it;
 * Started to implement ``watcher`` cli action;
+* Added ``flake8-format-ansi`` as a development requirement and use it in ``setup.cfg``;
+* Added Unittests for ``compile`` commandline action;
 
 Version 0.6.0 - 2016/03/25
 --------------------------

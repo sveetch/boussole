@@ -29,9 +29,12 @@ def compile_command(context, config):
         logger.error(e.message)
         raise click.Abort()
 
-    logger.info("Project sources directory: {}".format(settings.SOURCES_PATH))
-    logger.info("Project destination directory: {}".format(settings.TARGET_PATH))
-    logger.info("Exclude patterns: {}".format(settings.EXCLUDES))
+    logger.info("Project sources directory: {}".format(
+                settings.SOURCES_PATH))
+    logger.info("Project destination directory: {}".format(
+                settings.TARGET_PATH))
+    logger.info("Exclude patterns: {}".format(
+                settings.EXCLUDES))
 
     # Find all sources with their destination path
     compilable_files = ScssFinder().mirror_sources(

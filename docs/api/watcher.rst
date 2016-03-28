@@ -1,0 +1,2 @@
+.. automodule:: boussole.watcher
+    :members:

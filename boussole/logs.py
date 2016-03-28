@@ -2,7 +2,6 @@
 Logging
 =======
 """
-import click
 import logging
 
 
@@ -21,14 +20,15 @@ def init_logger(level, printout=True):
 
     Todo:
         * Colors using "python-colorlog";
-        * We need a "notice" level higher than ERROR (so it's allways displayed);
+        * We need a "notice" level higher than ERROR (so it's allways
+          displayed);
         * A mean to raise click.Abort when ERROR is used;
 
     Args:
         level (str): Level name (``debug``, ``info``, etc..).
 
     Keyword Arguments:
-        printout (bool): If False, logs will be ignored.
+        printout (bool): If False, logs will never be outputed.
 
     Returns:
         logging.Logger: Application logger.
@@ -36,7 +36,7 @@ def init_logger(level, printout=True):
     root_logger = logging.getLogger("boussole")
     root_logger.setLevel(level)
 
-    if not printout and not logfile:
+    if not printout:
         from StringIO import StringIO
         dummystream = StringIO()
         root_logger.addHandler(logging.StreamHandler(dummystream))

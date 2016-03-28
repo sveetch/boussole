@@ -23,7 +23,7 @@ class ScssFinder(object):
         FINDER_COMPILABLE_EXTS: List of file extensions regarded as compilable
             sources.
     """
-    FINDER_COMPILABLE_EXTS = ['scss',]
+    FINDER_COMPILABLE_EXTS = ['scss', ]
 
     def compilable_sources(self, sourcedir, absolute=False, recursive=True,
                            excludes=[]):
@@ -147,9 +147,9 @@ class ScssFinder(object):
                 sourcedir).
 
         Returns:
-            list: A list of pairs ``(source, target)``. Where ``target``
-                will be renamed with ``.css`` extension. Relative directory
-                from source dir is left unchanged, but if  is given
+            list: A list of pairs ``(source, target)``. Where ``target`` is the
+                ``source`` path but renamed with ``.css`` extension. Relative
+                directory from source dir is left unchanged but if given,
                 returned paths will be absolute (using ``sourcedir`` for
                 sources and ``targetdir`` for targets).
         """

@@ -44,17 +44,4 @@ User’s Guide
 
    install.rst
    changelog.rst
-
-API
-***
-
-.. toctree::
-   :maxdepth: 2
-
-   api/exceptions.rst
-   api/parser.rst
-   api/resolver.rst
-   api/inspector.rst
-   api/finder.rst
-   api/utils.rst
-   api/conf.rst
+   api/index.rst

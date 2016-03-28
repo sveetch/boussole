@@ -9,8 +9,6 @@ from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.watcher import SassWatchEventHandler
 
-from boussole.finder import ScssFinder
-from boussole.inspector import ScssInspector
 
 @click.command()
 @click.option('--config', default=None, metavar='PATH',
@@ -32,9 +30,12 @@ def watch_command(context, config):
         logger.error(e.message)
         raise click.Abort()
 
-    logger.info("Project sources directory: {}".format(settings.SOURCES_PATH))
-    logger.info("Project destination directory: {}".format(settings.TARGET_PATH))
-    logger.info("Exclude patterns: {}".format(settings.EXCLUDES))
+    logger.info("Project sources directory: {}".format(
+                settings.SOURCES_PATH))
+    logger.info("Project destination directory: {}".format(
+                settings.TARGET_PATH))
+    logger.info("Exclude patterns: {}".format(
+                settings.EXCLUDES))
 
     # Watcher settings
     watcher_templates_patterns = {
@@ -46,11 +47,13 @@ def watch_command(context, config):
 
     # Registering event handler to observer
     observer = Observer()
-    handler = SassWatchEventHandler(settings, logger, **watcher_templates_patterns)
+    handler = SassWatchEventHandler(settings, logger,
+                                    **watcher_templates_patterns)
     observer.schedule(handler, settings.SOURCES_PATH, recursive=True)
 
     # Start watching
-    click.secho("Launching the watcher, use CTRL+C to stop it", fg="yellow")
+    click.secho("Launching the watcher, use CTRL+C to stop it",
+                fg="yellow")
     observer.start()
 
     try:

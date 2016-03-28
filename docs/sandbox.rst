@@ -43,6 +43,7 @@ TODO
 
 * [ ] Usage features;
 
+   * [ ] Usage tutorial for end users;
    * [ ] Improve command line interface informations through colored logging;
    * [ ] Better commandline base long help;
    * [ ] Better short action helps;

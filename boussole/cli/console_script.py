@@ -2,7 +2,6 @@
 Main entrance to commandline actions
 """
 import click
-import logging
 
 from boussole.cli.version import version_command
 from boussole.cli.compile import compile_command

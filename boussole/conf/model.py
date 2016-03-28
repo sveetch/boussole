@@ -3,7 +3,12 @@
 Settings model
 ==============
 
+This define the model object containing settings that will be passed to
+interfaces.
+
 """
+import copy
+
 from boussole.conf import DEFAULT_SETTINGS
 
 
@@ -11,15 +16,23 @@ class Settings(object):
     """
     Settings model object
 
-    Class init method fills object attributes from either given initial
-    settings (if given) or default ones from ``DEFAULT_SETTINGS``.
+    Class init method fills object attributes from default settings
+    (``DEFAULT_SETTINGS``) then update it with initial settings if given.
+
+    Settings are available as object attributes, there is also a private
+    ``_settings`` attribute containing a dict of all stored settings. You are
+    strongly advised to never directly manipulate the ``_settings`` attribute.
+    Instead, allways use the ``update()`` method.
 
     Keyword Arguments:
         initial (dict): A dictionnary of settings for initial values.
     """
-    def __init__(self, initial=None):
-        self._settings = {}
-        self.update(initial or DEFAULT_SETTINGS)
+    def __init__(self, initial={}):
+        self._settings = copy.deepcopy(DEFAULT_SETTINGS)
+        if initial:
+            initial = self.clean(initial)
+            self._settings.update(initial)
+        self.set_settings(self._settings)
 
     def clean(self, settings):
         """
@@ -35,13 +48,23 @@ class Settings(object):
         """
         return {k: v for k, v in settings.items() if k in DEFAULT_SETTINGS}
 
+    def set_settings(self, settings):
+        """
+        Set every given settings as object attributes.
+
+        Args:
+            settings (dict): Dictionnary of settings.
+
+        """
+        for k, v in settings.items():
+            setattr(self, k, v)
+
     def update(self, settings):
         """
         Update object attributes from given settings
 
         Args:
-            settings (dict): Dictionnary of settings to update setting
-                elements.
+            settings (dict): Dictionnary of elements to update settings.
 
         Returns:
             dict: Dictionnary of all current saved settings.
@@ -53,7 +76,6 @@ class Settings(object):
         self._settings.update(settings)
 
         # Push every setting items as class object attributes
-        for k, v in settings.items():
-            setattr(self, k, v)
+        self.set_settings(settings)
 
         return self._settings
