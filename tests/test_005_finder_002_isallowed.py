@@ -2,6 +2,7 @@
 import os
 import pytest
 
+from boussole.exceptions import FinderException
 
 def test_finder_allowed_001(settings, finder):
     """finder.ScssFinder: Allowed simple filename"""
@@ -93,3 +94,9 @@ def test_finder_notallowed_107(settings, finder):
         '*.css',
     ])
     assert allowed == False
+
+
+def test_finder_allowed_exception_201(settings, finder):
+    """finder.ScssFinder: Absolute path raise an exception"""
+    with pytest.raises(FinderException):
+        allowed = finder.is_allowed("/foo.scss", excludes=[])

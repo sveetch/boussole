@@ -1,12 +1,12 @@
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
-.. _libsass: https://github.com/dahlia/libsass-python
+.. _libsass-python: https://github.com/dahlia/libsass-python
 
 ========
 Boussole
 ========
 
-This is a commandline interface to build SASS projects using `libsass`_.
+This is a commandline interface to build SASS projects using `libsass-python`_.
 
 Alike the Compass commandline, there is 'build' and 'watch' actions to build all SASS files.
 
@@ -28,4 +28,4 @@ Requires
 
 * `Watchdog`_ == 0.8.3;
 * `click`_ == 5.1;
-* `libsass`_ == 0.11.0;
+* `libsass-python`_ == 0.11.0;

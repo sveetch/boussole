@@ -10,6 +10,7 @@ from boussole.parser import ScssImportsParser
 from boussole.finder import ScssFinder
 from boussole.resolver import ImportPathsResolver
 from boussole.inspector import ScssInspector
+from boussole.compiler import SassCompileHelper
 
 
 class FixturesSettingsTestMixin(object):
@@ -79,6 +80,12 @@ def inspector():
 def finder():
     """Initialize and return SCSS finder (scope at module level)"""
     return ScssFinder()
+
+
+@pytest.fixture(scope="module")
+def compiler():
+    """Initialize and return SCSS compile helper (scope at module level)"""
+    return SassCompileHelper()
 
 
 @pytest.fixture(scope="module")

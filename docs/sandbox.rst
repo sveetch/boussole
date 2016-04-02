@@ -26,6 +26,11 @@ TODO
     * [x] Clean every debug pointers;
     * [x] Pass Flake8 validation;
 
+* [ ] Settings;
+
+    * [x] Model object, loader, parser, etc..;
+    * [ ] Add some settings validations;
+
 * [ ] Commandline interface;
 
     * [x] Add entry point in setup.py;
@@ -36,6 +41,8 @@ TODO
           * TARGET_PATH: Directory where to write all files to compile (preserving their directory structures);
 
     * [x] Starts cli structure with click;
+    * [ ] Be sure compile and watch correctly intercept raised exception from
+      boussole (without command interruption and some message in red);
     * [x] 'Compile' command to invoke libsass API to perform compile on files;
     * [x] 'Version' command to display version information;
     * [ ] 'Watch' command to start watcher with Watchdog;

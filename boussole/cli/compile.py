@@ -6,7 +6,7 @@ import sass
 from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.finder import ScssFinder
-from boussole.utils import build_target_helper
+from boussole.compiler import SassCompileHelper
 
 
 @click.command()
@@ -19,7 +19,7 @@ def compile_command(context, config):
     Compile Sass stylesheets to CSS
     """
     logger = context.obj['logger']
-    click.secho("Building project", fg='green')
+    logger.info("Building project")
 
     # Load settings file
     try:
@@ -29,11 +29,11 @@ def compile_command(context, config):
         logger.error(e.message)
         raise click.Abort()
 
-    logger.info("Project sources directory: {}".format(
+    logger.debug("* Project sources directory: {}".format(
                 settings.SOURCES_PATH))
-    logger.info("Project destination directory: {}".format(
+    logger.debug("* Project destination directory: {}".format(
                 settings.TARGET_PATH))
-    logger.info("Exclude patterns: {}".format(
+    logger.debug("* Exclude patterns: {}".format(
                 settings.EXCLUDES))
 
     # Find all sources with their destination path
@@ -43,21 +43,16 @@ def compile_command(context, config):
         excludes=settings.EXCLUDES
     )
 
+    compiler = SassCompileHelper()
+
     # Build all compilable stylesheets
     for src, dst in compilable_files:
-        click.echo("Building: {}".format(src))
+        logger.debug("* Compile: {}".format(src))
 
-        try:
-            content = sass.compile(
-                filename=src,
-                output_style=settings.OUTPUT_STYLES,
-                source_comments=settings.SOURCE_COMMENTS,
-                include_paths=settings.LIBRARY_PATHS,
-            )
-        except sass.CompileError as e:
-            click.secho(e.message, fg='red')
+        output_opts = {}
+        success, message = compiler.safe_compile(settings, src, dst)
+
+        if success:
+            click.secho("* Compiled: {}".format(message), **output_opts)
         else:
-            build_target_helper(content, dst)
-            click.echo("To: {}".format(dst))
-
-        click.echo("")
+            click.secho(message, fg='red')

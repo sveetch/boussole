@@ -17,6 +17,7 @@ not allready so:
 * If the path is relative, expand it to absolute using directory from settings
   file location;
 
+Also note, that SASS files from libraries directories are never compiled.
 """
 import copy
 

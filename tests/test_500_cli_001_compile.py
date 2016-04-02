@@ -11,7 +11,8 @@ from boussole.cli.console_script import cli_frontend
 
 
 def test_cli_compile_fail_001(settings):
-    """cli.compile: Testing basic compile fails with default config filename"""
+    """cli.compile: Testing basic compile fail on default config filename
+       (does not exists)"""
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -25,8 +26,8 @@ def test_cli_compile_fail_001(settings):
 
 
 def test_cli_compile_fail_002(settings):
-    """cli.compile: Testing basic compile fails with a path directory given as
-       config file"""
+    """cli.compile: Testing basic compile fail on given path directory (not a
+       filename) as config file"""
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -42,7 +43,8 @@ def test_cli_compile_fail_002(settings):
 
 
 def test_cli_compile_fail_003(settings):
-    """cli.compile: Testing basic compile fails invalid config file"""
+    """cli.compile: Testing basic compile fail on invalid config file (invalid
+       JSON)"""
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -61,7 +63,7 @@ def test_cli_compile_fail_003(settings):
 
 
 def test_cli_compile_success_001(settings):
-    """cli.compile: Testing compile success with very basic config, a main SASS
+    """cli.compile: Testing compile success on very basic config, a main SASS
        source and a partial source to ignore"""
     runner = CliRunner()
 

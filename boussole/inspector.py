@@ -41,75 +41,6 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         self._CHILDREN_MAP = {}
         self._PARENTS_MAP = defaultdict(set)
 
-    def _get_recursive_dependancies(self, dependencies_map, sourcepath,
-                                    recursive=True):
-        """
-        Return all dependencies of a source, recursively searching through its
-        dependencies.
-
-        This is a common method used by ``children`` and ``parents`` methods.
-
-        Args:
-            dependencies_map (dict): Internal buffer (internal buffers
-                ``_CHILDREN_MAP`` or ``_PARENTS_MAP``) to use for searching.
-            sourcepath (str): Source file path to start searching for
-                dependencies.
-
-        Keyword Arguments:
-            recursive (bool): Switch to enabled recursive finding (if True).
-                Default to True.
-
-        Raises:
-            CircularImport: If circular error is detected from a source.
-
-        Returns:
-            set: List of dependencies paths.
-        """
-        # Direct dependencies
-        collected = set([])
-        collected.update(dependencies_map.get(sourcepath, []))
-
-        # Sequence of source to explore
-        sequence = collected.copy()
-        # Exploration list
-        walkthrough = []
-
-        # Recursive search starting from direct dependencies
-        if recursive:
-            while True:
-                if not sequence:
-                    break
-                item = sequence.pop()
-
-                # Add current source to the explorated source list
-                walkthrough.append(item)
-
-                # Current item children
-                current_item_dependancies = dependencies_map.get(item, [])
-
-                for dependency in current_item_dependancies:
-                    # Allready visited item, ignore and continue to the new
-                    # item
-                    if dependency in walkthrough:
-                        continue
-                    # Unvisited item yet, add its children to dependencies and
-                    # item to explore
-                    else:
-                        collected.add(dependency)
-                        sequence.add(dependency)
-
-                # Sourcepath has allready been visited but present itself
-                # again, assume it's a circular import
-                if sourcepath in walkthrough:
-                    msg = "A circular import has occured by '{}'"
-                    raise CircularImport(msg.format(current_item_dependancies))
-
-                # No more item to explore, break loop
-                if not sequence:
-                    break
-
-        return collected
-
     def look_source(self, sourcepath, library_paths=None):
         """
         Open a SCSS file (sourcepath) and find all involved file through
@@ -151,8 +82,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
     def inspect(self, *args, **kwargs):
         """
-        Recursively inspect all given SCSS files to find import children
-        and parents.
+        Recursively inspect all given SCSS files to find imported dependencies.
 
         This does not return anything. Just fill internal buffers about
         inspected files.
@@ -175,6 +105,75 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         for sourcepath in args:
             self.look_source(sourcepath, library_paths=library_paths)
 
+    def _get_recursive_dependancies(self, dependencies_map, sourcepath,
+                                    recursive=True):
+        """
+        Return all dependencies of a source, recursively searching through its
+        dependencies.
+
+        This is a common method used by ``children`` and ``parents`` methods.
+
+        Args:
+            dependencies_map (dict): Internal buffer (internal buffers
+                ``_CHILDREN_MAP`` or ``_PARENTS_MAP``) to use for searching.
+            sourcepath (str): Source file path to start searching for
+                dependencies.
+
+        Keyword Arguments:
+            recursive (bool): Switch to enable recursive finding (if True).
+                Default to True.
+
+        Raises:
+            CircularImport: If circular error is detected from a source.
+
+        Returns:
+            set: List of dependencies paths.
+        """
+        # Direct dependencies
+        collected = set([])
+        collected.update(dependencies_map.get(sourcepath, []))
+
+        # Sequence of 'dependencies_map' items to explore
+        sequence = collected.copy()
+        # Exploration list
+        walkthrough = []
+
+        # Recursive search starting from direct dependencies
+        if recursive:
+            while True:
+                if not sequence:
+                    break
+                item = sequence.pop()
+
+                # Add current source to the explorated source list
+                walkthrough.append(item)
+
+                # Current item children
+                current_item_dependancies = dependencies_map.get(item, [])
+
+                for dependency in current_item_dependancies:
+                    # Allready visited item, ignore and continue to the new
+                    # item
+                    if dependency in walkthrough:
+                        continue
+                    # Unvisited item yet, add its children to dependencies and
+                    # item to explore
+                    else:
+                        collected.add(dependency)
+                        sequence.add(dependency)
+
+                # Sourcepath has allready been visited but present itself
+                # again, assume it's a circular import
+                if sourcepath in walkthrough:
+                    msg = "A circular import has occured by '{}'"
+                    raise CircularImport(msg.format(current_item_dependancies))
+
+                # No more item to explore, break loop
+                if not sequence:
+                    break
+
+        return collected
+
     def children(self, sourcepath, recursive=True):
         """
         Recursively find all children that are imported from the given source
@@ -190,8 +189,11 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         Returns:
             set: List of finded parents path.
         """
-        return self._get_recursive_dependancies(self._CHILDREN_MAP, sourcepath,
-                                                recursive=True)
+        return self._get_recursive_dependancies(
+            self._CHILDREN_MAP,
+            sourcepath,
+            recursive=True
+        )
 
     def parents(self, sourcepath, recursive=True):
         """
@@ -207,5 +209,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         Returns:
             set: List of finded parents path.
         """
-        return self._get_recursive_dependancies(self._PARENTS_MAP, sourcepath,
-                                                recursive=True)
+        return self._get_recursive_dependancies(
+            self._PARENTS_MAP,
+            sourcepath,
+            recursive=True
+        )

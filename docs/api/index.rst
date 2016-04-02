@@ -20,6 +20,7 @@ Modules
    resolver.rst
    inspector.rst
    finder.rst
-   utils.rst
+   logs.rst
    conf.rst
+   compiler.rst
    watcher.rst

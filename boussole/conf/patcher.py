@@ -8,8 +8,10 @@ inherit from ``SettingsPatcher`` to be able to use it in their ``clean()``
 method.
 
 Todo:
-    Should be named postprocess.SettingsPostProcessor because it contains
-    patchs but will contain some validations soon.
+    * Should be named postprocess.SettingsPostProcessor because it contains
+      patchs but will contain some validations soon.
+    * Add validation that source_dir is not also set as a library dir (would
+      cause some issues in resolving);
 """
 import os
 

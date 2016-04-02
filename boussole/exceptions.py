@@ -21,6 +21,13 @@ class InvalidImportRule(BoussoleBaseException):
     pass
 
 
+class FinderException(BoussoleBaseException):
+    """
+    Exception to be raised when error occurs with finder usage.
+    """
+    pass
+
+
 class UnresolvablePath(BoussoleBaseException):
     """
     Exception to be raised when the resolver can not resolve a given path.

@@ -7,9 +7,9 @@ Changelog
 Version 0.7.0 - Unreleased
 --------------------------
 
-* Fixed a bug with comment removal from parser: url protocol (``http://``) was matched and leaded to errors in import rule parsing;
+* Fixed a bug with comment removal from parser: url protocol separator (the ``//`` in ``http://``) was matched and leaded to errors in import rule parsing;
 * Added first ``logs`` module;
-* Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it;
+* Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it (sic);
 * Started to implement ``watcher`` cli action;
 * Added ``flake8-format-ansi`` as a development requirement and use it in ``setup.cfg``;
 * Added Unittests for ``compile`` commandline action;
