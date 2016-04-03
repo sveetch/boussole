@@ -63,7 +63,7 @@ def test_cli_compile_fail_003(settings):
 
 
 def test_cli_compile_success_001(settings):
-    """cli.compile: Testing compile success on very basic config, a main SASS
+    """cli.compile: Testing compile success on basic config, a main SASS
        source and a partial source to ignore"""
     runner = CliRunner()
 

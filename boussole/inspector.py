@@ -56,6 +56,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
                 resolve paths if resolving fails on the base source path.
                 Default to None.
         """
+        print "look_source sourcepath:", sourcepath
+        print "look_source libs:", library_paths
         # Don't inspect again source that has allready be inspected as a
         # children of a previous source
         if sourcepath not in self._CHILDREN_MAP:
@@ -131,6 +133,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         """
         # Direct dependencies
         collected = set([])
+        print dependencies_map
         collected.update(dependencies_map.get(sourcepath, []))
 
         # Sequence of 'dependencies_map' items to explore
@@ -144,6 +147,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
                 if not sequence:
                     break
                 item = sequence.pop()
+                print "*", item
 
                 # Add current source to the explorated source list
                 walkthrough.append(item)
@@ -152,13 +156,16 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
                 current_item_dependancies = dependencies_map.get(item, [])
 
                 for dependency in current_item_dependancies:
+                    print "  -", dependency
                     # Allready visited item, ignore and continue to the new
                     # item
                     if dependency in walkthrough:
+                        print "continue"
                         continue
                     # Unvisited item yet, add its children to dependencies and
                     # item to explore
                     else:
+                        print "added"
                         collected.add(dependency)
                         sequence.add(dependency)
 
@@ -170,6 +177,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
                 # No more item to explore, break loop
                 if not sequence:
+                    print "Breakit"
                     break
 
         return collected

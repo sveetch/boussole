@@ -18,13 +18,13 @@ from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
 
 
-class SassWatchBaseEventHandler(PatternMatchingEventHandler):
+class SassLibraryEventHandler(object):
     """
-    Watchdog base handler for SASS sources
+    Watch mixin handler for library sources
 
-    The base handler does not compile the source which triggered an event,
-    only its dependencies. This is common for libraries that are not intended
-    to be recompiled.
+    Handler does not compile source which triggered an event,
+    only its parent dependencies. Because libraries are not intended to be
+    compiled.
 
     Args:
         settings (boussole.conf.model.Settings): Project settings.
@@ -54,7 +54,7 @@ class SassWatchBaseEventHandler(PatternMatchingEventHandler):
         self.compilable_files = {}
         self.source_files = []
 
-        super(SassWatchBaseEventHandler, self).__init__(*args, **kwargs)
+        super(SassLibraryEventHandler, self).__init__(*args, **kwargs)
 
     def index(self):
         """
@@ -160,6 +160,8 @@ class SassWatchBaseEventHandler(PatternMatchingEventHandler):
             'excluded_patterns': self.ignore_patterns,
             'case_sensitive': self.case_sensitive,
         }
+        # Apply pathtool matching on destination since Watchdog only
+        # automatically apply it on source
         if match_path(event.dest_path, **pathtools_options):
             self.logger.info("Change detected from a move on: %s",
                               event.dest_path)
@@ -222,10 +224,15 @@ class SassWatchBaseEventHandler(PatternMatchingEventHandler):
         click.secho("")
 
 
-class SassWatchSourcesEventHandler(SassWatchBaseEventHandler):
+class SassProjectEventHandler(SassLibraryEventHandler):
     """
-    Watchdog handler where the source that trigger event is compiled (if
-    eligible) with its dependencies.
+    Watch mixin handler for project sources.
+
+    Warning:
+        DO NOT use project handler to watch libraries, there is a risk the
+        compiler will try to compile their sources in a wrong directory.
+
+    Source that trigger event is compiled (if eligible) with its dependencies.
     """
     def compile_dependencies(self, sourcepath):
         """
@@ -235,9 +242,28 @@ class SassWatchSourcesEventHandler(SassWatchBaseEventHandler):
             sourcepath (string): Sass source path to compile to its
                 destination using project settings.
         """
-        parents = self.inspector.parents(sourcepath)
+        items = self.inspector.parents(sourcepath)
 
         # Also add the current event related path
-        parents.add(sourcepath)
+        items.add(sourcepath)
+        print "items:", items
 
-        return filter(None, [self.compile_source(item) for item in parents])
+        return filter(None, [self.compile_source(item) for item in items])
+
+
+class WatchdogLibraryEventHandler(SassLibraryEventHandler, PatternMatchingEventHandler):
+    """
+    Watchdog event handler for library sources
+    """
+    pass
+
+
+class WatchdogProjectEventHandler(SassProjectEventHandler, PatternMatchingEventHandler):
+    """
+    Watchdog event handler for project sources.
+
+    Warning:
+        DO NOT use project handler to watch libraries, there is a risk the
+        compiler will try to compile their sources in a wrong directory.
+    """
+    pass

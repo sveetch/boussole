@@ -13,6 +13,12 @@ Version 0.7.0 - Unreleased
 * Started to implement ``watcher`` cli action;
 * Added ``flake8-format-ansi`` as a development requirement and use it in ``setup.cfg``;
 * Added Unittests for ``compile`` commandline action;
+* Added ``compiler`` module for some helper on top of ``libsass-python`` compiler;
+* Improved finder to have a common method to match conditions on filepath (is partial, is allowed, etc..);
+* Added new exception ``FinderException``;
+
+* Finished working version for command line action ``watch``;
+* Unittest for Watcher event handler (but not on ``watch`` commandline because of some limit from click ``CliRunner``)
 
 Version 0.6.0 - 2016/03/25
 --------------------------

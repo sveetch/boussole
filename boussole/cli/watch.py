@@ -8,7 +8,7 @@ from watchdog.observers import Observer
 from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.inspector import ScssInspector
-from boussole.watcher import SassWatchBaseEventHandler, SassWatchSourcesEventHandler
+from boussole.watcher import WatchdogLibraryEventHandler, WatchdogProjectEventHandler
 
 
 @click.command()
@@ -51,18 +51,18 @@ def watch_command(context, config):
 
     # Registering event handlers to observer
     observer = Observer()
-    sources_handler = SassWatchSourcesEventHandler(settings, logger, inspector,
+    project_handler = WatchdogProjectEventHandler(settings, logger, inspector,
                                                 **watcher_templates_patterns)
 
-    libraries_handler = SassWatchBaseEventHandler(settings, logger, inspector,
+    lib_handler = WatchdogLibraryEventHandler(settings, logger, inspector,
                                                 **watcher_templates_patterns)
 
     # Observe source directory
-    observer.schedule(sources_handler, settings.SOURCES_PATH, recursive=True)
+    observer.schedule(project_handler, settings.SOURCES_PATH, recursive=True)
 
     # Also observe libraries directories
     for libpath in settings.LIBRARY_PATHS:
-        observer.schedule(libraries_handler, libpath, recursive=True)
+        observer.schedule(lib_handler, libpath, recursive=True)
 
     # Start watching
     logger.warning("Launching the watcher, use CTRL+C to stop it")

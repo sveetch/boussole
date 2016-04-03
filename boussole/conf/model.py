@@ -24,6 +24,11 @@ class Settings(object):
     strongly advised to never directly manipulate the ``_settings`` attribute.
     Instead, allways use the ``update()`` method.
 
+    Note:
+        If you intend to manually open and fill a Settings instance, remember
+        to allways use absolute paths in your settings. Relative path will
+        cause issues in resolving that lead to wrong compilations.
+
     Keyword Arguments:
         initial (dict): A dictionnary of settings for initial values.
     """
