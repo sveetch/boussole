@@ -118,17 +118,25 @@ class SassLibraryEventHandler(object):
 
         return None
 
-    def compile_dependencies(self, sourcepath):
+    def compile_dependencies(self, sourcepath, include_self=False):
         """
         Apply compile on all dependencies
 
         Args:
             sourcepath (string): Sass source path to compile to its
                 destination using project settings.
-        """
-        parents = self.inspector.parents(sourcepath)
 
-        return filter(None, [self.compile_source(item) for item in parents])
+        Keyword Arguments:
+            include_self (bool): If ``True`` the given sourcepath is add to
+                items to compile, else only its dependencies are compiled.
+        """
+        items = self.inspector.parents(sourcepath)
+
+        # Also add the current event related path
+        if include_self:
+            items.add(sourcepath)
+
+        return filter(None, [self.compile_source(item) for item in items])
 
     def on_any_event(self, event):
         """
@@ -219,8 +227,8 @@ class SassLibraryEventHandler(object):
         """
         self.logger.info("Change detected from deletion of: %s",
                           event.src_path)
-
-        self.compile_dependencies(event.src_path)
+        # Never try to compile the deleted source
+        self.compile_dependencies(event.src_path, include_self=False)
         click.secho("")
 
 
@@ -234,21 +242,15 @@ class SassProjectEventHandler(SassLibraryEventHandler):
 
     Source that trigger event is compiled (if eligible) with its dependencies.
     """
-    def compile_dependencies(self, sourcepath):
+    def compile_dependencies(self, sourcepath, include_self=True):
         """
-        Apply compile on all dependencies and the source itself.
-
-        Args:
-            sourcepath (string): Sass source path to compile to its
-                destination using project settings.
+        Same as inherit method but the default value for keyword argument
+        ``ìnclude_self`` is ``True``.
         """
-        items = self.inspector.parents(sourcepath)
-
-        # Also add the current event related path
-        items.add(sourcepath)
-        print "items:", items
-
-        return filter(None, [self.compile_source(item) for item in items])
+        return super(SassProjectEventHandler, self).compile_dependencies(
+            sourcepath,
+            include_self=include_self
+        )
 
 
 class WatchdogLibraryEventHandler(SassLibraryEventHandler, PatternMatchingEventHandler):

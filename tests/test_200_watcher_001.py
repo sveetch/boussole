@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+TODO: Better should use pytest tmpdir by function mode instead of click
+      isolation.
+"""
 import os
 
 import pytest
@@ -152,8 +156,57 @@ def test_watcher_project_created_030(settings):
         with open('sass/new_main.scss', 'w') as f:
             f.write(source)
 
-        project_handler.on_created(DummyBaseEvent('sass/new_main.scss'))
+        project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
         assert os.listdir("css") == ['new_main.css']
+
+
+def test_watcher_project_deleted_040(settings):
+    """watcher.SassProjectEventHandler: 'Deleted' event for a main source"""
+    runner = CliRunner()
+    with runner.isolated_filesystem():
+        basedir = os.getcwd()
+        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+
+        build_sample_structure(settings_object, basedir)
+
+        # Init handler
+        project_handler = UnitTestableProjectEventHandler(
+            settings_object,
+            logger,
+            inspector,
+            **watcher_opts
+        )
+
+        os.remove(bdir('sass/main_importing.scss'))
+
+        project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+        assert os.listdir("css") == []
+
+
+#def test_watcher_project_whole_050(settings):
+    #"""watcher.SassProjectEventHandler: Routine using some events on various
+       #sources"""
+    #runner = CliRunner()
+    #with runner.isolated_filesystem():
+        #basedir = os.getcwd()
+        #bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+
+        #build_sample_structure(settings_object, basedir)
+
+        ## Init handler
+        #project_handler = UnitTestableProjectEventHandler(
+            #settings_object,
+            #logger,
+            #inspector,
+            #**watcher_opts
+        #)
+
+        #os.remove(bdir('sass/main_importing.scss'))
+
+        #project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+        #assert os.listdir("css") == []
+
+        #assert 1 == 42
 
 
 def test_watcher_library_modified_101(settings):
@@ -174,8 +227,12 @@ def test_watcher_library_modified_101(settings):
             **watcher_opts
         )
 
-        project_handler.on_modified(DummyBaseEvent('lib/components/_buttons.scss'))
+        project_handler.on_modified(DummyBaseEvent(bdir('lib/components/_buttons.scss')))
 
-        project_handler.on_modified(DummyBaseEvent('lib/libmain.scss'))
+        project_handler.on_modified(DummyBaseEvent(bdir('lib/libmain.scss')))
 
-        assert os.listdir("css") == []
+        # Almost dummy validation because on wrong behavior (with
+        # UnitTestableProjectEventHandler instead of
+        # UnitTestableLibraryEventHandler) CSS files are writed to "../lib"
+        # path, that is under the "css" dir.
+        assert os.listdir("css") == ['main_usinglib.css']

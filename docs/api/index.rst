@@ -2,7 +2,7 @@ Core API
 ========
 
 Boussole is mainly a commandeline tool but it relies on a core API that may be
-used to implement it in another frontend.
+used to implement another frontend.
 
 This part of Boussole should not concern end users because they don't directly
 exploit it, it documents some behaviors but they should be better documented from Tutorial.
