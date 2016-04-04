@@ -4,7 +4,7 @@ TODO: Better should use pytest tmpdir by function mode instead of click
       isolation.
 """
 import os
-
+import logging
 import pytest
 
 import click
@@ -201,10 +201,15 @@ def test_watcher_project_deleted_040(settings):
             #**watcher_opts
         #)
 
-        #os.remove(bdir('sass/main_importing.scss'))
+        #"""
+        #Do some events here:
 
-        #project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
-        #assert os.listdir("css") == []
+        #* Modified
+        #* Created
+        #* Deleted
+        #* Moved
+        #* Modified
+        #"""
 
         #assert 1 == 42
 

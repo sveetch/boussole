@@ -20,6 +20,9 @@ Version 0.7.0 - Unreleased
 * Finished working version for command line action ``watch``;
 * Unittest for Watcher event handler (but not on ``watch`` commandline because of some limit from click ``CliRunner``)
 
+* Added ``pytest-catchlog`` plugin to have nice logging management within tests;
+* Moved flake8 config to ``.flake8`` instead of ``setup.cfg`` since ``flake8-format-ansi`` plugin config cause issues with ``pytest-catchlog`` install;
+
 Version 0.6.0 - 2016/03/25
 --------------------------
 

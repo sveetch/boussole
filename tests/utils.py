@@ -85,7 +85,7 @@ def start_env(basedir):
     """
     join_basedir_curry = join_basedir(basedir)
 
-    logger = init_logger('DEBUG', printout=True)
+    logger = init_logger('DEBUG', printout=False)
 
     inspector = ScssInspector()
 

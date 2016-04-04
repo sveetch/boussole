@@ -30,7 +30,7 @@ setup(
     tests_require=[
         'pytest',
         'colorama',
-        'sphinx>=1.6',
+        'pytest-catchlog',
     ],
     entry_points={
         'console_scripts': [
