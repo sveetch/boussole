@@ -48,7 +48,6 @@ class DummyBaseHandler(object):
 
     def on_modified(self, event):
         self.on_any_event(event)
-        print "moof"
         super(DummyBaseHandler, self).on_modified(event)
 
     def on_deleted(self, event):
@@ -83,16 +82,16 @@ def start_env(basedir):
     """
     Init all needed stuff for handler testing
     """
-    join_basedir_curry = join_basedir(basedir)
+    join_basedir_curry = join_basedir(basedir.strpath)
 
     logger = init_logger('DEBUG', printout=False)
 
     inspector = ScssInspector()
 
     minimal_conf = {
-        'SOURCES_PATH': os.path.join(basedir, 'sass'),
-        'TARGET_PATH': os.path.join(basedir, 'css'),
-        'LIBRARY_PATHS': [os.path.join(basedir, 'lib')],
+        'SOURCES_PATH': basedir.join('sass').strpath,
+        'TARGET_PATH': basedir.join('css').strpath,
+        'LIBRARY_PATHS': [basedir.join('lib').strpath],
     }
     settings = Settings(initial=minimal_conf)
 
@@ -120,7 +119,7 @@ def build_sample_structure(settings_object, basedir):
         """@import "toinclude";""",
         """#content{ color: red; }""",
     ))
-    with open('sass/main.scss', 'w') as f:
+    with open(basedir.join('sass/main.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a main SASS source importing minimal source
@@ -128,7 +127,7 @@ def build_sample_structure(settings_object, basedir):
         """/* Main importing sample */""",
         """@import "main";""",
     ))
-    with open('sass/main_importing.scss', 'w') as f:
+    with open(basedir.join('sass/main_importing.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a main SASS source importing library component and partial source
@@ -137,7 +136,7 @@ def build_sample_structure(settings_object, basedir):
         """@import "toinclude";""",
         """@import "components/buttons";""",
     ))
-    with open('sass/main_usinglib.scss', 'w') as f:
+    with open(basedir.join('sass/main_usinglib.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a partial SASS source to include
@@ -145,7 +144,7 @@ def build_sample_structure(settings_object, basedir):
         """/* Partial source to include */""",
         """.included-partial{ color: gold !important; }""",
     ))
-    with open('sass/_toinclude.scss', 'w') as f:
+    with open(basedir.join('sass/_toinclude.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a partial SASS source to ignore
@@ -153,7 +152,7 @@ def build_sample_structure(settings_object, basedir):
         """/* Partial source to ignore because not included */""",
         """.toignore-partial{ font-weight: bold; }""",
     ))
-    with open('sass/_notincluded.scss', 'w') as f:
+    with open(basedir.join('sass/_notincluded.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a main source within library directory
@@ -161,7 +160,7 @@ def build_sample_structure(settings_object, basedir):
         """/* Main source for library */""",
         """@import "components/buttons";""",
     ))
-    with open('lib/libmain.scss', 'w') as f:
+    with open(basedir.join('lib/libmain.scss').strpath, 'w') as f:
         f.write(source)
 
     # Write a partial source within library directory
@@ -169,5 +168,5 @@ def build_sample_structure(settings_object, basedir):
         """/* Buttons component */""",
         """.button{ display: block; border: 1px solid black; padding: 5px; }""",
     ))
-    with open('lib/components/_buttons.scss', 'w') as f:
+    with open(basedir.join('lib/components/_buttons.scss').strpath, 'w') as f:
         f.write(source)

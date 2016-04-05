@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-TODO: Better should use pytest tmpdir by function mode instead of click
-      isolation.
-"""
 import os
 import logging
 import pytest
-
-import click
-from click.testing import CliRunner
 
 from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    UnitTestableLibraryEventHandler,
@@ -16,228 +9,219 @@ from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    build_sample_structure)
 
 
-def test_watcher_project_compilablefiles_001(settings):
+def test_watcher_project_compilablefiles_001(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: Testing 'handler.compilable_files' return"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_001')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        # Manually call on_any_event since we directly access to
-        # 'handler.compilable_files' bypassing the event hierarchy
-        project_handler.on_any_event(object())
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
 
-        assert project_handler.compilable_files == {
-            bdir('sass/main.scss'): bdir('css/main.css'),
-            bdir('sass/main_importing.scss'): bdir('css/main_importing.css'),
-            bdir('sass/main_usinglib.scss'): bdir('css/main_usinglib.css'),
-        }
+    # Manually call on_any_event since we directly access to
+    # 'handler.compilable_files' bypassing the event hierarchy
+    project_handler.on_any_event(object())
+
+    assert project_handler.compilable_files == {
+        bdir('sass/main.scss'): bdir('css/main.css'),
+        bdir('sass/main_importing.scss'): bdir('css/main_importing.css'),
+        bdir('sass/main_usinglib.scss'): bdir('css/main_usinglib.css'),
+    }
 
 
-def test_watcher_project_move_010(settings):
+def test_watcher_project_move_010(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event on main sample"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_010')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        project_handler.on_moved(DummyMoveEvent(bdir('sass/main.scss')))
-        assert os.listdir("css") == ['main.css', 'main_importing.css']
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
+
+    project_handler.on_moved(DummyMoveEvent(bdir('sass/main.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['main.css', 'main_importing.css']
 
 
-def test_watcher_project_move_011(settings):
+def test_watcher_project_move_011(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event from a source depending from
        main sample"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_011')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        project_handler.on_moved(DummyMoveEvent(bdir('sass/main_importing.scss')))
-        assert os.listdir("css") == ['main_importing.css']
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
+
+    project_handler.on_moved(DummyMoveEvent(bdir('sass/main_importing.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['main_importing.css']
 
 
-def test_watcher_project_move_012(settings):
+def test_watcher_project_move_012(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event on included partial
        source"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_012')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
-        assert os.listdir("css") == ['main_usinglib.css', 'main.css', 'main_importing.css']
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
+
+    project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
 
 
-def test_watcher_project_modified_020(settings):
+def test_watcher_project_modified_020(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Modified' event on included partial
        source"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_020')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
-        assert os.listdir("css") == ['main_usinglib.css', 'main.css', 'main_importing.css']
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
+
+    project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
 
 
-def test_watcher_project_created_030(settings):
+def test_watcher_project_created_030(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Created' event for a new main source"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_030')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        # Write a new main source
-        source = "\n".join((
-            """/* New main source */""",
-            """#content{ padding: 10px; margin: 5px 0; }""",
-        ))
-        with open('sass/new_main.scss', 'w') as f:
-            f.write(source)
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
 
-        project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
-        assert os.listdir("css") == ['new_main.css']
+    # Write a new main source
+    source = "\n".join((
+        """/* New main source */""",
+        """#content{ padding: 10px; margin: 5px 0; }""",
+    ))
+    with open(basedir.join('sass/new_main.scss').strpath, 'w') as f:
+        f.write(source)
+
+    project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['new_main.css']
 
 
-def test_watcher_project_deleted_040(settings):
+def test_watcher_project_deleted_040(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Deleted' event for a main source"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_040')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableProjectEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        os.remove(bdir('sass/main_importing.scss'))
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
 
-        project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
-        assert os.listdir("css") == []
+    os.remove(bdir('sass/main_importing.scss'))
+
+    project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+    assert os.listdir(basedir.join("css").strpath) == []
 
 
-#def test_watcher_project_whole_050(settings):
+#def test_watcher_project_whole_050(settings, temp_builds_dir):
     #"""watcher.SassProjectEventHandler: Routine using some events on various
        #sources"""
-    #runner = CliRunner()
-    #with runner.isolated_filesystem():
-        #basedir = os.getcwd()
-        #bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    #basedir = temp_builds_dir.join('watcher_050')
 
-        #build_sample_structure(settings_object, basedir)
+    #bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        ## Init handler
-        #project_handler = UnitTestableProjectEventHandler(
-            #settings_object,
-            #logger,
-            #inspector,
-            #**watcher_opts
-        #)
+    #build_sample_structure(settings_object, basedir)
 
-        #"""
-        #Do some events here:
+    ## Init handler
+    #project_handler = UnitTestableProjectEventHandler(
+        #settings_object,
+        #logger,
+        #inspector,
+        #**watcher_opts
+    #)
 
-        #* Modified
-        #* Created
-        #* Deleted
-        #* Moved
-        #* Modified
-        #"""
+    #"""
+    #Do some events here:
 
-        #assert 1 == 42
+    #* Modified
+    #* Created
+    #* Deleted
+    #* Moved
+    #* Modified
+    #"""
+
+    #assert 1 == 42
 
 
-def test_watcher_library_modified_101(settings):
+def test_watcher_library_modified_101(settings, temp_builds_dir):
     """watcher.SassLibraryEventHandler: 'Modified' event on a library
        component"""
-    runner = CliRunner()
-    with runner.isolated_filesystem():
-        basedir = os.getcwd()
-        bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    basedir = temp_builds_dir.join('watcher_101')
 
-        build_sample_structure(settings_object, basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-        # Init handler
-        project_handler = UnitTestableLibraryEventHandler(
-            settings_object,
-            logger,
-            inspector,
-            **watcher_opts
-        )
+    build_sample_structure(settings_object, basedir)
 
-        project_handler.on_modified(DummyBaseEvent(bdir('lib/components/_buttons.scss')))
+    # Init handler
+    project_handler = UnitTestableLibraryEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
 
-        project_handler.on_modified(DummyBaseEvent(bdir('lib/libmain.scss')))
+    project_handler.on_modified(DummyBaseEvent(bdir('lib/components/_buttons.scss')))
 
-        # Almost dummy validation because on wrong behavior (with
-        # UnitTestableProjectEventHandler instead of
-        # UnitTestableLibraryEventHandler) CSS files are writed to "../lib"
-        # path, that is under the "css" dir.
-        assert os.listdir("css") == ['main_usinglib.css']
+    project_handler.on_modified(DummyBaseEvent(bdir('lib/libmain.scss')))
+
+    # Almost dummy validation because on wrong behavior (with
+    # UnitTestableProjectEventHandler instead of
+    # UnitTestableLibraryEventHandler) CSS files are writed to "../lib"
+    # path, that is under the "css" dir.
+    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css']
