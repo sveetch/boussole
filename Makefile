@@ -20,7 +20,7 @@ clean: delpyc
 	rm -Rf dist .cache boussole.egg-info tests/__pycache__/
 
 flake:
-	flake8 --show-pep8 --show-source -v boussole
+	flake8 --show-source boussole
 
 tests:
 	py.test -vv

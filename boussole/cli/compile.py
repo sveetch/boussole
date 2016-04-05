@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import click
-import sass
 
 from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError

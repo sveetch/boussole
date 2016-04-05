@@ -107,7 +107,11 @@ class SassLibraryEventHandler(object):
 
             self.logger.debug("* Compile: {}".format(sourcepath))
             output_opts = {}
-            success, message = self.compiler.safe_compile(self.settings, sourcepath, destination)
+            success, message = self.compiler.safe_compile(
+                self.settings,
+                sourcepath,
+                destination
+            )
 
             if success:
                 click.secho("* Compiled: {}".format(message), **output_opts)
@@ -172,7 +176,7 @@ class SassLibraryEventHandler(object):
         # automatically apply it on source
         if match_path(event.dest_path, **pathtools_options):
             self.logger.info("Change detected from a move on: %s",
-                              event.dest_path)
+                             event.dest_path)
             self.compile_dependencies(event.dest_path)
             click.secho("")
 
@@ -192,11 +196,10 @@ class SassLibraryEventHandler(object):
                 or ``watchdog.events.FileCreatedEvent``.
         """
         self.logger.info("Change detected from a create on: %s",
-                          event.src_path)
+                         event.src_path)
 
         self.compile_dependencies(event.src_path)
         click.secho("")
-
 
     def on_modified(self, event):
         """
@@ -207,11 +210,10 @@ class SassLibraryEventHandler(object):
                 ``watchdog.events.FileModifiedEvent``.
         """
         self.logger.info("Change detected from an edit on: %s",
-                          event.src_path)
+                         event.src_path)
 
         self.compile_dependencies(event.src_path)
         click.secho("")
-
 
     def on_deleted(self, event):
         """
@@ -226,7 +228,7 @@ class SassLibraryEventHandler(object):
                 ``watchdog.events.FileDeletedEvent``.
         """
         self.logger.info("Change detected from deletion of: %s",
-                          event.src_path)
+                         event.src_path)
         # Never try to compile the deleted source
         self.compile_dependencies(event.src_path, include_self=False)
         click.secho("")
@@ -253,14 +255,16 @@ class SassProjectEventHandler(SassLibraryEventHandler):
         )
 
 
-class WatchdogLibraryEventHandler(SassLibraryEventHandler, PatternMatchingEventHandler):
+class WatchdogLibraryEventHandler(SassLibraryEventHandler,
+                                  PatternMatchingEventHandler):
     """
     Watchdog event handler for library sources
     """
     pass
 
 
-class WatchdogProjectEventHandler(SassProjectEventHandler, PatternMatchingEventHandler):
+class WatchdogProjectEventHandler(SassProjectEventHandler,
+                                  PatternMatchingEventHandler):
     """
     Watchdog event handler for project sources.
 

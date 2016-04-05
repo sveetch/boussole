@@ -16,6 +16,7 @@ import os
 
 from boussole.exceptions import FinderException
 
+
 def path_parts_cmp(x, y):
     """
     Path comparison for ``sorted()``.
@@ -24,8 +25,8 @@ def path_parts_cmp(x, y):
     length.
 
     Note:
-        TODO: Using hardcoded separator '/' wont work on window FS, better should
-        get the separator from os(.path?).
+        TODO: Using hardcoded separator '/' wont work on window FS, better
+        should get the separator from os(.path?).
 
     Args:
         x (str): First path to compare on.
@@ -76,8 +77,8 @@ class ScssFinder(object):
             if filepath.startswith(k):
                 return os.path.relpath(filepath, k)
 
-        raise FinderException("'Finder.get_relative_from_paths()' could not find "
-                        "filepath start from '{}'".format(filepath))
+        raise FinderException("'Finder.get_relative_from_paths()' could not "
+                              "find filepath start from '{}'".format(filepath))
 
     def is_partial(self, filepath):
         """
@@ -114,7 +115,7 @@ class ScssFinder(object):
         """
         if os.path.isabs(filepath):
             raise FinderException("'Finder.is_allowed()' only accept relative"
-                            " filepath")
+                                  " filepath")
 
         if excludes:
             for pattern in excludes:

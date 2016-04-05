@@ -8,7 +8,8 @@ from watchdog.observers import Observer
 from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.inspector import ScssInspector
-from boussole.watcher import WatchdogLibraryEventHandler, WatchdogProjectEventHandler
+from boussole.watcher import (WatchdogLibraryEventHandler,
+                              WatchdogProjectEventHandler)
 
 
 @click.command()
@@ -52,10 +53,10 @@ def watch_command(context, config):
     # Registering event handlers to observer
     observer = Observer()
     project_handler = WatchdogProjectEventHandler(settings, logger, inspector,
-                                                **watcher_templates_patterns)
+                                                  **watcher_templates_patterns)
 
     lib_handler = WatchdogLibraryEventHandler(settings, logger, inspector,
-                                                **watcher_templates_patterns)
+                                              **watcher_templates_patterns)
 
     # Observe source directory
     observer.schedule(project_handler, settings.SOURCES_PATH, recursive=True)

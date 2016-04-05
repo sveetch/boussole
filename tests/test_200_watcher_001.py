@@ -3,6 +3,8 @@ import os
 import logging
 import pytest
 
+from boussole.exceptions import UnresolvablePath
+
 from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    UnitTestableLibraryEventHandler,
                    UnitTestableProjectEventHandler, start_env,
@@ -169,34 +171,71 @@ def test_watcher_project_deleted_040(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == []
 
 
-#def test_watcher_project_whole_050(settings, temp_builds_dir):
-    #"""watcher.SassProjectEventHandler: Routine using some events on various
-       #sources"""
-    #basedir = temp_builds_dir.join('watcher_050')
+def test_watcher_project_deleted_041(settings, temp_builds_dir):
+    """watcher.SassProjectEventHandler: 'Deleted' event for a partial source
+       included by other files"""
+    basedir = temp_builds_dir.join('watcher_041')
 
-    #bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    #build_sample_structure(settings_object, basedir)
+    build_sample_structure(settings_object, basedir)
 
-    ## Init handler
-    #project_handler = UnitTestableProjectEventHandler(
-        #settings_object,
-        #logger,
-        #inspector,
-        #**watcher_opts
-    #)
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
 
-    #"""
-    #Do some events here:
+    os.remove(bdir('sass/_toinclude.scss'))
 
-    #* Modified
-    #* Created
-    #* Deleted
-    #* Moved
-    #* Modified
-    #"""
+    with pytest.raises(UnresolvablePath):
+        project_handler.on_deleted(DummyBaseEvent(bdir('sass/_toinclude.scss')))
 
-    #assert 1 == 42
+
+def test_watcher_project_whole_050(settings, temp_builds_dir):
+    """watcher.SassProjectEventHandler: Routine using some events on various
+       sources"""
+    basedir = temp_builds_dir.join('watcher_050')
+
+    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+
+    build_sample_structure(settings_object, basedir)
+
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        logger,
+        inspector,
+        **watcher_opts
+    )
+
+    # Modify a partial source
+    project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
+
+    # Create a new main source
+    source = "\n".join((
+        """/* New main source */""",
+        """#content{ padding: 10px; margin: 5px 0; }""",
+    ))
+    with open(basedir.join('sass/new_main.scss').strpath, 'w') as f:
+        f.write(source)
+
+    project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css', 'main_importing.css']
+
+    # Delete a main source
+    os.remove(bdir('css/main_importing.css'))
+    os.remove(bdir('sass/main_importing.scss'))
+
+    project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css']
+
+    # Simulate moved source
+    project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
+    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css']
 
 
 def test_watcher_library_modified_101(settings, temp_builds_dir):

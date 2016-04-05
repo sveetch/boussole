@@ -3,6 +3,7 @@
 Mind sandbox
 ============
 
+When CLI is finished and unittests are well done, move every not completed tasks to a github issue.
 
 TODO
 ****
@@ -26,6 +27,8 @@ TODO
     * [x] Clean every debug pointers;
     * [x] Pass Flake8 validation;
 
+  * [ ] Remove every call to click.echo/secho from API, only return strings and CLI have to print out itself;
+
 * [ ] Settings;
 
     * [x] Model object, loader, parser, etc..;
@@ -45,7 +48,7 @@ TODO
       boussole (without command interruption and some message in red);
     * [x] 'Compile' command to invoke libsass API to perform compile on files;
     * [x] 'Version' command to display version information;
-    * [ ] 'Watch' command to start watcher with Watchdog;
+    * [x] 'Watch' command to start watcher with Watchdog;
     * [ ] 'Check' command to check about a project without compiling (only inspector checking);
 
 * [ ] Usage features;

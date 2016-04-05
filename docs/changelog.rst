@@ -8,20 +8,17 @@ Version 0.7.0 - Unreleased
 --------------------------
 
 * Fixed a bug with comment removal from parser: url protocol separator (the ``//`` in ``http://``) was matched and leaded to errors in import rule parsing;
-* Added first ``logs`` module;
+* Added ``logs`` module;
 * Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it (sic);
-* Started to implement ``watcher`` cli action;
 * Added ``flake8-format-ansi`` as a development requirement and use it in ``setup.cfg``;
 * Added Unittests for ``compile`` commandline action;
 * Added ``compiler`` module for some helper on top of ``libsass-python`` compiler;
 * Improved finder to have a common method to match conditions on filepath (is partial, is allowed, etc..);
 * Added new exception ``FinderException``;
-
-* Finished working version for command line action ``watch``;
 * Unittest for Watcher event handler (but not on ``watch`` commandline because of some limit from click ``CliRunner``)
-
 * Added ``pytest-catchlog`` plugin to have nice logging management within tests;
 * Moved flake8 config to ``.flake8`` instead of ``setup.cfg`` since ``flake8-format-ansi`` plugin config cause issues with ``pytest-catchlog`` install;
+* Finished working version for command line action ``watch``;
 
 Version 0.6.0 - 2016/03/25
 --------------------------
