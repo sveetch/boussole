@@ -4,8 +4,10 @@
 Changelog
 =========
 
-Version 0.7.0 - Unreleased
+Version 0.7.0 - 2016/04/07
 --------------------------
+
+This is almost near Beta version.
 
 * Fixed a bug with comment removal from parser: url protocol separator (the ``//`` in ``http://``) was matched and leaded to errors in import rule parsing;
 * Added ``logs`` module;
@@ -19,6 +21,7 @@ Version 0.7.0 - Unreleased
 * Added ``pytest-catchlog`` plugin to have nice logging management within tests;
 * Moved flake8 config to ``.flake8`` instead of ``setup.cfg`` since ``flake8-format-ansi`` plugin config cause issues with ``pytest-catchlog`` install;
 * Finished working version for command line action ``watch``;
+* Updated documentation;
 
 Version 0.6.0 - 2016/03/25
 --------------------------

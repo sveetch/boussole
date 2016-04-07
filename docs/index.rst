@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. _virtualenv: http://www.virtualenv.org/
+.. _SASS: http://sass-lang.com/
 .. _Compass: http://compass-style.org/
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
@@ -12,15 +12,12 @@
 Welcome to Boussole's documentation!
 ====================================
 
-This is a commandline interface to build SASS projects using `libsass-python`_.
+This is a commandline interface to build `SASS`_ projects using `libsass-python`_.
 
-Alike the Compass commandline, there is 'build' and 'watch' actions to build all SASS files.
-
-.. Warning::
-    This is under construction, almost an Alpha for now.
+Alike the Compass command line, there is a 'build' and a 'watch' actions to build all SASS files.
 
 .. Note::
-    Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
+    Old SASS syntax (the *indented syntax*) is not supported and not planned.
 
 Links
 *****
@@ -43,5 +40,15 @@ User’s Guide
    :maxdepth: 2
 
    install.rst
+   tutorial.rst
+   overview.rst
+
+Developer’s Guide
+*****************
+
+.. toctree::
+   :maxdepth: 2
+
+   development.rst
    changelog.rst
    api/index.rst

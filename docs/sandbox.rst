@@ -55,6 +55,7 @@ TODO
 
    * [ ] Usage tutorial for end users;
    * [ ] Improve command line interface informations through colored logging;
+   * [ ] See about SASS map;
    * [ ] Better commandline base long help;
    * [ ] Better short action helps;
    * [ ] Better long action helps;

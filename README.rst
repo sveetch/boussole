@@ -1,3 +1,5 @@
+.. _SASS: http://sass-lang.com/
+.. _Compass: http://compass-style.org/
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
 .. _libsass-python: https://github.com/dahlia/libsass-python
@@ -6,15 +8,12 @@
 Boussole
 ========
 
-This is a commandline interface to build SASS projects using `libsass-python`_.
+This is a commandline interface to build `SASS`_ projects using `libsass-python`_.
 
-Alike the Compass commandline, there is 'build' and 'watch' actions to build all SASS files.
-
-.. Warning::
-    This is under construction, almost an Alpha for now.
+Alike the Compass command line, there is a 'build' and a 'watch' actions to build all SASS files.
 
 .. Note::
-    Old SASS syntax (the *indented syntax*) is not totally supported and actually this is not really planned to do it.
+    Old SASS syntax (the *indented syntax*) is not supported and not planned.
 
 Links
 *****

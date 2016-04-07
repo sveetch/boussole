@@ -3,8 +3,8 @@
 Resolver
 ========
 
-Resolver is in charge to resolve path in import rules, resolving is done using
-given sources path.
+Resolver is in charge to resolve path in import rules. Resolving is done using
+given source directory and libraries directories paths.
 """
 import os
 
