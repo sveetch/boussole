@@ -10,7 +10,141 @@ from click.testing import CliRunner
 from boussole.cli.console_script import cli_frontend
 
 
-def test_cli_compile_fail_001(settings):
+def test_cli_compile_verbosity_001(settings, caplog):
+    """cli.compile: Testing default verbosity (aka INFO level) on setting
+       error"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Default verbosity
+        result = runner.invoke(cli_frontend, ['compile'])
+        assert caplog.record_tuples == [
+            (
+                'boussole',
+                20,
+                'Building project'
+            ),
+            (
+                'boussole',
+                50,
+                'Unable to find settings file: {}/settings.json'.format(test_cwd)
+            )
+        ]
+        assert 'Aborted!' in result.output
+        assert result.exit_code == 1
+
+
+def test_cli_compile_verbosity_002(settings, caplog):
+    """cli.compile: Testing silent on setting error"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Silent
+        result = runner.invoke(cli_frontend, ['-v 0', 'compile'])
+
+        error_msg = 'Unable to find settings file: {}/settings.json'.format(
+            test_cwd
+        )
+
+        assert caplog.record_tuples == [
+            (
+                'boussole',
+                50,
+                error_msg
+            )
+        ]
+        assert result.exit_code == 1
+
+        # Totally silent output excepted the one from click.Abort()
+        assert error_msg not in result.output
+        assert 'Aborted!' in result.output
+
+def test_cli_compile_verbosity_003(settings, caplog):
+    """cli.compile: Testing debug level verbosity on setting error"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Silent
+        result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
+
+        error_msg = 'Unable to find settings file: {}/settings.json'.format(
+            test_cwd
+        )
+
+        assert caplog.record_tuples == [
+            (
+                'boussole',
+                20,
+                'Building project'
+            ),
+            (
+                'boussole',
+                50,
+                error_msg
+            )
+        ]
+        assert error_msg in result.output
+        assert 'Aborted!' in result.output
+        assert result.exit_code == 1
+
+
+def test_cli_compile_verbosity_004(settings, caplog):
+    """cli.compile: Testing debug level verbosity on some file to
+       compile"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Need a file to compile, as setting error is not really verbose
+        # Write a minimal config file
+        with open('settings.json', 'w') as f:
+            f.write(json.dumps({
+                'SOURCES_PATH': '.',
+                'TARGET_PATH': './css',
+                'OUTPUT_STYLES': 'compact',
+            }, indent=4))
+
+        # Write a minimal main SASS source
+        source = "\n".join((
+            """/* Main sample */""",
+            """#content{""",
+            """    color: red;""",
+        ))
+        with open('main.scss', 'w') as f:
+            f.write(source)
+
+        # Silent
+        result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
+
+        error_msg = ("Error: Invalid CSS after \"    color: red;\": expected \"}\", "
+                    "was \"\"\n        on line 3 of main.scss\n>>     "
+                    "color: red;\n   ---------------^\n")
+
+        assert caplog.record_tuples == [
+            ('boussole', 20, 'Building project'),
+            ('boussole', 10, 'Project sources directory: {}'.format(test_cwd)),
+            ('boussole', 10, 'Project destination directory: {}/css'.format(test_cwd)),
+            ('boussole', 10, 'Exclude patterns: []'),
+            ('boussole', 10, 'Compile: {}/main.scss'.format(test_cwd)),
+            ('boussole', 40, error_msg)
+        ]
+        assert error_msg in result.output
+        assert 'Aborted!' in result.output
+        assert result.exit_code == 1
+
+
+def test_cli_compile_fail_001(settings, caplog):
     """cli.compile: Testing basic compile fail on default config filename
        (does not exists)"""
     runner = CliRunner()
@@ -42,7 +176,7 @@ def test_cli_compile_fail_002(settings):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_003(settings):
+def test_cli_compile_fail_003(settings, caplog):
     """cli.compile: Testing basic compile fail on invalid config file (invalid
        JSON)"""
     runner = CliRunner()
@@ -89,9 +223,7 @@ def test_cli_compile_fail_004(settings, caplog):
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
-
-        print caplog.record_tuples
+        result = runner.invoke(cli_frontend, ['compile'])
 
         msg = """Invalid CSS after "    color: red;": expected "}", was """""
         assert msg in result.output
@@ -125,7 +257,7 @@ def test_cli_compile_fail_005(settings, caplog):
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
+        result = runner.invoke(cli_frontend, ['compile'])
 
         msg = """File to import not found or unreadable: mip"""
         assert msg in result.output
@@ -134,7 +266,7 @@ def test_cli_compile_fail_005(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_success_001(settings):
+def test_cli_compile_success_001(settings, caplog):
     """cli.compile: Testing compile success on basic config, a main SASS
        source and a partial source to ignore"""
     runner = CliRunner()
@@ -175,7 +307,7 @@ def test_cli_compile_success_001(settings):
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
+        result = runner.invoke(cli_frontend, ['compile'])
 
         # Attempted compiled CSS
         css_attempted = "\n".join((

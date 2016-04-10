@@ -8,14 +8,14 @@ from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
 
 
-@click.command()
+@click.command('watch', short_help='Compile SASS project sources to CSS.')
 @click.option('--config', default=None, metavar='PATH',
               help='Path to a Boussole config file',
               type=click.Path(exists=True))
 @click.pass_context
 def compile_command(context, config):
     """
-    Compile Sass stylesheets to CSS
+    Compile SASS project sources to CSS
     """
     logger = context.obj['logger']
     logger.info("Building project")
@@ -25,7 +25,7 @@ def compile_command(context, config):
         backend = SettingsBackendJson(basedir=os.getcwd())
         settings = backend.load(filepath=config)
     except SettingsBackendError as e:
-        logger.error(e.message)
+        logger.critical(e.message)
         raise click.Abort()
 
     logger.debug("Project sources directory: {}".format(

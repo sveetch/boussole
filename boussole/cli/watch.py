@@ -12,14 +12,28 @@ from boussole.watcher import (WatchdogLibraryEventHandler,
                               WatchdogProjectEventHandler)
 
 
-@click.command()
+@click.command('watch', short_help='Watch for change on your SASS project.')
 @click.option('--config', default=None, metavar='PATH',
               help='Path to a Boussole config file',
               type=click.Path(exists=True))
 @click.pass_context
 def watch_command(context, config):
     """
-    Watch for change on your project Sass stylesheets then compile them to CSS.
+    Watch for change on your SASS project sources then compile them to CSS.
+
+    Watched events are:
+
+    \b
+    * Create: when a new source file is created;
+    * Change: when a source is changed;
+    * Delete: when a source is deleted;
+    * Move: When a source file is moved;
+
+    Almost all errors occurring during compile won't break watcher, so you can
+    resolve them and watcher will try again to compile once an a new event
+    occurs.
+
+    You can stop watcher using key combo "CTRL+C" (or CMD+C on MacOSX).
     """
     logger = context.obj['logger']
     logger.info("Watching project")
@@ -29,7 +43,7 @@ def watch_command(context, config):
         backend = SettingsBackendJson(basedir=os.getcwd())
         settings = backend.load(filepath=config)
     except SettingsBackendError as e:
-        logger.error(e.message)
+        logger.critical(e.message)
         raise click.Abort()
 
     logger.debug("Project sources directory: {}".format(

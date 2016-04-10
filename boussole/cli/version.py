@@ -10,7 +10,7 @@ from boussole import __version__
 @click.pass_context
 def version_command(context):
     """
-    Print out version information
+    Print out version information.
     """
     click.echo("Boussole {} (libsass-python {}) (libsass {})".format(
         __version__,

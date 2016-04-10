@@ -8,7 +8,7 @@ used to implement another frontend.
 This part of Boussole should not concern end users because they don't directly
 exploit it, it documents some behaviors but they should be better documented from Tutorial.
 
-The core API should 100% covered for documentation and unittests.
+The core API should be 100% covered for documentation and unittests.
 
 Modules
 *******

@@ -6,24 +6,13 @@ import logging
 
 import colorlog
 
-# Default logger conf
-BOUSSOLE_LOGGER_CONF = (
-    ('DEBUG', 'cyan'),
-    ('INFO', 'green'),
-    ('WARNING', 'yellow'),
-    ('ERROR', 'red'),
-)
-
 
 def init_logger(level, printout=True):
     """
     Initialize app logger to configure its level/handler/formatter/etc..
 
     Todo:
-        * Colors using "python-colorlog";
-        * We need a "notice" level higher than ERROR (so it's allways
-          displayed);
-        * A mean to raise click.Abort when ERROR is used;
+        * A mean to raise click.Abort or sys.exit when CRITICAL is used;
 
     Args:
         level (str): Level name (``debug``, ``info``, etc..).

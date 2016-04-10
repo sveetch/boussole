@@ -6,15 +6,22 @@ import click
 from boussole.cli.version import version_command
 from boussole.cli.compile import compile_command
 from boussole.cli.watch import watch_command
-from boussole.logs import BOUSSOLE_LOGGER_CONF, init_logger
+from boussole.logs import init_logger
 
 
 # Help alias on '-h' argument
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
+# Default logger conf
+BOUSSOLE_LOGGER_CONF = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', None)
+
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.option('-v', '--verbose', count=True)
+@click.option('-v', '--verbose', type=click.IntRange(min=0, max=5), default=4,
+              metavar='INTEGER',
+              help="An integer between 0 and 5, where '0' make a totaly "
+              "silent output and '5' set level to DEBUG (the most verbose "
+              "level). Default to '4' (Info level).")
 @click.pass_context
 def cli_frontend(ctx, verbose):
     """
@@ -23,14 +30,16 @@ def cli_frontend(ctx, verbose):
     Every project will need a config file containing all needed settings to
     build it.
     """
-    # Limit verbosity from enabled levels
-    if verbose > len(BOUSSOLE_LOGGER_CONF)-1:
-        verbose = len(BOUSSOLE_LOGGER_CONF)-1
+    printout = True
+    if verbose == 0:
+        verbose = 1
+        printout = False
+
     # Verbosity is the inverse of logging levels
-    levels = [item[0] for item in BOUSSOLE_LOGGER_CONF]
+    levels = [item for item in BOUSSOLE_LOGGER_CONF]
     levels.reverse()
     # Init the logger config
-    root_logger = init_logger(levels[verbose])
+    root_logger = init_logger(levels[verbose], printout=printout)
 
     # Init the default context that will be passed to commands
     ctx.obj = {
