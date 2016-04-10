@@ -32,11 +32,11 @@ def watch_command(context, config):
         logger.error(e.message)
         raise click.Abort()
 
-    logger.debug("* Project sources directory: {}".format(
+    logger.debug("Project sources directory: {}".format(
                 settings.SOURCES_PATH))
-    logger.debug("* Project destination directory: {}".format(
+    logger.debug("Project destination directory: {}".format(
                 settings.TARGET_PATH))
-    logger.debug("* Exclude patterns: {}".format(
+    logger.debug("Exclude patterns: {}".format(
                 settings.EXCLUDES))
 
     # Watcher settings

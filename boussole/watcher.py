@@ -4,16 +4,16 @@ Source watcher
 ==============
 
 Watcher is almost *isolated* from command line code because it runs in an
-infinite loop, so note that handlers directly output some informations with
-``click.echo`` or ``logging.logger``.
+infinite loop, so note that handlers directly output some informations on a
+``logging.logger``.
 
 """
 import os
-import click
 
 from pathtools.patterns import match_path
 from watchdog.events import PatternMatchingEventHandler
 
+from boussole.exceptions import BoussoleBaseException
 from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
 
@@ -42,6 +42,9 @@ class SassLibraryEventHandler(object):
             compile. Automatically update from ``index()`` method.
         source_files (list): List of source path to compile. Automatically
             update from ``index()`` method.
+        _event_error (bool): Internal flag setted to ``True`` if error has
+            occured within an event. ``index()`` will reboot it to ``False``
+            each time a new event occurs.
     """
     def __init__(self, settings, logger, inspector, *args, **kwargs):
         self.settings = settings
@@ -53,6 +56,7 @@ class SassLibraryEventHandler(object):
 
         self.compilable_files = {}
         self.source_files = []
+        self._event_error = False
 
         super(SassLibraryEventHandler, self).__init__(*args, **kwargs)
 
@@ -61,19 +65,32 @@ class SassLibraryEventHandler(object):
         Reset inspector buffers and index project sources dependencies.
 
         This have to be executed each time an event occurs.
-        """
-        compilable_files = self.finder.mirror_sources(
-            self.settings.SOURCES_PATH,
-            targetdir=self.settings.TARGET_PATH,
-            excludes=self.settings.EXCLUDES
-        )
-        self.compilable_files = dict(compilable_files)
-        self.source_files = self.compilable_files.keys()
 
-        # Init inspector and do first inspect
-        self.inspector.reset()
-        self.inspector.inspect(*self.source_files,
-                               library_paths=self.settings.LIBRARY_PATHS)
+        Note:
+            If a Boussole exception occurs during operation, it will be catched
+            and an error flag will be set to ``True`` so event operation will
+            be blocked without blocking or breaking watchdog observer.
+        """
+        self._event_error = False
+
+        try:
+            compilable_files = self.finder.mirror_sources(
+                self.settings.SOURCES_PATH,
+                targetdir=self.settings.TARGET_PATH,
+                excludes=self.settings.EXCLUDES
+            )
+            self.compilable_files = dict(compilable_files)
+            self.source_files = self.compilable_files.keys()
+
+            # Init inspector and do first inspect
+            self.inspector.reset()
+            self.inspector.inspect(
+                *self.source_files,
+                library_paths=self.settings.LIBRARY_PATHS
+            )
+        except BoussoleBaseException as e:
+            self._event_error = True
+            self.logger.error(e.message)
 
     def compile_source(self, sourcepath):
         """
@@ -105,8 +122,7 @@ class SassLibraryEventHandler(object):
                 targetdir=self.settings.TARGET_PATH
             )
 
-            self.logger.debug("* Compile: {}".format(sourcepath))
-            output_opts = {}
+            self.logger.debug("Compile: {}".format(sourcepath))
             success, message = self.compiler.safe_compile(
                 self.settings,
                 sourcepath,
@@ -114,9 +130,9 @@ class SassLibraryEventHandler(object):
             )
 
             if success:
-                click.secho("* Compiled: {}".format(message), **output_opts)
+                self.logger.info("Output: {}".format(message))
             else:
-                click.secho(message, fg='red')
+                self.logger.error(message)
 
             return sourcepath, destination
 
@@ -165,20 +181,20 @@ class SassLibraryEventHandler(object):
             event: Watchdog event, either ``watchdog.events.DirMovedEvent`` or
                 ``watchdog.events.FileModifiedEvent``.
         """
-        # We are only interested for final file, not transitional file
-        # from editors (like *.part)
-        pathtools_options = {
-            'included_patterns': self.patterns,
-            'excluded_patterns': self.ignore_patterns,
-            'case_sensitive': self.case_sensitive,
-        }
-        # Apply pathtool matching on destination since Watchdog only
-        # automatically apply it on source
-        if match_path(event.dest_path, **pathtools_options):
-            self.logger.info("Change detected from a move on: %s",
-                             event.dest_path)
-            self.compile_dependencies(event.dest_path)
-            click.secho("")
+        if not self._event_error:
+            # We are only interested for final file, not transitional file
+            # from editors (like *.part)
+            pathtools_options = {
+                'included_patterns': self.patterns,
+                'excluded_patterns': self.ignore_patterns,
+                'case_sensitive': self.case_sensitive,
+            }
+            # Apply pathtool matching on destination since Watchdog only
+            # automatically apply it on source
+            if match_path(event.dest_path, **pathtools_options):
+                self.logger.info("Change detected from a move on: %s",
+                                 event.dest_path)
+                self.compile_dependencies(event.dest_path)
 
     def on_created(self, event):
         """
@@ -195,11 +211,11 @@ class SassLibraryEventHandler(object):
             event: Watchdog event, either ``watchdog.events.DirCreatedEvent``
                 or ``watchdog.events.FileCreatedEvent``.
         """
-        self.logger.info("Change detected from a create on: %s",
-                         event.src_path)
+        if not self._event_error:
+            self.logger.info("Change detected from a create on: %s",
+                             event.src_path)
 
-        self.compile_dependencies(event.src_path)
-        click.secho("")
+            self.compile_dependencies(event.src_path)
 
     def on_modified(self, event):
         """
@@ -209,11 +225,11 @@ class SassLibraryEventHandler(object):
             event: Watchdog event, ``watchdog.events.DirModifiedEvent`` or
                 ``watchdog.events.FileModifiedEvent``.
         """
-        self.logger.info("Change detected from an edit on: %s",
-                         event.src_path)
+        if not self._event_error:
+            self.logger.info("Change detected from an edit on: %s",
+                             event.src_path)
 
-        self.compile_dependencies(event.src_path)
-        click.secho("")
+            self.compile_dependencies(event.src_path)
 
     def on_deleted(self, event):
         """
@@ -227,11 +243,11 @@ class SassLibraryEventHandler(object):
             event: Watchdog event, ``watchdog.events.DirDeletedEvent`` or
                 ``watchdog.events.FileDeletedEvent``.
         """
-        self.logger.info("Change detected from deletion of: %s",
-                         event.src_path)
-        # Never try to compile the deleted source
-        self.compile_dependencies(event.src_path, include_self=False)
-        click.secho("")
+        if not self._event_error:
+            self.logger.info("Change detected from deletion of: %s",
+                             event.src_path)
+            # Never try to compile the deleted source
+            self.compile_dependencies(event.src_path, include_self=False)
 
 
 class SassProjectEventHandler(SassLibraryEventHandler):

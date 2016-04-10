@@ -3,7 +3,7 @@ import os
 import click
 
 from boussole.conf.json_backend import SettingsBackendJson
-from boussole.exceptions import SettingsBackendError
+from boussole.exceptions import BoussoleBaseException, SettingsBackendError
 from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
 
@@ -28,30 +28,39 @@ def compile_command(context, config):
         logger.error(e.message)
         raise click.Abort()
 
-    logger.debug("* Project sources directory: {}".format(
+    logger.debug("Project sources directory: {}".format(
                 settings.SOURCES_PATH))
-    logger.debug("* Project destination directory: {}".format(
+    logger.debug("Project destination directory: {}".format(
                 settings.TARGET_PATH))
-    logger.debug("* Exclude patterns: {}".format(
+    logger.debug("Exclude patterns: {}".format(
                 settings.EXCLUDES))
 
     # Find all sources with their destination path
-    compilable_files = ScssFinder().mirror_sources(
-        settings.SOURCES_PATH,
-        targetdir=settings.TARGET_PATH,
-        excludes=settings.EXCLUDES
-    )
-
-    compiler = SassCompileHelper()
+    try:
+        compilable_files = ScssFinder().mirror_sources(
+            settings.SOURCES_PATH,
+            targetdir=settings.TARGET_PATH,
+            excludes=settings.EXCLUDES
+        )
+    except BoussoleBaseException as e:
+        logger.error(e.message)
+        raise click.Abort()
 
     # Build all compilable stylesheets
+    compiler = SassCompileHelper()
+    errors = 0
     for src, dst in compilable_files:
-        logger.debug("* Compile: {}".format(src))
+        logger.debug("Compile: {}".format(src))
 
         output_opts = {}
         success, message = compiler.safe_compile(settings, src, dst)
 
         if success:
-            click.secho("* Compiled: {}".format(message), **output_opts)
+            logger.info("Output: {}".format(message), **output_opts)
         else:
-            click.secho(message, fg='red')
+            errors += 1
+            logger.error(message)
+
+    # Ensure correct exit code if error has occured
+    if errors:
+        raise click.Abort()

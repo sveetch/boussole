@@ -62,6 +62,78 @@ def test_cli_compile_fail_003(settings):
         assert result.exit_code == 1
 
 
+def test_cli_compile_fail_004(settings, caplog):
+    """cli.compile: Testing exceptions management from sass compiler on
+       invalid syntax"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Write a minimal config file
+        with open('settings.json', 'w') as f:
+            f.write(json.dumps({
+                'SOURCES_PATH': '.',
+                'TARGET_PATH': './css',
+                'OUTPUT_STYLES': 'compact',
+            }, indent=4))
+
+        # Write a minimal main SASS source
+        source = "\n".join((
+            """/* Main sample */""",
+            """#content{""",
+            """    color: red;""",
+        ))
+        with open('main.scss', 'w') as f:
+            f.write(source)
+
+        # Invoke command action
+        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
+
+        print caplog.record_tuples
+
+        msg = """Invalid CSS after "    color: red;": expected "}", was """""
+        assert msg in result.output
+
+        assert 'Aborted!' in result.output
+        assert result.exit_code == 1
+
+
+def test_cli_compile_fail_005(settings, caplog):
+    """cli.compile: Testing exceptions management from core API"""
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+
+        # Write a minimal config file
+        with open('settings.json', 'w') as f:
+            f.write(json.dumps({
+                'SOURCES_PATH': '.',
+                'TARGET_PATH': './css',
+                'OUTPUT_STYLES': 'compact',
+            }, indent=4))
+
+        # Write a minimal main SASS source
+        source = "\n".join((
+            """/* Main sample */""",
+            """@import "mip";""",
+        ))
+        with open('main.scss', 'w') as f:
+            f.write(source)
+
+        # Invoke command action
+        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
+
+        msg = """File to import not found or unreadable: mip"""
+        assert msg in result.output
+
+        assert 'Aborted!' in result.output
+        assert result.exit_code == 1
+
+
 def test_cli_compile_success_001(settings):
     """cli.compile: Testing compile success on basic config, a main SASS
        source and a partial source to ignore"""
@@ -103,7 +175,7 @@ def test_cli_compile_success_001(settings):
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['-vvvv', 'compile'])
+        result = runner.invoke(cli_frontend, ['-vvv', 'compile'])
 
         # Attempted compiled CSS
         css_attempted = "\n".join((

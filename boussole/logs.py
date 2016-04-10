@@ -4,6 +4,7 @@ Logging
 """
 import logging
 
+import colorlog
 
 # Default logger conf
 BOUSSOLE_LOGGER_CONF = (
@@ -36,11 +37,21 @@ def init_logger(level, printout=True):
     root_logger = logging.getLogger("boussole")
     root_logger.setLevel(level)
 
+    # Redirect outputs to the void space, mostly for usage within unittests
     if not printout:
         from StringIO import StringIO
         dummystream = StringIO()
-        root_logger.addHandler(logging.StreamHandler(dummystream))
+        handler = logging.StreamHandler(dummystream)
+    # Standard output with colored messages
     else:
-        root_logger.addHandler(logging.StreamHandler())
+        handler = logging.StreamHandler()
+        handler.setFormatter(
+            colorlog.ColoredFormatter(
+                '%(asctime)s - %(log_color)s%(message)s',
+                datefmt="%H:%M:%S"
+            )
+        )
+
+    root_logger.addHandler(handler)
 
     return root_logger

@@ -22,14 +22,14 @@ setup(
     ],
     install_requires=[
         'click==5.1',
-        'argh==0.24.1',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
-        'libsass==0.11.0',
+        'libsass',
+        'colorama',
+        'colorlog',
     ],
     tests_require=[
         'pytest',
-        'colorama',
         'pytest-catchlog',
     ],
     entry_points={

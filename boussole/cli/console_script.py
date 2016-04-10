@@ -32,8 +32,6 @@ def cli_frontend(ctx, verbose):
     # Init the logger config
     root_logger = init_logger(levels[verbose])
 
-    root_logger.info("Logging level fixed to '{}'".format(levels[verbose]))
-
     # Init the default context that will be passed to commands
     ctx.obj = {
         'verbosity': verbose,

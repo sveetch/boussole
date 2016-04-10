@@ -6,9 +6,8 @@ SASS compile helper
 ===================
 
 This is not a real compiler, just an helper wrapping common methods to compile
-a SASS source from a project using `libsass-python`_.
+a SASS source using `libsass-python`_.
 """
-import click
 import os
 import io
 
@@ -54,7 +53,6 @@ class SassCompileHelper(object):
                 include_paths=settings.LIBRARY_PATHS,
             )
         except sass.CompileError as e:
-            click.secho(e.message, fg='red')
             return False, e.message
         else:
             self.write_content(content, destination)

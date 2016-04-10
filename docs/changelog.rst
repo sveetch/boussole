@@ -4,6 +4,14 @@
 Changelog
 =========
 
+Version 0.8.0 - Unreleased
+--------------------------
+
+* Relaxed ``libsass`` version in requirements;
+* Moved ``colorama`` from test to default requirements;
+* Removed every use of click.echo/secho within core API, use logger instead, close #1;
+* Added ``colorlog`` in requirements and use it to have colors for each logging level #4;
+
 Version 0.7.0 - 2016/04/07
 --------------------------
 
