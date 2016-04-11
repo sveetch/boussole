@@ -30,9 +30,14 @@ class Settings(object):
     Instead, allways use the ``update()`` method.
 
     Note:
+        Model is only about data model, there is no other validation that
+        available 'fields' from ``DEFAULT_SETTINGS``.
+
         If you intend to manually open and fill a Settings instance, remember
         to allways use absolute paths in your settings. Relative path will
         cause issues in resolving that lead to wrong compilations.
+
+        You may also apply post processor validation to ensure your datas.
 
     Keyword Arguments:
         initial (dict): A dictionnary of settings for initial values.

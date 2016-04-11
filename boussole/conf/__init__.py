@@ -24,15 +24,21 @@ Also note, that SASS files from libraries directories are never compiled.
 SETTINGS_MANIFEST = {
     'LIBRARY_PATHS': {
         'default': [],
-        'patchs': ['_patch_expand_paths'],
+        'patchs': (
+            '_patch_expand_paths',
+        ),
     },
     'SOURCES_PATH': {
         'default': None,
-        'patchs': ['_patch_expand_path'],
+        'patchs': (
+            '_patch_expand_path',
+        ),
     },
     'TARGET_PATH': {
         'default': None,
-        'patchs': ['_patch_expand_path'],
+        'patchs': (
+            '_patch_expand_path',
+        ),
     },
     'OUTPUT_STYLES': {
         'default': 'nested',

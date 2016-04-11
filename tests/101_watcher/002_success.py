@@ -215,7 +215,7 @@ def test_whole_050(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css']
 
 
-def test_watcher_library_modified_101(settings, temp_builds_dir):
+def test_library_modified_101(settings, temp_builds_dir):
     """watcher.SassLibraryEventHandler: 'Modified' event on a library
        component"""
     basedir = temp_builds_dir.join('watcher_success_101')

@@ -4,8 +4,8 @@ Backend values patchs
 =====================
 
 Patchs are used to modify given settings items like expanding paths. Backends
-inherit from ``SettingsPatcher`` to be able to use it in their ``clean()``
-method.
+inherit from ``SettingsPostProcessor`` to be able to use it in their
+``clean()`` method.
 
 Todo:
     * Should be named postprocess.SettingsPostProcessor because it contains
@@ -18,14 +18,14 @@ import os
 from boussole.conf import SETTINGS_MANIFEST
 
 
-class SettingsPatcher(object):
+class SettingsPostProcessor(object):
     """
-    Mixin object for all available patch methods to use in
+    Mixin object for all available post processing methods to use in
     ``SETTINGS_MANIFEST``.
     """
     projectdir = ''
 
-    def patch(self, settings):
+    def post_process(self, settings):
         """
         Perform patchs on settings according to their rules in
         ``SETTINGS_MANIFEST``.
@@ -83,8 +83,8 @@ class SettingsPatcher(object):
 
     def _patch_expand_paths(self, settings, name, value):
         """
-        Apply patch ``SettingsPatcher._patch_expand_path`` for each element
-        in list.
+        Apply ``SettingsPostProcessor._patch_expand_path`` to each element in
+        list.
 
         Args:
             settings (dict): Initial settings unpatched.

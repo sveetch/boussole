@@ -6,8 +6,8 @@ Base settings backend
 Backends are responsible to find settings file, parse it, load its values then
 return a Settings object.
 
-Backends inherit from :class:`boussole.conf.patcher` so they can patch each
-loaded settings values following the settings manifest rules.
+Backends inherit from :class:`boussole.conf.post_processor` so they can post
+process each loaded settings values following the settings manifest rules.
 
 Actually the only backend available is JSON.
 
@@ -16,10 +16,10 @@ import os
 
 from boussole.exceptions import SettingsBackendError
 from boussole.conf.model import Settings
-from boussole.conf.patcher import SettingsPatcher
+from boussole.conf.post_processor import SettingsPostProcessor
 
 
-class SettingsBackendBase(SettingsPatcher):
+class SettingsBackendBase(SettingsPostProcessor):
     """
     Base project settings backend
 
@@ -134,7 +134,7 @@ class SettingsBackendBase(SettingsPatcher):
         """
         Clean given settings for backend needs.
 
-        Default backend only apply available patchs.
+        Default backend only apply available post processor methods.
 
         Args:
             dict: Loaded settings.
@@ -143,7 +143,7 @@ class SettingsBackendBase(SettingsPatcher):
             dict: Settings object cleaned.
 
         """
-        return self.patch(settings)
+        return self.post_process(settings)
 
     def load(self, filepath=None):
         """
