@@ -9,7 +9,12 @@ interfaces.
 """
 import copy
 
-from boussole.conf import DEFAULT_SETTINGS
+from boussole.conf import SETTINGS_MANIFEST
+
+
+# Default values for initial settings object
+DEFAULT_SETTINGS = {k: copy.deepcopy(v['default'])
+                    for k, v in SETTINGS_MANIFEST.items()}
 
 
 class Settings(object):

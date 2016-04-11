@@ -20,9 +20,6 @@ not allready so:
 
 Also note, that SASS files from libraries directories are never compiled.
 """
-import copy
-
-
 # Settings manifest define default values and values patchs for each setting
 SETTINGS_MANIFEST = {
     'LIBRARY_PATHS': {
@@ -50,8 +47,3 @@ SETTINGS_MANIFEST = {
         'patchs': [],
     },
 }
-
-
-# Default values for initial settings object
-DEFAULT_SETTINGS = {k: copy.deepcopy(v['default'])
-                    for k, v in SETTINGS_MANIFEST.items()}
