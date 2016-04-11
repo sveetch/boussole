@@ -11,7 +11,7 @@ from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    build_sample_structure)
 
 
-def test_watcher_success_compilablefiles_001(settings, temp_builds_dir):
+def test_compilablefiles_001(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: Testing 'handler.compilable_files' return"""
     basedir = temp_builds_dir.join('watcher_success_001')
 
@@ -38,7 +38,7 @@ def test_watcher_success_compilablefiles_001(settings, temp_builds_dir):
     }
 
 
-def test_watcher_success_move_010(settings, temp_builds_dir):
+def test_move_010(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event on main sample"""
     basedir = temp_builds_dir.join('watcher_success_010')
 
@@ -58,7 +58,7 @@ def test_watcher_success_move_010(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['main.css', 'main_importing.css']
 
 
-def test_watcher_success_move_011(settings, temp_builds_dir):
+def test_move_011(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event from a source depending from
        main sample"""
     basedir = temp_builds_dir.join('watcher_success_011')
@@ -79,7 +79,7 @@ def test_watcher_success_move_011(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['main_importing.css']
 
 
-def test_watcher_success_move_012(settings, temp_builds_dir):
+def test_move_012(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event on included partial
        source"""
     basedir = temp_builds_dir.join('watcher_success_012')
@@ -100,7 +100,7 @@ def test_watcher_success_move_012(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
 
 
-def test_watcher_success_modified_020(settings, temp_builds_dir):
+def test_modified_020(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Modified' event on included partial
        source"""
     basedir = temp_builds_dir.join('watcher_success_020')
@@ -121,7 +121,7 @@ def test_watcher_success_modified_020(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
 
 
-def test_watcher_success_created_030(settings, temp_builds_dir):
+def test_created_030(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Created' event for a new main source"""
     basedir = temp_builds_dir.join('watcher_success_030')
 
@@ -149,7 +149,7 @@ def test_watcher_success_created_030(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == ['new_main.css']
 
 
-def test_watcher_success_deleted_040(settings, temp_builds_dir):
+def test_deleted_040(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Deleted' event for a main source"""
     basedir = temp_builds_dir.join('watcher_success_040')
 
@@ -171,7 +171,7 @@ def test_watcher_success_deleted_040(settings, temp_builds_dir):
     assert os.listdir(basedir.join("css").strpath) == []
 
 
-def test_watcher_success_whole_050(settings, temp_builds_dir):
+def test_whole_050(settings, temp_builds_dir):
     """watcher.SassProjectEventHandler: Routine using some events on various
        sources"""
     basedir = temp_builds_dir.join('watcher_success_050')

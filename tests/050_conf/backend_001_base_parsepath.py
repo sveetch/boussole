@@ -6,7 +6,7 @@ from boussole.conf.base_backend import SettingsBackendBase
 from boussole.conf.json_backend import SettingsBackendJson
 
 
-def test_conf_backend_base_parsepath_001_empty_nobasedir(settings, sample_project_settings):
+def test_001_empty_nobasedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: no path given and
        with empty basedir"""
     backend = SettingsBackendJson()
@@ -19,7 +19,7 @@ def test_conf_backend_base_parsepath_001_empty_nobasedir(settings, sample_projec
     )
 
 
-def test_conf_backend_base_parsepath_002_empty_basedir(settings, sample_project_settings):
+def test_002_empty_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: no path given and
        with a basedir"""
     backend = SettingsBackendJson(basedir="/home/bart/www")
@@ -32,7 +32,7 @@ def test_conf_backend_base_parsepath_002_empty_basedir(settings, sample_project_
     )
 
 
-def test_conf_backend_base_parsepath_003_filename_nobasedir(settings, sample_project_settings):
+def test_003_filename_nobasedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: filename and empty
        basedir"""
     backend = SettingsBackendJson()
@@ -45,7 +45,7 @@ def test_conf_backend_base_parsepath_003_filename_nobasedir(settings, sample_pro
     )
 
 
-def test_conf_backend_base_parsepath_004_filename_basedir(settings, sample_project_settings):
+def test_004_filename_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: filename and filled
        basedir"""
     backend = SettingsBackendJson(basedir="/home/bart/www")
@@ -58,7 +58,7 @@ def test_conf_backend_base_parsepath_004_filename_basedir(settings, sample_proje
     )
 
 
-def test_conf_backend_base_parsepath_005_relative_nobasedir(settings, sample_project_settings):
+def test_005_relative_nobasedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: relative filepath and empty
        basedir"""
     backend = SettingsBackendJson()
@@ -71,7 +71,7 @@ def test_conf_backend_base_parsepath_005_relative_nobasedir(settings, sample_pro
     )
 
 
-def test_conf_backend_base_parsepath_006_relative_basedir(settings, sample_project_settings):
+def test_006_relative_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: relative filepath and filled
        basedir"""
     backend = SettingsBackendJson(basedir="/home/bart/www")
@@ -84,7 +84,7 @@ def test_conf_backend_base_parsepath_006_relative_basedir(settings, sample_proje
     )
 
 
-def test_conf_backend_base_parsepath_007_absolute_nobasedir(settings, sample_project_settings):
+def test_007_absolute_nobasedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: absolute filepath and empty
        basedir"""
     backend = SettingsBackendJson()
@@ -97,7 +97,7 @@ def test_conf_backend_base_parsepath_007_absolute_nobasedir(settings, sample_pro
     )
 
 
-def test_conf_backend_base_parsepath_008_absolute_basedir(settings, sample_project_settings):
+def test_008_absolute_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: absolute filepath and filled
        basedir to ensure basedir is ignored with absolute filepath"""
     backend = SettingsBackendJson(basedir="/home/no/pasaran")
@@ -110,7 +110,7 @@ def test_conf_backend_base_parsepath_008_absolute_basedir(settings, sample_proje
     )
 
 
-def test_conf_backend_base_parsepath_010_normalize_01_basedir(settings, sample_project_settings):
+def test_010_normalize_01_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: filename and filled basedir,
        need normalize"""
     backend = SettingsBackendJson(basedir="/home/bart/www")
@@ -123,7 +123,7 @@ def test_conf_backend_base_parsepath_010_normalize_01_basedir(settings, sample_p
     )
 
 
-def test_conf_backend_base_parsepath_009_normalize_02_basedir(settings, sample_project_settings):
+def test_009_normalize_02_basedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: filename and filled basedir,
        need normalize"""
     backend = SettingsBackendJson(basedir="/home/bart/www")
@@ -136,7 +136,7 @@ def test_conf_backend_base_parsepath_009_normalize_02_basedir(settings, sample_p
     )
 
 
-def test_conf_backend_base_parsepath_011_normalize_nobasedir(settings, sample_project_settings):
+def test_011_normalize_nobasedir(settings, sample_project_settings):
     """conf.SettingsBackendJson.parse_filepath: filename and empty basedir,
        normalize can't do anything"""
     backend = SettingsBackendJson()

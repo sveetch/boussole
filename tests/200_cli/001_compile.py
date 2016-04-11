@@ -10,7 +10,7 @@ from click.testing import CliRunner
 from boussole.cli.console_script import cli_frontend
 
 
-def test_cli_compile_verbosity_001(settings, caplog):
+def test_verbosity_001(settings, caplog):
     """cli.compile: Testing default verbosity (aka INFO level) on setting
        error"""
     runner = CliRunner()
@@ -37,7 +37,7 @@ def test_cli_compile_verbosity_001(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_verbosity_002(settings, caplog):
+def test_verbosity_002(settings, caplog):
     """cli.compile: Testing silent on setting error"""
     runner = CliRunner()
 
@@ -65,7 +65,7 @@ def test_cli_compile_verbosity_002(settings, caplog):
         assert error_msg not in result.output
         assert 'Aborted!' in result.output
 
-def test_cli_compile_verbosity_003(settings, caplog):
+def test_verbosity_003(settings, caplog):
     """cli.compile: Testing debug level verbosity on setting error"""
     runner = CliRunner()
 
@@ -97,7 +97,7 @@ def test_cli_compile_verbosity_003(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_verbosity_004(settings, caplog):
+def test_verbosity_004(settings, caplog):
     """cli.compile: Testing debug level verbosity on some file to
        compile"""
     runner = CliRunner()
@@ -144,7 +144,7 @@ def test_cli_compile_verbosity_004(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_001(settings, caplog):
+def test_fail_001(settings, caplog):
     """cli.compile: Testing basic compile fail on default config filename
        (does not exists)"""
     runner = CliRunner()
@@ -159,7 +159,7 @@ def test_cli_compile_fail_001(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_002(settings):
+def test_fail_002(settings):
     """cli.compile: Testing basic compile fail on given path directory (not a
        filename) as config file"""
     runner = CliRunner()
@@ -176,7 +176,7 @@ def test_cli_compile_fail_002(settings):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_003(settings, caplog):
+def test_fail_003(settings, caplog):
     """cli.compile: Testing basic compile fail on invalid config file (invalid
        JSON)"""
     runner = CliRunner()
@@ -196,7 +196,7 @@ def test_cli_compile_fail_003(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_004(settings, caplog):
+def test_fail_004(settings, caplog):
     """cli.compile: Testing exceptions management from sass compiler on
        invalid syntax"""
     runner = CliRunner()
@@ -232,7 +232,7 @@ def test_cli_compile_fail_004(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_fail_005(settings, caplog):
+def test_fail_005(settings, caplog):
     """cli.compile: Testing exceptions management from core API"""
     runner = CliRunner()
 
@@ -266,7 +266,7 @@ def test_cli_compile_fail_005(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_cli_compile_success_001(settings, caplog):
+def test_success_001(settings, caplog):
     """cli.compile: Testing compile success on basic config, a main SASS
        source and a partial source to ignore"""
     runner = CliRunner()

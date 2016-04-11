@@ -5,7 +5,7 @@ import pytest
 
 from boussole.conf.model import Settings
 
-def test_conf_settings_clean_001_basic(settings, sample_project_settings):
+def test_001_basic(settings, sample_project_settings):
     """conf.Settings: Ensure cleans don't drop available settings"""
     settings_object = Settings()
 
@@ -13,7 +13,7 @@ def test_conf_settings_clean_001_basic(settings, sample_project_settings):
 
     assert settings_object.clean(fake_settings) == sample_project_settings
 
-def test_conf_settings_clean_002_custom(settings, sample_project_settings):
+def test_002_custom(settings, sample_project_settings):
     """conf.Settings: Filter unavailable settings"""
     settings_object = Settings()
 

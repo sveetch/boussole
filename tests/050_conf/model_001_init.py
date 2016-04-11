@@ -7,7 +7,7 @@ import pytest
 from boussole.conf.model import DEFAULT_SETTINGS, Settings
 
 
-def test_conf_settings_init_001_default(settings, sample_project_settings):
+def test_001_default(settings, sample_project_settings):
     """conf.Settings: Create a empty Settings object width default values"""
     settings_object = Settings()
 
@@ -17,7 +17,7 @@ def test_conf_settings_init_001_default(settings, sample_project_settings):
     assert settings_object.OUTPUT_STYLES == DEFAULT_SETTINGS['OUTPUT_STYLES']
 
 
-def test_conf_settings_init_002_minimal(settings, sample_project_settings):
+def test_002_minimal(settings, sample_project_settings):
     """conf.Settings: Very minimalistic settings"""
     minimal_conf = {
         'SOURCES_PATH': '.',

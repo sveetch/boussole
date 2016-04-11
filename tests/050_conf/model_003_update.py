@@ -5,7 +5,7 @@ import pytest
 
 from boussole.conf.model import Settings
 
-def test_conf_settings_update_001_basic(settings, sample_project_settings):
+def test_001_basic(settings, sample_project_settings):
     """conf.Settings: Ensure dummy update is correct"""
     settings_object = Settings()
 
@@ -14,7 +14,7 @@ def test_conf_settings_update_001_basic(settings, sample_project_settings):
     assert settings_object._settings == sample_project_settings
 
 
-def test_conf_settings_update_002_polluted(settings, sample_project_settings):
+def test_002_polluted(settings, sample_project_settings):
     """conf.Settings: Ensure update filtering is done"""
     settings_object = Settings(initial=sample_project_settings)
 
@@ -28,7 +28,7 @@ def test_conf_settings_update_002_polluted(settings, sample_project_settings):
     assert settings_object._settings == sample_project_settings
 
 
-def test_conf_settings_update_003_mixed(settings, sample_project_settings):
+def test_003_mixed(settings, sample_project_settings):
     """conf.Settings: Ensure update filtering is correct on both enabled and
        not enabled setting names"""
     settings_object = Settings(initial=sample_project_settings)

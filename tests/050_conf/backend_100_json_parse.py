@@ -6,7 +6,7 @@ from boussole.exceptions import SettingsBackendError
 from boussole.conf.json_backend import SettingsBackendJson
 
 
-def test_conf_backend_json_parse_ok_001(settings, sample_project_settings):
+def test_ok_001(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: JSON content parsing"""
     backend = SettingsBackendJson(basedir=settings.fixtures_path)
 
@@ -18,7 +18,7 @@ def test_conf_backend_json_parse_ok_001(settings, sample_project_settings):
     assert backend.parse(filepath, content) == sample_project_settings
 
 
-def test_conf_backend_json_parse_error_001(settings, sample_project_settings):
+def test_error_001(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: JSON content parsing error"""
     backend = SettingsBackendJson(basedir=settings.fixtures_path)
 

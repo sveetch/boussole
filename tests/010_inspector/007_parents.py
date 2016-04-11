@@ -2,7 +2,7 @@
 import os
 import pytest
 
-def test_inspector_parents_001_basic(settings, inspector):
+def test_001_basic(settings, inspector):
     """inspector.ScssInspector: Looking for parents of basic sample"""
     sources = [
         os.path.join(settings.sample_path, 'main_basic.scss'),
@@ -23,7 +23,7 @@ def test_inspector_parents_001_basic(settings, inspector):
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
     ]
 
-def test_inspector_parents_002_vendor(settings, inspector):
+def test_002_vendor(settings, inspector):
     """inspector.ScssInspector: Looking for parents of vendor component"""
     sources = [
         os.path.join(settings.sample_path, 'main_syntax.scss'),
@@ -62,7 +62,7 @@ def test_inspector_parents_002_vendor(settings, inspector):
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
     ]
 
-def test_inspector_parents_003_library(settings, inspector):
+def test_003_library(settings, inspector):
     """inspector.ScssInspector: Looking for parents of a library component"""
     sources = [
         os.path.join(settings.sample_path, 'main_syntax.scss'),

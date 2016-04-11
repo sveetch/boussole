@@ -5,7 +5,7 @@ import pytest
 from boussole.conf.base_backend import SettingsBackendBase
 
 
-def test_conf_backend_base_open_ok_001(settings):
+def test_ok_001(settings):
     """conf.base_backend.SettingsBackendBase: Open given filepath"""
     backend = SettingsBackendBase(basedir=settings.fixtures_path)
 

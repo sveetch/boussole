@@ -6,7 +6,7 @@ from boussole.exceptions import SettingsBackendError
 from boussole.conf.base_backend import SettingsBackendBase
 
 
-def test_conf_backend_base_checkfilepath_ok_001(settings):
+def test_ok_001(settings):
     """conf.base_backendSettingsBackendBase: Filepath check case 1"""
     backend = SettingsBackendBase()
 
@@ -15,7 +15,7 @@ def test_conf_backend_base_checkfilepath_ok_001(settings):
     assert result == os.path.join(settings.fixtures_path, SettingsBackendBase._default_filename)
 
 
-def test_conf_backend_base_checkfilepath_ok_002(settings):
+def test_ok_002(settings):
     """conf.base_backendSettingsBackendBase: Filepath check case 2"""
     backend = SettingsBackendBase()
 
@@ -24,7 +24,7 @@ def test_conf_backend_base_checkfilepath_ok_002(settings):
     assert result == os.path.join(settings.sample_path, "dummy")
 
 
-def test_conf_backend_base_checkfilepath_error_001(settings):
+def test_error_001(settings):
     """conf.base_backendSettingsBackendBase: Filepath check error case 1 (dont exist)"""
     backend = SettingsBackendBase()
 
@@ -32,7 +32,7 @@ def test_conf_backend_base_checkfilepath_error_001(settings):
         backend.check_filepath(settings.fixtures_path, filename="dontexists")
 
 
-def test_conf_backend_base_checkfilepath_error_002(settings):
+def test_error_002(settings):
     """conf.base_backendSettingsBackendBase: Filepath check error case 2 (filename is a dir)"""
     backend = SettingsBackendBase()
 

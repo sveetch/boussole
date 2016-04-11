@@ -5,7 +5,7 @@ import pytest
 from boussole.exceptions import UnresolvablePath
 from boussole.exceptions import UnclearResolution
 
-def test_resolver_resolve_basic(settings, parser, resolver):
+def test_basic(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from basic sample"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     with open(sourcepath) as fp:
@@ -19,7 +19,7 @@ def test_resolver_resolve_basic(settings, parser, resolver):
     ]
 
 
-def test_resolver_resolve_library(settings, parser, resolver):
+def test_library(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from main_using_libs.scss
     that use included libraries"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
@@ -40,7 +40,7 @@ def test_resolver_resolve_library(settings, parser, resolver):
     ]
 
 
-def test_resolver_resolve_commented(settings, parser, resolver):
+def test_commented(settings, parser, resolver):
     """resolver.ImportPathsResolver: Resolve paths from sample with comments"""
     sourcepath = os.path.join(settings.sample_path, 'main_commented.scss')
     with open(sourcepath) as fp:
@@ -57,7 +57,7 @@ def test_resolver_resolve_commented(settings, parser, resolver):
     ]
 
 
-def test_resolver_resolve_error_unresolvable(settings, parser, resolver):
+def test_error_unresolvable(settings, parser, resolver):
     """resolver.ImportPathsResolver: Exception on wrong import path"""
     sourcepath = os.path.join(settings.sample_path, 'main_error.scss')
     with open(sourcepath) as fp:
@@ -71,7 +71,7 @@ def test_resolver_resolve_error_unresolvable(settings, parser, resolver):
         )
 
 
-def test_resolver_resolve_error_unclear_001(settings, parser, resolver):
+def test_error_unclear_001(settings, parser, resolver):
     """resolver.ImportPathsResolver: Check candidates on unclear resolution"""
     sourcepath = os.path.join(settings.sample_path, 'main_twins_1.scss')
     with open(sourcepath) as fp:
@@ -85,7 +85,7 @@ def test_resolver_resolve_error_unclear_001(settings, parser, resolver):
         )
 
 
-def test_resolver_resolve_error_unclear_002(settings, parser, resolver):
+def test_error_unclear_002(settings, parser, resolver):
     """resolver.ImportPathsResolver: Check candidates on unclear resolution"""
     sourcepath = os.path.join(settings.sample_path, 'main_twins_2.scss')
     with open(sourcepath) as fp:
@@ -99,7 +99,7 @@ def test_resolver_resolve_error_unclear_002(settings, parser, resolver):
         )
 
 
-def test_resolver_resolve_error_unclear_003(settings, parser, resolver):
+def test_error_unclear_003(settings, parser, resolver):
     """resolver.ImportPathsResolver: Check candidates on explicit resolution"""
     sourcepath = os.path.join(settings.sample_path, 'main_twins_3.scss')
     with open(sourcepath) as fp:

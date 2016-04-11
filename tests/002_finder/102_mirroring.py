@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-def test_finder_mirrorsources_relative_001(settings, finder):
+def test_relative_001(settings, finder):
     """finder.ScssFinder: Mirror all compilable sources in relative mode"""
     assert finder.mirror_sources(os.path.join(settings.sample_path, 'components')) == [
         ('twin_3.scss', 'twin_3.css'),
@@ -11,7 +11,7 @@ def test_finder_mirrorsources_relative_001(settings, finder):
     ]
 
 
-def test_finder_mirrorsources_absolute_002(settings, finder):
+def test_absolute_002(settings, finder):
     """finder.ScssFinder: Mirror all compilable sources in absolute mode"""
     assert finder.mirror_sources(os.path.join(settings.sample_path, 'components'), targetdir=settings.tests_path) == [
         (os.path.join(settings.sample_path, 'components', 'twin_3.scss'), os.path.join(settings.tests_path, 'twin_3.css')),
@@ -19,7 +19,7 @@ def test_finder_mirrorsources_absolute_002(settings, finder):
     ]
 
 
-def test_finder_mirrorsources_relative_recursive_003(settings, finder):
+def test_relative_recursive_003(settings, finder):
     """finder.ScssFinder: Mirror all compilable sources in relative mode"""
     assert finder.mirror_sources(settings.sample_path) == [
         ('main_syntax.scss', 'main_syntax.css'),
@@ -46,7 +46,7 @@ def test_finder_mirrorsources_relative_recursive_003(settings, finder):
     ]
 
 
-def test_finder_mirrorsources_absolute_recursive_004(settings, finder):
+def test_absolute_recursive_004(settings, finder):
     """finder.ScssFinder: Mirror all compilable sources in absolute mode"""
     # To avoid to write every os path join, i'm so lazy..
     absolutize = lambda x,y: (os.path.join(settings.sample_path, x), os.path.join(settings.tests_path, y))
@@ -76,7 +76,7 @@ def test_finder_mirrorsources_absolute_recursive_004(settings, finder):
     ]
 
 
-def test_finder_mirrorsources_relative_excludes_004(settings, finder):
+def test_relative_excludes_004(settings, finder):
     """finder.ScssFinder: Mirror allowed compilable sources in relative mode"""
     excludes = [
         'main_error.scss',

@@ -6,7 +6,7 @@ import pytest
 from boussole.conf.json_backend import SettingsBackendJson
 
 
-def test_conf_backend_json_load_001_basic(settings, sample_project_settings):
+def test_001_basic(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: Load basic JSON settings file"""
     backend = SettingsBackendJson(basedir=settings.fixtures_path)
 
@@ -20,7 +20,7 @@ def test_conf_backend_json_load_001_basic(settings, sample_project_settings):
     assert settings_object.OUTPUT_STYLES == sample_project_settings['OUTPUT_STYLES']
 
 
-def test_conf_backend_json_load_002_poluted(settings, sample_project_settings):
+def test_002_poluted(settings, sample_project_settings):
     """conf.json_backend.SettingsBackendJson: Load polluted JSON settings
        file"""
     backend = SettingsBackendJson(basedir=settings.fixtures_path)
@@ -39,7 +39,7 @@ def test_conf_backend_json_load_002_poluted(settings, sample_project_settings):
     assert getattr(settings_object, 'BAR', None) == None
 
 
-def test_conf_backend_json_load_003_custom(settings, custom_project_settings):
+def test_003_custom(settings, custom_project_settings):
     """conf.json_backend.SettingsBackendJson: Load custom JSON settings file"""
     backend = SettingsBackendJson(basedir=settings.fixtures_path)
 
@@ -57,7 +57,7 @@ def test_conf_backend_json_load_003_custom(settings, custom_project_settings):
     assert getattr(settings_object, 'BAR', None) == None
 
 
-def test_conf_backend_json_load_004_custom(settings, custom_project_settings):
+def test_004_custom(settings, custom_project_settings):
     """conf.json_backend.SettingsBackendJson: Load custom JSON settings file
        with basedir and relative filepath"""
     backend = SettingsBackendJson(basedir=settings.tests_path)

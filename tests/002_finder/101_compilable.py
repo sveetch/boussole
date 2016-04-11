@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-def test_finder_compilable_relative_nonrecursive_001(settings, finder):
+def test_relative_nonrecursive_001(settings, finder):
     """finder.ScssFinder: Find non recursively all compilable sources
        from sample project in relative mode"""
     assert finder.compilable_sources(settings.sample_path, recursive=False) == [
@@ -29,7 +29,7 @@ def test_finder_compilable_relative_nonrecursive_001(settings, finder):
     ]
 
 
-def test_finder_compilable_absolute_nonrecursive_002(settings, finder):
+def test_absolute_nonrecursive_002(settings, finder):
     """finder.ScssFinder: Find non recursively all compilable sources
        from sample project in absolute mode"""
     assert finder.compilable_sources(settings.sample_path, absolute=True, recursive=False) == [
@@ -55,7 +55,7 @@ def test_finder_compilable_absolute_nonrecursive_002(settings, finder):
     ]
 
 
-def test_finder_compilable_relative_recursive_003(settings, finder):
+def test_relative_recursive_003(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources from
        sample project in relative mode"""
     assert finder.compilable_sources(settings.sample_path) == [
@@ -83,7 +83,7 @@ def test_finder_compilable_relative_recursive_003(settings, finder):
     ]
 
 
-def test_finder_compilable_absolute_recursive_004(settings, finder):
+def test_absolute_recursive_004(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources from
        sample project in absolute mode"""
     assert finder.compilable_sources(settings.sample_path, absolute=True) == [
@@ -111,7 +111,7 @@ def test_finder_compilable_absolute_recursive_004(settings, finder):
     ]
 
 
-def test_finder_compilable_relative_subdir_005(settings, finder):
+def test_relative_subdir_005(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources from
        sample project subdirectory in relative mode"""
     assert finder.compilable_sources(os.path.join(settings.sample_path, 'components')) == [
@@ -120,7 +120,7 @@ def test_finder_compilable_relative_subdir_005(settings, finder):
     ]
 
 
-def test_finder_compilable_absolute_subdir_006(settings, finder):
+def test_absolute_subdir_006(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources from
        sample project subdirectory in absolute mode"""
     assert finder.compilable_sources(os.path.join(settings.sample_path, 'components'), absolute=True) == [
@@ -129,7 +129,7 @@ def test_finder_compilable_absolute_subdir_006(settings, finder):
     ]
 
 
-def test_finder_compilable_relative_exclude_007(settings, finder):
+def test_relative_exclude_007(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources with
        excluding patterns on relative mode"""
     excludes = [
@@ -160,7 +160,7 @@ def test_finder_compilable_relative_exclude_007(settings, finder):
     ]
 
 
-def test_finder_compilable_absolute_exclude_008(settings, finder):
+def test_absolute_exclude_008(settings, finder):
     """finder.ScssFinder: Find recursively all compilable sources with
        excluding patterns on absolute mode"""
     excludes = [

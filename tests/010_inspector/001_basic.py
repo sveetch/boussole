@@ -22,7 +22,7 @@ import pytest
 #]
 
 
-def test_inspector_basic(settings, inspector):
+def test_001(settings, inspector):
     """inspector.ScssInspector: Basic sample in confined space"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     inspector.inspect(sourcepath)
@@ -30,8 +30,8 @@ def test_inspector_basic(settings, inspector):
     children = list(inspector.children(sourcepath))
     assert children == [
         os.path.join(settings.sample_path, '_empty.scss'),
-        os.path.join(settings.sample_path, '_vendor.scss'), 
+        os.path.join(settings.sample_path, '_vendor.scss'),
     ]
-    
+
     parents = list(inspector.parents(sourcepath))
     assert parents == []

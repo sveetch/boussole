@@ -3,7 +3,7 @@ import os
 import pytest
 
 
-def test_finder_conditions_001(settings, finder):
+def test_001(settings, finder):
     """finder.ScssFinder: Filter files from partials"""
     sources = [
         '/home/foo/hip.scss',
@@ -23,7 +23,7 @@ def test_finder_conditions_001(settings, finder):
     ]
 
 
-def test_finder_conditions_002(settings, finder):
+def test_002(settings, finder):
     """finder.ScssFinder: Exclude libdirs case 1"""
     sources = [
         '/home/food/pizza.scss',
@@ -50,7 +50,7 @@ def test_finder_conditions_002(settings, finder):
     ]
 
 
-def test_finder_conditions_003(settings, finder):
+def test_003(settings, finder):
     """finder.ScssFinder: Exclude libdirs case 2"""
     sources = [
         '/home/food/pizza.scss',
@@ -78,7 +78,7 @@ def test_finder_conditions_003(settings, finder):
     ]
 
 
-def test_finder_conditions_004(settings, finder):
+def test_004(settings, finder):
     """finder.ScssFinder: Exclude from patterns but let pass partials"""
     sources = [
         '/home/foo/hip.scss',
@@ -110,7 +110,7 @@ def test_finder_conditions_004(settings, finder):
     ]
 
 
-def test_finder_conditions_005(settings, finder):
+def test_005(settings, finder):
     """finder.ScssFinder: Filter files from partials and libdirs"""
     sources = [
         '/home/foo/hip.scss',

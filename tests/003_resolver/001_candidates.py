@@ -2,7 +2,7 @@
 import pytest
 
 
-def test_resolver_candidate_basic(settings, parser, resolver):
+def test_basic(settings, parser, resolver):
     """resolver.ImportPathsResolver: Underscore leading and candidate extensions"""
     assert resolver.candidate_paths("foo") == [
         "foo.scss",
@@ -14,7 +14,7 @@ def test_resolver_candidate_basic(settings, parser, resolver):
     ]
 
 
-def test_resolver_candidate_extension_uncandidate(settings, parser, resolver):
+def test_extension_uncandidate(settings, parser, resolver):
     """resolver.ImportPathsResolver: Uncandidate extension"""
     assert resolver.candidate_paths("foo.plop") == [
         "foo.plop.scss",
@@ -26,7 +26,7 @@ def test_resolver_candidate_extension_uncandidate(settings, parser, resolver):
     ]
 
 
-def test_resolver_candidate_extension_ready(settings, parser, resolver):
+def test_extension_ready(settings, parser, resolver):
     """resolver.ImportPathsResolver: Candidate extension allready in place"""
     assert resolver.candidate_paths("foo.scss") == [
         "foo.scss",
@@ -34,7 +34,7 @@ def test_resolver_candidate_extension_ready(settings, parser, resolver):
     ]
 
 
-def test_resolver_candidate_complex_001(settings, parser, resolver):
+def test_complex_001(settings, parser, resolver):
     """resolver.ImportPathsResolver: Complex case 1 for candidates"""
     assert resolver.candidate_paths("components/addons/foo.plop.scss") == [
         "components/addons/foo.plop.scss",
@@ -42,7 +42,7 @@ def test_resolver_candidate_complex_001(settings, parser, resolver):
     ]
 
 
-def test_resolver_candidate_complex_002(settings, parser, resolver):
+def test_complex_002(settings, parser, resolver):
     """resolver.ImportPathsResolver: Complex case 2 for candidates"""
     assert resolver.candidate_paths("../components/../addons/foo.plop") == [
         "../components/../addons/foo.plop.scss",

@@ -4,27 +4,27 @@ import pytest
 
 from boussole.exceptions import UnresolvablePath
 
-def test_inspector_libs_empty(settings, inspector):
+def test_empty(settings, inspector):
     """inspector.ScssInspector: Some lib components used but no given library"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
-    
+
     sources = [
         sourcepath,
     ]
-    
-    # Some imports use libraries that was not given, so resolver raise 
+
+    # Some imports use libraries that was not given, so resolver raise
     # an error
     with pytest.raises(UnresolvablePath):
         inspector.inspect(*sources)
 
-def test_inspector_libs_children(settings, inspector):
+def test_children(settings, inspector):
     """inspector.ScssInspector: Children with some lib components used"""
     sourcepath = os.path.join(settings.sample_path, 'main_using_libs.scss')
-    
+
     sources = [
         sourcepath,
     ]
-    
+
     inspector.inspect(*sources, library_paths=settings.libraries_fixture_paths)
 
     children = list(inspector.children(sourcepath))

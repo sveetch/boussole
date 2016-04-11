@@ -6,7 +6,7 @@ import pytest
 from boussole.conf.patcher import SettingsPatcher
 
 
-def test_conf_patcher_001_expand_nothingtodo(settings,
+def test_001_expand_nothingtodo(settings,
                                              sample_project_settings):
     """conf.patcher.SettingsPatcher: Nothing to expand, path is correct"""
     patcher = SettingsPatcher()
@@ -16,7 +16,7 @@ def test_conf_patcher_001_expand_nothingtodo(settings,
     assert expand_result == "/foo/bar"
 
 
-def test_conf_patcher_002_expand_homedir(settings,
+def test_002_expand_homedir(settings,
                                              sample_project_settings):
     """conf.patcher.SettingsPatcher: Single path expand home user dir"""
     patcher = SettingsPatcher()
@@ -26,7 +26,7 @@ def test_conf_patcher_002_expand_homedir(settings,
     assert expand_result == os.path.join(os.environ['HOME'], 'foo')
 
 
-def test_conf_patcher_003_expand_absolute(settings,
+def test_003_expand_absolute(settings,
                                              sample_project_settings):
     """conf.patcher.SettingsPatcher: Single path expand to absolute dir"""
     patcher = SettingsPatcher()
@@ -40,7 +40,7 @@ def test_conf_patcher_003_expand_absolute(settings,
                                          "tests/data_fixtures/sample_project")
 
 
-def test_conf_patcher_004_expand_wrong(settings,
+def test_004_expand_wrong(settings,
                                              sample_project_settings):
     """conf.patcher.SettingsPatcher: The path does not exists but is expanded
        to absolute from current dir"""
@@ -53,7 +53,7 @@ def test_conf_patcher_004_expand_wrong(settings,
     assert expand_result == os.path.join("/home/user", "foo/coco/bar")
 
 
-def test_conf_patcher_005_expand_normpath(settings,
+def test_005_expand_normpath(settings,
                                              sample_project_settings):
     """conf.patcher.SettingsPatcher: Single path expand to absolute dir
        normalized"""
@@ -68,7 +68,7 @@ def test_conf_patcher_005_expand_normpath(settings,
                                          "tests/data_fixtures/sample_project")
 
 
-def test_conf_patcher_010_expands(settings, sample_project_settings):
+def test_010_expands(settings, sample_project_settings):
     """conf.patcher.SettingsPatcher: Expand a list of path"""
     patcher = SettingsPatcher()
     patcher.projectdir = settings.fixtures_path
