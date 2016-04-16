@@ -4,7 +4,7 @@
 Changelog
 =========
 
-Version 0.8.0 - Unreleased
+Version 0.8.0 - 2016/04/16
 --------------------------
 
 * Relaxed ``libsass`` version in requirements;
@@ -19,6 +19,8 @@ Version 0.8.0 - Unreleased
   * A subdirectory per module;
   * Renamed test files to be less verbose;
   * Renamed test functions to be less verbose;
+
+* Added some settings validation, close #2;
 
 Version 0.7.0 - 2016/04/07
 --------------------------

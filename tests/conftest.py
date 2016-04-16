@@ -92,7 +92,10 @@ def compiler():
 @pytest.fixture(scope="module")
 def sample_project_settings():
     """Return sample settings dictionnary with expected values (scope at
-       module level)"""
+       module level).
+
+       Warning, this will raise exception from everything involving
+       'Backend.clean()' because every paths does not exists"""
     return {
         #'COMPILER_ARGS': [],
         'LIBRARY_PATHS': [

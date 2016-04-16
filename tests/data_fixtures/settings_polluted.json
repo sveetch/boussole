@@ -1,17 +1,28 @@
 {
-    "SOURCES_PATH": "/home/foo",
+    "SOURCES_PATH": "sample_project",
     "BAR": [
         "meep",
         "meep"
     ],
     "LIBRARY_PATHS": [
-        "/home/lib1",
-        "/home/lib2"
+        "library_1",
+        "library_2"
     ],
     "TARGAT_PATH": "/home/bar",
-    "TARGET_PATH": "/home/bar",
-    "OUTPUT_STYLES": "nested",
-    "SOURCE_COMMENTS": false,
+    "TARGET_PATH": ".",
+    "OUTPUT_STYLES": "expanded",
+    "SOURCE_COMMENTS": true,
     "FOO": 42,
-    "EXCLUDES": []
+    "EXCLUDES": [
+        "main_error.scss",
+        "main_circular_5.scss",
+        "main_circular_0.scss",
+        "main_circular_4.scss",
+        "main_circular_3.scss",
+        "main_circular_1.scss",
+        "main_circular_2.scss",
+        "main_circular_bridge.scss",
+        "main_twins_*.scss",
+        "*/twin_*.scss"
+    ]
 }

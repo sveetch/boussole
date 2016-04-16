@@ -4,7 +4,7 @@
 .. automodule:: boussole.conf.model
     :members:
 
-.. automodule:: boussole.conf.patcher
+.. automodule:: boussole.conf.post_processor
     :members:
 
 .. automodule:: boussole.conf.base_backend

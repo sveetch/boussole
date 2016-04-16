@@ -13,7 +13,7 @@ This is a commandline interface to build `SASS`_ projects using `libsass-python`
 Alike the Compass command line, there is a 'build' and a 'watch' actions to build all SASS files.
 
 .. Note::
-    Old SASS syntax (the *indented syntax*) is not supported and not planned.
+    Old SASS syntax (the *indented syntax*) is not supported.
 
 Links
 *****

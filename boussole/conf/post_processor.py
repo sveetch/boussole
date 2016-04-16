@@ -1,57 +1,59 @@
 # -*- coding: utf-8 -*-
 """
-Backend values patchs
-=====================
+Settings backend post processing
+================================
 
-Patchs are used to modify given settings items like expanding paths. Backends
-inherit from ``SettingsPostProcessor`` to be able to use it in their
+Post processing methods are used to modify or validate given settings items.
+
+Backends inherit from ``SettingsPostProcessor`` to be able to use it in their
 ``clean()`` method.
-
-Todo:
-    * Should be named postprocess.SettingsPostProcessor because it contains
-      patchs but will contain some validations soon.
-    * Add validation that source_dir is not also set as a library dir (would
-      cause some issues in resolving);
 """
 import os
 
 from boussole.conf import SETTINGS_MANIFEST
+from boussole.exceptions import SettingsInvalidError
 
 
 class SettingsPostProcessor(object):
     """
     Mixin object for all available post processing methods to use in
-    ``SETTINGS_MANIFEST``.
+    settings manifest (default manifest comes from ``SETTINGS_MANIFEST``).
     """
+    settings_manifesto = SETTINGS_MANIFEST
     projectdir = ''
 
     def post_process(self, settings):
         """
-        Perform patchs on settings according to their rules in
-        ``SETTINGS_MANIFEST``.
+        Perform post processing methods on settings according to their
+        definition in manifest.
 
-        Patchs are implemented in their own method that all have the same
-        signature:
+        Post process methods are implemented in their own method that have the
+        same signature:
 
-        * Get arguments: initial settings, item name and item value;
+        * Get arguments: Current settings, item name and item value;
         * Return item value possibly patched;
 
         Args:
             settings (dict): Loaded settings.
 
         Returns:
-            dict: Settings object patched.
+            dict: Settings object possibly modified (depending from applied
+                post processing).
 
         """
-        for k, v in settings.items():
-            # Search for patchs method for setting rule
-            if k in SETTINGS_MANIFEST and \
-               SETTINGS_MANIFEST[k].get('patchs', None) is not None:
-                patchs = SETTINGS_MANIFEST[k]['patchs']
+        for k in settings:
+            # Search for post process rules for setting in manifest
+            if k in self.settings_manifesto and \
+               self.settings_manifesto[k].get('postprocess', None) is not None:
+                rules = self.settings_manifesto[k]['postprocess']
 
-                # Apply each patch on value
-                for method_name in patchs:
-                    settings[k] = getattr(self, method_name)(settings, k, v)
+                # Chain post process rules from each setting
+                for method_name in rules:
+                    settings[k] = getattr(self, method_name)(
+                        settings,
+                        k,
+                        settings[k]
+                    )
 
         return settings
 
@@ -60,7 +62,7 @@ class SettingsPostProcessor(object):
         Patch a path to expand home directory and make absolute path.
 
         Args:
-            settings (dict): Initial settings unpatched.
+            settings (dict): Current settings.
             name (str): Setting name.
             value (str): Path to patch.
 
@@ -87,7 +89,7 @@ class SettingsPostProcessor(object):
         list.
 
         Args:
-            settings (dict): Initial settings unpatched.
+            settings (dict): Current settings.
             name (str): Setting name.
             value (list): List of paths to patch.
 
@@ -97,3 +99,72 @@ class SettingsPostProcessor(object):
         """
         return [self._patch_expand_path(settings, name, item)
                 for item in value]
+
+    def _validate_path(self, settings, name, value):
+        """
+        Validate path exists
+
+        Args:
+            settings (dict): Current settings.
+            name (str): Setting name.
+            value (str): Path to validate.
+
+        Raises:
+            boussole.exceptions.SettingsInvalidError: If path does not exists.
+
+        Returns:
+            str: Validated path.
+
+        """
+        if not os.path.exists(value):
+            raise SettingsInvalidError("Path from setting '{name}' does not "
+                                       "exists: {value}".format(
+                                           name=name,
+                                           value=value
+                                       ))
+
+        return value
+
+    def _validate_paths(self, settings, name, value):
+        """
+        Apply ``SettingsPostProcessor._validate_path`` to each element in
+        list.
+
+        Args:
+            settings (dict): Current settings.
+            name (str): Setting name.
+            value (list): List of paths to patch.
+
+        Raises:
+            boussole.exceptions.SettingsInvalidError: Once a path does not
+                exists.
+
+        Returns:
+            list: Validated paths.
+
+        """
+        return [self._validate_path(settings, name, item)
+                for item in value]
+
+    def _validate_required(self, settings, name, value):
+        """
+        Validate a required setting (value can not be empty)
+
+        Args:
+            settings (dict): Current settings.
+            name (str): Setting name.
+            value (str): Required value to validate.
+
+        Raises:
+            boussole.exceptions.SettingsInvalidError: If value is empty.
+
+        Returns:
+            str: Validated value.
+
+        """
+        if not value:
+            raise SettingsInvalidError(("Required value from setting '{name}' "
+                                        "must not be "
+                                        "empty.").format(name=name))
+
+        return value

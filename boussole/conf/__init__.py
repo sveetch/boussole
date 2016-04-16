@@ -20,36 +20,42 @@ not allready so:
 
 Also note, that SASS files from libraries directories are never compiled.
 """
-# Settings manifest define default values and values patchs for each setting
+# Manifest define default values and post process methods for each setting
+# Warning: Order does matter on "postprocess" methods
 SETTINGS_MANIFEST = {
     'LIBRARY_PATHS': {
         'default': [],
-        'patchs': (
+        'postprocess': (
             '_patch_expand_paths',
+            '_validate_paths',
         ),
     },
     'SOURCES_PATH': {
         'default': None,
-        'patchs': (
+        'postprocess': (
+            '_validate_required',
             '_patch_expand_path',
+            '_validate_path',
         ),
     },
     'TARGET_PATH': {
         'default': None,
-        'patchs': (
+        'postprocess': (
+            '_validate_required',
             '_patch_expand_path',
+            '_validate_path',
         ),
     },
     'OUTPUT_STYLES': {
         'default': 'nested',
-        'patchs': [],
+        'postprocess': [],
     },
     'SOURCE_COMMENTS': {
         'default': False,
-        'patchs': [],
+        'postprocess': [],
     },
     'EXCLUDES': {
         'default': [],
-        'patchs': [],
+        'postprocess': [],
     },
 }

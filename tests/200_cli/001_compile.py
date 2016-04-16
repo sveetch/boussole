@@ -114,6 +114,8 @@ def test_verbosity_004(settings, caplog):
                 'TARGET_PATH': './css',
                 'OUTPUT_STYLES': 'compact',
             }, indent=4))
+        # Create needed dirs
+        os.makedirs(os.path.join(test_cwd, "css"))
 
         # Write a minimal main SASS source
         source = "\n".join((
@@ -131,6 +133,7 @@ def test_verbosity_004(settings, caplog):
                     "was \"\"\n        on line 3 of main.scss\n>>     "
                     "color: red;\n   ---------------^\n")
 
+        assert result.exit_code == 1
         assert caplog.record_tuples == [
             ('boussole', 20, 'Building project'),
             ('boussole', 10, 'Project sources directory: {}'.format(test_cwd)),
@@ -141,7 +144,6 @@ def test_verbosity_004(settings, caplog):
         ]
         assert error_msg in result.output
         assert 'Aborted!' in result.output
-        assert result.exit_code == 1
 
 
 def test_fail_001(settings, caplog):
@@ -155,8 +157,8 @@ def test_fail_001(settings, caplog):
 
         result = runner.invoke(cli_frontend, ['compile'])
 
-        assert 'Aborted!' in result.output
         assert result.exit_code == 1
+        assert 'Aborted!' in result.output
 
 
 def test_fail_002(settings):
@@ -191,9 +193,9 @@ def test_fail_003(settings, caplog):
         result = runner.invoke(cli_frontend, ['compile'])
 
         msg = """No JSON object could be decoded from file: {}/settings.json"""
+        assert result.exit_code == 1
         assert msg.format(test_cwd) in result.output
         assert 'Aborted!' in result.output
-        assert result.exit_code == 1
 
 
 def test_fail_004(settings, caplog):
@@ -213,6 +215,9 @@ def test_fail_004(settings, caplog):
                 'OUTPUT_STYLES': 'compact',
             }, indent=4))
 
+        # Create needed dirs
+        os.makedirs(os.path.join(test_cwd, "css"))
+
         # Write a minimal main SASS source
         source = "\n".join((
             """/* Main sample */""",
@@ -226,10 +231,10 @@ def test_fail_004(settings, caplog):
         result = runner.invoke(cli_frontend, ['compile'])
 
         msg = """Invalid CSS after "    color: red;": expected "}", was """""
-        assert msg in result.output
 
-        assert 'Aborted!' in result.output
         assert result.exit_code == 1
+        assert msg in result.output
+        assert 'Aborted!' in result.output
 
 
 def test_fail_005(settings, caplog):
@@ -248,6 +253,9 @@ def test_fail_005(settings, caplog):
                 'OUTPUT_STYLES': 'compact',
             }, indent=4))
 
+        # Create needed dirs
+        os.makedirs(os.path.join(test_cwd, "css"))
+
         # Write a minimal main SASS source
         source = "\n".join((
             """/* Main sample */""",
@@ -260,10 +268,10 @@ def test_fail_005(settings, caplog):
         result = runner.invoke(cli_frontend, ['compile'])
 
         msg = """File to import not found or unreadable: mip"""
-        assert msg in result.output
 
-        assert 'Aborted!' in result.output
         assert result.exit_code == 1
+        assert msg in result.output
+        assert 'Aborted!' in result.output
 
 
 def test_success_001(settings, caplog):
@@ -282,6 +290,9 @@ def test_success_001(settings, caplog):
                 'TARGET_PATH': './css',
                 'OUTPUT_STYLES': 'compact',
             }, indent=4))
+
+        # Create needed dirs
+        os.makedirs(os.path.join(test_cwd, "css"))
 
         # Write a minimal main SASS source
         source = "\n".join((
