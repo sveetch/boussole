@@ -10,18 +10,17 @@ Tutorial
 
 Once Boussole is correctly installed, you will be able to start a project to work on.
 
-#. Go within your new SASS project and write a ``settings.json`` file with following content:
+#. Go to a directory where you want to start a new project then execute command: ::
 
-    .. sourcecode:: json
+    boussole startproject
+#. Answer to the questions (let the default values for this sample): ::
 
-        {
-            "SOURCES_PATH": "scss",
-            "LIBRARY_PATHS": [],
-            "TARGET_PATH": "css",
-        }
-#. Create directory ``scss``;
+    Project base directory [.]:
+    Settings file name [settings.json]:
+    Sources directory [scss]:
+    Target directory [css]:
 #. Write some SASS file into ``scss`` directory;
 #. From your SASS project directory (where belong the ``settings.json`` file) just execute command: ::
 
     boussole compile
-#. And voila, your SASS files (if valid) should have been compiled to the ``css`` directory;
+#. And voila, your valid SASS files should have been compiled to the ``css`` directory;

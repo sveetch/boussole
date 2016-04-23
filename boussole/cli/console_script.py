@@ -6,6 +6,7 @@ import click
 from boussole.cli.version import version_command
 from boussole.cli.compile import compile_command
 from boussole.cli.watch import watch_command
+from boussole.cli.startproject import startproject_command
 from boussole.logs import init_logger
 
 
@@ -27,7 +28,7 @@ def cli_frontend(ctx, verbose):
     """
     Boussole is a commandline interface to build SASS projects using libsass.
 
-    Every project will need a config file containing all needed settings to
+    Every project will need a settings file containing all needed settings to
     build it.
     """
     printout = True
@@ -52,3 +53,4 @@ def cli_frontend(ctx, verbose):
 cli_frontend.add_command(version_command, name="version")
 cli_frontend.add_command(compile_command, name="compile")
 cli_frontend.add_command(watch_command, name="watch")
+cli_frontend.add_command(startproject_command, name="startproject")

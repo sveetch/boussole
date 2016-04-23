@@ -8,13 +8,13 @@
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
 .. _libsass-python: https://github.com/dahlia/libsass-python
+.. _colorama: https://github.com/tartley/colorama
+.. _colorlog: https://github.com/borntyping/python-colorlog
 
 Welcome to Boussole's documentation!
 ====================================
 
 This is a commandline interface to build `SASS`_ projects using `libsass-python`_.
-
-Alike the Compass command line, there is a 'build' and a 'watch' actions to build all SASS files.
 
 .. Note::
     Old SASS syntax (the *indented syntax*) is not supported.
@@ -31,7 +31,9 @@ Requires
 
 * `Watchdog`_ == 0.8.3;
 * `click`_ == 5.1;
-* `libsass-python`_ == 0.11.0;
+* `libsass-python`_ >= 0.11.0;
+* `colorama`_;
+* `colorlog`_;
 
 User’s Guide
 ************
@@ -52,3 +54,8 @@ Developer’s Guide
    development.rst
    changelog.rst
    api/index.rst
+
+Credits
+*******
+
+Logo has been created by **Sébastien Bianco**.

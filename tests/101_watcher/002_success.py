@@ -3,8 +3,6 @@ import os
 import logging
 import pytest
 
-from boussole.exceptions import UnresolvablePath
-
 from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    UnitTestableLibraryEventHandler,
                    UnitTestableProjectEventHandler, start_env,

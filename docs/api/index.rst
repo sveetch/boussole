@@ -25,3 +25,4 @@ Modules
    conf.rst
    compiler.rst
    watcher.rst
+   project.rst

@@ -7,7 +7,7 @@ Boussole work on per project configurations stored in a settings file for each
 project.
 
 Backends behavior is to search for a settings file in the given directory, read
-it, possibly patch its values and hen return a
+it, possibly patch its values and then return a
 :class:`boussole.conf.model.Settings object`.
 
 Almost all paths in settings will be expanded to absolute paths if they are

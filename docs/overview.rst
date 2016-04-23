@@ -74,20 +74,54 @@ EXCLUDES
 
     (list) A list of glob pattern (string) to exclude some paths/files from compile. Remember these pattern are allways matched against relative paths (from project directory).
 
+Help
+****
+
+You can read global help about commands and arguments with: ::
+
+    boussole -h
+
+And you can reach command help using: ::
+
+    boussole [command name] -h
+
+This is identical for all commands.
+
+Start a new project
+*******************
+
+Create directory and configuration file for a new project. Although you can create your project manually, this is an easy helper to do it and avoid forgetting some details.
+
+Without arguments, command will prompt you to fill required values but you can also directly feed these values from arguments, see command help for details.
+
+**Usage** ::
+
+    boussole startproject
+
 Compile
 *******
 
-Use: ::
+Compile simply launch compiler on every eligible SASS source from your ``SOURCES_PATH`` directory.
+
+**Usage** ::
 
     boussole compile
-
-Compile simply launch compiler on every eligible SASS source from your ``SOURCES_PATH``.
 
 Watch
 *****
 
-Use: ::
+Watcher will constantly watch about changes on files in your ``SOURCES_PATH`` directory.
+
+When an event occurs, it will compile eligible sources from the file dependencies and itself. Managed events can be :
+
+* File creation;
+* File modification;
+* File move;
+* File deletion.
+
+.. Note::
+    Compile errors won't break the watcher, meaning you can resolve it and it will try again to compile.
+
+**Usage** ::
 
     boussole watch
-
-Watcher will constantly watch about changes on files in your ``SOURCES_PATH``. When a change event occurs, it will compile eligible sources from the file dependencies and itself.

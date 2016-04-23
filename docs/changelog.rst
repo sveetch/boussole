@@ -4,6 +4,12 @@
 Changelog
 =========
 
+Version 0.8.3 - 2016/04/23
+--------------------------
+
+* New CLI action to start a project, close #8;
+* Added logo to documentation;
+
 Version 0.8.0 - 2016/04/16
 --------------------------
 
