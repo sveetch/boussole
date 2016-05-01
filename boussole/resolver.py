@@ -103,13 +103,13 @@ class ImportPathsResolver(object):
 
         Note:
             Resolving strategy is made like libsass do, meaning paths in
-            import rules is resolved from the source where the import rules
-            have been finded.
+            import rules are resolved from the source file where the import
+            rules have been finded.
 
             If import rule is not explicit enough and two file are candidates
             for the same rule, it will raises an error. But contrary to
             libsass, this happen also for files from given libraries in
-            ``library_paths`` (in this case libsass just silently taking the
+            ``library_paths`` (oposed to libsass just silently taking the
             first candidate).
 
         Args:

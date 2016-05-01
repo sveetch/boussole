@@ -113,6 +113,7 @@ def sample_project_settings():
         'TARGET_PATH': u'/home/bar',
         'OUTPUT_STYLES': u'nested',
         'SOURCE_COMMENTS': False,
+        'SOURCE_MAP': False,
         "EXCLUDES": [],
     }
 
@@ -131,6 +132,7 @@ def custom_project_settings():
         'TARGET_PATH': fixtures_settings.fixtures_path,
         'OUTPUT_STYLES': u'expanded',
         'SOURCE_COMMENTS': True,
+        'SOURCE_MAP': False,
         "EXCLUDES": [
             "main_error.scss",
             "main_circular_5.scss",

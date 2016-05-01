@@ -4,6 +4,12 @@
 Changelog
 =========
 
+Version 0.9.0 - 2016/05/01
+--------------------------
+
+* Added new settings to enabled sourcemap generation, close #6;
+* Finalize documentation, close #10
+
 Version 0.8.3 - 2016/04/23
 --------------------------
 

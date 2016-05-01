@@ -289,6 +289,7 @@ def test_success_001(settings, caplog):
                 'SOURCES_PATH': '.',
                 'TARGET_PATH': './css',
                 'OUTPUT_STYLES': 'compact',
+                'SOURCE_MAP': True,
             }, indent=4))
 
         # Create needed dirs
@@ -327,6 +328,7 @@ def test_success_001(settings, caplog):
             "",
             """#content.wide { margin: 50px 15px; }""",
             "",
+            """/*# sourceMappingURL=css/main.map */""",
         ))
         with open(os.path.join(test_cwd, "css", "main.css"), 'rb') as f:
             css_compiled = f.read()
@@ -341,4 +343,4 @@ def test_success_001(settings, caplog):
         # Source is correctly compiled
         assert css_compiled == css_attempted
         # Partial source to ignore is ignored
-        assert os.listdir(os.path.join(test_cwd, "css")) == ['main.css']
+        assert os.listdir(os.path.join(test_cwd, "css")) == ['main.map', 'main.css']

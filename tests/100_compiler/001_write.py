@@ -4,10 +4,10 @@ import io
 import pytest
 
 
-def test_001(settings, compiler, temp_builds_dir):
+def test_001(compiler, temp_builds_dir):
     """compiler.SassCompileHelper.write_content: Just creating file with latin
        content"""
-    filepath = temp_builds_dir.join('compiler_001')
+    filepath = temp_builds_dir.join('compiler_write_001')
 
     content = u"""Some sample latin text"""
 
@@ -20,10 +20,10 @@ def test_001(settings, compiler, temp_builds_dir):
     assert content == result
 
 
-def test_002(settings, compiler, temp_builds_dir):
+def test_002(compiler, temp_builds_dir):
     """compiler.SassCompileHelper.write_content: Creating file with unicode
        content"""
-    filepath = temp_builds_dir.join('compiler_002')
+    filepath = temp_builds_dir.join('compiler_write_002')
 
     content = u"""Some sample unicode text: フランス Furansu"""
 
@@ -36,7 +36,7 @@ def test_002(settings, compiler, temp_builds_dir):
     assert content == result
 
 
-def test_003(settings, compiler, temp_builds_dir):
+def test_003(compiler, temp_builds_dir):
     """compiler.SassCompileHelper.write_content: Creating file into
        subdirectory"""
     filepath = temp_builds_dir.join('foo/bar/home.txt')

@@ -54,6 +54,10 @@ SETTINGS_MANIFEST = {
         'default': False,
         'postprocess': [],
     },
+    'SOURCE_MAP': {
+        'default': False,
+        'postprocess': [],
+    },
     'EXCLUDES': {
         'default': [],
         'postprocess': [],

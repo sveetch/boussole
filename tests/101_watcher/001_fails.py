@@ -11,7 +11,7 @@ from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    build_sample_structure)
 
 
-def test_index_001(settings, caplog, temp_builds_dir):
+def test_index_001(caplog, temp_builds_dir):
     """watcher.SassProjectEventHandler: UnresolvablePath on index from 'on_any_event'"""
     basedir = temp_builds_dir.join('watcher_fails_001')
 
@@ -54,7 +54,7 @@ def test_index_001(settings, caplog, temp_builds_dir):
     ]
 
 
-def test_deleted_041(settings, caplog, temp_builds_dir):
+def test_deleted_001(caplog, temp_builds_dir):
     """watcher.SassProjectEventHandler: UnresolvablePath on 'Deleted' event for a partial
        source included by other files"""
     basedir = temp_builds_dir.join('watcher_fails_041')

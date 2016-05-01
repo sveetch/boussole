@@ -13,8 +13,10 @@ import io
 
 import sass
 
+from boussole.finder import ScssFinder
 
-class SassCompileHelper(object):
+
+class SassCompileHelper(ScssFinder):
     """
     Sass compile helper mixin
     """
@@ -27,9 +29,6 @@ class SassCompileHelper(object):
 
         It will create needed directory structure first if it contain some
         directories that does not allready exists.
-
-        Todo:
-            Maybe this can inherit from finder.
 
         Args:
             settings (boussole.conf.model.Settings): Project settings.
@@ -45,17 +44,34 @@ class SassCompileHelper(object):
               message will contains returned error from libsass, if success
               just the destination path.
         """
+        source_map_destination = None
+        if settings.SOURCE_MAP:
+            source_map_destination = self.change_extension(destination, "map")
+
         try:
             content = sass.compile(
                 filename=sourcepath,
                 output_style=settings.OUTPUT_STYLES,
                 source_comments=settings.SOURCE_COMMENTS,
                 include_paths=settings.LIBRARY_PATHS,
+                # Sourcemap is allways in the same directory than compiled file
+                source_map_filename=source_map_destination,
             )
         except sass.CompileError as e:
             return False, e.message
         else:
+            # Compiler return a tuple (css, map) if sourcemap is
+            # enabled
+            sourcemap = None
+            if settings.SOURCE_MAP:
+                content, sourcemap = content
+
             self.write_content(content, destination)
+
+            # Write sourcemap if any
+            if sourcemap:
+                self.write_content(sourcemap, source_map_destination)
+
             return True, destination
 
     def write_content(self, content, destination):

@@ -40,6 +40,7 @@ Here is a full sample of available settings for project configuration:
             "TARGET_PATH": "/home/bar",
             "OUTPUT_STYLES": "nested",
             "SOURCE_COMMENTS": false,
+            "SOURCE_MAP": false,
             "EXCLUDES": [
                 "*/*.backup.scss",
                 "/home/lib2"
@@ -69,6 +70,10 @@ SOURCE_COMMENTS
     Default: ``false``
 
     (boolean) If ``true``, comments about source lines will be added to each rule in resulted CSS from compile.
+SOURCE_MAP
+    Default: ``false``
+
+    (boolean) If ``true``, generate a source map for each compiled file. Source map filename will be the same that compiled file but with extension changed to ``.map``.
 EXCLUDES
     Default: Empty list
 
