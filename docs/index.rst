@@ -5,7 +5,6 @@
 
 .. _SASS: http://sass-lang.com/
 .. _LibSass: http://sass-lang.com/libsass
-.. _Compass: http://compass-style.org/
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
 .. _libsass-python: https://github.com/dahlia/libsass-python
@@ -34,7 +33,7 @@ Features
 Links
 *****
 
-* Read the documentation on `Read the docs <http://boussole.readthedocs.org/>`_;
+* Read the documentation on `Read the docs <http://boussole.readthedocs.io/>`_;
 * Download its `PyPi package <http://pypi.python.org/pypi/boussole>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/boussole>`_;
 
