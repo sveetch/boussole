@@ -10,6 +10,8 @@ Parser is in charge to find every ``@import`` rules in given SASS content.
 
 It has been builded following `SASS Reference`_ about ``@import`` rule.
 """
+from __future__ import unicode_literals
+
 import re
 
 from boussole.exceptions import InvalidImportRule
@@ -29,7 +31,7 @@ class ScssImportsParser(object):
         REGEX_IMPORT_RULE: Compiled regex used to find import rules.
         REGEX_COMMENTS: Compiled regex used to find and remove comments.
     """
-    REGEX_IMPORT_RULE = re.compile(ur'@import\s*(url)?\s*\(?([^;]+?)\)?;',
+    REGEX_IMPORT_RULE = re.compile(r'@import\s*(url)?\s*\(?([^;]+?)\)?;',
                                    re.IGNORECASE)
     # Second part (for singleline comment) contain a negative lookbehind
     # assertion to avoid to match on url protocole (http://) and cause issues
