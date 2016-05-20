@@ -17,27 +17,21 @@ import os
 from boussole.exceptions import FinderException
 
 
-def path_parts_cmp(x, y):
+def paths_by_depth(paths):
+    """Sort list of paths by number of directories in it
+
+    .. todo::
+
+        check if a final '/' is consistently given or ommitted.
+
+    :param iterable paths: iterable containing paths (str)
+    :rtype: list
     """
-    Path comparison for ``sorted()``.
-
-    We just split paths on separator '/' to have the biggest path parts
-    length.
-
-    Note:
-        TODO: Using hardcoded separator '/' wont work on window FS, better
-        should get the separator from os(.path?).
-
-    Args:
-        x (str): First path to compare on.
-        y (str): Second path to compare to.
-
-    Returns:
-        int: Negative, zero or positive number depending on whether the
-            first argument is considered smaller than, equal to, or larger
-            than the second argument.
-    """
-    return cmp(len(x.split('/')), len(y.split('/')))
+    return sorted(
+            paths,
+            key=lambda path: path.count(os.path.sep),
+            reverse=True
+    )
 
 
 class ScssFinder(object):
@@ -73,9 +67,9 @@ class ScssFinder(object):
             str: Relative filepath where the start coming from ``paths`` is
                 removed.
         """
-        for k in sorted(paths, cmp=path_parts_cmp, reverse=True):
-            if filepath.startswith(k):
-                return os.path.relpath(filepath, k)
+        for systempath in paths_by_depth(paths):
+            if filepath.startswith(systempath):
+                return os.path.relpath(filepath, systempath)
 
         raise FinderException("'Finder.get_relative_from_paths()' could not "
                               "find filepath start from '{}'".format(filepath))
@@ -171,8 +165,8 @@ class ScssFinder(object):
             return False
 
         # Not in an excluded directory
-        for k in sorted(excluded_libdirs, cmp=path_parts_cmp, reverse=True):
-            if filepath.startswith(k):
+        for excluded_path in paths_by_depth(excluded_libdirs):
+            if filepath.startswith(excluded_path):
                 return False
 
         # Not matching an exclude pattern
