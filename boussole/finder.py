@@ -165,9 +165,11 @@ class ScssFinder(object):
             return False
 
         # Not in an excluded directory
-        for excluded_path in paths_by_depth(excluded_libdirs):
-            if filepath.startswith(excluded_path):
-                return False
+        if any(
+            filepath.startswith(excluded_path)
+            for excluded_path in paths_by_depth(excluded_libdirs)
+        ):
+            return False
 
         # Not matching an exclude pattern
         if sourcedir and exclude_patterns:
