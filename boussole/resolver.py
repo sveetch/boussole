@@ -8,6 +8,8 @@ given source directory and libraries directories paths.
 """
 import os
 
+from six import string_types
+
 from boussole.exceptions import UnresolvablePath
 from boussole.exceptions import UnclearResolution
 
@@ -137,7 +139,7 @@ class ImportPathsResolver(object):
 
         # Add given library paths to the basepaths for resolving
         # Accept a string if not allready in basepaths
-        if library_paths and isinstance(library_paths, basestring) and \
+        if library_paths and isinstance(library_paths, string_types) and \
            library_paths not in basepaths:
             basepaths.append(library_paths)
         # Add path item from list if not allready in basepaths
