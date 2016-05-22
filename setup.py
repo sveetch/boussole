@@ -21,6 +21,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[
+        'six',
         'click==5.1',
         'pathtools==0.1.2',
         'watchdog==0.8.3',

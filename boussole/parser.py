@@ -14,6 +14,8 @@ from __future__ import unicode_literals
 
 import re
 
+from six.moves import filter
+
 from boussole.exceptions import InvalidImportRule
 
 
@@ -113,7 +115,7 @@ class ScssImportsParser(object):
             rules.extend([self.strip_quotes(v.strip())
                           for v in paths.split(',')])
 
-        return filter(self.filter_rules, rules)
+        return list(filter(self.filter_rules, rules))
 
     def parse(self, content):
         """
