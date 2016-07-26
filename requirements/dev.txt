@@ -1,0 +1,2 @@
+ -r tests.txt
+sphinx==1.3.6

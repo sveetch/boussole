@@ -1,0 +1,4 @@
+pytest
+pytest-catchlog
+flake8
+flake8-format-ansi

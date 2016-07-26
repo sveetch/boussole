@@ -1,6 +1,0 @@
- -e git+https://github.com/sveetch/boussole.git#egg=boussole
-pytest
-flake8
-flake8-format-ansi
-pytest-catchlog
-sphinx==1.3.6

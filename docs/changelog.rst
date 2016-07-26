@@ -4,6 +4,12 @@
 Changelog
 =========
 
+Version 0.9.1 - 2016/07/27
+--------------------------
+
+* Fixed setup.py so tests directory is not install Python packages;
+* Updated development documentation;
+
 Version 0.9.0 - 2016/05/01
 --------------------------
 
