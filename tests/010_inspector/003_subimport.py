@@ -11,12 +11,16 @@ def test_001(settings, inspector):
 
     inspector.inspect(*sources)
 
-    assert list(inspector.children(sourcepath)) == [
+    import json
+
+    results = inspector.children(sourcepath)
+
+    assert results == set([
         os.path.join(settings.sample_path, "_empty.scss"),
         os.path.join(settings.sample_path, "_vendor.scss"),
         os.path.join(settings.sample_path, "components/_webfont.scss"),
         os.path.join(settings.sample_path, "main_basic.scss"),
         os.path.join(settings.sample_path, "components/_webfont_icons.scss"),
-    ]
+    ])
 
-    assert list(inspector.parents(sourcepath))  == []
+    assert inspector.parents(sourcepath)  == set([])
