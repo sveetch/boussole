@@ -27,11 +27,11 @@ def test_001(settings, inspector):
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     inspector.inspect(sourcepath)
 
-    children = list(inspector.children(sourcepath))
-    assert children == [
+    children = inspector.children(sourcepath)
+    assert children == set([
         os.path.join(settings.sample_path, '_empty.scss'),
         os.path.join(settings.sample_path, '_vendor.scss'),
-    ]
+    ])
 
-    parents = list(inspector.parents(sourcepath))
-    assert parents == []
+    parents = inspector.parents(sourcepath)
+    assert parents == set([])

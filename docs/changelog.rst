@@ -4,9 +4,11 @@
 Changelog
 =========
 
-Version 0.9.1 - 2016/07/27
+Version 0.9.1 - Unreleased
 --------------------------
 
+* Disabled ``flake8-format-ansi`` since it seems to cause errors in some cases, it is recommended to do ``pip uninstall flake8-format-ansi`` for now;
+* Fixed some inspector tests failing on some wrong result orders because of ``set()`` vs ``list()``;
 * Fixed setup.py so tests directory is not install Python packages;
 * Updated development documentation;
 
