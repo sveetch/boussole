@@ -4,6 +4,16 @@
 Changelog
 =========
 
+Version 0.9.1 - 2016/07/29
+--------------------------
+
+* Added tox configuration file starting with Python2.7;
+* Fixed some postprocessor that was failing because of usage of ``os.envrion['HOME']`` not working inside tox env;
+* Disabled ``flake8-format-ansi`` since it seems to cause errors in some cases, it is recommended to do ``pip uninstall flake8-format-ansi`` for now;
+* Fixed some inspector tests failing on some wrong result orders because of ``set()`` vs ``list()``;
+* Fixed setup.py so tests directory is not installed anymore as a Python packages;
+* Updated development documentation;
+
 Version 0.9.0 - 2016/05/01
 --------------------------
 

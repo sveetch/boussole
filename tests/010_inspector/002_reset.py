@@ -12,5 +12,5 @@ def test_001(settings, inspector):
 
     assert inspector._CHILDREN_MAP  == {}
     assert inspector._PARENTS_MAP == {}
-    assert list(inspector.children(sourcepath)) == []
-    assert list(inspector.parents(sourcepath))  == []
+    assert inspector.children(sourcepath) == set([])
+    assert inspector.parents(sourcepath)  == set([])

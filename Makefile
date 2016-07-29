@@ -17,13 +17,13 @@ delpyc:
 	find . -name "*\.pyc"|xargs rm -f
 
 clean: delpyc
-	rm -Rf dist .cache boussole.egg-info tests/__pycache__/
+	rm -Rf dist .tox boussole.egg-info .cache tests/__pycache__/
 
 flake:
 	flake8 --show-source boussole
 
 tests:
-	py.test -vv
+	py.test -vv tests
 
 quality: tests flake
 

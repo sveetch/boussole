@@ -14,14 +14,14 @@ def test_001_basic(settings, inspector):
 
     inspector.inspect(*sources, library_paths=settings.libraries_fixture_paths)
 
-    parents = list(inspector.parents(sourcepath))
-    assert parents == [
+    parents = inspector.parents(sourcepath)
+    assert parents == set([
         os.path.join(settings.sample_path, 'main_depth_import-1.scss'),
         os.path.join(settings.sample_path, 'main_depth_import-2.scss'),
         os.path.join(settings.sample_path, 'main_depth_import-3.scss'),
         os.path.join(settings.sample_path, 'main_with_subimports.scss'),
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
-    ]
+    ])
 
 def test_002_vendor(settings, inspector):
     """inspector.ScssInspector: Looking for parents of vendor component"""
@@ -46,8 +46,8 @@ def test_002_vendor(settings, inspector):
 
     inspector.inspect(*sources, library_paths=settings.libraries_fixture_paths)
 
-    parents = list(inspector.parents(sourcepath))
-    assert parents == [
+    parents = inspector.parents(sourcepath)
+    assert parents == set([
         os.path.join(settings.sample_path, 'main_depth_import-1.scss'),
         os.path.join(settings.sample_path, 'main_depth_import-2.scss'),
         os.path.join(settings.sample_path, 'main_circular_4.scss'),
@@ -60,7 +60,7 @@ def test_002_vendor(settings, inspector):
         os.path.join(settings.sample_path, 'main_syntax.scss'),
         os.path.join(settings.sample_path, 'main_circular_3.scss'),
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
-    ]
+    ])
 
 def test_003_library(settings, inspector):
     """inspector.ScssInspector: Looking for parents of a library component"""
@@ -85,8 +85,8 @@ def test_003_library(settings, inspector):
 
     inspector.inspect(*sources, library_paths=settings.libraries_fixture_paths)
 
-    parents = list(inspector.parents(sourcepath))
-    assert parents == [
+    parents = inspector.parents(sourcepath)
+    assert parents == set([
         os.path.join(settings.lib1_path, 'library_1_fullstack.scss'),
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
-    ]
+    ])

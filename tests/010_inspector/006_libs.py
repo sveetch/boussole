@@ -27,8 +27,8 @@ def test_children(settings, inspector):
 
     inspector.inspect(*sources, library_paths=settings.libraries_fixture_paths)
 
-    children = list(inspector.children(sourcepath))
-    assert children == [
+    children = inspector.children(sourcepath)
+    assert children == set([
         os.path.join(settings.sample_path, '_empty.scss'),
         os.path.join(settings.lib1_path, 'settings/_sample.scss'),
         os.path.join(settings.sample_path, '_vendor.scss'),
@@ -40,4 +40,4 @@ def test_children(settings, inspector):
         os.path.join(settings.lib1_path, 'components/_sections.scss'),
         os.path.join(settings.sample_path, 'components/_webfont_icons.scss'),
         os.path.join(settings.sample_path, 'components/_webfont.scss'),
-    ]
+    ])
