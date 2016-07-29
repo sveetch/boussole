@@ -21,7 +21,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     install_requires=[
-        'click==5.1',
+        'click>=5.1,<6.0',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
         'libsass>=0.11.0',
