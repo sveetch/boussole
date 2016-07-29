@@ -21,7 +21,7 @@ def test_002_expand_homedir(settings, sample_project_settings):
 
     expand_result = processor._patch_expand_path(sample_project_settings, "DUMMY_NAME", "~/foo")
 
-    assert expand_result == os.path.join(os.environ['HOME'], 'foo')
+    assert expand_result == os.path.join(os.path.expanduser('~'), 'foo')
 
 
 def test_003_expand_absolute(settings, sample_project_settings):
@@ -78,7 +78,7 @@ def test_010_expands(settings, sample_project_settings):
 
     expected = [
         "/foo/bar",
-        os.path.join(os.environ['HOME'], 'foo'),
+        os.path.join(os.path.expanduser('~'), 'foo'),
         os.path.join(settings.fixtures_path, "tests/data_fixtures/sample_project"),
         os.path.join(settings.fixtures_path, "tests/data_fixtures/sample_project"),
         os.path.join(settings.fixtures_path, "foo/coco/bar"),
