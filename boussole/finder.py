@@ -241,6 +241,9 @@ class ScssFinder(object):
         filepaths = []
 
         for root, dirs, files in os.walk(sourcedir):
+            # Sort structure to avoid arbitrary order
+            dirs.sort()
+            files.sort()
             for item in files:
                 # Store relative directory but drop it if at root ('.')
                 relative_dir = os.path.relpath(root, sourcedir)

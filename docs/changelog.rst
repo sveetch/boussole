@@ -4,6 +4,11 @@
 Changelog
 =========
 
+Version 0.9.2 - 2016/07/30
+--------------------------
+
+* Fixed some tests related to directory/files structures that were not consistant because of ``os.walk`` arbitrary order, close #16;
+
 Version 0.9.1 - 2016/07/29
 --------------------------
 
