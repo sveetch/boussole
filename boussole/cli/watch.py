@@ -43,7 +43,7 @@ def watch_command(context, config):
         backend = SettingsBackendJson(basedir=os.getcwd())
         settings = backend.load(filepath=config)
     except SettingsBackendError as e:
-        logger.critical(e.message)
+        logger.critical(e)
         raise click.Abort()
 
     logger.debug("Project sources directory: {}".format(

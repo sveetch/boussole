@@ -58,7 +58,7 @@ class SassCompileHelper(ScssFinder):
                 source_map_filename=source_map_destination,
             )
         except sass.CompileError as e:
-            return False, e.message
+            return False, e
         else:
             # Compiler return a tuple (css, map) if sourcemap is
             # enabled

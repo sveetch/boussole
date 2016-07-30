@@ -45,7 +45,7 @@ def startproject_command(context, basedir, config, sourcedir, targetdir):
             targetdir,
         ), cwd=os.getcwd())
     except SettingsInvalidError as e:
-        logger.critical(e.message)
+        logger.critical(e)
         raise click.Abort()
     else:
         logger.info("Project directory structure and configuration file have "

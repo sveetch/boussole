@@ -90,7 +90,7 @@ class SassLibraryEventHandler(object):
             )
         except BoussoleBaseException as e:
             self._event_error = True
-            self.logger.error(e.message)
+            self.logger.error(e)
 
     def compile_source(self, sourcepath):
         """
