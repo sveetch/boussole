@@ -28,7 +28,7 @@ def init_logger(level, printout=True):
 
     # Redirect outputs to the void space, mostly for usage within unittests
     if not printout:
-        from StringIO import StringIO
+        from io import StringIO
         dummystream = StringIO()
         handler = logging.StreamHandler(dummystream)
     # Standard output with colored messages
