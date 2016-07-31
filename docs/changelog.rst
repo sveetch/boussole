@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.0.0 - Unreleased
+Version 1.0.0 - 2016/08/01
 --------------------------
 
 Added Python 3.4 support, thanks to `@feth`_ for its contributions.
@@ -23,6 +23,7 @@ Added Python 3.4 support, thanks to `@feth`_ for its contributions.
 * Don't open JSON settings file with ``rb`` inside tests, mode ``r`` is enough;
 * Fixed ``os.listdir`` usage in tests (using sorted results);
 * Fixed logging messages to be unicode string;
+* Added Python 3.4 interpreter in available tox environments;
 
 Version 0.9.2 - 2016/07/30
 --------------------------
