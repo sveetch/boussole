@@ -323,24 +323,24 @@ def test_success_001(settings, caplog):
 
         # Attempted compiled CSS
         css_attempted = "\n".join((
-            """/* Main sample */""",
+            u"""/* Main sample */""",
             """#content { color: red; }""",
             "",
             """#content.wide { margin: 50px 15px; }""",
             "",
             """/*# sourceMappingURL=css/main.map */""",
         ))
-        with open(os.path.join(test_cwd, "css", "main.css"), 'rb') as f:
+        with open(os.path.join(test_cwd, "css", "main.css"), 'r') as f:
             css_compiled = f.read()
-
-        #print result.exit_code
-        #print result.output
-        #print type(result)
-        #print os.listdir(os.path.join(test_cwd, "css"))
 
         # Command success signal exit
         assert result.exit_code == 0
         # Source is correctly compiled
         assert css_compiled == css_attempted
         # Partial source to ignore is ignored
-        assert os.listdir(os.path.join(test_cwd, "css")) == ['main.map', 'main.css']
+        results = os.listdir(os.path.join(test_cwd, "css"))
+        results.sort()
+        assert results == [
+            'main.css',
+            'main.map',
+        ]

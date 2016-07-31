@@ -1,4 +1,4 @@
 """
 Aims to reproduce the useful Compass commandline tool behaviors
 """
-__version__ = '1.0.0-pre.2'
+__version__ = '1.0.0-pre.3'

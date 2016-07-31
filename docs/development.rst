@@ -19,7 +19,7 @@ Boussole is developed with:
 * Respecting flake and pip8 rules using `Flake8`_;
 * `Sphinx`_ for documentation with enabled `Napoleon`_ extension (using only the *Google style*);
 
-Every requirement is available in file ``dev_requirements.txt``.
+Every requirement is available in file ``requirements/dev.txt``.
 
 Install for development
 ***********************

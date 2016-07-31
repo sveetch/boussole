@@ -21,6 +21,7 @@ Added Python 3.4 support, thanks to `@feth`_ for its contributions.
 * Use StringIO object from 'io' module instead of deprecated 'StringIO' module;
 * Don't use anymore ``message`` class attribute with Exceptions;
 * Don't open JSON settings file with ``rb`` inside tests, mode ``r`` is enough;
+* Fixed ``os.listdir`` usage in tests (using sorted results);
 * Fixed logging messages to be unicode string;
 
 Version 0.9.2 - 2016/07/30

@@ -53,7 +53,14 @@ def test_move_010(temp_builds_dir):
     )
 
     project_handler.on_moved(DummyMoveEvent(bdir('sass/main.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['main.css', 'main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css'
+    ]
 
 
 def test_move_011(temp_builds_dir):
@@ -74,7 +81,13 @@ def test_move_011(temp_builds_dir):
     )
 
     project_handler.on_moved(DummyMoveEvent(bdir('sass/main_importing.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main_importing.css'
+    ]
 
 
 def test_move_012(temp_builds_dir):
@@ -95,7 +108,15 @@ def test_move_012(temp_builds_dir):
     )
 
     project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css',
+        'main_usinglib.css',
+    ]
 
 
 def test_modified_020(temp_builds_dir):
@@ -116,7 +137,15 @@ def test_modified_020(temp_builds_dir):
     )
 
     project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css',
+        'main_usinglib.css',
+    ]
 
 
 def test_created_030(temp_builds_dir):
@@ -144,7 +173,13 @@ def test_created_030(temp_builds_dir):
         f.write(source)
 
     project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['new_main.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'new_main.css',
+    ]
 
 
 def test_deleted_040(temp_builds_dir):
@@ -166,7 +201,11 @@ def test_deleted_040(temp_builds_dir):
     os.remove(bdir('sass/main_importing.scss'))
 
     project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
-    assert os.listdir(basedir.join("css").strpath) == []
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == []
 
 
 def test_whole_050(temp_builds_dir):
@@ -188,7 +227,15 @@ def test_whole_050(temp_builds_dir):
 
     # Modify a partial source
     project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css', 'main.css', 'main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css',
+        'main_usinglib.css',
+    ]
 
     # Create a new main source
     source = "\n".join((
@@ -199,18 +246,43 @@ def test_whole_050(temp_builds_dir):
         f.write(source)
 
     project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css', 'main_importing.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css',
+        'main_usinglib.css',
+        'new_main.css',
+    ]
 
     # Delete a main source
     os.remove(bdir('css/main_importing.css'))
     os.remove(bdir('sass/main_importing.scss'))
 
     project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_usinglib.css',
+        'new_main.css',
+    ]
 
     # Simulate moved source
     project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
-    assert os.listdir(basedir.join("css").strpath) == ['new_main.css', 'main_usinglib.css', 'main.css']
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_usinglib.css',
+        'new_main.css',
+    ]
 
 
 def test_library_modified_101(temp_builds_dir):
@@ -234,8 +306,13 @@ def test_library_modified_101(temp_builds_dir):
 
     project_handler.on_modified(DummyBaseEvent(bdir('lib/libmain.scss')))
 
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
     # Almost dummy validation because on wrong behavior (with
     # UnitTestableProjectEventHandler instead of
     # UnitTestableLibraryEventHandler) CSS files are writed to "../lib"
     # path, that is under the "css" dir.
-    assert os.listdir(basedir.join("css").strpath) == ['main_usinglib.css']
+    assert results == [
+        'main_usinglib.css',
+    ]
