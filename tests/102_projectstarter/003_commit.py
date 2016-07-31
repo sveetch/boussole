@@ -23,7 +23,7 @@ def test_001(projectstarter, temp_builds_dir):
     assert os.path.exists(os.path.join(basedir, "scss")) == True
     assert os.path.exists(os.path.join(basedir, "css")) == True
 
-    with open(os.path.join(basedir, "settings.json"), "rb") as fp:
+    with open(os.path.join(basedir, "settings.json"), "r") as fp:
         assert json.load(fp) == {
             'SOURCES_PATH': 'scss',
             'TARGET_PATH': 'css',

@@ -3,6 +3,8 @@ import time
 import os
 import click
 
+import six
+
 from watchdog.observers import Observer
 
 from boussole.conf.json_backend import SettingsBackendJson
@@ -43,14 +45,14 @@ def watch_command(context, config):
         backend = SettingsBackendJson(basedir=os.getcwd())
         settings = backend.load(filepath=config)
     except SettingsBackendError as e:
-        logger.critical(e)
+        logger.critical(six.text_type(e))
         raise click.Abort()
 
-    logger.debug("Project sources directory: {}".format(
+    logger.debug(u"Project sources directory: {}".format(
                 settings.SOURCES_PATH))
-    logger.debug("Project destination directory: {}".format(
+    logger.debug(u"Project destination directory: {}".format(
                 settings.TARGET_PATH))
-    logger.debug("Exclude patterns: {}".format(
+    logger.debug(u"Exclude patterns: {}".format(
                 settings.EXCLUDES))
 
     # Watcher settings
@@ -80,14 +82,14 @@ def watch_command(context, config):
         observer.schedule(lib_handler, libpath, recursive=True)
 
     # Start watching
-    logger.warning("Launching the watcher, use CTRL+C to stop it")
+    logger.warning(u"Launching the watcher, use CTRL+C to stop it")
     observer.start()
 
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        logger.warning("CTRL+C used, stopping..")
+        logger.warning(u"CTRL+C used, stopping..")
         observer.stop()
 
     observer.join()

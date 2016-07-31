@@ -1,8 +1,27 @@
 .. _click: http://click.pocoo.org/6/
+.. _`@feth`: https://github.com/feth
 
 =========
 Changelog
 =========
+
+Version 1.0.0 - Unreleased
+--------------------------
+
+Added Python 3.4 support, thanks to `@feth`_ for its contributions.
+
+* Added ``six`` as requirement;
+* Use the 'key' param in sorted: 'cmp' is removed
+
+    * Factored out the calls to sorted into paths_by_depth.
+    * removed path_parts_cmp, used by removed keyword arg cmp (replaced by a lambda function);
+
+* More pythonic way of checking the match in Finder;
+* Fixed parser.py for ``filter`` builtin function usage;
+* Use StringIO object from 'io' module instead of deprecated 'StringIO' module;
+* Don't use anymore ``message`` class attribute with Exceptions;
+* Don't open JSON settings file with ``rb`` inside tests, mode ``r`` is enough;
+* Fixed logging messages to be unicode string;
 
 Version 0.9.2 - 2016/07/30
 --------------------------

@@ -11,6 +11,8 @@ a SASS source using `libsass-python`_.
 import os
 import io
 
+import six
+
 import sass
 
 from boussole.finder import ScssFinder
@@ -58,7 +60,7 @@ class SassCompileHelper(ScssFinder):
                 source_map_filename=source_map_destination,
             )
         except sass.CompileError as e:
-            return False, e
+            return False, six.text_type(e)
         else:
             # Compiler return a tuple (css, map) if sourcemap is
             # enabled

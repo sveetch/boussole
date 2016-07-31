@@ -61,7 +61,7 @@ def test_001(settings, caplog):
         assert os.path.exists(targetdir) == True
 
         # Validate created configuration file
-        with open(config_filepath, "rb") as fp:
+        with open(config_filepath, "r") as fp:
             assert json.load(fp) == {
                 'SOURCES_PATH': 'scss',
                 'TARGET_PATH': 'css',

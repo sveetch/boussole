@@ -2,6 +2,8 @@
 import os
 import click
 
+import six
+
 from boussole.exceptions import SettingsInvalidError
 from boussole.project import ProjectStarter
 
@@ -45,15 +47,15 @@ def startproject_command(context, basedir, config, sourcedir, targetdir):
             targetdir,
         ), cwd=os.getcwd())
     except SettingsInvalidError as e:
-        logger.critical(e)
+        logger.critical(six.text_type(e))
         raise click.Abort()
     else:
-        logger.info("Project directory structure and configuration file have "
+        logger.info(u"Project directory structure and configuration file have "
                     "been created.")
 
-        logger.info("Now you should start to create some SASS sources into "
+        logger.info(u"Now you should start to create some SASS sources into "
                     "'{}', then compile them "
                     "using:".format(results['sourcedir']))
 
-        logger.info("    boussole compile "
+        logger.info(u"    boussole compile "
                     "--config={}".format(results['config']))
