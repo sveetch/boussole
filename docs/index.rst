@@ -10,6 +10,7 @@
 .. _libsass-python: https://github.com/dahlia/libsass-python
 .. _colorama: https://github.com/tartley/colorama
 .. _colorlog: https://github.com/borntyping/python-colorlog
+.. _six: https://pythonhosted.org/six/
 
 Welcome to Boussole's documentation!
 ====================================
@@ -28,7 +29,7 @@ Features
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
 * **Expose a Core API** to use it from Python code;
-* **Robust** because Unit tested;
+* Support for **Python2.7** and **Python3.4**;
 
 Links
 *****
@@ -37,9 +38,10 @@ Links
 * Download its `PyPi package <http://pypi.python.org/pypi/boussole>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/boussole>`_;
 
-Requires
-********
+Dependancies
+************
 
+* `six`_;
 * `Watchdog`_ == 0.8.3;
 * `click`_ == 5.1;
 * `libsass-python`_ >= 0.11.0;
