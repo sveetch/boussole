@@ -1,0 +1,8 @@
+/* Just some unicode characters in various situations */
+
+$arrow-back-character: "←" !default;
+
+// Check this char •;
+.arrow-continue{
+    content: "→";
+}

@@ -23,6 +23,12 @@ def test_comment_003(settings, parser):
     assert result == []
 
 
+def test_unicode(settings, parser):
+    """parser.ScssImportsParser: Just checkin parser on unicode character"""
+    result = parser.parse(u"""// Look this unicode char: →""")
+    assert result == []
+
+
 def test_sample_001(settings, parser):
     """parser.ScssImportsParser: complete file"""
     with open(os.path.join(settings.sample_path, 'main_syntax.scss')) as fp:

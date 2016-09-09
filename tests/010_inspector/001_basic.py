@@ -35,3 +35,18 @@ def test_001(settings, inspector):
 
     parents = inspector.parents(sourcepath)
     assert parents == set([])
+
+
+def test_encoding(settings, inspector):
+    """inspector.ScssInspector: Checking about inspecting files with unicode"""
+    sourcepath = os.path.join(settings.sample_path, 'main_encoding.scss')
+    inspector.inspect(sourcepath)
+
+    children = inspector.children(sourcepath)
+    assert children == set([
+        os.path.join(settings.sample_path, '_empty.scss'),
+        os.path.join(settings.sample_path, '_vendor.scss'),
+    ])
+
+    parents = inspector.parents(sourcepath)
+    assert parents == set([])

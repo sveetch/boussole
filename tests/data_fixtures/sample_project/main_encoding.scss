@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/*
+ * Main scss with unicode
+ */
+
+@import "vendor"; // Correct
+
+@import "components/encoding"; // Contains some unicode character for encoding issues
+
+@import url("http://foo.bar/dummy"); // Correct but external ressource so wont be catched
