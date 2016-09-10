@@ -62,7 +62,7 @@ Developer’s Guide
 *****************
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    development.rst
    changelog.rst

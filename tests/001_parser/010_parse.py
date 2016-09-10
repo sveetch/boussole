@@ -4,19 +4,19 @@ import pytest
 
 
 def test_comment_001(settings, parser):
-    """parser.ScssImportsParser: commented import 1 (buggy behavior)"""
+    """commented import 1 (buggy behavior)"""
     result = parser.parse("""//@import "compass/css3";""")
     assert result == []
 
 
 def test_comment_002(settings, parser):
-    """parser.ScssImportsParser: commented import 2 (buggy behavior)"""
+    """commented import 2 (buggy behavior)"""
     result = parser.parse("""//      @import "compass/css3";""")
     assert result == []
 
 
 def test_comment_003(settings, parser):
-    """parser.ScssImportsParser: commented import 3 (buggy behavior)"""
+    """commented import 3 (buggy behavior)"""
     result = parser.parse("""/*
         @import "compass/css3";
         */""")
@@ -24,13 +24,13 @@ def test_comment_003(settings, parser):
 
 
 def test_unicode(settings, parser):
-    """parser.ScssImportsParser: Just checkin parser on unicode character"""
+    """Just checkin parser on unicode character"""
     result = parser.parse(u"""// Look this unicode char: →""")
     assert result == []
 
 
 def test_sample_001(settings, parser):
-    """parser.ScssImportsParser: complete file"""
+    """Complete file"""
     with open(os.path.join(settings.sample_path, 'main_syntax.scss')) as fp:
         result = parser.parse(fp.read())
     assert result == [
@@ -45,14 +45,14 @@ def test_sample_001(settings, parser):
 
 
 def test_empty_001(settings, parser):
-    """parser.ScssImportsParser: empty file"""
+    """empty file"""
     with open(os.path.join(settings.sample_path, '_empty.scss')) as fp:
         result = parser.parse(fp.read())
     assert result == []
 
 
 def test_noimport_001(settings, parser):
-    """parser.ScssImportsParser: no import rules"""
+    """no import rules"""
     with open(os.path.join(settings.sample_path, '_vendor.scss')) as fp:
         result = parser.parse(fp.read())
     assert result == []

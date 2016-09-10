@@ -5,6 +5,11 @@
 Changelog
 =========
 
+Version 1.0.1 - 2016/09/10
+--------------------------
+
+* Fixed encoding issue with inspector that leaded to some bugs with watcher, close #17;
+
 Version 1.0.0 - 2016/08/01
 --------------------------
 

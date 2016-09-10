@@ -4,7 +4,7 @@ import pytest
 
 
 def test_relative_001(settings, finder):
-    """finder.ScssFinder: Mirror all compilable sources in relative mode"""
+    """Mirror all compilable sources in relative mode"""
     assert finder.mirror_sources(os.path.join(settings.sample_path, 'components')) == [
         ('twin_2.scss', 'twin_2.css'),
         ('twin_3.scss', 'twin_3.css'),
@@ -12,7 +12,7 @@ def test_relative_001(settings, finder):
 
 
 def test_absolute_002(settings, finder):
-    """finder.ScssFinder: Mirror all compilable sources in absolute mode"""
+    """Mirror all compilable sources in absolute mode"""
     assert finder.mirror_sources(os.path.join(settings.sample_path, 'components'), targetdir=settings.tests_path) == [
         (os.path.join(settings.sample_path, 'components', 'twin_2.scss'), os.path.join(settings.tests_path, 'twin_2.css')),
         (os.path.join(settings.sample_path, 'components', 'twin_3.scss'), os.path.join(settings.tests_path, 'twin_3.css')),
@@ -20,7 +20,7 @@ def test_absolute_002(settings, finder):
 
 
 def test_relative_recursive_003(settings, finder):
-    """finder.ScssFinder: Mirror all compilable sources in relative mode"""
+    """Mirror all compilable sources in relative mode"""
     assert finder.mirror_sources(settings.sample_path) == [
         ('main_basic.scss', 'main_basic.css'),
         ('main_circular_0.scss', 'main_circular_0.css'),
@@ -34,6 +34,7 @@ def test_relative_recursive_003(settings, finder):
         ('main_depth_import-1.scss', 'main_depth_import-1.css'),
         ('main_depth_import-2.scss', 'main_depth_import-2.css'),
         ('main_depth_import-3.scss', 'main_depth_import-3.css'),
+        ('main_encoding.scss', 'main_encoding.css'),
         ('main_error.scss', 'main_error.css'),
         ('main_syntax.scss', 'main_syntax.css'),
         ('main_twins_1.scss', 'main_twins_1.css'),
@@ -47,7 +48,7 @@ def test_relative_recursive_003(settings, finder):
 
 
 def test_absolute_recursive_004(settings, finder):
-    """finder.ScssFinder: Mirror all compilable sources in absolute mode"""
+    """Mirror all compilable sources in absolute mode"""
     # To avoid to write every os path join, i'm so lazy..
     absolutize = lambda x,y: (os.path.join(settings.sample_path, x), os.path.join(settings.tests_path, y))
 
@@ -64,6 +65,7 @@ def test_absolute_recursive_004(settings, finder):
         absolutize('main_depth_import-1.scss', 'main_depth_import-1.css'),
         absolutize('main_depth_import-2.scss', 'main_depth_import-2.css'),
         absolutize('main_depth_import-3.scss', 'main_depth_import-3.css'),
+        absolutize('main_encoding.scss', 'main_encoding.css'),
         absolutize('main_error.scss', 'main_error.css'),
         absolutize('main_syntax.scss', 'main_syntax.css'),
         absolutize('main_twins_1.scss', 'main_twins_1.css'),
@@ -77,7 +79,7 @@ def test_absolute_recursive_004(settings, finder):
 
 
 def test_relative_excludes_005(settings, finder):
-    """finder.ScssFinder: Mirror allowed compilable sources in relative mode"""
+    """Mirror allowed compilable sources in relative mode"""
     excludes = [
         'main_error.scss',
         'main_circular_5.scss',
@@ -97,6 +99,7 @@ def test_relative_excludes_005(settings, finder):
         ('main_depth_import-1.scss', 'main_depth_import-1.css'),
         ('main_depth_import-2.scss', 'main_depth_import-2.css'),
         ('main_depth_import-3.scss', 'main_depth_import-3.css'),
+        ('main_encoding.scss', 'main_encoding.css'),
         ('main_syntax.scss', 'main_syntax.css'),
         ('main_using_libs.scss', 'main_using_libs.css'),
         ('main_with_subimports.scss', 'main_with_subimports.css'),

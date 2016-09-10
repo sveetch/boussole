@@ -103,7 +103,10 @@ class ProjectStarter(object):
             os.makedirs(abs_targetdir)
 
         # Create settings with given paths
-        with open(abs_config, "w") as fp:
+        # Note: Does not use io.open since it naturally works in unicode, so
+        # let the 'json' module from each Python version play with open() as
+        # it likes
+        with open(abs_config, 'w') as fp:
             json.dump({
                 'SOURCES_PATH': sourcedir,
                 'TARGET_PATH': targetdir,

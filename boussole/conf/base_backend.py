@@ -12,6 +12,7 @@ process each loaded settings values following the settings manifest rules.
 Actually the only backend available is JSON.
 
 """
+import io
 import os
 
 from boussole.exceptions import SettingsBackendError
@@ -109,7 +110,7 @@ class SettingsBackendBase(SettingsPostProcessor):
             string: File content.
 
         """
-        with open(filepath) as fp:
+        with io.open(filepath, 'r', encoding='utf-8') as fp:
             content = fp.read()
         return content
 
