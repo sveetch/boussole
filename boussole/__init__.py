@@ -1,4 +1,2 @@
-"""
-Aims to reproduce the useful Compass commandline tool behaviors
-"""
-__version__ = '1.0.2-pre.1'
+"""Commandline interface to build SASS projects using libsass-python"""
+__version__ = '1.0.2'
