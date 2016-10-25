@@ -5,10 +5,10 @@
 Changelog
 =========
 
-Version 1.0.2 - Unreleased
+Version 1.0.2 - 2016/10/26
 --------------------------
 
-* Upgrade libsass-python dependancy to ``>=0.11.2`` to profit from ``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
+* Upgrade ``libsass-python`` dependancy to ``>=0.11.2`` to profit from ``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
 
 Version 1.0.1 - 2016/09/10
 --------------------------
