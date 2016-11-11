@@ -44,7 +44,7 @@ Dependancies
 * `six`_;
 * `Watchdog`_ == 0.8.3;
 * `click`_ == 5.1;
-* `libsass-python`_ >= 0.11.0;
+* `libsass-python`_ >= 0.11.2;
 * `colorama`_;
 * `colorlog`_;
 
