@@ -9,6 +9,7 @@ Version 1.1.0 - Unreleased
 --------------------------
 
 * Don't pass anymore logger to objects, just use ``logging.getLogger("boussole")``, close #11;
+* Validate tests on Python 3.5 through tox;
 
 
 Version 1.0.2 - 2016/10/26
