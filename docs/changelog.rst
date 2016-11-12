@@ -5,6 +5,12 @@
 Changelog
 =========
 
+Version 1.1.0 - Unreleased
+--------------------------
+
+* Don't pass anymore logger to objects, just use ``logging.getLogger("boussole")``, close #11;
+
+
 Version 1.0.2 - 2016/10/26
 --------------------------
 

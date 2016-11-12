@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import click
+import logging
 
 import six
 
@@ -19,7 +20,7 @@ def compile_command(context, config):
     """
     Compile SASS project sources to CSS
     """
-    logger = context.obj['logger']
+    logger = logging.getLogger("boussole")
     logger.info(u"Building project")
 
     # Load settings file

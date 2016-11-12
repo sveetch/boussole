@@ -9,6 +9,7 @@ infinite loop, so note that handlers directly output some informations on a
 
 """
 import os
+import logging
 
 import six
 
@@ -30,12 +31,11 @@ class SassLibraryEventHandler(object):
 
     Args:
         settings (boussole.conf.model.Settings): Project settings.
-        logger (logging.Logger): Logger object to write messages.
         inspector (boussole.inspector.ScssInspector): Inspector instance.
 
     Attributes:
         settings (boussole.conf.model.Settings): Filled from argument.
-        logger (logging.Logger): Filled from argument.
+        logger (logging.Logger): Boussole logger.
         inspector (boussole.inspector.ScssInspector): Filled from argument.
         finder (boussole.finder.ScssFinder): Finder instance.
         compiler (boussole.compiler.SassCompileHelper): Sass compile helper
@@ -48,11 +48,11 @@ class SassLibraryEventHandler(object):
             occured within an event. ``index()`` will reboot it to ``False``
             each time a new event occurs.
     """
-    def __init__(self, settings, logger, inspector, *args, **kwargs):
+    def __init__(self, settings, inspector, *args, **kwargs):
         self.settings = settings
-        self.logger = logger
         self.inspector = inspector
 
+        self.logger = logging.getLogger("boussole")
         self.finder = ScssFinder()
         self.compiler = SassCompileHelper()
 
@@ -238,8 +238,8 @@ class SassLibraryEventHandler(object):
         Called when a file or directory is deleted.
 
         Todo:
-            Bugged with inspector and sass compiler since the does not exists
-            anymore.
+            May be bugged with inspector and sass compiler since the does not
+            exists anymore.
 
         Args:
             event: Watchdog event, ``watchdog.events.DirDeletedEvent`` or
@@ -257,7 +257,7 @@ class SassProjectEventHandler(SassLibraryEventHandler):
     Watch mixin handler for project sources.
 
     Warning:
-        DO NOT use project handler to watch libraries, there is a risk the
+        DO NOT use this handler to watch libraries, there is a risk the
         compiler will try to compile their sources in a wrong directory.
 
     Source that trigger event is compiled (if eligible) with its dependencies.
@@ -287,7 +287,7 @@ class WatchdogProjectEventHandler(SassProjectEventHandler,
     Watchdog event handler for project sources.
 
     Warning:
-        DO NOT use project handler to watch libraries, there is a risk the
+        DO NOT use this handler to watch libraries, there is a risk the
         compiler will try to compile their sources in a wrong directory.
     """
     pass

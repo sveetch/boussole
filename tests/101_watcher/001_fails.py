@@ -15,14 +15,13 @@ def test_index_001(caplog, temp_builds_dir):
     """watcher.SassProjectEventHandler: UnresolvablePath on index from 'on_any_event'"""
     basedir = temp_builds_dir.join('watcher_fails_001')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -59,14 +58,13 @@ def test_deleted_001(caplog, temp_builds_dir):
        source included by other files"""
     basedir = temp_builds_dir.join('watcher_fails_041')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )

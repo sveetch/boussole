@@ -13,14 +13,13 @@ def test_compilablefiles_001(temp_builds_dir):
     """watcher.SassProjectEventHandler: Testing 'handler.compilable_files' return"""
     basedir = temp_builds_dir.join('watcher_success_001')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -40,14 +39,13 @@ def test_move_010(temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Move' event on main sample"""
     basedir = temp_builds_dir.join('watcher_success_010')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -68,14 +66,13 @@ def test_move_011(temp_builds_dir):
        main sample"""
     basedir = temp_builds_dir.join('watcher_success_011')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -95,14 +92,13 @@ def test_move_012(temp_builds_dir):
        source"""
     basedir = temp_builds_dir.join('watcher_success_012')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -124,14 +120,13 @@ def test_modified_020(temp_builds_dir):
        source"""
     basedir = temp_builds_dir.join('watcher_success_020')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -152,14 +147,13 @@ def test_created_030(temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Created' event for a new main source"""
     basedir = temp_builds_dir.join('watcher_success_030')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -186,14 +180,13 @@ def test_deleted_040(temp_builds_dir):
     """watcher.SassProjectEventHandler: 'Deleted' event for a main source"""
     basedir = temp_builds_dir.join('watcher_success_040')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -213,14 +206,13 @@ def test_whole_050(temp_builds_dir):
        sources"""
     basedir = temp_builds_dir.join('watcher_success_050')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )
@@ -290,14 +282,13 @@ def test_library_modified_101(temp_builds_dir):
        component"""
     basedir = temp_builds_dir.join('watcher_success_101')
 
-    bdir, logger, inspector, settings_object, watcher_opts = start_env(basedir)
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
     build_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableLibraryEventHandler(
         settings_object,
-        logger,
         inspector,
         **watcher_opts
     )

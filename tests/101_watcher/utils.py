@@ -84,8 +84,6 @@ def start_env(basedir):
     """
     join_basedir_curry = join_basedir(basedir.strpath)
 
-    logger = init_logger('DEBUG', printout=False)
-
     inspector = ScssInspector()
 
     minimal_conf = {
@@ -101,7 +99,7 @@ def start_env(basedir):
         'ignore_directories': False,
         'case_sensitive': True,
     }
-    return join_basedir_curry, logger, inspector, settings, watcher_opts
+    return join_basedir_curry, inspector, settings, watcher_opts
 
 
 def build_sample_structure(settings_object, basedir):

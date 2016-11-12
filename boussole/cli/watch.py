@@ -2,6 +2,7 @@
 import time
 import os
 import click
+import logging
 
 import six
 
@@ -37,7 +38,7 @@ def watch_command(context, config):
 
     You can stop watcher using key combo "CTRL+C" (or CMD+C on MacOSX).
     """
-    logger = context.obj['logger']
+    logger = logging.getLogger("boussole")
     logger.info("Watching project")
 
     # Load settings file
@@ -68,10 +69,10 @@ def watch_command(context, config):
 
     # Registering event handlers to observer
     observer = Observer()
-    project_handler = WatchdogProjectEventHandler(settings, logger, inspector,
+    project_handler = WatchdogProjectEventHandler(settings, inspector,
                                                   **watcher_templates_patterns)
 
-    lib_handler = WatchdogLibraryEventHandler(settings, logger, inspector,
+    lib_handler = WatchdogLibraryEventHandler(settings, inspector,
                                               **watcher_templates_patterns)
 
     # Observe source directory

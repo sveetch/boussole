@@ -63,11 +63,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         # Don't inspect again source that has allready be inspected as a
         # children of a previous source
         if sourcepath not in self._CHILDREN_MAP:
-            #with open(sourcepath) as fp:
-            # NOTE: Works. Would be nice to see to enforce utf8 charset on writed ouptut (if any)
             with io.open(sourcepath, 'r', encoding='utf-8') as fp:
                 finded_paths = self.parse(fp.read())
-                #finded_paths = self.parse(fp.read().decode("utf-8"))
 
             children = self.resolve(sourcepath, finded_paths,
                                     library_paths=library_paths)

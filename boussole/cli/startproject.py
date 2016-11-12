@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import click
+import logging
 
 import six
 
@@ -37,7 +38,7 @@ def startproject_command(context, basedir, config, sourcedir, targetdir):
 
     Arguments "basedir", "config", "sourcedir", "targetdir" can not be empty.
     """
-    logger = context.obj['logger']
+    logger = logging.getLogger("boussole")
 
     try:
         results = ProjectStarter().init(*(
