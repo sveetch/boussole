@@ -30,10 +30,11 @@ def watch_command(context, config):
     * Create: when a new source file is created;
     * Change: when a source is changed;
     * Delete: when a source is deleted;
-    * Move: When a source file is moved;
+    * Move: When a source file is moved in watched dirs. Also occurs with
+      editor transition file;
 
     Almost all errors occurring during compile won't break watcher, so you can
-    resolve them and watcher will try again to compile once an a new event
+    resolve them and watcher will try again to compile once a new event
     occurs.
 
     You can stop watcher using key combo "CTRL+C" (or CMD+C on MacOSX).
