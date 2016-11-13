@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-JSON settings backend
+YAML settings backend
 =====================
 """
-import json
+import yaml
 
 from boussole.exceptions import SettingsBackendError
 from boussole.conf.base_backend import SettingsBackendBase
 
 
-class SettingsBackendJson(SettingsBackendBase):
+class SettingsBackendYaml(SettingsBackendBase):
     """
-    JSON backend for settings
+    YAML backend for settings
     """
-    _default_filename = 'settings.json' #: Default filename
+    _default_filename = 'settings.yaml' #: Default filename
 
     def parse(self, filepath, content):
         """
-        Parse opened settings content using JSON parser.
+        Parse opened settings content using YAML parser.
 
         Args:
             filepath (str): Settings object, depends from backend
@@ -26,15 +26,15 @@ class SettingsBackendJson(SettingsBackendBase):
 
         Raises:
             boussole.exceptions.SettingsBackendError: If parser can not decode
-                a valid JSON object.
+                a valid YAML object.
 
         Returns:
             dict: Dictionnary containing parsed setting elements.
 
         """
         try:
-            parsed = json.loads(content)
-        except ValueError:
-            msg = "No JSON object could be decoded from file: {}"
-            raise SettingsBackendError(msg.format(filepath))
+            parsed = yaml.load(content)
+        except yaml.YAMLError as exc:
+            msg = "No YAML object could be decoded from file: {}\n{}"
+            raise SettingsBackendError(msg.format(filepath, exc))
         return parsed

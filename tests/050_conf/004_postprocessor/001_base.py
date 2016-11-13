@@ -8,8 +8,8 @@ from boussole.conf.post_processor import SettingsPostProcessor
 
 class SettingsPostProcessorTest(SettingsPostProcessor):
     """
-    Inherit to add some dummy methods and its own manifest for testing
-    processor itself
+    Inherit ``SettingsPostProcessor`` to add some dummy methods and its own
+    manifest for testing processor itself
     """
     settings_manifesto = {
         'field1': {

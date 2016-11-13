@@ -28,6 +28,7 @@ setup(
         'pathtools==0.1.2',
         'watchdog==0.8.3',
         'libsass>=0.11.2',
+        'PyYAML',
         'colorama',
         'colorlog',
     ],

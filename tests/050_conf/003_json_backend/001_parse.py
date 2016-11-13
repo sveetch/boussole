@@ -4,11 +4,16 @@ import pytest
 
 from boussole.exceptions import SettingsBackendError
 from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-def test_ok_001(settings, sample_project_settings):
-    """conf.json_backend.SettingsBackendJson: JSON content parsing"""
-    backend = SettingsBackendJson(basedir=settings.fixtures_path)
+@pytest.mark.parametrize("backend_engine", [
+    SettingsBackendJson,
+    SettingsBackendYaml,
+])
+def test_ok_001(settings, sample_project_settings, backend_engine):
+    """Backend content parsing success"""
+    backend = backend_engine(basedir=settings.fixtures_path)
 
     path, filename = backend.parse_filepath()
     filepath = backend.check_filepath(path, filename)
@@ -18,11 +23,16 @@ def test_ok_001(settings, sample_project_settings):
     assert backend.parse(filepath, content) == sample_project_settings
 
 
-def test_error_001(settings, sample_project_settings):
-    """conf.json_backend.SettingsBackendJson: JSON content parsing error"""
-    backend = SettingsBackendJson(basedir=settings.fixtures_path)
+@pytest.mark.parametrize("filename,backend_engine", [
+    ("settings_error.json", SettingsBackendJson),
+    ("settings_error.yaml",SettingsBackendYaml),
+])
+def test_error_001(settings, sample_project_settings, filename,
+                   backend_engine):
+    """Backend content parsing error"""
+    backend = backend_engine(basedir=settings.fixtures_path)
 
-    path, filename = backend.parse_filepath(filepath="settings.txt")
+    path, filename = backend.parse_filepath(filepath=filename)
     filepath = backend.check_filepath(path, filename)
 
     content = backend.open(filepath)

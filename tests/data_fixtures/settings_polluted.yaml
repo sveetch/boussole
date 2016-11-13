@@ -1,0 +1,23 @@
+SOURCES_PATH: sample_project
+BAR:
+    - meep
+    - meep
+LIBRARY_PATHS:
+    - library_1
+    - library_2
+TARGAT_PATH: /home/bar
+TARGET_PATH: .
+OUTPUT_STYLES: expanded
+SOURCE_COMMENTS: true
+FOO: 42
+EXCLUDES:
+    - main_error.scss
+    - main_circular_5.scss
+    - main_circular_0.scss
+    - main_circular_4.scss
+    - main_circular_3.scss
+    - main_circular_1.scss
+    - main_circular_2.scss
+    - main_circular_bridge.scss
+    - main_twins_*.scss
+    - !!str '*/twin_*.scss'
