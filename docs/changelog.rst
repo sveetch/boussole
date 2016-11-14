@@ -12,6 +12,7 @@ Version 1.1.0 - Unreleased
 
   * Added ``yaml_backend.SettingsBackendYaml`` backend;
   * Implement YAML backend in unittests;
+  * Added helper to discover settings backend from filename extension;
 
 * Don't pass anymore logger to objects, just use ``logging.getLogger("boussole")``, close #11;
 * Validate tests on Python 3.5 through tox;

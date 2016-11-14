@@ -14,6 +14,7 @@ class SettingsBackendJson(SettingsBackendBase):
     JSON backend for settings
     """
     _default_filename = 'settings.json' #: Default filename
+    _kind_name = 'json' #: Backend format name
 
     def parse(self, filepath, content):
         """

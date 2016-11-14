@@ -9,7 +9,7 @@ return a Settings object.
 Backends inherit from :class:`boussole.conf.post_processor` so they can post
 process each loaded settings values following the settings manifest rules.
 
-Actually the only backend available is JSON.
+Actually available backends are JSON and YAML.
 
 """
 import io
@@ -37,7 +37,8 @@ class SettingsBackendBase(SettingsPostProcessor):
         _default_filename: Filename for settings file to load. Default to
             ``settings.txt`` but every backend should set their own filename.
     """
-    _default_filename = 'settings.txt'
+    _default_filename = 'settings.txt' #: Default filename
+    _kind_name = 'txt' #: Backend format name
 
     def __init__(self, basedir=None):
         self.basedir = basedir or ''

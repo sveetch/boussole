@@ -12,7 +12,7 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
     SettingsBackendJson,
     SettingsBackendYaml,
 ])
-def test_001_basic(settings, custom_project_settings, backend_engine):
+def test_basic(settings, custom_project_settings, backend_engine):
     """Load basic settings file fail because of wrong paths"""
     backend = backend_engine(basedir=settings.fixtures_path)
 
@@ -26,7 +26,7 @@ def test_001_basic(settings, custom_project_settings, backend_engine):
     ("settings_polluted.yaml",SettingsBackendYaml),
     ("settings_custom.yaml", SettingsBackendYaml),
 ])
-def test_002_polluted(settings, custom_project_settings, filename,
+def test_polluted(settings, custom_project_settings, filename,
                       backend_engine):
     """Load polluted settings file"""
     backend = backend_engine(basedir=settings.fixtures_path)
@@ -49,7 +49,7 @@ def test_002_polluted(settings, custom_project_settings, filename,
     ("settings_custom.json", SettingsBackendJson),
     ("settings_custom.yaml", SettingsBackendYaml),
 ])
-def test_004_custom(settings, custom_project_settings, filename,
+def test_custom(settings, custom_project_settings, filename,
                     backend_engine):
     """Load custom settings file with basedir and relative filepath"""
     backend = backend_engine(basedir=settings.tests_path)

@@ -11,7 +11,7 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
     SettingsBackendJson,
     SettingsBackendYaml,
 ])
-def test_ok_001(settings, sample_project_settings, backend_engine):
+def test_ok(settings, sample_project_settings, backend_engine):
     """Backend content parsing success"""
     backend = backend_engine(basedir=settings.fixtures_path)
 
@@ -27,7 +27,7 @@ def test_ok_001(settings, sample_project_settings, backend_engine):
     ("settings_error.json", SettingsBackendJson),
     ("settings_error.yaml",SettingsBackendYaml),
 ])
-def test_error_001(settings, sample_project_settings, filename,
+def test_error(settings, sample_project_settings, filename,
                    backend_engine):
     """Backend content parsing error"""
     backend = backend_engine(basedir=settings.fixtures_path)

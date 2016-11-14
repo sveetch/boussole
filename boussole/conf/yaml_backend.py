@@ -14,6 +14,7 @@ class SettingsBackendYaml(SettingsBackendBase):
     YAML backend for settings
     """
     _default_filename = 'settings.yaml' #: Default filename
+    _kind_name = 'yaml' #: Backend format name
 
     def parse(self, filepath, content):
         """
