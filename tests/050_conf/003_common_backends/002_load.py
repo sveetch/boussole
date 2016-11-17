@@ -23,8 +23,8 @@ def test_basic(settings, custom_project_settings, backend_engine):
 @pytest.mark.parametrize("filename,backend_engine", [
     ("settings_polluted.json", SettingsBackendJson),
     ("settings_custom.json", SettingsBackendJson),
-    ("settings_polluted.yaml",SettingsBackendYaml),
-    ("settings_custom.yaml", SettingsBackendYaml),
+    ("settings_polluted.yml",SettingsBackendYaml),
+    ("settings_custom.yml", SettingsBackendYaml),
 ])
 def test_polluted(settings, custom_project_settings, filename,
                       backend_engine):
@@ -47,7 +47,7 @@ def test_polluted(settings, custom_project_settings, filename,
 
 @pytest.mark.parametrize("filename,backend_engine", [
     ("settings_custom.json", SettingsBackendJson),
-    ("settings_custom.yaml", SettingsBackendYaml),
+    ("settings_custom.yml", SettingsBackendYaml),
 ])
 def test_custom(settings, custom_project_settings, filename,
                     backend_engine):

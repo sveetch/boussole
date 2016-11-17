@@ -7,9 +7,9 @@ from boussole.conf.discover import get_backend
 
 @pytest.mark.parametrize("filepath,kind,name", [
     ('foo.json', None, 'json'),
-    ('foo.yaml', None, 'yaml'),
+    ('foo.yml', None, 'yaml'),
     ('/home/foo.json', None, 'json'),
-    ('/home/json/foo.yaml', None, 'yaml'),
+    ('/home/json/foo.yml', None, 'yaml'),
     ('.foo', 'json', 'json'),
     ('.foo', 'json', 'json'),
     ('/home/bar/.foo', 'yaml', 'yaml'),

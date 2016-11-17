@@ -81,6 +81,9 @@ class ProjectStarter(object):
         return (expanded_basedir, expanded_config, expanded_sourcedir,
                 expanded_targetdir)
 
+    def dump_config(self, config, fp, indent=None):
+        json.dump(config, fp, indent=indent)
+
     def commit(self, sourcedir, targetdir, abs_config, abs_sourcedir,
                abs_targetdir):
         """
@@ -103,11 +106,11 @@ class ProjectStarter(object):
             os.makedirs(abs_targetdir)
 
         # Create settings with given paths
-        # Note: Does not use io.open since it naturally works in unicode, so
+        # NOTE: Does not use io.open since it naturally works in unicode, so
         # let the 'json' module from each Python version play with open() as
         # it likes
         with open(abs_config, 'w') as fp:
-            json.dump({
+            self.dump_config({
                 'SOURCES_PATH': sourcedir,
                 'TARGET_PATH': targetdir,
                 "LIBRARY_PATHS": [],

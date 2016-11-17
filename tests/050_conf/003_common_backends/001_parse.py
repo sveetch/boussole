@@ -25,7 +25,7 @@ def test_ok(settings, sample_project_settings, backend_engine):
 
 @pytest.mark.parametrize("filename,backend_engine", [
     ("settings_error.json", SettingsBackendJson),
-    ("settings_error.yaml",SettingsBackendYaml),
+    ("settings_error.yml",SettingsBackendYaml),
 ])
 def test_error(settings, sample_project_settings, filename,
                    backend_engine):

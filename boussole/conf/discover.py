@@ -36,6 +36,10 @@ def get_backend(filepath, kind=None):
         'json': SettingsBackendJson,
         'yaml': SettingsBackendYaml,
     }
+    extensions = {
+        'json': 'json',
+        'yml': 'yaml',
+    }
 
     backend = None
 
@@ -45,11 +49,11 @@ def get_backend(filepath, kind=None):
             msg = ("Unable to discover settings format from an empty file "
                    "extension: {}")
             raise SettingsBackendError(msg.format(filepath))
-        elif extension[1:] not in engines:
+        elif extension[1:] not in extensions:
             msg = ("Settings file extension is unknowed from available "
                    "backends: {}")
             raise SettingsBackendError(msg.format(filepath))
-        kind = extension[1:]
+        kind = extensions[extension[1:]]
     elif kind not in engines:
         msg = "Given settings format is unknowed: {}"
         raise SettingsBackendError(msg.format(kind))
