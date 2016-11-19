@@ -4,6 +4,7 @@ Project management
 """
 import os
 import json
+import pyaml
 
 from boussole.exceptions import SettingsInvalidError
 
@@ -81,8 +82,26 @@ class ProjectStarter(object):
         return (expanded_basedir, expanded_config, expanded_sourcedir,
                 expanded_targetdir)
 
-    def dump_config(self, config, fp, indent=None):
-        json.dump(config, fp, indent=indent)
+    def dump_config(self, config, fp, indent=None, serializer='json'):
+        """
+        Dump given config with selected serializer
+
+        Args:
+            sourcedir (dict): Configuration settings to dump.
+            fp (dict): File object.
+
+        Keyword Arguments:
+            indent (int): Indent spaces number, default to ``None`` (no
+                indent).
+            serializer (string): Serializer name, can be either ``json`` or
+                ``yaml``, default to ``json``.
+        """
+        if serializer == 'json':
+            json.dump(config, fp, indent=indent)
+        elif serializer == 'yaml':
+            pyaml.dump(config, dst=fp, indent=indent)
+        else:
+            raise SettingsInvalidError("Unknowed serializer for configuration dump: {}".format(serializer))
 
     def commit(self, sourcedir, targetdir, abs_config, abs_sourcedir,
                abs_targetdir):

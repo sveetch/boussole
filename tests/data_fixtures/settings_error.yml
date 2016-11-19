@@ -5,4 +5,4 @@ TARGET_PATH: /home/bar
 OUTPUT_STYLES: nested
 SOURCE_COMMENTS: false
 SOURCE_MAP: false
-EXCLUDES: !!seq []
+EXCLUDES: []
