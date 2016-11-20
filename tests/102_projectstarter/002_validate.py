@@ -26,7 +26,7 @@ from boussole.exceptions import SettingsInvalidError
 def test_ok(projectstarter, paths):
     """validate various correct paths"""
 
-    assert projectstarter.valid_paths(*paths) == True
+    assert projectstarter().valid_paths(*paths) == True
 
 
 @pytest.mark.parametrize("paths", [
@@ -60,4 +60,4 @@ def test_wrong(projectstarter, paths):
     """fail on duplicated paths"""
 
     with pytest.raises(SettingsInvalidError):
-        projectstarter.valid_paths(*paths)
+        projectstarter().valid_paths(*paths)

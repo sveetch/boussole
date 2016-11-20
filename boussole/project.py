@@ -13,6 +13,9 @@ class ProjectStarter(object):
     """
     Provide methods to create a new SASS Project
     """
+    def __init__(self, backend='json'):
+        self.backend = backend
+
     def valid_paths(self, *args):
         """
         Validate that given paths are not the same.
@@ -82,29 +85,30 @@ class ProjectStarter(object):
         return (expanded_basedir, expanded_config, expanded_sourcedir,
                 expanded_targetdir)
 
-    def dump_config(self, config, fp, indent=None, serializer='json'):
+    def dump(self, config, fp, backend, indent=None):
         """
-        Dump given config with selected serializer
+        Dump given config with selected backend
 
         Args:
             sourcedir (dict): Configuration settings to dump.
             fp (dict): File object.
+            backend (string): Backend name, can be either ``json`` or
+                ``yaml``.
 
         Keyword Arguments:
             indent (int): Indent spaces number, default to ``None`` (no
                 indent).
-            serializer (string): Serializer name, can be either ``json`` or
-                ``yaml``, default to ``json``.
         """
-        if serializer == 'json':
+        if backend == 'json':
             json.dump(config, fp, indent=indent)
-        elif serializer == 'yaml':
+        elif backend == 'yaml':
             pyaml.dump(config, dst=fp, indent=indent)
         else:
-            raise SettingsInvalidError("Unknowed serializer for configuration dump: {}".format(serializer))
+            msg = "Unknowed backend for configuration dump: {}"
+            raise SettingsInvalidError(msg.format(backend))
 
     def commit(self, sourcedir, targetdir, abs_config, abs_sourcedir,
-               abs_targetdir):
+               abs_targetdir, backend):
         """
         Commit project structure and configuration file
 
@@ -114,6 +118,8 @@ class ProjectStarter(object):
             abs_config (string): Configuration file absolute path.
             abs_sourcedir (string): ``sourcedir`` expanded as absolute path.
             abs_targetdir (string): ``targetdir`` expanded as absolute path.
+            backend (string): Backend name, can be either ``json`` or
+                ``yaml``.
         """
         config_path, config_filename = os.path.split(abs_config)
 
@@ -129,16 +135,17 @@ class ProjectStarter(object):
         # let the 'json' module from each Python version play with open() as
         # it likes
         with open(abs_config, 'w') as fp:
-            self.dump_config({
+            self.dump({
                 'SOURCES_PATH': sourcedir,
                 'TARGET_PATH': targetdir,
                 "LIBRARY_PATHS": [],
                 "OUTPUT_STYLES": "nested",
                 "SOURCE_COMMENTS": False,
                 "EXCLUDES": []
-            }, fp, indent=4)
+            }, fp, backend=backend, indent=4)
 
-    def init(self, basedir, config, sourcedir, targetdir, cwd='', commit=True):
+    def init(self, basedir, config, sourcedir, targetdir, cwd='', commit=True,
+             backend=None):
         """
         Init project structure and configuration from given arguments
 
@@ -154,12 +161,16 @@ class ProjectStarter(object):
             cwd (string): Current directory path to prepend base dir if empty.
             commit (bool): If ``False``, directory structure and settings file
                 won't be created.
+            backend (string): Backend name, can be either ``json`` or
+                ``yaml``. Default value will ``self.backend`` value.
 
         Returns:
             dict: A dict containing expanded given paths.
         """
         if not basedir:
             basedir = '.'
+
+        backend = backend or self.backend
 
         # Expand home directory if any
         abs_basedir, abs_config, abs_sourcedir, abs_targetdir = self.expand(
@@ -174,7 +185,7 @@ class ProjectStarter(object):
         # Create required directory structure
         if commit:
             self.commit(sourcedir, targetdir, abs_config, abs_sourcedir,
-                        abs_targetdir)
+                        abs_targetdir, backend)
 
         return {
             'basedir': abs_basedir,

@@ -20,7 +20,7 @@ def test_success(projectstarter, temp_builds_dir, name, ext, module):
     basedir = temp_builds_dir.join(tmp_dirname).strpath
     os.makedirs(basedir)
 
-    results = projectstarter.init(*(
+    results = projectstarter(backend=name).init(*(
         '.',
         settings_filename,
         'scss',
@@ -62,9 +62,10 @@ def test_error(projectstarter, temp_builds_dir, name, ext, module):
     os.makedirs(basedir)
 
     with pytest.raises(SettingsInvalidError):
-        results = projectstarter.init(*(
+        results = projectstarter(backend=name).init(*(
             '.',
             settings_filename,
             'css',
             'css',
         ), cwd=basedir)
+

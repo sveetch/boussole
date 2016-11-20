@@ -87,6 +87,6 @@ import pytest
     ),
 ])
 def test_expand(projectstarter, sources, attempted):
-    results = projectstarter.expand(*sources)
+    results = projectstarter().expand(*sources)
 
     assert results == attempted
