@@ -12,6 +12,10 @@ from boussole.exceptions import SettingsInvalidError
 class ProjectStarter(object):
     """
     Provide methods to create a new SASS Project
+
+    Keyword Arguments:
+        backend (string): Default backend name, can be either ``json`` or
+            ``yaml``. Default value is ``json``.
     """
     def __init__(self, backend='json'):
         self.backend = backend

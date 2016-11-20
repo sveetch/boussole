@@ -54,7 +54,7 @@ def startproject_command(context, basedir, config, sourcedir, targetdir,
     logger = logging.getLogger("boussole")
 
     try:
-        results = ProjectStarter().init(*(
+        results = ProjectStarter(backend=backend).init(*(
             basedir,
             config,
             sourcedir,
