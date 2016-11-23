@@ -22,7 +22,6 @@ def test_commit_basic(projectstarter, temp_builds_dir, name, ext, module):
         os.path.join(basedir, settings_filename),
         os.path.join(basedir, "scss"),
         os.path.join(basedir, "css"),
-        name,
     )
 
     projectstarter().commit(*opts)

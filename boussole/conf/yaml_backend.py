@@ -4,6 +4,7 @@ YAML settings backend
 =====================
 """
 import yaml
+import pyaml
 
 from boussole.exceptions import SettingsBackendError
 from boussole.conf.base_backend import SettingsBackendBase
@@ -12,9 +13,24 @@ from boussole.conf.base_backend import SettingsBackendBase
 class SettingsBackendYaml(SettingsBackendBase):
     """
     YAML backend for settings
+
+    Use PyYaml for parsing and pyaml for dumping.
     """
+
     _default_filename = 'settings.yml' #: Default filename
     _kind_name = 'yaml' #: Backend format name
+    _file_extension = 'yml' #: Default filename extension
+
+    def dump(self, content, filepath, indent=4):
+        """
+        Dump settings content to filepath.
+
+        Args:
+            content (str): Settings content.
+            filepath (str): Settings file location.
+        """
+        with open(filepath, 'w') as fp:
+            pyaml.dump(content, dst=fp, indent=indent)
 
     def parse(self, filepath, content):
         """

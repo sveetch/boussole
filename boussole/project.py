@@ -6,20 +6,58 @@ import os
 import json
 import pyaml
 
-from boussole.exceptions import SettingsInvalidError
+from boussole.exceptions import SettingsInvalidError, SettingsBackendError
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-class ProjectStarter(object):
+class ProjectBase(object):
     """
-    Provide methods to create a new SASS Project
+    Project base
 
     Keyword Arguments:
-        backend (string): Default backend name, can be either ``json`` or
+        backend_name (string): Default backend name, can be either ``json`` or
             ``yaml``. Default value is ``json``.
-    """
-    def __init__(self, backend='json'):
-        self.backend = backend
 
+    Attributes:
+        _engines: Available Configuration backends. Read only.
+        backend_name: Backend name to use from available ones.
+        backend_engine: Backend engine selected from given name.
+    """
+    _engines = {
+        'json': SettingsBackendJson,
+        'yaml': SettingsBackendYaml,
+    }
+
+    def __init__(self, backend_name='json'):
+        self.backend_name = backend_name
+        self.backend_engine = self.get_backend_engine(self.backend_name)
+
+    def get_backend_engine(self, name, **kwargs):
+        """
+        Get backend engine from given name.
+
+        Args:
+            (string): Path to validate.
+
+        Raises:
+            boussole.exceptions.SettingsBackendError: If given backend name
+                does not match any available engine.
+
+        Returns:
+            object: Instance of selected backend engine.
+        """
+        if name not in self._engines:
+            msg = "Given settings backend is unknowed: {}"
+            raise SettingsBackendError(msg.format(name))
+
+        return self._engines[name](**kwargs)
+
+
+class ProjectStarter(ProjectBase):
+    """
+    Provide methods to create a new SASS Project
+    """
     def valid_paths(self, *args):
         """
         Validate that given paths are not the same.
@@ -89,30 +127,8 @@ class ProjectStarter(object):
         return (expanded_basedir, expanded_config, expanded_sourcedir,
                 expanded_targetdir)
 
-    def dump(self, config, fp, backend, indent=None):
-        """
-        Dump given config with selected backend
-
-        Args:
-            sourcedir (dict): Configuration settings to dump.
-            fp (dict): File object.
-            backend (string): Backend name, can be either ``json`` or
-                ``yaml``.
-
-        Keyword Arguments:
-            indent (int): Indent spaces number, default to ``None`` (no
-                indent).
-        """
-        if backend == 'json':
-            json.dump(config, fp, indent=indent)
-        elif backend == 'yaml':
-            pyaml.dump(config, dst=fp, indent=indent)
-        else:
-            msg = "Unknowed backend for configuration dump: {}"
-            raise SettingsInvalidError(msg.format(backend))
-
     def commit(self, sourcedir, targetdir, abs_config, abs_sourcedir,
-               abs_targetdir, backend):
+               abs_targetdir):
         """
         Commit project structure and configuration file
 
@@ -122,8 +138,6 @@ class ProjectStarter(object):
             abs_config (string): Configuration file absolute path.
             abs_sourcedir (string): ``sourcedir`` expanded as absolute path.
             abs_targetdir (string): ``targetdir`` expanded as absolute path.
-            backend (string): Backend name, can be either ``json`` or
-                ``yaml``.
         """
         config_path, config_filename = os.path.split(abs_config)
 
@@ -134,22 +148,17 @@ class ProjectStarter(object):
         if not os.path.exists(abs_targetdir):
             os.makedirs(abs_targetdir)
 
-        # Create settings with given paths
-        # NOTE: Does not use io.open since it naturally works in unicode, so
-        # let the 'json' module from each Python version play with open() as
-        # it likes
-        with open(abs_config, 'w') as fp:
-            self.dump({
-                'SOURCES_PATH': sourcedir,
-                'TARGET_PATH': targetdir,
-                "LIBRARY_PATHS": [],
-                "OUTPUT_STYLES": "nested",
-                "SOURCE_COMMENTS": False,
-                "EXCLUDES": []
-            }, fp, backend=backend, indent=4)
+        # Dump settings file
+        self.backend_engine.dump({
+            'SOURCES_PATH': sourcedir,
+            'TARGET_PATH': targetdir,
+            "LIBRARY_PATHS": [],
+            "OUTPUT_STYLES": "nested",
+            "SOURCE_COMMENTS": False,
+            "EXCLUDES": []
+        }, abs_config, indent=4)
 
-    def init(self, basedir, config, sourcedir, targetdir, cwd='', commit=True,
-             backend=None):
+    def init(self, basedir, config, sourcedir, targetdir, cwd='', commit=True):
         """
         Init project structure and configuration from given arguments
 
@@ -165,16 +174,12 @@ class ProjectStarter(object):
             cwd (string): Current directory path to prepend base dir if empty.
             commit (bool): If ``False``, directory structure and settings file
                 won't be created.
-            backend (string): Backend name, can be either ``json`` or
-                ``yaml``. Default value will ``self.backend`` value.
 
         Returns:
             dict: A dict containing expanded given paths.
         """
         if not basedir:
             basedir = '.'
-
-        backend = backend or self.backend
 
         # Expand home directory if any
         abs_basedir, abs_config, abs_sourcedir, abs_targetdir = self.expand(
@@ -189,7 +194,7 @@ class ProjectStarter(object):
         # Create required directory structure
         if commit:
             self.commit(sourcedir, targetdir, abs_config, abs_sourcedir,
-                        abs_targetdir, backend)
+                        abs_targetdir)
 
         return {
             'basedir': abs_basedir,

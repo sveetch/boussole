@@ -15,10 +15,6 @@ from boussole.project import ProjectStarter
               help=("Base directory where settings filename and project "
                     "structure will be created."),
               default=".")
-@click.option('--config', metavar='PATH',
-              prompt="Settings file name",
-              help="Settings file name",
-              default="settings.json")
 @click.option('--sourcedir', metavar='PATH',
               prompt="Sources directory",
               help="Directory (within base dir) for your SASS sources.",
@@ -28,14 +24,17 @@ from boussole.project import ProjectStarter
               help="Directory (within base dir) where to write compiled "
                    "files.",
               default="css")
+@click.option('--config', metavar='PATH',
+              help="Settings file name",
+              default=None)
 @click.option('--backend', metavar='STRING',
               prompt="Settings format name",
               type=click.Choice(['json', 'yaml']),
               help="Settings format name",
               default="json")
 @click.pass_context
-def startproject_command(context, basedir, config, sourcedir, targetdir,
-                         backend):
+def startproject_command(context, basedir, sourcedir, targetdir,
+                         backend, config=None):
     """
     Create a new SASS project
 
@@ -47,14 +46,20 @@ def startproject_command(context, basedir, config, sourcedir, targetdir,
     'backend' argument is optionnal, its value can be "json" or "yaml" and its
     default value is "json".
 
-    If "backend" is given it will change the default value for 'config'
-    argument such as with "json" filename will be "settings.json" and for
-    "yaml" it will be "settings.yml".
+    If "backend" is given and 'config' is empty, this will change the default
+    value for 'config' argument such as with "json" filename will be
+    "settings.json" and for "yaml" it will be "settings.yml".
     """
     logger = logging.getLogger("boussole")
 
+    starter = ProjectStarter(backend_name=backend)
+
+    # If not given, config file name is setted from backend default filename
+    if not config:
+        config = starter.backend_engine._default_filename
+
     try:
-        results = ProjectStarter(backend=backend).init(*(
+        results = starter.init(*(
             basedir,
             config,
             sourcedir,
