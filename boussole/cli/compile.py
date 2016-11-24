@@ -5,18 +5,22 @@ import logging
 
 import six
 
-from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import BoussoleBaseException, SettingsBackendError
 from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
+from boussole.project import ProjectBase
 
 
 @click.command('watch', short_help='Compile SASS project sources to CSS.')
+@click.option('--backend', metavar='STRING',
+              type=click.Choice(['json', 'yaml']),
+              help="Settings format name",
+              default="json")
 @click.option('--config', default=None, metavar='PATH',
               help='Path to a Boussole config file',
               type=click.Path(exists=True))
 @click.pass_context
-def compile_command(context, config):
+def compile_command(context, backend, config):
     """
     Compile SASS project sources to CSS
     """
@@ -25,8 +29,13 @@ def compile_command(context, config):
 
     # Load settings file
     try:
-        backend = SettingsBackendJson(basedir=os.getcwd())
-        settings = backend.load(filepath=config)
+        project = ProjectBase(backend_name=backend, basedir=os.getcwd())
+
+        # If not given, config file name is setted from backend default filename
+        if not config:
+            config = project.backend_engine._default_filename
+
+        settings = project.backend_engine.load(filepath=config)
     except SettingsBackendError as e:
         logger.critical(six.text_type(e))
         raise click.Abort()

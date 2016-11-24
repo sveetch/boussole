@@ -29,9 +29,9 @@ class ProjectBase(object):
         'yaml': SettingsBackendYaml,
     }
 
-    def __init__(self, backend_name='json'):
+    def __init__(self, backend_name='json', **kwargs):
         self.backend_name = backend_name
-        self.backend_engine = self.get_backend_engine(self.backend_name)
+        self.backend_engine = self.get_backend_engine(self.backend_name, **kwargs)
 
     def get_backend_engine(self, name, **kwargs):
         """

@@ -24,17 +24,17 @@ from boussole.project import ProjectStarter
               help="Directory (within base dir) where to write compiled "
                    "files.",
               default="css")
-@click.option('--config', metavar='PATH',
-              help="Settings file name",
-              default=None)
 @click.option('--backend', metavar='STRING',
               prompt="Settings format name",
               type=click.Choice(['json', 'yaml']),
               help="Settings format name",
               default="json")
+@click.option('--config', metavar='PATH',
+              help="Settings file name",
+              default=None)
 @click.pass_context
 def startproject_command(context, basedir, sourcedir, targetdir,
-                         backend, config=None):
+                         backend, config):
     """
     Create a new SASS project
 

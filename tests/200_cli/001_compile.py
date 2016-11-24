@@ -21,6 +21,12 @@ def test_verbosity_001(settings, caplog):
 
         # Default verbosity
         result = runner.invoke(cli_frontend, ['compile'])
+
+        print result.output
+        print caplog.record_tuples
+        print result.exception
+        print result.exc_info
+
         assert caplog.record_tuples == [
             (
                 'boussole',
@@ -33,6 +39,8 @@ def test_verbosity_001(settings, caplog):
                 'Unable to find settings file: {}/settings.json'.format(test_cwd)
             )
         ]
+
+
         assert 'Aborted!' in result.output
         assert result.exit_code == 1
 
