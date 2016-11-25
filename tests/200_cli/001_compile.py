@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+import pyaml
 
 import pytest
 
@@ -10,9 +11,14 @@ from click.testing import CliRunner
 from boussole.cli.console_script import cli_frontend
 
 
-def test_verbosity_001(settings, caplog):
+@pytest.mark.parametrize("options,filename", [
+    ([], 'settings.json'),
+    (['--backend=yaml'], 'settings.yml'),
+    (['--backend=json'], 'settings.json'),
+])
+def test_error_verbosity_001(settings, caplog, options, filename):
     """cli.compile: Testing default verbosity (aka INFO level) on setting
-       error"""
+       error with different backends"""
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -20,12 +26,7 @@ def test_verbosity_001(settings, caplog):
         test_cwd = os.getcwd()
 
         # Default verbosity
-        result = runner.invoke(cli_frontend, ['compile'])
-
-        print result.output
-        print caplog.record_tuples
-        print result.exception
-        print result.exc_info
+        result = runner.invoke(cli_frontend, ['compile']+options)
 
         assert caplog.record_tuples == [
             (
@@ -36,7 +37,7 @@ def test_verbosity_001(settings, caplog):
             (
                 'boussole',
                 50,
-                'Unable to find settings file: {}/settings.json'.format(test_cwd)
+                'Unable to find settings file: {}/{}'.format(test_cwd, filename)
             )
         ]
 
@@ -45,7 +46,7 @@ def test_verbosity_001(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_verbosity_002(settings, caplog):
+def test_error_verbosity_002(settings, caplog):
     """cli.compile: Testing silent on setting error"""
     runner = CliRunner()
 
@@ -73,7 +74,8 @@ def test_verbosity_002(settings, caplog):
         assert error_msg not in result.output
         assert 'Aborted!' in result.output
 
-def test_verbosity_003(settings, caplog):
+
+def test_error_verbosity_003(settings, caplog):
     """cli.compile: Testing debug level verbosity on setting error"""
     runner = CliRunner()
 
@@ -105,7 +107,7 @@ def test_verbosity_003(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_verbosity_004(settings, caplog):
+def test_error_verbosity_004(settings, caplog):
     """cli.compile: Testing debug level verbosity on some file to
        compile"""
     runner = CliRunner()
@@ -144,6 +146,7 @@ def test_verbosity_004(settings, caplog):
         assert result.exit_code == 1
         assert caplog.record_tuples == [
             ('boussole', 20, 'Building project'),
+            ('boussole', 10, u'Settings file: settings.json (json)'),
             ('boussole', 10, 'Project sources directory: {}'.format(test_cwd)),
             ('boussole', 10, 'Project destination directory: {}/css'.format(test_cwd)),
             ('boussole', 10, 'Exclude patterns: []'),
@@ -282,7 +285,12 @@ def test_fail_005(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_success_001(settings, caplog):
+@pytest.mark.parametrize("options,filename,dumper", [
+    ([], 'settings.json', json.dump),
+    (['--backend=yaml'], 'settings.yml', pyaml.dump),
+    (['--backend=json'], 'settings.json', json.dump),
+])
+def test_success_001(settings, caplog, options, filename, dumper):
     """cli.compile: Testing compile success on basic config, a main SASS
        source and a partial source to ignore"""
     runner = CliRunner()
@@ -292,13 +300,14 @@ def test_success_001(settings, caplog):
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open('settings.json', 'w') as f:
-            f.write(json.dumps({
+        with open(filename, 'w') as f:
+            datas = {
                 'SOURCES_PATH': '.',
                 'TARGET_PATH': './css',
                 'OUTPUT_STYLES': 'compact',
                 'SOURCE_MAP': True,
-            }, indent=4))
+            }
+            dumper(datas, f, indent=4)
 
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
@@ -327,7 +336,7 @@ def test_success_001(settings, caplog):
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['compile'])
+        result = runner.invoke(cli_frontend, ['compile']+options)
 
         # Attempted compiled CSS
         css_attempted = "\n".join((

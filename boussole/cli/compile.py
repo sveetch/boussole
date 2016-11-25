@@ -40,12 +40,14 @@ def compile_command(context, backend, config):
         logger.critical(six.text_type(e))
         raise click.Abort()
 
+    logger.debug(u"Settings file: {} ({})".format(
+                 config, backend))
     logger.debug(u"Project sources directory: {}".format(
-                settings.SOURCES_PATH))
+                 settings.SOURCES_PATH))
     logger.debug(u"Project destination directory: {}".format(
-                settings.TARGET_PATH))
+                 settings.TARGET_PATH))
     logger.debug(u"Exclude patterns: {}".format(
-                settings.EXCLUDES))
+                 settings.EXCLUDES))
 
     # Find all sources with their destination path
     try:
