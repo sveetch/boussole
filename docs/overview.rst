@@ -20,14 +20,21 @@ Boussole does not really handle itself compilation, this is the role of `libsass
 Project configuration
 *********************
 
-A project **configuration lives in a JSON file** which default attempted name is ``settings.json`` from current directory. You can use the argument ``--config`` to specify another path to your settings file.
+A project **configuration lives in a file** which default attempted name is ``settings.json`` for JSON format backend. You can use the argument ``--config`` to specify another path to your settings file.
 
-It does not matter the filename of your file is ``settings.json`` or ``foo.json`` or anything else, but your file has to be a valid JSON file.
+Backend format
+--------------
+
+Default configuration file format is JSON, its backend is named ``json``.
+
+YAML is another available format, its backend is named ``yaml``.
+
+To select a backend from command line use argument ``--backend``, value can be either ``json`` or ``yaml``.
 
 Sample
 ------
 
-Here is a full sample of available settings for project configuration:
+Here is a full sample of available settings for project configuration with JSON format:
 
     .. sourcecode:: json
 

@@ -5,6 +5,7 @@
 .. _Flake8: http://flake8.readthedocs.org
 .. _Sphinx: http://www.sphinx-doc.org
 .. _tox: http://tox.readthedocs.io
+.. _sphinx-autobuild: https://github.com/GaretJax/sphinx-autobuild
 
 ===========
 Development
@@ -61,3 +62,11 @@ Then go in the ``boussole`` module directory, where ``the setup.py`` and ``tox.i
 
     tox
 
+Documentation
+-------------
+
+You should see about `sphinx-autobuild`_ for a watcher which automatically rebuild HTML documentation when you change sources.
+
+When installed you can use following command from ``docs/`` directory: ::
+
+    make livehtml

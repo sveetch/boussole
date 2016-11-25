@@ -19,6 +19,7 @@ Once Boussole is correctly installed, you will be able to start a project to wor
     Settings file name [settings.json]:
     Sources directory [scss]:
     Target directory [css]:
+    Settings format name [json]:
 #. Write some SASS file into ``scss`` directory;
 #. From your SASS project directory (where belong the ``settings.json`` file) just execute command: ::
 
