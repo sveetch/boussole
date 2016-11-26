@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.1.0 - Unreleased
+Version 1.1.0 - 2016/11/26
 --------------------------
 
 * YAML backend for settings, close #7 :
