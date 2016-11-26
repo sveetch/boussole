@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
+import json
+import yaml
 
 import pytest
 
@@ -8,28 +10,17 @@ from boussole.conf.json_backend import SettingsBackendJson
 from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-@pytest.mark.parametrize("backend_engine,attempted", [
+@pytest.mark.parametrize("backend_engine,loader", [
     (
         SettingsBackendJson,
-        ("""{\n"""
-         """    "donald": [\n"""
-         """        "riri", \n"""
-         """        "fifi", \n"""
-         """        "loulou"\n"""
-         """    ], \n"""
-         """    "foo": "bar"\n"""
-         """}""")
+        json.loads
     ),
     (
         SettingsBackendYaml,
-        ("""donald:\n"""
-         """    - riri\n"""
-         """    - fifi\n"""
-         """    - loulou\n"""
-         """foo: bar\n""")
+        yaml.load
     ),
 ])
-def test_ok(temp_builds_dir, backend_engine, attempted):
+def test_ok(temp_builds_dir, backend_engine, loader):
     """Dump data from backend"""
     tmp_dirname = 'backend_dump_{}'.format(backend_engine._kind_name)
     settings_filename = backend_engine._default_filename
@@ -39,16 +30,17 @@ def test_ok(temp_builds_dir, backend_engine, attempted):
 
     destination = os.path.join(basedir, settings_filename)
 
-    content = {
+    datas = {
         'foo': 'bar',
         'donald': ['riri', 'fifi', 'loulou']
     }
 
     backend = backend_engine()
 
-    backend.dump(content, filepath=destination)
+    backend.dump(datas, filepath=destination)
 
     with open(destination, "r") as fp:
         content = fp.read()
 
-    assert content == attempted
+    # Compare initial datas dict with parsed content from dumped datas file
+    assert datas == loader(content)
