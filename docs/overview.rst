@@ -20,16 +20,20 @@ Boussole does not really handle itself compilation, this is the role of `libsass
 Project configuration
 *********************
 
-A project **configuration lives in a file** which default attempted name is ``settings.json`` for JSON format backend. You can use the argument ``--config`` to specify another path to your settings file.
+A project **configuration lives in a file** which default attempted name is ``settings.json`` with JSON format backend.
 
 Backend format
 --------------
 
-Default configuration file format is JSON, its backend is named ``json``.
+Default configuration file format is JSON, its backend name is ``json`` and involve default configuration filename to ``settings.json``.
 
-YAML is another available format, its backend is named ``yaml``.
+YAML is another available format, its backend name is ``yaml`` and involve default configuration filename to ``settings.yml``.
 
 To select a backend from command line use argument ``--backend``, value can be either ``json`` or ``yaml``.
+
+You can use the argument ``--config`` to specify another path to your settings file like ``myconfig.yml``.
+
+If you don't use default values for ``--config`` or ``--backend`` options, you will need to provide again them to each commands.
 
 Sample
 ------
@@ -57,12 +61,16 @@ Here is a full sample of available settings for project configuration with JSON 
 References
 ----------
 
+.. Note::
+    Default values are referenced as Python values, you will need to adapt them according to the backend format you are using.
+
+
 SOURCES_PATH
-    Default: None, this is a required setting.
+    Default: ``None``, this is a required setting.
 
     (string) Path to the directory containing your project SASS sources to compile.
 LIBRARY_PATHS
-    Default: Empty list
+    Default: ``[]``
 
     (list) A list of paths (string) to your library imported from your SASS sources. Never try to add your source dir as a library and vice versa, this will trouble resolver and compiler.
 TARGET_PATH
@@ -74,22 +82,22 @@ OUTPUT_STYLES
 
     (string) keyword of output style type used to compile your SASS sources. Can be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
 SOURCE_COMMENTS
-    Default: ``false``
+    Default: ``False``
 
-    (boolean) If ``true``, comments about source lines will be added to each rule in resulted CSS from compile.
+    (boolean) If ``True``, comments about source lines will be added to each rule in resulted CSS from compile.
 SOURCE_MAP
-    Default: ``false``
+    Default: ``False``
 
-    (boolean) If ``true``, generate a source map for each compiled file. Source map filename will be the same that compiled file but with extension changed to ``.map``.
+    (boolean) If ``True``, generate a source map for each compiled file. Source map filename will be the same that compiled file but with extension changed to ``.map``.
 EXCLUDES
-    Default: Empty list
+    Default: ``[]``
 
     (list) A list of glob pattern (string) to exclude some paths/files from compile. Remember these pattern are allways matched against relative paths (from project directory).
 
 Help
 ****
 
-You can read global help about commands and arguments with: ::
+You can read global help with: ::
 
     boussole -h
 

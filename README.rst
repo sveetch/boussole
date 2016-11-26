@@ -6,7 +6,7 @@
 .. _colorama: https://github.com/tartley/colorama
 .. _colorlog: https://github.com/borntyping/python-colorlog
 .. _six: https://pythonhosted.org/six/
-.. _PyYAML: https://pythonhosted.org/six/
+.. _pyaml: https://github.com/mk-fg/pretty-yaml
 
 ========
 Boussole
@@ -39,4 +39,4 @@ Dependancies
 * `libsass-python`_ >= 0.11.2;
 * `colorama`_;
 * `colorlog`_;
-* `PyYAML`_;
+* `pyaml`_;
