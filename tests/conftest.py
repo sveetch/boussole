@@ -93,7 +93,7 @@ def compiler():
 @pytest.fixture(scope="module")
 def projectstarter():
     """Initialize and return Project starter (scope at module level)"""
-    return ProjectStarter()
+    return ProjectStarter
 
 
 @pytest.fixture(scope="module")

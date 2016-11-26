@@ -8,19 +8,23 @@ import six
 
 from watchdog.observers import Observer
 
-from boussole.conf.json_backend import SettingsBackendJson
 from boussole.exceptions import SettingsBackendError
 from boussole.inspector import ScssInspector
 from boussole.watcher import (WatchdogLibraryEventHandler,
                               WatchdogProjectEventHandler)
+from boussole.project import ProjectBase
 
 
 @click.command('watch', short_help='Watch for change on your SASS project.')
+@click.option('--backend', metavar='STRING',
+              type=click.Choice(['json', 'yaml']),
+              help="Settings format name",
+              default="json")
 @click.option('--config', default=None, metavar='PATH',
               help='Path to a Boussole config file',
               type=click.Path(exists=True))
 @click.pass_context
-def watch_command(context, config):
+def watch_command(context, backend, config):
     """
     Watch for change on your SASS project sources then compile them to CSS.
 
@@ -30,10 +34,11 @@ def watch_command(context, config):
     * Create: when a new source file is created;
     * Change: when a source is changed;
     * Delete: when a source is deleted;
-    * Move: When a source file is moved;
+    * Move: When a source file is moved in watched dirs. Also occurs with
+      editor transition file;
 
     Almost all errors occurring during compile won't break watcher, so you can
-    resolve them and watcher will try again to compile once an a new event
+    resolve them and watcher will try again to compile once a new event
     occurs.
 
     You can stop watcher using key combo "CTRL+C" (or CMD+C on MacOSX).
@@ -43,8 +48,14 @@ def watch_command(context, config):
 
     # Load settings file
     try:
-        backend = SettingsBackendJson(basedir=os.getcwd())
-        settings = backend.load(filepath=config)
+        project = ProjectBase(backend_name=backend, basedir=os.getcwd())
+
+        # If not given, config file name is setted from backend default
+        # filename
+        if not config:
+            config = project.backend_engine._default_filename
+
+        settings = project.backend_engine.load(filepath=config)
     except SettingsBackendError as e:
         logger.critical(six.text_type(e))
         raise click.Abort()

@@ -1,0 +1,18 @@
+SOURCES_PATH: sample_project
+TARGET_PATH: .
+LIBRARY_PATHS:
+    - library_1
+    - library_2
+OUTPUT_STYLES: expanded
+SOURCE_COMMENTS: true
+EXCLUDES:
+    - main_error.scss
+    - main_circular_5.scss
+    - main_circular_0.scss
+    - main_circular_4.scss
+    - main_circular_3.scss
+    - main_circular_1.scss
+    - main_circular_2.scss
+    - main_circular_bridge.scss
+    - main_twins_*.scss
+    - !!str '*/twin_*.scss'

@@ -3,12 +3,57 @@ Project management
 ==================
 """
 import os
-import json
 
-from boussole.exceptions import SettingsInvalidError
+from boussole.exceptions import SettingsInvalidError, SettingsBackendError
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-class ProjectStarter(object):
+class ProjectBase(object):
+    """
+    Project base
+
+    Keyword Arguments:
+        backend_name (string): Default backend name, can be either ``json`` or
+            ``yaml``. Default value is ``json``.
+
+    Attributes:
+        _engines: Available Configuration backends. Read only.
+        backend_name: Backend name to use from available ones.
+        backend_engine: Backend engine selected from given name.
+    """
+    _engines = {
+        'json': SettingsBackendJson,
+        'yaml': SettingsBackendYaml,
+    }
+
+    def __init__(self, backend_name='json', **kwargs):
+        self.backend_name = backend_name
+        self.backend_engine = self.get_backend_engine(self.backend_name,
+                                                      **kwargs)
+
+    def get_backend_engine(self, name, **kwargs):
+        """
+        Get backend engine from given name.
+
+        Args:
+            (string): Path to validate.
+
+        Raises:
+            boussole.exceptions.SettingsBackendError: If given backend name
+                does not match any available engine.
+
+        Returns:
+            object: Instance of selected backend engine.
+        """
+        if name not in self._engines:
+            msg = "Given settings backend is unknowed: {}"
+            raise SettingsBackendError(msg.format(name))
+
+        return self._engines[name](**kwargs)
+
+
+class ProjectStarter(ProjectBase):
     """
     Provide methods to create a new SASS Project
     """
@@ -102,19 +147,15 @@ class ProjectStarter(object):
         if not os.path.exists(abs_targetdir):
             os.makedirs(abs_targetdir)
 
-        # Create settings with given paths
-        # Note: Does not use io.open since it naturally works in unicode, so
-        # let the 'json' module from each Python version play with open() as
-        # it likes
-        with open(abs_config, 'w') as fp:
-            json.dump({
-                'SOURCES_PATH': sourcedir,
-                'TARGET_PATH': targetdir,
-                "LIBRARY_PATHS": [],
-                "OUTPUT_STYLES": "nested",
-                "SOURCE_COMMENTS": False,
-                "EXCLUDES": []
-            }, fp, indent=4)
+        # Dump settings file
+        self.backend_engine.dump({
+            'SOURCES_PATH': sourcedir,
+            'TARGET_PATH': targetdir,
+            "LIBRARY_PATHS": [],
+            "OUTPUT_STYLES": "nested",
+            "SOURCE_COMMENTS": False,
+            "EXCLUDES": []
+        }, abs_config, indent=4)
 
     def init(self, basedir, config, sourcedir, targetdir, cwd='', commit=True):
         """

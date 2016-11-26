@@ -9,6 +9,15 @@
 
 .. automodule:: boussole.conf.base_backend
     :members:
+    :show-inheritance:
 
 .. automodule:: boussole.conf.json_backend
+    :members:
+    :show-inheritance:
+
+.. automodule:: boussole.conf.yaml_backend
+    :members:
+    :show-inheritance:
+
+.. automodule:: boussole.conf.discover
     :members:

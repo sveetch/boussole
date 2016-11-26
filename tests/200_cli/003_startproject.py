@@ -56,9 +56,9 @@ def test_001(settings, caplog):
         ]
 
         # Ensure dir and file has been created
-        assert os.path.exists(config_filepath) == True
-        assert os.path.exists(sourcedir) == True
-        assert os.path.exists(targetdir) == True
+        assert os.path.exists(config_filepath)
+        assert os.path.exists(sourcedir)
+        assert os.path.exists(targetdir)
 
         # Validate created configuration file
         with open(config_filepath, "r") as fp:

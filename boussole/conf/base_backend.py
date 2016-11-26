@@ -9,7 +9,7 @@ return a Settings object.
 Backends inherit from :class:`boussole.conf.post_processor` so they can post
 process each loaded settings values following the settings manifest rules.
 
-Actually the only backend available is JSON.
+Actually available backends are JSON and YAML.
 
 """
 import io
@@ -34,10 +34,16 @@ class SettingsBackendBase(SettingsPostProcessor):
             Given value will fill intial value for ``projectdir`` attribute.
 
     Attributes:
-        _default_filename: Filename for settings file to load. Default to
-            ``settings.txt`` but every backend should set their own filename.
+        _default_filename: Filename for settings file to load.
+            Value is ``settings.txt``.
+        _kind_name: Backend format name.
+            Value is ``txt``.
+        _file_extension: Default filename extension.
+            Value is ``txt``.
     """
     _default_filename = 'settings.txt'
+    _kind_name = 'txt'
+    _file_extension = 'txt'
 
     def __init__(self, basedir=None):
         self.basedir = basedir or ''
@@ -116,17 +122,33 @@ class SettingsBackendBase(SettingsPostProcessor):
 
     def parse(self, filepath, content):
         """
-        Parse opened settings content
+        Load and parse opened settings content.
 
         Base method do nothing because parsing is dependent from backend.
 
         Args:
-            filepath (str): Settings object, depends from backend
+            filepath (str): Settings file location.
             content (str): Settings content from opened file, depends from
                 backend.
 
         Returns:
-            dict: Dictionnary containing parsed setting elements.
+            dict: Dictionnary containing parsed setting options.
+
+        """
+        return {}
+
+    def dump(self, content, filepath):
+        """
+        Dump settings content to filepath.
+
+        Base method do nothing because dumping is dependent from backend.
+
+        Args:
+            content (str): Settings content.
+            filepath (str): Settings file location.
+
+        Returns:
+            dict: Dictionnary containing parsed setting options.
 
         """
         return {}
@@ -157,7 +179,7 @@ class SettingsBackendBase(SettingsPostProcessor):
             filepath (str): Filepath to the settings file.
 
         Returns:
-            boussole.conf.model.Settings: Settings object with loaded elements.
+            boussole.conf.model.Settings: Settings object with loaded options.
 
         """
         self.projectdir, filename = self.parse_filepath(filepath)

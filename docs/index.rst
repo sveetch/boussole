@@ -11,6 +11,7 @@
 .. _colorama: https://github.com/tartley/colorama
 .. _colorlog: https://github.com/borntyping/python-colorlog
 .. _six: https://pythonhosted.org/six/
+.. _pyaml: https://github.com/mk-fg/pretty-yaml
 
 Welcome to Boussole's documentation!
 ====================================
@@ -29,7 +30,7 @@ Features
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
 * **Expose a Core API** to use it from Python code;
-* Support for **Python2.7** and **Python3.4**;
+* Support for **Python2.7** and **Python3.x**;
 
 Links
 *****
@@ -42,11 +43,12 @@ Dependancies
 ************
 
 * `six`_;
-* `Watchdog`_ == 0.8.3;
-* `click`_ == 5.1;
-* `libsass-python`_ >= 0.11.2;
+* `Watchdog`_ ==0.8.3;
+* `click`_ >=5.1, <6.0;
+* `libsass-python`_ >=0.11.2;
 * `colorama`_;
 * `colorlog`_;
+* `pyaml`_;
 
 User’s Guide
 ************

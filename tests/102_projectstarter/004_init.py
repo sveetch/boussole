@@ -1,36 +1,45 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+import yaml
+
 import pytest
 
 from boussole.exceptions import SettingsInvalidError
 
 
-def test_success_001(projectstarter, temp_builds_dir):
-    """project.init: Testing on default values"""
-    basedir = temp_builds_dir.join('projectstarter_init_success_001').strpath
+@pytest.mark.parametrize("name,ext,module", [
+    ('json', 'json', json),
+    ('yaml', 'yml', yaml),
+])
+def test_success(projectstarter, temp_builds_dir, name, ext, module):
+    """Testing on default values"""
+    tmp_dirname = 'projectstarter_init_success_{}'.format(name)
+    settings_filename = "settings.{}".format(ext)
+
+    basedir = temp_builds_dir.join(tmp_dirname).strpath
     os.makedirs(basedir)
 
-    results = projectstarter.init(*(
+    results = projectstarter(backend_name=name).init(*(
         '.',
-        'settings.json',
+        settings_filename,
         'scss',
         'css',
     ), cwd=basedir)
 
     assert results == {
         "basedir": basedir,
-        "config": os.path.join(basedir, "settings.json"),
+        "config": os.path.join(basedir, settings_filename),
         "sourcedir": os.path.join(basedir, "scss"),
         "targetdir": os.path.join(basedir, "css"),
     }
 
-    assert os.path.exists(os.path.join(basedir, "settings.json")) == True
+    assert os.path.exists(os.path.join(basedir, settings_filename)) == True
     assert os.path.exists(os.path.join(basedir, "scss")) == True
     assert os.path.exists(os.path.join(basedir, "css")) == True
 
-    with open(os.path.join(basedir, "settings.json"), "r") as fp:
-        assert json.load(fp) == {
+    with open(os.path.join(basedir, settings_filename), "r") as fp:
+        assert module.load(fp) == {
             'SOURCES_PATH': 'scss',
             'TARGET_PATH': 'css',
             "LIBRARY_PATHS": [],
@@ -40,15 +49,23 @@ def test_success_001(projectstarter, temp_builds_dir):
         }
 
 
-def test_error_001(projectstarter, temp_builds_dir):
-    """project.init: Raised exception caused by duplicate paths"""
-    basedir = temp_builds_dir.join('projectstarter_init_error_001').strpath
+@pytest.mark.parametrize("name,ext,module", [
+    ('json', 'json', json),
+    ('yaml', 'yml', yaml),
+])
+def test_error(projectstarter, temp_builds_dir, name, ext, module):
+    """Raised exception caused by duplicate paths"""
+    tmp_dirname = 'projectstarter_init_error_{}'.format(name)
+    settings_filename = "settings.{}".format(ext)
+
+    basedir = temp_builds_dir.join(tmp_dirname).strpath
     os.makedirs(basedir)
 
     with pytest.raises(SettingsInvalidError):
-        results = projectstarter.init(*(
+        results = projectstarter(backend_name=name).init(*(
             '.',
-            'settings.json',
+            settings_filename,
             'css',
             'css',
         ), cwd=basedir)
+
