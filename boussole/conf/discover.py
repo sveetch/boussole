@@ -41,8 +41,6 @@ def get_backend(filepath, kind=None):
         'yml': 'yaml',
     }
 
-    backend = None
-
     if not kind:
         extension = os.path.splitext(filepath)[1]
         if not extension:

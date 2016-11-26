@@ -15,11 +15,18 @@ class SettingsBackendYaml(SettingsBackendBase):
     YAML backend for settings
 
     Use PyYaml for parsing and pyaml for dumping.
-    """
 
-    _default_filename = 'settings.yml' #: Default filename
-    _kind_name = 'yaml' #: Backend format name
-    _file_extension = 'yml' #: Default filename extension
+    Attributes:
+        _default_filename: Filename for settings file to load.
+            Value is ``settings.yml``.
+        _kind_name: Backend format name.
+            Value is ``yaml``.
+        _file_extension: Default filename extension.
+            Value is ``yml``.
+    """
+    _default_filename = 'settings.yml'
+    _kind_name = 'yaml'
+    _file_extension = 'yml'
 
     def dump(self, content, filepath, indent=4):
         """

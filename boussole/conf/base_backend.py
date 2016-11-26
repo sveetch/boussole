@@ -34,12 +34,16 @@ class SettingsBackendBase(SettingsPostProcessor):
             Given value will fill intial value for ``projectdir`` attribute.
 
     Attributes:
-        _default_filename: Filename for settings file to load. Default to
-            ``settings.txt`` but every backend should set their own filename.
+        _default_filename: Filename for settings file to load.
+            Value is ``settings.txt``.
+        _kind_name: Backend format name.
+            Value is ``txt``.
+        _file_extension: Default filename extension.
+            Value is ``txt``.
     """
-    _default_filename = 'settings.txt' #: Default filename
-    _kind_name = 'txt' #: Backend format name
-    _file_extension = 'txt' #: Default filename extension
+    _default_filename = 'settings.txt'
+    _kind_name = 'txt'
+    _file_extension = 'txt'
 
     def __init__(self, basedir=None):
         self.basedir = basedir or ''

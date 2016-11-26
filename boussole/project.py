@@ -3,8 +3,6 @@ Project management
 ==================
 """
 import os
-import json
-import pyaml
 
 from boussole.exceptions import SettingsInvalidError, SettingsBackendError
 from boussole.conf.json_backend import SettingsBackendJson
@@ -31,7 +29,8 @@ class ProjectBase(object):
 
     def __init__(self, backend_name='json', **kwargs):
         self.backend_name = backend_name
-        self.backend_engine = self.get_backend_engine(self.backend_name, **kwargs)
+        self.backend_engine = self.get_backend_engine(self.backend_name,
+                                                      **kwargs)
 
     def get_backend_engine(self, name, **kwargs):
         """

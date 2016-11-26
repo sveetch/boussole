@@ -12,10 +12,18 @@ from boussole.conf.base_backend import SettingsBackendBase
 class SettingsBackendJson(SettingsBackendBase):
     """
     JSON backend for settings
+
+    Attributes:
+        _default_filename: Filename for settings file to load.
+            Value is ``settings.json``.
+        _kind_name: Backend format name.
+            Value is ``json``.
+        _file_extension: Default filename extension.
+            Value is ``json``.
     """
-    _default_filename = 'settings.json' #: Default filename
-    _kind_name = 'json' #: Backend format name
-    _file_extension = 'json' #: Default filename extension
+    _default_filename = 'settings.json'
+    _kind_name = 'json'
+    _file_extension = 'json'
 
     def dump(self, content, filepath, indent=4):
         """

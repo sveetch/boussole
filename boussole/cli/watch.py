@@ -8,7 +8,7 @@ import six
 
 from watchdog.observers import Observer
 
-from boussole.exceptions import BoussoleBaseException, SettingsBackendError
+from boussole.exceptions import SettingsBackendError
 from boussole.inspector import ScssInspector
 from boussole.watcher import (WatchdogLibraryEventHandler,
                               WatchdogProjectEventHandler)
@@ -50,7 +50,8 @@ def watch_command(context, backend, config):
     try:
         project = ProjectBase(backend_name=backend, basedir=os.getcwd())
 
-        # If not given, config file name is setted from backend default filename
+        # If not given, config file name is setted from backend default
+        # filename
         if not config:
             config = project.backend_engine._default_filename
 
