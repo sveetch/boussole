@@ -7,6 +7,7 @@ import logging
 import six
 
 from watchdog.observers import Observer
+from watchdog.observers.polling import PollingObserver
 
 from boussole.exceptions import SettingsBackendError
 from boussole.inspector import ScssInspector
@@ -15,7 +16,7 @@ from boussole.watcher import (WatchdogLibraryEventHandler,
 from boussole.project import ProjectBase
 
 
-@click.command('watch', short_help='Watch for change on your SASS project.')
+@click.command('watch', short_help='Watch for change on your Sass project.')
 @click.option('--backend', metavar='STRING',
               type=click.Choice(['json', 'yaml']),
               help="Settings format name",
@@ -23,10 +24,11 @@ from boussole.project import ProjectBase
 @click.option('--config', default=None, metavar='PATH',
               help='Path to a Boussole config file',
               type=click.Path(exists=True))
+@click.option('--poll', is_flag=True, help='Use Watchdog polling observer')
 @click.pass_context
-def watch_command(context, backend, config):
+def watch_command(context, backend, config, poll):
     """
-    Watch for change on your SASS project sources then compile them to CSS.
+    Watch for change on your Sass project sources then compile them to CSS.
 
     Watched events are:
 
@@ -78,8 +80,14 @@ def watch_command(context, backend, config):
     # Init inspector instance shared through all handlers
     inspector = ScssInspector()
 
-    # Registering event handlers to observer
-    observer = Observer()
+    if not poll:
+        logger.debug(u"Using Watchdog native platform observer")
+        observer = Observer()
+    else:
+        logger.debug(u"Using Watchdog polling observer")
+        observer = PollingObserver()
+
+    # Init event handlers
     project_handler = WatchdogProjectEventHandler(settings, inspector,
                                                   **watcher_templates_patterns)
 
