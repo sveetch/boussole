@@ -17,6 +17,7 @@ Boussole does not really handle itself compilation, this is the role of `libsass
 
 **Boussole is builded following Sass references** and all your Sass sources and libraries compatible with libsass should be safe to compile.
 
+
 Project configuration
 *********************
 
@@ -94,18 +95,18 @@ EXCLUDES
 
     (list) A list of glob pattern (string) to exclude some paths/files from compile. Remember these pattern are allways matched against relative paths (from project directory).
 
+
 Help
 ****
 
-You can read global help with: ::
+You can read help about global options with: ::
 
     boussole -h
 
-And you can reach command help using: ::
+And you can reach help about command options using: ::
 
     boussole [command name] -h
 
-This is identical for all commands.
 
 Start a new project
 *******************
@@ -118,6 +119,7 @@ Without arguments, command will prompt you to fill required values but you can a
 
     boussole startproject
 
+
 Compile
 *******
 
@@ -126,6 +128,7 @@ Compile simply launch compiler on every eligible Sass source from your ``SOURCES
 **Usage** ::
 
     boussole compile
+
 
 Watch
 *****
@@ -140,8 +143,13 @@ When an event occurs, it will compile eligible sources from the file dependencie
 * File deletion.
 
 .. Note::
-    Compile errors won't break the watcher, meaning you can resolve it and it will try again to compile.
+    Compile errors won't break the watcher, meaning you can resolve them and it will try again to compile.
+
 
 **Usage** ::
 
     boussole watch
+
+.. Note::
+    Default behavior is to use the Watchdog native platform observer. It may not work for all environments (like on shared directories through network or Virtual machine), in this case use the ``--poll`` to use the Watchdog polling observer instead of the default one.
+
