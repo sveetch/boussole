@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-.. _SASS partials Reference:
+.. _Sass partials Reference:
     http://sass-lang.com/documentation/file.SASS_REFERENCE.html#partials
 
 Finder
 ======
 
-Finder is in charge to find *main SASS stylesheets* files to compile to CSS
-files, meaning it will ignore all partials SASS stylesheets (see
-`SASS partials Reference`_).
+Finder is in charge to find *main Sass stylesheets* files to compile to CSS
+files, meaning it will ignore all partials Sass stylesheets (see
+`Sass partials Reference`_).
 
 """
 import fnmatch
@@ -76,8 +76,8 @@ class ScssFinder(object):
 
     def is_partial(self, filepath):
         """
-        Check if file is a SASS partial source (see
-        `SASS partials Reference`_).
+        Check if file is a Sass partial source (see
+        `Sass partials Reference`_).
 
         Args:
             filepath (str): A file path. Can be absolute, relative or just a
@@ -220,7 +220,7 @@ class ScssFinder(object):
                            excludes=[]):
         """
         Find all scss sources that should be compiled, aka all sources that
-        are not "partials" SASS sources.
+        are not "partials" Sass sources.
 
 
         Args:

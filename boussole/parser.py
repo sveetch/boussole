@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-.. _SASS Reference:
+.. _Sass Reference:
     http://sass-lang.com/documentation/file.SASS_REFERENCE.html#import
 
 Parser
 ======
 
-Parser is in charge to find every ``@import`` rules in given SASS content.
+Parser is in charge to find every ``@import`` rules in given Sass content.
 
-It has been builded following `SASS Reference`_ about ``@import`` rule.
+It has been builded following `Sass Reference`_ about ``@import`` rule.
 """
 from __future__ import unicode_literals
 
@@ -23,7 +23,7 @@ class ScssImportsParser(object):
     """
     SCSS parser to find import rules.
 
-    This does not support the old SASS syntax (also known as "indented
+    This does not support the old Sass syntax (also known as "indented
     syntax").
 
     It's a mixin, meaning without own ``__init__`` method so it's should be

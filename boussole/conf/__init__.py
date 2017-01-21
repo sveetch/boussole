@@ -18,7 +18,7 @@ not allready so:
 * If the path is relative, expand it to absolute using directory from settings
   file location;
 
-Also note, that SASS files from libraries directories are never compiled.
+Also note, that Sass files from libraries directories are never compiled.
 """
 # Manifest define default values and post process methods for each setting
 # Warning: Order does matter on "postprocess" methods

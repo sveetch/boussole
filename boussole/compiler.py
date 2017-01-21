@@ -2,11 +2,11 @@
 """
 .. _libsass-python: https://github.com/dahlia/libsass-python
 
-SASS compile helper
+Sass compile helper
 ===================
 
 This is not a real compiler, just an helper wrapping common methods to compile
-a SASS source using `libsass-python`_.
+a Sass source using `libsass-python`_.
 """
 import os
 import io

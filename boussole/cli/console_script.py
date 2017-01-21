@@ -26,7 +26,7 @@ BOUSSOLE_LOGGER_CONF = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL', None)
 @click.pass_context
 def cli_frontend(ctx, verbose):
     """
-    Boussole is a commandline interface to build SASS projects using libsass.
+    Boussole is a commandline interface to build Sass projects using libsass.
 
     Every project will need a settings file containing all needed settings to
     build it.

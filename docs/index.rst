@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. _SASS: http://sass-lang.com/
+.. _Sass: http://sass-lang.com/
 .. _LibSass: http://sass-lang.com/libsass
 .. _Watchdog: https://github.com/gorakhargosh/watchdog
 .. _click: http://click.pocoo.org/5/
@@ -16,16 +16,16 @@
 Welcome to Boussole's documentation!
 ====================================
 
-Commandline interface to build `SASS`_ projects using `libsass-python`_.
+Commandline interface to build `Sass`_ projects using `libsass-python`_.
 
 .. Note::
-    Old SASS syntax (the *indented syntax*) is not supported.
+    Old Sass syntax (the *indented syntax*) is not supported.
 
 Features
 ********
 
 * Stand on `LibSass`_ which is **very fast**;
-* **Per project configuration** so you can use it once to compile all of your SASS files from a same project;
+* **Per project configuration** so you can use it once to compile all of your Sass files from a same project;
 * **Simple and useful** command line;
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;

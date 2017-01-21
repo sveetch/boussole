@@ -127,7 +127,7 @@ def test_error_verbosity_004(settings, caplog):
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
 
-        # Write a minimal main SASS source
+        # Write a minimal main Sass source
         source = "\n".join((
             """/* Main sample */""",
             """#content{""",
@@ -229,7 +229,7 @@ def test_fail_004(settings, caplog):
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
 
-        # Write a minimal main SASS source
+        # Write a minimal main Sass source
         source = "\n".join((
             """/* Main sample */""",
             """#content{""",
@@ -267,7 +267,7 @@ def test_fail_005(settings, caplog):
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
 
-        # Write a minimal main SASS source
+        # Write a minimal main Sass source
         source = "\n".join((
             """/* Main sample */""",
             """@import "mip";""",
@@ -291,7 +291,7 @@ def test_fail_005(settings, caplog):
     (['--backend=json'], 'settings.json', json.dump),
 ])
 def test_success_001(settings, caplog, options, filename, dumper):
-    """cli.compile: Testing compile success on basic config, a main SASS
+    """cli.compile: Testing compile success on basic config, a main Sass
        source and a partial source to ignore"""
     runner = CliRunner()
 
@@ -312,7 +312,7 @@ def test_success_001(settings, caplog, options, filename, dumper):
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
 
-        # Write a minimal main SASS source
+        # Write a minimal main Sass source
         source = "\n".join((
             """/* Main sample */""",
             """#content{""",
@@ -325,7 +325,7 @@ def test_success_001(settings, caplog, options, filename, dumper):
         with open('main.scss', 'w') as f:
             f.write(source)
 
-        # Write a partial SASS source
+        # Write a partial Sass source
         source = "\n".join((
             """/* Partial source to ignore */""",
             """.toignore-partial{""",

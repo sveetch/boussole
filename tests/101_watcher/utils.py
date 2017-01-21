@@ -111,7 +111,7 @@ def build_sample_structure(settings_object, basedir):
     os.makedirs(settings_object.TARGET_PATH)
     os.makedirs(os.path.join(settings_object.LIBRARY_PATHS[0], "components"))
 
-    # Write a minimal main SASS source importing partial
+    # Write a minimal main Sass source importing partial
     source = "\n".join((
         """/* Main sample */""",
         """@import "toinclude";""",
@@ -120,7 +120,7 @@ def build_sample_structure(settings_object, basedir):
     with open(basedir.join('sass/main.scss').strpath, 'w') as f:
         f.write(source)
 
-    # Write a main SASS source importing minimal source
+    # Write a main Sass source importing minimal source
     source = "\n".join((
         """/* Main importing sample */""",
         """@import "main";""",
@@ -128,7 +128,7 @@ def build_sample_structure(settings_object, basedir):
     with open(basedir.join('sass/main_importing.scss').strpath, 'w') as f:
         f.write(source)
 
-    # Write a main SASS source importing library component and partial source
+    # Write a main Sass source importing library component and partial source
     source = "\n".join((
         """/* Main importing library */""",
         """@import "toinclude";""",
@@ -137,7 +137,7 @@ def build_sample_structure(settings_object, basedir):
     with open(basedir.join('sass/main_usinglib.scss').strpath, 'w') as f:
         f.write(source)
 
-    # Write a partial SASS source to include
+    # Write a partial Sass source to include
     source = "\n".join((
         """/* Partial source to include */""",
         """.included-partial{ color: gold !important; }""",
@@ -145,7 +145,7 @@ def build_sample_structure(settings_object, basedir):
     with open(basedir.join('sass/_toinclude.scss').strpath, 'w') as f:
         f.write(source)
 
-    # Write a partial SASS source to ignore
+    # Write a partial Sass source to ignore
     source = "\n".join((
         """/* Partial source to ignore because not included */""",
         """.toignore-partial{ font-weight: bold; }""",

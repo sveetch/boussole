@@ -46,7 +46,7 @@ def test_001(settings, caplog):
             (
                 'boussole',
                 20,
-                "Now you should start to create some SASS sources into '{}', then compile them using:".format(sourcedir)
+                "Now you should start to create some Sass sources into '{}', then compile them using:".format(sourcedir)
             ),
             (
                 'boussole',

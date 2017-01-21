@@ -3,7 +3,7 @@
 Inspector
 =========
 
-Inspector is in charge to inspect a project about SASS stylesheets to search
+Inspector is in charge to inspect a project about Sass stylesheets to search
 for their dependencies.
 """
 from __future__ import unicode_literals

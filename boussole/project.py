@@ -55,7 +55,7 @@ class ProjectBase(object):
 
 class ProjectStarter(ProjectBase):
     """
-    Provide methods to create a new SASS Project
+    Provide methods to create a new Sass Project
     """
     def valid_paths(self, *args):
         """

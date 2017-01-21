@@ -9,7 +9,7 @@ from boussole.exceptions import SettingsInvalidError
 from boussole.project import ProjectStarter
 
 
-@click.command('startproject', short_help="Create a new SASS project.")
+@click.command('startproject', short_help="Create a new Sass project.")
 @click.option('--basedir', metavar='PATH',
               prompt="Project base directory",
               help=("Base directory where settings filename and project "
@@ -17,7 +17,7 @@ from boussole.project import ProjectStarter
               default=".")
 @click.option('--sourcedir', metavar='PATH',
               prompt="Sources directory",
-              help="Directory (within base dir) for your SASS sources.",
+              help="Directory (within base dir) for your Sass sources.",
               default="scss")
 @click.option('--targetdir', metavar='PATH',
               prompt="Target directory",
@@ -36,7 +36,7 @@ from boussole.project import ProjectStarter
 def startproject_command(context, basedir, sourcedir, targetdir,
                          backend, config):
     """
-    Create a new SASS project
+    Create a new Sass project
 
     This will prompt you to define your project configuration in a settings
     file then create needed directory structure.
@@ -72,7 +72,7 @@ def startproject_command(context, basedir, sourcedir, targetdir,
         logger.info(u"Project directory structure and configuration file have "
                     "been created.")
 
-        logger.info(u"Now you should start to create some SASS sources into "
+        logger.info(u"Now you should start to create some Sass sources into "
                     "'{}', then compile them "
                     "using:".format(results['sourcedir']))
 

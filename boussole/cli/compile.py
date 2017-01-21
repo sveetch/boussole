@@ -11,7 +11,7 @@ from boussole.compiler import SassCompileHelper
 from boussole.project import ProjectBase
 
 
-@click.command('watch', short_help='Compile SASS project sources to CSS.')
+@click.command('watch', short_help='Compile Sass project sources to CSS.')
 @click.option('--backend', metavar='STRING',
               type=click.Choice(['json', 'yaml']),
               help="Settings format name",
@@ -22,7 +22,7 @@ from boussole.project import ProjectBase
 @click.pass_context
 def compile_command(context, backend, config):
     """
-    Compile SASS project sources to CSS
+    Compile Sass project sources to CSS
     """
     logger = logging.getLogger("boussole")
     logger.info(u"Building project")

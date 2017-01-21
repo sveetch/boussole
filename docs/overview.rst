@@ -9,13 +9,13 @@
 Overview
 ========
 
-Boussole is working on **per-project configuration**, it means all your SASS sources to compile have to be organized in the same directory considered as the *sources directory*. Obviously you can organize them in multiple sub-directories within your sources directory.
+Boussole is working on **per-project configuration**, it means all your Sass sources to compile have to be organized in the same directory considered as the *sources directory*. Obviously you can organize them in multiple sub-directories within your sources directory.
 
-Your project can rely on some **SASS libraries that must be out of the source directory**.
+Your project can rely on some **Sass libraries that must be out of the source directory**.
 
-Boussole does not really handle itself compilation, this is the role of `libsass-python`_. But Boussole needs to inspect your SASS sources and so can raise some errors if they are invalid. These errors are almost only about your ``@import`` rules.
+Boussole does not really handle itself compilation, this is the role of `libsass-python`_. But Boussole needs to inspect your Sass sources and so can raise some errors if they are invalid. These errors are almost only about your ``@import`` rules.
 
-**Boussole is builded following SASS references** and all your SASS sources and libraries compatible with libsass should be safe to compile.
+**Boussole is builded following Sass references** and all your Sass sources and libraries compatible with libsass should be safe to compile.
 
 Project configuration
 *********************
@@ -68,19 +68,19 @@ References
 SOURCES_PATH
     Default: ``None``, this is a required setting.
 
-    (string) Path to the directory containing your project SASS sources to compile.
+    (string) Path to the directory containing your project Sass sources to compile.
 LIBRARY_PATHS
     Default: ``[]``
 
-    (list) A list of paths (string) to your library imported from your SASS sources. Never try to add your source dir as a library and vice versa, this will trouble resolver and compiler.
+    (list) A list of paths (string) to your library imported from your Sass sources. Never try to add your source dir as a library and vice versa, this will trouble resolver and compiler.
 TARGET_PATH
     Default: None, this is a required setting.
 
-    (string) Directory path where will be writed your compiled SASS sources.
+    (string) Directory path where will be writed your compiled Sass sources.
 OUTPUT_STYLES
     Default: ``nested``
 
-    (string) keyword of output style type used to compile your SASS sources. Can be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
+    (string) keyword of output style type used to compile your Sass sources. Can be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
 SOURCE_COMMENTS
     Default: ``False``
 
@@ -121,7 +121,7 @@ Without arguments, command will prompt you to fill required values but you can a
 Compile
 *******
 
-Compile simply launch compiler on every eligible SASS source from your ``SOURCES_PATH`` directory.
+Compile simply launch compiler on every eligible Sass source from your ``SOURCES_PATH`` directory.
 
 **Usage** ::
 

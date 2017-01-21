@@ -20,8 +20,8 @@ Once Boussole is correctly installed, you will be able to start a project to wor
     Sources directory [scss]:
     Target directory [css]:
     Settings format name [json]:
-#. Write some SASS file into ``scss`` directory;
-#. From your SASS project directory (where belong the ``settings.json`` file) just execute command: ::
+#. Write some Sass file into ``scss`` directory;
+#. From your Sass project directory (where belong the ``settings.json`` file) just execute command: ::
 
     boussole compile
-#. And voila, your valid SASS files should have been compiled to the ``css`` directory;
+#. And voila, your valid Sass files should have been compiled to the ``css`` directory;
