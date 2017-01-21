@@ -18,9 +18,6 @@ Welcome to Boussole's documentation!
 
 Commandline interface to build `Sass`_ projects using `libsass-python`_.
 
-.. Note::
-    Old Sass syntax (the *indented syntax*) is not supported.
-
 Features
 ********
 

@@ -5,20 +5,16 @@
 Changelog
 =========
 
-Version 1.2.0 - Unreleased
+Version 1.2.0 - 2017/01/21
 --------------------------
 
-* Fixed pytest warning about deprecated section name in ``setup.cfg``
-* Updated tests requirements
+* Fixed pytest warning about deprecated section name in ``setup.cfg``;
+* Updated tests requirements;
 * Removed python 3.4 from tox envs;
 * Added ``--poll`` option on watch command to use Watchdog polling observer instead of the native platform observer, close #22;
 * Fixed compiler tests for changes about sourcemap since last libsass version;
-
 * Fixed Sass brand name according to http://sassnotsass.com/;
-
-* **TODO** Test nothing is broken with watcher on sample project;
-
-* **TODO** Validated last libsass version?
+* Validated tests with ``libsass==0.12.3``;
 
 Version 1.1.0 - 2016/11/26
 --------------------------
