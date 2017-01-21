@@ -1,4 +1,4 @@
-pytest
-pytest-catchlog
+pytest>=3.0.5
+pytest-catchlog>=1.2.2
 flake8
 #flake8-format-ansi

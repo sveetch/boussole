@@ -34,10 +34,6 @@ setup(
         'colorama',
         'colorlog',
     ],
-    tests_require=[
-        'pytest',
-        'pytest-catchlog',
-    ],
     entry_points={
         'console_scripts': [
             'boussole = boussole.cli.console_script:cli_frontend',
