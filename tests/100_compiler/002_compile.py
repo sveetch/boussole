@@ -107,8 +107,8 @@ def test_002(compiler, temp_builds_dir):
         "sources": [
                 "../app.scss"
         ],
-        "mappings": ("AAAA,AAAA,QAAQ,CAAA,EAAE,KAAK,EAAC,OAAQ,EAAE,WAAW,EAAC,"
-                     "IAAK,GAAI"),
+        "mappings": ("AAAA,AAAA,QAAQ,CAAA,EAAE,KAAK,EAAC,OAAO,EAAG,WAAW,EAAC,"
+                     "IAAI,GAAK"),
         "names": []
     }
 
