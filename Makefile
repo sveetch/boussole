@@ -1,4 +1,8 @@
-PYTHON2_PATH=`which python2.7`
+PYTHON=python3
+
+PIP=venv/bin/python -m pip
+FLAKE=venv/bin/flake8
+PYTEST=venv/bin/py.test
 
 .PHONY: help clean delpyc tests flake quality
 
@@ -17,13 +21,25 @@ delpyc:
 	find . -name "*\.pyc"|xargs rm -f
 
 clean: delpyc
-	rm -Rf dist .tox boussole.egg-info .cache tests/__pycache__/
+	rm -Rf venv dist .tox boussole.egg-info .cache tests/__pycache__/
+
+venv:
+	$(PYTHON) -m venv venv
+	# This is required for those ones using ubuntu<16.04
+	$(PIP) install --upgrade pip
+	$(PIP) install --upgrade setuptools
+
+install: venv
+	$(PIP) install -e .
+
+install-dev: install
+	$(PIP) install -r requirements/dev.txt
 
 flake:
-	flake8 --show-source boussole
+	$(FLAKE) --show-source boussole
 
 tests:
-	py.test -vv tests
+	$(PYTEST) -vv tests
 
 quality: tests flake
 

@@ -5,6 +5,13 @@
 Changelog
 =========
 
+Version 1.2.1 - 2017/11/15
+--------------------------
+
+* Updated Makefile and development document to add everything for development install;
+* Validated tests with ``libsass==0.13.4``;
+* Document watcher behavior about inspection, close #24;
+
 Version 1.2.0 - 2017/01/21
 --------------------------
 

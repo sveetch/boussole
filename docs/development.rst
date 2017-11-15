@@ -25,21 +25,17 @@ Every requirement is available in file ``requirements/dev.txt``.
 Install for development
 ***********************
 
-First ensure you have `pip`_ and `virtualenv`_ installed, then type this: ::
+First ensure you have `pip`_ and ``python-venv`` package installed then type: ::
 
-    mkdir Boussole-dev
-    cd Boussole-dev
-    virtualenv .
     git clone https://github.com/sveetch/boussole.git
-    bin/pip install -e boussole
-    bin/pip install -r boussole/requirements/dev.txt
-    source bin/activate
+    cd boussole
+    make install-dev
 
 Boussole will be installed in editable mode from the last commit on master branch.
 
 When it's done, you will be able to check for boussole version, just type: ::
 
-    boussole version
+    venv/bin/boussole version
 
 Unittests
 ---------
@@ -65,8 +61,10 @@ Then go in the ``boussole`` module directory, where ``the setup.py`` and ``tox.i
 Documentation
 -------------
 
-You should see about `sphinx-autobuild`_ for a watcher which automatically rebuild HTML documentation when you change sources.
+`sphinx-autobuild`_ is installed for a watcher which automatically rebuild HTML documentation when you change sources.
 
-When installed you can use following command from ``docs/`` directory: ::
+When environnement is activated, you can use following command from ``docs/`` directory: ::
 
     make livehtml
+
+And go on ``http://127.0.0.1:8002/``.

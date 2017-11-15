@@ -153,3 +153,10 @@ When an event occurs, it will compile eligible sources from the file dependencie
 .. Note::
     Default behavior is to use the Watchdog native platform observer. It may not work for all environments (like on shared directories through network or Virtual machine), in this case use the ``--poll`` to use the Watchdog polling observer instead of the default one.
 
+Boussole has its own internal code to inspect Sass sources to be aware of sources paths it has to watch for.
+
+It results inspection does not have exactly the same path resolution process than libsass.
+
+It can lead to troubleshooting situations where ``compile`` command can build some sources that can fails with ``watch`` command because the latter need to inspect sources to be able to find dependencies and choke on unclear path resolution.
+
+These unclear paths are almost allways due to some Sass libraries trying to import components using a relative path outside of itself like with ``../``. This is often the case with libraries that have been made to be included in your main scss directory.
