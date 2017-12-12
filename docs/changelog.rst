@@ -5,6 +5,12 @@
 Changelog
 =========
 
+Version 1.2.2 - 2017/12/12
+--------------------------
+
+* Removed ``pytest-catchlog`` from tests requirements since it has been merged in ``pytest==3.3.0``;
+* Upgraded to ``pytest>=3.3.0`` in tests requirements;
+
 Version 1.2.1 - 2017/11/15
 --------------------------
 
