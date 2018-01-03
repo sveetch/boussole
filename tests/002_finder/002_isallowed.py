@@ -4,99 +4,107 @@ import pytest
 
 from boussole.exceptions import FinderException
 
-def test_allowed_001(settings, finder):
-    """finder.ScssFinder: Allowed simple filename"""
-    allowed = finder.is_allowed("foo.scss", excludes=['*.css'])
-    assert allowed == True
 
-
-def test_allowed_002(settings, finder):
-    """finder.ScssFinder: Allowed relative filepath"""
-    allowed = finder.is_allowed("pika/foo.scss", excludes=['bar/*.scss'])
-    assert allowed == True
-
-
-def test_allowed_003(settings, finder):
-    """finder.ScssFinder: Allowed relative filepath"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=['bar/*.scss'])
-    assert allowed == True
-
-
-def test_allowed_004(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=['foo.scss'])
-    assert allowed == True
-
-
-def test_allowed_005(settings, finder):
-    """finder.ScssFinder: Allowed relative filepath with many patterns"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=[
-        'foo.scss',
-        'bar/*.scss',
-        '*.css',
-    ])
-    assert allowed == True
-
-
-def test_notallowed_100(settings, finder):
-    """finder.ScssFinder: Not allowed simple filename"""
-    allowed = finder.is_allowed("foo.scss", excludes=['*.scss'])
-    assert allowed == False
-
-
-def test_notallowed_101(settings, finder):
-    """finder.ScssFinder: Not allowed simple filename"""
-    allowed = finder.is_allowed("foo.scss", excludes=['foo.scss'])
-    assert allowed == False
-
-
-def test_notallowed_102(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath"""
-    allowed = finder.is_allowed("pika/foo.scss", excludes=['*.scss'])
-    assert allowed == False
-
-
-def test_notallowed_103(settings, finder):
-    """finder.ScssFinder: Not allowed simple filename"""
-    allowed = finder.is_allowed("foo.scss", excludes=['*.css', '*.scss'])
-    assert allowed == False
-
-
-def test_notallowed_104(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=['pika/*/*.scss'])
-    assert allowed == False
-
-
-def test_notallowed_105(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath"""
-    allowed = finder.is_allowed("pika/bar/plop/foo.scss", excludes=['pika/*/*.scss'])
-    assert allowed == False
-
-
-def test_notallowed_106(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath, matching one of patterns"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=[
-        'foo.scss',
-        'bar/*.scss',
-        'pika/*/*.scss', # bim
-        '*.css',
-    ])
-    assert allowed == False
-
-
-def test_notallowed_107(settings, finder):
-    """finder.ScssFinder: Not allowed relative filepath, matching one of patterns"""
-    allowed = finder.is_allowed("pika/bar/foo.scss", excludes=[
-        'foo.scss',
-        'bar/*.scss',
-        '*.scss', # bam
-        '*.css',
-    ])
-    assert allowed == False
+@pytest.mark.parametrize('filepath,excludes,expected', [
+    # Allowed simple filename
+    ("foo.scss", ["*.css"], True),
+    ("foo.sass", ["*.css"], True),
+    # Allowed relative filepath
+    ("pika/foo.scss", ["bar/*.scss"], True),
+    ("pika/foo.sass", ["bar/*.sass"], True),
+    # Allowed relative filepath
+    ("pika/bar/foo.scss", ["bar/*.scss"], True),
+    ("pika/bar/foo.sass", ["bar/*.sass"], True),
+    # Not allowed relative filepath (???)
+    ("pika/bar/foo.scss", ["foo.scss"], True),
+    ("pika/bar/foo.sass", ["foo.sass"], True),
+    # Allowed relative filepath with many patterns
+    (
+        "pika/bar/foo.scss",
+        [
+            "foo.scss",
+            "bar/*.scss",
+            "*.css",
+        ],
+        True
+    ),
+    (
+        "pika/bar/foo.sass",
+        [
+            "foo.sass",
+            "bar/*.sass",
+            "*.css",
+        ],
+        True
+    ),
+    # Not allowed simple filename
+    ("foo.scss", ["*.scss"], False),
+    ("foo.sass", ["*.sass"], False),
+    # Not allowed simple filename
+    ("foo.scss", ["foo.scss"], False),
+    ("foo.sass", ["foo.sass"], False),
+    # Not allowed relative filepath
+    ("pika/foo.scss", ["*.scss"], False),
+    ("pika/foo.sass", ["*.sass"], False),
+    # Not allowed simple filename
+    ("foo.scss", ['*.css', '*.scss'], False),
+    ("foo.sass", ['*.css', '*.sass'], False),
+    # Not allowed relative filepath
+    ("pika/bar/foo.scss", ['pika/*/*.scss'], False),
+    ("pika/bar/foo.sass", ['pika/*/*.sass'], False),
+    # Not allowed relative filepath
+    ("pika/bar/plop/foo.scss", ['pika/*/*.scss'], False),
+    ("pika/bar/plop/foo.sass", ['pika/*/*.sass'], False),
+    # Not allowed relative filepath, matching one of patterns
+    (
+        "pika/bar/foo.scss",
+        [
+            "foo.scss",
+            "bar/*.scss",
+            "pika/*/*.scss",
+            "*.css",
+        ],
+        False
+    ),
+    (
+        "pika/bar/foo.sass",
+        [
+            "foo.sass",
+            "bar/*.sass",
+            "pika/*/*.sass",
+            "*.css",
+        ],
+        False
+    ),
+    # Not allowed relative filepath, matching one of patterns
+    (
+        "pika/bar/foo.scss",
+        [
+            "foo.scss",
+            "bar/*.scss",
+            "*.scss",
+            "*.css",
+        ],
+        False
+    ),
+    (
+        "pika/bar/foo.sass",
+        [
+            "foo.sass",
+            "bar/*.sass",
+            "*.sass",
+            "*.css",
+        ],
+        False
+    ),
+])
+def test_allowed_001(settings, finder, filepath, excludes, expected):
+    """Allowed simple filename"""
+    allowed = finder.is_allowed(filepath, excludes=excludes)
+    assert expected == allowed
 
 
 def test_allowed_exception_201(settings, finder):
-    """finder.ScssFinder: Absolute path raise an exception"""
+    """Absolute path raise an exception"""
     with pytest.raises(FinderException):
         allowed = finder.is_allowed("/foo.scss", excludes=[])

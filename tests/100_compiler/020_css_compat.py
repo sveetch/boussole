@@ -71,6 +71,7 @@ def test_css_compat_ok(compiler, temp_builds_dir):
     assert content == attempted
 
 
+@pytest.mark.xfail(reason="This should fail with latest libsass-python which has reverted behavior to ignore CSS file by default")
 def test_css_compat_fail(compiler, temp_builds_dir):
     """
     Check CSS compat is disabled from settings

@@ -6,7 +6,7 @@ import pytest
 
 import boussole
 
-from boussole.parser import ScssImportsParser
+from boussole.parser import ScssImportsParser, SassImportsParser
 from boussole.finder import ScssFinder
 from boussole.resolver import ImportPathsResolver
 from boussole.inspector import ScssInspector
@@ -32,9 +32,13 @@ class FixturesSettingsTestMixin(object):
             self.fixtures_dir
         )
 
-        # Sample project
+        # Sample scss project
         self.sample_dir = "sample_project"
         self.sample_path = os.path.join(self.fixtures_path, self.sample_dir)
+
+        # Sample sass project
+        self.sass_sample_dir = "indented_sass_samples"
+        self.sass_sample_path = os.path.join(self.fixtures_path, self.sass_sample_dir)
 
         # Some sample libraries
         self.lib1_dir = 'library_1'
@@ -56,43 +60,58 @@ def temp_builds_dir(tmpdir_factory):
 
 @pytest.fixture(scope="module")
 def settings():
-    """Initialize and return settings (mostly paths) for fixtures (scope at module level)"""
+    """Initialize and return settings (mostly paths) for fixtures"""
     return FixturesSettingsTestMixin()
 
 
 @pytest.fixture(scope="module")
+def parsers():
+    """Initialize and return a dict of parser (indexed on syntax name)"""
+    return {
+        "scss": ScssImportsParser(),
+        "sass": SassImportsParser(),
+    }
+
+
+@pytest.fixture(scope="module")
 def parser():
-    """Initialize and return SCSS parser (scope at module level)"""
+    """Initialize and return Scss parser"""
     return ScssImportsParser()
 
 
 @pytest.fixture(scope="module")
+def sass_parser():
+    """Initialize and return Sass parser"""
+    return SassImportsParser()
+
+
+@pytest.fixture(scope="module")
 def resolver():
-    """Initialize and return Path resolver (scope at module level)"""
+    """Initialize and return Path resolver"""
     return ImportPathsResolver()
 
 
 @pytest.fixture(scope="function")
 def inspector():
-    """Initialize and return SCSS inspector (scope at function level)"""
+    """Initialize and return SCSS inspector"""
     return ScssInspector()
 
 
 @pytest.fixture(scope="module")
 def finder():
-    """Initialize and return SCSS finder (scope at module level)"""
+    """Initialize and return SCSS finder"""
     return ScssFinder()
 
 
 @pytest.fixture(scope="module")
 def compiler():
-    """Initialize and return SCSS compile helper (scope at module level)"""
+    """Initialize and return SCSS compile helper"""
     return SassCompileHelper()
 
 
 @pytest.fixture(scope="module")
 def projectstarter():
-    """Initialize and return Project starter (scope at module level)"""
+    """Initialize and return Project starter"""
     return ProjectStarter
 
 

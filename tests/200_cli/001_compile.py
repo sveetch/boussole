@@ -317,7 +317,7 @@ def test_fail_005():
 def test_success_001(options, filename, dumper):
     """
     Testing compile success on basic config, a main Sass source and a partial
-    source to ignore
+    source to ignore and mixed Sass format (imported sass source from scss)
     """
     runner = CliRunner()
 
@@ -338,17 +338,27 @@ def test_success_001(options, filename, dumper):
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
 
-        # Write a minimal main Sass source
+        # Write a minimal main scss source
         source = "\n".join((
-            """/* Main sample */""",
+            """/* Main scss sample */""",
             """#content{""",
             """    color: red;""",
             """    &.wide{""",
             """        margin: 50px 15px;""",
             """    }""",
             """}""",
+            """@import "sass_addon";""",
         ))
         with open('main.scss', 'w') as f:
+            f.write(source)
+
+        # Write a minimal main scss source
+        source = "\n".join((
+            """/* sass addon */""",
+            """#sass-addon""",
+            """    color: blue""",
+        ))
+        with open('_sass_addon.sass', 'w') as f:
             f.write(source)
 
         # Write a partial Sass source
@@ -366,10 +376,13 @@ def test_success_001(options, filename, dumper):
 
         # Attempted compiled CSS
         css_attempted = "\n".join((
-            u"""/* Main sample */""",
+            u"""/* Main scss sample */""",
             """#content { color: red; }""",
             "",
             """#content.wide { margin: 50px 15px; }""",
+            "",
+            """/* sass addon */""",
+            """#sass-addon { color: blue; }""",
             "",
             """/*# sourceMappingURL=main.map */""",
         ))

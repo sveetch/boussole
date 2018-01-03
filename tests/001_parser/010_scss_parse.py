@@ -4,19 +4,19 @@ import pytest
 
 
 def test_comment_001(settings, parser):
-    """commented import 1 (buggy behavior)"""
+    """commented import 1"""
     result = parser.parse("""//@import "compass/css3";""")
     assert result == []
 
 
 def test_comment_002(settings, parser):
-    """commented import 2 (buggy behavior)"""
+    """commented import 2"""
     result = parser.parse("""//      @import "compass/css3";""")
     assert result == []
 
 
 def test_comment_003(settings, parser):
-    """commented import 3 (buggy behavior)"""
+    """commented import 3"""
     result = parser.parse("""/*
         @import "compass/css3";
         */""")

@@ -8,7 +8,16 @@ Parser
 
 Parser is in charge to find every ``@import`` rules in given Sass content.
 
-It has been builded following `Sass Reference`_ about ``@import`` rule.
+It has been built following `Sass Reference`_ about ``@import`` rule.
+
+Note:
+    Sass indented syntax parser has a flaw which cause multiline comments are
+    not catched. If you have commented ``@import`` in multiline comments they
+    will be matched as true importations to resolve and inspect, it can leads
+    to some errors.
+
+    The only way is to not use multiline comments when you use the Sass index
+    syntax.
 """
 from __future__ import unicode_literals
 
@@ -21,7 +30,7 @@ from boussole.exceptions import InvalidImportRule
 
 class ScssImportsParser(object):
     """
-    SCSS parser to find import rules.
+    SCSS parser to find ``@import`` rules.
 
     This does not support the old Sass syntax (also known as "indented
     syntax").
@@ -30,13 +39,14 @@ class ScssImportsParser(object):
     safe enough to inherit it from another class.
 
     Attributes:
-        REGEX_IMPORT_RULE: Compiled regex used to find import rules.
+        REGEX_IMPORT_RULE: Compiled regex used to find ``@import`` rules.
         REGEX_COMMENTS: Compiled regex used to find and remove comments.
     """
+    syntax = "scss"
     REGEX_IMPORT_RULE = re.compile(r'@import\s*(url)?\s*\(?([^;]+?)\)?;',
                                    re.IGNORECASE)
     # Second part (for singleline comment) contain a negative lookbehind
-    # assertion to avoid to match on url protocole (http://) and cause issues
+    # assertion to avoid to match on url protocole (http://) which cause issues
     # in parsing
     REGEX_COMMENTS = re.compile(r'(/\*.*?\*/)|((?<!(:))//.*?(\n|$))',
                                 re.IGNORECASE | re.DOTALL)
@@ -134,3 +144,19 @@ class ScssImportsParser(object):
             self.remove_comments(content)
         )
         return self.flatten_rules(declarations)
+
+
+class SassImportsParser(ScssImportsParser):
+    """
+    Sass indented syntax parser to find ``@import`` rules.
+
+    Multiline comments are not supported, it is actually too difficult to
+    manage since they don't have a closing pattern ``*/`` and depend only
+    on indentation continuation.
+
+    Attributes:
+        REGEX_IMPORT_RULE: Compiled regex used to find ``@import`` rules.
+    """
+    syntax = "sass"
+    REGEX_IMPORT_RULE = re.compile(r'@import\s*(url)?\s*\(?([^;]+?)\)?(?:\n|$)',
+                                   re.IGNORECASE)

@@ -31,7 +31,7 @@ class ImportPathsResolver(object):
             disable (``False``) exception raising when a path can not be
             resolved.
     """
-    CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css', ]
+    CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css']
     STRICT_PATH_VALIDATION = True
 
     def candidate_paths(self, filepath):
@@ -111,8 +111,10 @@ class ImportPathsResolver(object):
             If import rule is not explicit enough and two file are candidates
             for the same rule, it will raises an error. But contrary to
             libsass, this happen also for files from given libraries in
-            ``library_paths`` (oposed to libsass just silently taking the
+            ``library_paths`` (opposed to libsass just silently taking the
             first candidate).
+
+            https://github.com/sveetch/boussole/issues/37
 
         Args:
             sourcepath (str): Source file path, its directory is used to

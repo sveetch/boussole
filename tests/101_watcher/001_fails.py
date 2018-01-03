@@ -8,7 +8,7 @@ from boussole.exceptions import UnresolvablePath
 from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    UnitTestableLibraryEventHandler,
                    UnitTestableProjectEventHandler, start_env,
-                   build_sample_structure)
+                   build_scss_sample_structure)
 
 
 def test_index_001(caplog, temp_builds_dir):
@@ -17,7 +17,7 @@ def test_index_001(caplog, temp_builds_dir):
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -60,7 +60,7 @@ def test_deleted_001(caplog, temp_builds_dir):
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(

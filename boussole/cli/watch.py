@@ -19,15 +19,15 @@ from boussole.watcher import (WatchdogLibraryEventHandler,
                               WatchdogProjectEventHandler)
 
 
-@click.command('watch', short_help='Watch for change on your Sass project.')
-@click.option('--backend', metavar='STRING',
-              type=click.Choice(['json', 'yaml']),
+@click.command("watch", short_help="Watch for change on your Sass project.")
+@click.option("--backend", metavar="STRING",
+              type=click.Choice(["json", "yaml"]),
               help="Settings format name",
               default="json")
-@click.option('--config', default=None, metavar='PATH',
-              help='Path to a Boussole config file',
+@click.option("--config", default=None, metavar="PATH",
+              help="Path to a Boussole config file",
               type=click.Path(exists=True))
-@click.option('--poll', is_flag=True, help='Use Watchdog polling observer')
+@click.option("--poll", is_flag=True, help="Use Watchdog polling observer")
 @click.pass_context
 def watch_command(context, backend, config, poll):
     """
@@ -42,7 +42,7 @@ def watch_command(context, backend, config, poll):
     * Move: When a source file is moved in watched dirs. Also occurs with
       editor transition file;
 
-    Almost all errors occurring during compile won't break watcher, so you can
+    Almost all errors occurring during compile won"t break watcher, so you can
     resolve them and watcher will try again to compile once a new event
     occurs.
 
@@ -78,10 +78,10 @@ def watch_command(context, backend, config, poll):
 
     # Watcher settings
     watcher_templates_patterns = {
-        'patterns': ['*.scss'],
-        'ignore_patterns': ['*.part'],
-        'ignore_directories': False,
-        'case_sensitive': True,
+        "patterns": ["*.scss", "*.sass"],
+        "ignore_patterns": ["*.part"],
+        "ignore_directories": False,
+        "case_sensitive": True,
     }
 
     # Init inspector instance shared through all handlers

@@ -9,6 +9,7 @@ from boussole.inspector import ScssInspector
 from boussole.watcher import SassLibraryEventHandler, SassProjectEventHandler
 from boussole.logs import init_logger
 
+
 class DummyBaseEvent(object):
     """
     Dummy event to pass to almost all handler event methods
@@ -71,7 +72,7 @@ class UnitTestableProjectEventHandler(DummyBaseHandler, SassProjectEventHandler)
 
 def join_basedir(basedir):
     """
-    Shortcut to join basedir to given path
+    Return a shortcut function to join basedir to given path
     """
     def proceed_joining(path):
         return os.path.join(basedir, path)
@@ -80,7 +81,8 @@ def join_basedir(basedir):
 
 def start_env(basedir):
     """
-    Init all needed stuff for handler testing
+    Initialize a basedir path, a dummy Settings object, Inspector object and
+    Watcher options needed for handler testing.
     """
     join_basedir_curry = join_basedir(basedir.strpath)
 
@@ -94,7 +96,7 @@ def start_env(basedir):
     settings = Settings(initial=minimal_conf)
 
     watcher_opts = {
-        'patterns': ['*.scss'],
+        'patterns': ['*.scss', '*.sass'],
         'ignore_patterns': ['*.part'],
         'ignore_directories': False,
         'case_sensitive': True,
@@ -102,9 +104,9 @@ def start_env(basedir):
     return join_basedir_curry, inspector, settings, watcher_opts
 
 
-def build_sample_structure(settings_object, basedir):
+def build_scss_sample_structure(settings_object, basedir):
     """
-    Build sample files structure for handler testing
+    Build Scss sample files structure for handler testing
     """
     # Write needed dirs
     os.makedirs(settings_object.SOURCES_PATH)
@@ -167,4 +169,82 @@ def build_sample_structure(settings_object, basedir):
         """.button{ display: block; border: 1px solid black; padding: 5px; }""",
     ))
     with open(basedir.join('lib/components/_buttons.scss').strpath, 'w') as f:
+        f.write(source)
+
+
+def build_sass_sample_structure(settings_object, basedir):
+    """
+    Build Sass (indented syntax) sample files structure for handler testing
+    """
+    # Write needed dirs
+    os.makedirs(settings_object.SOURCES_PATH)
+    os.makedirs(settings_object.TARGET_PATH)
+    os.makedirs(os.path.join(settings_object.LIBRARY_PATHS[0], "components"))
+
+    # Write a minimal main Sass source importing partial
+    source = "\n".join((
+        """/* Main sample */""",
+        """@import toinclude""",
+        """#content""",
+        """    color: red""",
+        "",
+    ))
+    with open(basedir.join('sass/main.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a main Sass source importing minimal source
+    source = "\n".join((
+        """/* Main importing sample */""",
+        """@import main""",
+    ))
+    with open(basedir.join('sass/main_importing.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a main Sass source importing library component and partial source
+    source = "\n".join((
+        """/* Main importing library */""",
+        """@import toinclude""",
+        """@import components/buttons""",
+    ))
+    with open(basedir.join('sass/main_usinglib.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a partial Sass source to include
+    source = "\n".join((
+        """/* Partial source to include */""",
+        """.included-partial""",
+        """    color: gold !important""",
+        "",
+    ))
+    with open(basedir.join('sass/_toinclude.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a partial Sass source to ignore
+    source = "\n".join((
+        """/* Partial source to ignore because not included */""",
+        """.toignore-partial""",
+        """    font-weight: bold""",
+        "",
+    ))
+    with open(basedir.join('sass/_notincluded.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a main source within library directory
+    source = "\n".join((
+        """/* Main source for library */""",
+        """@import components/buttons""",
+    ))
+    with open(basedir.join('lib/libmain.sass').strpath, 'w') as f:
+        f.write(source)
+
+    # Write a partial source within library directory
+    source = "\n".join((
+        """/* Buttons component */""",
+        """.button""",
+        """    display: block""",
+        """    border: 1px solid black""",
+        """    padding: 5px""",
+        "",
+    ))
+    with open(basedir.join('lib/components/_buttons.sass').strpath, 'w') as f:
         f.write(source)

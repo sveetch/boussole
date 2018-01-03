@@ -71,7 +71,7 @@ class SassLibraryEventHandler(object):
         Note:
             If a Boussole exception occurs during operation, it will be catched
             and an error flag will be set to ``True`` so event operation will
-            be blocked without blocking or breaking watchdog observer.
+            be stopped without blocking or breaking watchdog observer.
         """
         self._event_error = False
 
@@ -164,7 +164,7 @@ class SassLibraryEventHandler(object):
         """
         Catch-all event handler (moved, created, deleted, changed).
 
-        Before any event, index project to have the right and current
+        Before any event, we index project to have the right and current
         dependencies map.
 
         Args:
@@ -238,8 +238,8 @@ class SassLibraryEventHandler(object):
         Called when a file or directory is deleted.
 
         Todo:
-            May be bugged with inspector and sass compiler since the does not
-            exists anymore.
+            May be bugged with inspector and sass compiler since the source
+            does not exists anymore.
 
         Args:
             event: Watchdog event, ``watchdog.events.DirDeletedEvent`` or

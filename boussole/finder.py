@@ -42,7 +42,7 @@ class ScssFinder(object):
         FINDER_STYLESHEET_EXTS: List of file extensions regarded as
             compilable stylesheet sources.
     """
-    FINDER_STYLESHEET_EXTS = ['scss', ]
+    FINDER_STYLESHEET_EXTS = ['scss', 'sass']
 
     def get_relative_from_paths(self, filepath, paths):
         """

@@ -6,16 +6,18 @@ import pytest
 from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
                    UnitTestableLibraryEventHandler,
                    UnitTestableProjectEventHandler, start_env,
-                   build_sample_structure)
+                   build_scss_sample_structure, build_sass_sample_structure)
 
 
-def test_compilablefiles_001(temp_builds_dir):
-    """watcher.SassProjectEventHandler: Testing 'handler.compilable_files' return"""
+def test_compilablefiles_scss(temp_builds_dir):
+    """
+    Testing 'handler.compilable_files' return the right paths with *.scss files
+    """
     basedir = temp_builds_dir.join('watcher_success_001')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -35,13 +37,43 @@ def test_compilablefiles_001(temp_builds_dir):
     }
 
 
-def test_move_010(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Move' event on main sample"""
-    basedir = temp_builds_dir.join('watcher_success_010')
+def test_compilablefiles_sass(temp_builds_dir):
+    """
+    Testing 'handler.compilable_files' return the right paths with *.sass files
+    """
+    basedir = temp_builds_dir.join('watcher_success_002')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_sass_sample_structure(settings_object, basedir)
+
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        inspector,
+        **watcher_opts
+    )
+
+    # Manually call on_any_event since we directly access to
+    # 'handler.compilable_files' bypassing the event hierarchy
+    project_handler.on_any_event(object())
+
+    assert project_handler.compilable_files == {
+        bdir('sass/main.sass'): bdir('css/main.css'),
+        bdir('sass/main_importing.sass'): bdir('css/main_importing.css'),
+        bdir('sass/main_usinglib.sass'): bdir('css/main_usinglib.css'),
+    }
+
+
+def test_move_scss_010(temp_builds_dir):
+    """
+    'Move' event on main sample
+    """
+    basedir = temp_builds_dir.join('watcher_move_scss_010')
+
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
+
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -61,14 +93,42 @@ def test_move_010(temp_builds_dir):
     ]
 
 
-def test_move_011(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Move' event from a source depending from
-       main sample"""
-    basedir = temp_builds_dir.join('watcher_success_011')
+def test_move_sass_010(temp_builds_dir):
+    """
+    'Move' event on main sample
+    """
+    basedir = temp_builds_dir.join('watcher_move_sass_010')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_sass_sample_structure(settings_object, basedir)
+
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        inspector,
+        **watcher_opts
+    )
+
+    project_handler.on_moved(DummyMoveEvent(bdir('sass/main.sass')))
+
+    results = os.listdir(basedir.join("css").strpath)
+    results.sort()
+
+    assert results == [
+        'main.css',
+        'main_importing.css'
+    ]
+
+
+def test_move_scss_011(temp_builds_dir):
+    """'Move' event from a source depending from
+       main sample"""
+    basedir = temp_builds_dir.join('watcher_move_scss_011')
+
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
+
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -87,14 +147,14 @@ def test_move_011(temp_builds_dir):
     ]
 
 
-def test_move_012(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Move' event on included partial
+def test_move_scss_012(temp_builds_dir):
+    """'Move' event on included partial
        source"""
-    basedir = temp_builds_dir.join('watcher_success_012')
+    basedir = temp_builds_dir.join('watcher_move_scss_012')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -116,13 +176,13 @@ def test_move_012(temp_builds_dir):
 
 
 def test_modified_020(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Modified' event on included partial
+    """'Modified' event on included partial
        source"""
     basedir = temp_builds_dir.join('watcher_success_020')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -144,12 +204,12 @@ def test_modified_020(temp_builds_dir):
 
 
 def test_created_030(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Created' event for a new main source"""
+    """'Created' event for a new main source"""
     basedir = temp_builds_dir.join('watcher_success_030')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -177,12 +237,12 @@ def test_created_030(temp_builds_dir):
 
 
 def test_deleted_040(temp_builds_dir):
-    """watcher.SassProjectEventHandler: 'Deleted' event for a main source"""
+    """'Deleted' event for a main source"""
     basedir = temp_builds_dir.join('watcher_success_040')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -202,13 +262,13 @@ def test_deleted_040(temp_builds_dir):
 
 
 def test_whole_050(temp_builds_dir):
-    """watcher.SassProjectEventHandler: Routine using some events on various
+    """Routine using some events on various
        sources"""
     basedir = temp_builds_dir.join('watcher_success_050')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableProjectEventHandler(
@@ -284,7 +344,7 @@ def test_library_modified_101(temp_builds_dir):
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
 
-    build_sample_structure(settings_object, basedir)
+    build_scss_sample_structure(settings_object, basedir)
 
     # Init handler
     project_handler = UnitTestableLibraryEventHandler(

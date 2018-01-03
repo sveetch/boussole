@@ -5,51 +5,102 @@
 Changelog
 =========
 
+Version 1.5.0 - Unreleased
+--------------------------
+
+**Indented Sass syntax support**
+
+Indented Sass syntax support
+............................
+
+Boussole should now be able to manage projects writed with the
+`old indented syntax <https://sass-lang.com/documentation/syntax#the-indented-syntax>`_
+(in files with extension ``*.sass``).
+
+There is only one issue which blocking Boussole to manage ``@import`` rules on
+multiple lines like: ::
+
+    // Sample
+    @import foo,
+            bar
+
+    // something
+
+So you will need to change these imports to make a single ones on their own
+lines: ::
+
+    // Sample
+    @import foo
+    @import bar
+
+    // something
+
+Without this, watch command will miss some import directives. Compile command
+should work normally since it does not involve source parsing.
+
+Also, multiline comments are not supported. It will lead to false positives if
+there are ``@import`` rules inside a multiline comments, causing these rules to
+be taken as correct imports to check for.
+
 Version 1.4.1 - 2018/10/21
 --------------------------
 
 **Fixed packaging**
 
-``setup.py`` has been forgotted from previous release and still contained information.
+``setup.py`` has been forgotted from previous release and still contained
+information.
 
-So it has been cleaned an ``setup.cfg`` has been updated to include missing ``[options.entry_points]`` section.
+So it has been cleaned an ``setup.cfg`` has been updated to include missing
+``[options.entry_points]`` section.
 
 Version 1.4.0 - 2018/10/01
 --------------------------
 
 **Improved packaging**
 
-We moved every package informations into ``setup.cfg`` and now ``setup.py`` is only an entrypoint for setuptools. tox and pytest configurations has been moved also into ``setup.cfg``.
+We moved every package informations into ``setup.cfg`` and now ``setup.py`` is
+only an entrypoint for setuptools. tox and pytest configurations has been
+moved also into ``setup.cfg``.
 
-Makefile has been updated and python-venv has been dropped in profit of virtualenv to ease development.
+Makefile has been updated and python-venv has been dropped in profit of
+virtualenv to ease development.
 
 Version 1.3.0 - 2018/09/30
 --------------------------
 
 **Add settings file discovering**
 
-Introduce a new way to load settings file with a discovering which either just load given an explicit file path or try to find it from base directory and available settings backends.
+Introduce a new way to load settings file with a discovering which either just
+load given an explicit file path or try to find it from base directory and
+available settings backends.
 
-This should not include backward incompatible behavior, it just adds capacity to find another backend default filename kind.
+This should not include backward incompatible behavior, it just adds capacity
+to find another backend default filename kind.
 
-Concretely, before this release only ``settings.json`` would be finded when no explicit file path was given and now it will be able to find also a file ``settings.yml`` if it exists in current directory.
+Concretely, before this release only ``settings.json`` would be finded when no
+explicit file path was given and now it will be able to find also a file
+``settings.yml`` if it exists in current directory.
 
 Version 1.2.3 - 2018/05/20
 --------------------------
 
-* **Introduced new settings** ``CUSTOM_IMPORT_EXTENSIONS`` which default value is ``['.css']`` to keep CSS source including behavior as default just like before libsass==3.5.3, close #29;
+* **Introduced new settings** ``CUSTOM_IMPORT_EXTENSIONS`` which default value
+  is ``['.css']`` to keep CSS source including behavior as default just like
+  before libsass==3.5.3, close #29;
 * Fixed source map url, close #28;
 
 Version 1.2.2 - 2017/12/12
 --------------------------
 
-* Removed ``pytest-catchlog`` from tests requirements since it has been merged in ``pytest==3.3.0``;
+* Removed ``pytest-catchlog`` from tests requirements since it has been merged
+  in ``pytest==3.3.0``;
 * Upgraded to ``pytest>=3.3.0`` in tests requirements;
 
 Version 1.2.1 - 2017/11/15
 --------------------------
 
-* Updated Makefile and development document to add everything for development install;
+* Updated Makefile and development document to add everything for development
+  install;
 * Validated tests with ``libsass==0.13.4``;
 * Document watcher behavior about inspection, close #24;
 
@@ -59,7 +110,8 @@ Version 1.2.0 - 2017/01/21
 * Fixed pytest warning about deprecated section name in ``setup.cfg``;
 * Updated tests requirements;
 * Removed python 3.4 from tox envs;
-* Added ``--poll`` option on watch command to use Watchdog polling observer instead of the native platform observer, close #22;
+* Added ``--poll`` option on watch command to use Watchdog polling observer
+  instead of the native platform observer, close #22;
 * Fixed compiler tests for changes about source map since last libsass version;
 * Fixed Sass brand name according to http://sassnotsass.com/;
 * Validated tests with ``libsass==0.12.3``;
@@ -75,19 +127,22 @@ Version 1.1.0 - 2016/11/26
   * Configuration backend now implement a dump method;
   * Changed ``project.ProjectStarter`` so it can load Configuration backend;
 
-* Don't pass anymore logger to objects, just use ``logging.getLogger("boussole")``, close #11;
+* Don't pass anymore logger to objects, just use
+  ``logging.getLogger("boussole")``, close #11;
 * Validate tests on Python 3.5 through tox;
 
 
 Version 1.0.2 - 2016/10/26
 --------------------------
 
-* Upgrade ``libsass-python`` dependancy to ``>=0.11.2`` to profit from ``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
+Upgrade ``libsass-python`` dependancy to ``>=0.11.2`` to profit from
+``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
 
 Version 1.0.1 - 2016/09/10
 --------------------------
 
-* Fixed encoding issue with inspector that leaded to some bugs with watcher, close #17;
+Fixed encoding issue with inspector that leaded to some bugs with watcher,
+close #17;
 
 Version 1.0.0 - 2016/08/01
 --------------------------
@@ -98,7 +153,8 @@ Added Python 3.4 support, thanks to `@feth`_ for its contributions.
 * Use the 'key' param in sorted: 'cmp' is removed
 
     * Factored out the calls to sorted into paths_by_depth.
-    * removed path_parts_cmp, used by removed keyword arg cmp (replaced by a lambda function);
+    * removed path_parts_cmp, used by removed keyword arg cmp (replaced by a
+      lambda function);
 
 * More pythonic way of checking the match in Finder;
 * Fixed parser.py for ``filter`` builtin function usage;
@@ -112,16 +168,21 @@ Added Python 3.4 support, thanks to `@feth`_ for its contributions.
 Version 0.9.2 - 2016/07/30
 --------------------------
 
-* Fixed some tests related to directory/files structures that were not consistant because of ``os.walk`` arbitrary order, close #16;
+Fixed some tests related to directory/files structures that were not
+consistant because of ``os.walk`` arbitrary order, close #16;
 
 Version 0.9.1 - 2016/07/29
 --------------------------
 
 * Added tox configuration file starting with Python2.7;
-* Fixed some postprocessor that was failing because of usage of ``os.envrion['HOME']`` not working inside tox env;
-* Disabled ``flake8-format-ansi`` since it seems to cause errors in some cases, it is recommended to do ``pip uninstall flake8-format-ansi`` for now;
-* Fixed some inspector tests failing on some wrong result orders because of ``set()`` vs ``list()``;
-* Fixed setup.py so tests directory is not installed anymore as a Python packages;
+* Fixed some postprocessor that was failing because of usage of
+  ``os.envrion['HOME']`` not working inside tox env;
+* Disabled ``flake8-format-ansi`` since it seems to cause errors in some cases,
+  it is recommended to do ``pip uninstall flake8-format-ansi`` for now;
+* Fixed some inspector tests failing on some wrong result orders because of
+  ``set()`` vs ``list()``;
+* Fixed setup.py so tests directory is not installed anymore as a Python
+  packages;
 * Updated development documentation;
 
 Version 0.9.0 - 2016/05/01
@@ -141,11 +202,16 @@ Version 0.8.0 - 2016/04/16
 
 * Relaxed ``libsass`` version in requirements;
 * Moved ``colorama`` from test to default requirements;
-* Removed every use of click.echo/secho within core API, use logger instead, close #1;
-* Added ``colorlog`` in requirements and use it to have colors for each logging level, close #4;
-* Changed verbosity option on CLI action so default verbosity is INFO logging level, then user can choose totally silent verbosity or any other logging level, definitively close #1;
+* Removed every use of click.echo/secho within core API, use logger instead,
+  close #1;
+* Added ``colorlog`` in requirements and use it to have colors for each
+  logging level, close #4;
+* Changed verbosity option on CLI action so default verbosity is INFO logging
+  level, then user can choose totally silent verbosity or any other logging
+  level, definitively close #1;
 * Better CLI actions helps, close #5;
-* Manage every API exception from CLI, should be ok now (in fact since previous commit), close #3;
+* Manage every API exception from CLI, should be ok now (in fact since previous
+  commit), close #3;
 * Break unittests into subdirectories per module, close #9;
 
   * A subdirectory per module;
@@ -159,17 +225,28 @@ Version 0.7.0 - 2016/04/07
 
 This is almost near Beta version.
 
-* Fixed a bug with comment removal from parser: url protocol separator (the ``//`` in ``http://``) was matched and leaded to errors in import rule parsing;
+* Fixed a bug with comment removal from parser: url protocol separator (the
+  ``//`` in ``http://``) was matched and leaded to errors in import rule
+  parsing;
 * Added ``logs`` module;
-* Removed ``--config`` commandline option from console script entry point because some cli actions don't need to load a settings. Until i find a way to disable it for some action, the option will have to be duplicated on each action that require it (sic);
-* Added ``flake8-format-ansi`` as a development requirement and use it in ``setup.cfg``;
+* Removed ``--config`` commandline option from console script entry point
+  because some cli actions don't need to load a settings. Until i find a way to
+  disable it for some action, the option will have to be duplicated on each
+  action that require it (sic);
+* Added ``flake8-format-ansi`` as a development requirement and use it in
+  ``setup.cfg``;
 * Added Unittests for ``compile`` commandline action;
-* Added ``compiler`` module for some helper on top of ``libsass-python`` compiler;
-* Improved finder to have a common method to match conditions on filepath (is partial, is allowed, etc..);
+* Added ``compiler`` module for some helper on top of ``libsass-python``
+  compiler;
+* Improved finder to have a common method to match conditions on filepath (is
+  partial, is allowed, etc..);
 * Added new exception ``FinderException``;
-* Unittest for Watcher event handler (but not on ``watch`` commandline because of some limit from click ``CliRunner``)
+* Unittest for Watcher event handler (but not on ``watch`` commandline because
+  of some limit from click ``CliRunner``)
 * Added ``pytest-catchlog`` plugin to have nice logging management within tests;
-* Moved flake8 config to ``.flake8`` instead of ``setup.cfg`` since ``flake8-format-ansi`` plugin config cause issues with ``pytest-catchlog`` install;
+* Moved flake8 config to ``.flake8`` instead of ``setup.cfg`` since
+  ``flake8-format-ansi`` plugin config cause issues with ``pytest-catchlog``
+  install;
 * Finished working version for command line action ``watch``;
 * Updated documentation;
 
@@ -180,14 +257,16 @@ Version 0.6.0 - 2016/03/25
 * Accorded settings manifest to ``libsass-python`` compiler options;
 * Finished first working version for command line action ``compile``;
 * Upgraded ``libsass-python`` requirement to version ``0.11.0``
-* Improved command line action ``version`` to include both ``libsass-python`` and ``libsass`` versions;
+* Improved command line action ``version`` to include both ``libsass-python``
+  and ``libsass`` versions;
 
 Version 0.5.0 - 2016/03/19
 --------------------------
 
 * Added CLI structure with `click`_;
 * Lowered click version requirement to 5.1 (since 6.x is not stable yet);
-* Restructured tests for conf module and added some new ones for Settings object
+* Restructured tests for conf module and added some new ones for Settings
+  object;
 * Moved all settings files up the sample project;
 * Finished conf management;
 
@@ -206,7 +285,8 @@ Version 0.3.0 - 2016/03/10
 Version 0.2.0 - 2016/03/09
 --------------------------
 
-* Finished changes for the right path resolving/checking behavior with unclear resolutions;
+Finished changes for the right path resolving/checking behavior with unclear
+resolutions;
 
 Version 0.1.0 - 2016/03/06
 --------------------------
@@ -247,7 +327,8 @@ Version 0.0.6 - 2016/02/25
 --------------------------
 
 * Added inspector
-* Improved parser to remove comments before looking for import rules, this will avoid to catch commented import rules;
+* Improved parser to remove comments before looking for import rules, this
+  will avoid to catch commented import rules;
 * Updated tests;
 * Added click as requirement;
 
@@ -260,12 +341,12 @@ Version 0.0.5 - 2016/02/22
 Version 0.0.4 - 2016/02/22
 --------------------------
 
-* Finished stable and unittested parser and resolver;
+Finished stable and unittested parser and resolver;
 
 Version 0.0.3 - 2016/02/21
 --------------------------
 
-* Finished first resolver version, still need to do the library_paths thing;
+Finished first resolver version, still need to do the library_paths thing;
 
 Version 0.0.2 - 2016/02/21
 --------------------------
@@ -276,4 +357,4 @@ Version 0.0.2 - 2016/02/21
 Version 0.0.1 - 2016/02/20
 --------------------------
 
-* First commit
+First commit

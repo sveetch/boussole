@@ -9,11 +9,12 @@ for their dependencies.
 from __future__ import unicode_literals
 
 import io
+import os
 
 from collections import defaultdict
 
 from boussole.exceptions import CircularImport
-from boussole.parser import ScssImportsParser
+from boussole.parser import ScssImportsParser, SassImportsParser
 from boussole.resolver import ImportPathsResolver
 
 
@@ -33,10 +34,42 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
             inspected sources.
         _PARENTS_MAP: Dictionnary of finded direct parents for each inspected
             sources.
+        parsers: Dictionnary of available Sass format parsers, where key is the
+            file extension related to the format and value is a parser
+            instance.
     """
+    parsers = {
+        'scss': ScssImportsParser(),
+        'sass': SassImportsParser(),
+    }
 
     def __init__(self, *args, **kwargs):
         self.reset()
+
+    def get_parser(self, path):
+        """
+        Returns parser depending of extension from given file path.
+
+        Arguments:
+            path (str): Path to split to find extension which will select the
+            right parser. If file path does not have any extension or does not
+            match any enabled extension, ``scss`` will be assumed on default.
+
+        Returns:
+            parser: Either ``ScssImportsParser`` or ``SassImportsParser``
+            instance depending of filepath.
+        """
+        filepath, ext = os.path.splitext(path)
+
+        # Remove leading dot from splitext to be able to match to
+        # ``self.parsers`` keys
+        if ext and ext.startswith("."):
+            ext = ext[1:]
+
+        if not ext or ext not in self.parsers:
+            ext = "scss"
+
+        return self.parsers.get(ext)
 
     def reset(self):
         """
@@ -52,7 +85,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
         This will fill internal buffers ``_CHILDREN_MAP`` and ``_PARENTS_MAP``.
 
-        Args:
+        Arguments:
             sourcepath (str): Source file path to start searching for imports.
 
         Keyword Arguments:
@@ -63,8 +96,9 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         # Don't inspect again source that has allready be inspected as a
         # children of a previous source
         if sourcepath not in self._CHILDREN_MAP:
+            parser = self.get_parser(sourcepath)
             with io.open(sourcepath, 'r', encoding='utf-8') as fp:
-                finded_paths = self.parse(fp.read())
+                finded_paths = parser.parse(fp.read())
 
             children = self.resolve(sourcepath, finded_paths,
                                     library_paths=library_paths)
@@ -95,7 +129,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
             This will ignore orphan files (files that are not imported from
             any of given SCSS files).
 
-        Args:
+        Arguments:
             *args: One or multiple arguments, each one for a source file path
                 to inspect.
 
@@ -117,7 +151,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
         This is a common method used by ``children`` and ``parents`` methods.
 
-        Args:
+        Arguments:
             dependencies_map (dict): Internal buffer (internal buffers
                 ``_CHILDREN_MAP`` or ``_PARENTS_MAP``) to use for searching.
             sourcepath (str): Source file path to start searching for
@@ -183,7 +217,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         Recursively find all children that are imported from the given source
         path.
 
-        Args:
+        Arguments:
             sourcepath (str): Source file path to search for.
 
         Keyword Arguments:
@@ -203,7 +237,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         """
         Recursively find all parents that import the given source path.
 
-        Args:
+        Arguments:
             sourcepath (str): Source file path to search for.
 
         Keyword Arguments:

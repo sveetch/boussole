@@ -1,0 +1,35 @@
+@charset "UTF-8"
+/* Advanced Sass indented syntax sample with various import rule cases */
+
+// Simple
+@import vendor
+@import "utils/mixins"
+
+// Multiline case 1
+@import sass_filetest
+@import "css_filetest"
+@import _empty
+
+// Multiline case 2
+@import  "components/filename_test_1"
+@import components/_filename_test_2
+@import components/filename_test_3.scss
+@import "components/_filename_test_4.scss"
+@import "components/filename_test_5.plop"
+@import components/filename_test_6.plop.scss
+
+// Involve some path normalize
+@import "components/../empty"
+
+// Some variables just for fill in with something else than import and comments
+$white: #ffffff
+$black: #000000
+$AliceBlue: #f0f8ff
+$AntiqueWhite4: #8b8378
+$Gray20: #333333
+$Gray63: #a1a1a1
+$ElectricYellow: #f6b220
+$PaleMidnightBlue: #0e2f44
+
+// External url that will be ignored
+@import url("http://foo.bar/dummy")

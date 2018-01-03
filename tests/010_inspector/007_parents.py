@@ -3,7 +3,7 @@ import os
 import pytest
 
 def test_001_basic(settings, inspector):
-    """inspector.ScssInspector: Looking for parents of basic sample"""
+    """Looking for parents of basic sample"""
     sources = [
         os.path.join(settings.sample_path, 'main_basic.scss'),
         os.path.join(settings.sample_path, 'main_depth_import-3.scss'),
@@ -24,7 +24,7 @@ def test_001_basic(settings, inspector):
     ])
 
 def test_002_vendor(settings, inspector):
-    """inspector.ScssInspector: Looking for parents of vendor component"""
+    """Looking for parents of vendor component"""
     sources = [
         os.path.join(settings.sample_path, 'main_syntax.scss'),
         os.path.join(settings.sample_path, 'main_commented.scss'),
@@ -48,6 +48,7 @@ def test_002_vendor(settings, inspector):
 
     parents = inspector.parents(sourcepath)
     assert parents == set([
+        os.path.join(settings.sample_path, '_sass_filetest.sass'),
         os.path.join(settings.sample_path, 'main_depth_import-1.scss'),
         os.path.join(settings.sample_path, 'main_depth_import-2.scss'),
         os.path.join(settings.sample_path, 'main_circular_4.scss'),
@@ -63,7 +64,7 @@ def test_002_vendor(settings, inspector):
     ])
 
 def test_003_library(settings, inspector):
-    """inspector.ScssInspector: Looking for parents of a library component"""
+    """Looking for parents of a library component"""
     sources = [
         os.path.join(settings.sample_path, 'main_syntax.scss'),
         os.path.join(settings.sample_path, 'main_commented.scss'),

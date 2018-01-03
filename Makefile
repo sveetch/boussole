@@ -22,11 +22,11 @@ clean-pycache:
 	find . -type d -name "__pycache__"|xargs rm -Rf
 	find . -name "*\.pyc"|xargs rm -f
 	rm -Rf .pytest_cache
+	rm -Rf .tox
 .PHONY: clean-pycache
 
 clean-install:
 	rm -Rf $(VENV_PATH)
-	rm -Rf .tox
 	rm -Rf boussole.egg-info
 .PHONY: clean-install
 
@@ -50,7 +50,7 @@ flake:
 .PHONY: flake
 
 tests:
-	$(PYTEST) -vv --exitfirst tests/
+	$(PYTEST) -vv tests/
 .PHONY: tests
 
 quality: tests flake

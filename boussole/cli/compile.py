@@ -14,13 +14,13 @@ from boussole.finder import ScssFinder
 from boussole.project import ProjectBase
 
 
-@click.command('watch', short_help='Compile Sass project sources to CSS.')
-@click.option('--backend', metavar='STRING',
-              type=click.Choice(['json', 'yaml']),
+@click.command("watch", short_help="Compile Sass project sources to CSS.")
+@click.option("--backend", metavar="STRING",
+              type=click.Choice(["json", "yaml"]),
               help="Settings format name",
               default="json")
-@click.option('--config', default=None, metavar='PATH',
-              help='Path to a Boussole config file',
+@click.option("--config", default=None, metavar="PATH",
+              help="Path to a Boussole config file",
               type=click.Path(exists=True))
 @click.pass_context
 def compile_command(context, backend, config):
