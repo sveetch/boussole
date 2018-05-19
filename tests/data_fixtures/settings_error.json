@@ -6,6 +6,7 @@
     ],
     "TARGET_PATH": "/home/bar",
     "OUTPUT_STYLES": "nested",
+    "CUSTOM_IMPORT_EXTENSIONS": [".css"],
     "SOURCE_COMMENTS": false,
     "SOURCE_MAP": false,
     "EXCLUDES": []

@@ -112,6 +112,7 @@ def sample_project_settings():
         'SOURCES_PATH': u'/home/foo',
         'TARGET_PATH': u'/home/bar',
         'OUTPUT_STYLES': u'nested',
+        'CUSTOM_IMPORT_EXTENSIONS': ['.css'],
         'SOURCE_COMMENTS': False,
         'SOURCE_MAP': False,
         "EXCLUDES": [],
@@ -131,6 +132,7 @@ def custom_project_settings():
         'SOURCES_PATH': os.path.join(fixtures_settings.fixtures_path, u'sample_project'),
         'TARGET_PATH': fixtures_settings.fixtures_path,
         'OUTPUT_STYLES': u'expanded',
+        'CUSTOM_IMPORT_EXTENSIONS': ['.css'],
         'SOURCE_COMMENTS': True,
         'SOURCE_MAP': False,
         "EXCLUDES": [

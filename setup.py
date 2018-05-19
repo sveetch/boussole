@@ -29,7 +29,7 @@ setup(
         'click>=5.1,<6.0',
         'pathtools==0.1.2',
         'watchdog==0.8.3',
-        'libsass>=0.11.2',
+        'libsass>=0.14.5',
         'pyaml',
         'colorama',
         'colorlog',

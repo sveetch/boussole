@@ -21,6 +21,7 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
+.pytest_cache
 
 # Various
 boussole/dev_inspector.py
