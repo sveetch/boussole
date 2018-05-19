@@ -16,7 +16,7 @@ from boussole.cli.console_script import cli_frontend
     (['--backend=yaml'], 'settings.yml'),
     (['--backend=json'], 'settings.json'),
 ])
-def test_error_verbosity_001(settings, caplog, options, filename):
+def test_error_verbosity_001(caplog, options, filename):
     """cli.compile: Testing default verbosity (aka INFO level) on setting
        error with different backends"""
     runner = CliRunner()
@@ -46,7 +46,7 @@ def test_error_verbosity_001(settings, caplog, options, filename):
         assert result.exit_code == 1
 
 
-def test_error_verbosity_002(settings, caplog):
+def test_error_verbosity_002(caplog):
     """cli.compile: Testing silent on setting error"""
     runner = CliRunner()
 
@@ -75,7 +75,7 @@ def test_error_verbosity_002(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_error_verbosity_003(settings, caplog):
+def test_error_verbosity_003(caplog):
     """cli.compile: Testing debug level verbosity on setting error"""
     runner = CliRunner()
 
@@ -107,7 +107,7 @@ def test_error_verbosity_003(settings, caplog):
         assert result.exit_code == 1
 
 
-def test_error_verbosity_004(settings, caplog):
+def test_error_verbosity_004(caplog):
     """cli.compile: Testing debug level verbosity on some file to
        compile"""
     runner = CliRunner()
@@ -141,7 +141,7 @@ def test_error_verbosity_004(settings, caplog):
 
         error_msg = ("Error: Invalid CSS after \"    color: red;\": expected \"}\", "
                     "was \"\"\n        on line 3 of main.scss\n>>     "
-                    "color: red;\n   ---------------^\n")
+                    "color: red;\n   --------------^\n")
 
         assert result.exit_code == 1
         assert caplog.record_tuples == [
@@ -157,7 +157,7 @@ def test_error_verbosity_004(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_fail_001(settings, caplog):
+def test_fail_001():
     """cli.compile: Testing basic compile fail on default config filename
        (does not exists)"""
     runner = CliRunner()
@@ -172,7 +172,7 @@ def test_fail_001(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_fail_002(settings):
+def test_fail_002():
     """cli.compile: Testing basic compile fail on given path directory (not a
        filename) as config file"""
     runner = CliRunner()
@@ -189,7 +189,7 @@ def test_fail_002(settings):
         assert result.exit_code == 1
 
 
-def test_fail_003(settings, caplog):
+def test_fail_003():
     """cli.compile: Testing basic compile fail on invalid config file (invalid
        JSON)"""
     runner = CliRunner()
@@ -209,7 +209,7 @@ def test_fail_003(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_fail_004(settings, caplog):
+def test_fail_004():
     """cli.compile: Testing exceptions management from sass compiler on
        invalid syntax"""
     runner = CliRunner()
@@ -248,7 +248,7 @@ def test_fail_004(settings, caplog):
         assert 'Aborted!' in result.output
 
 
-def test_fail_005(settings, caplog):
+def test_fail_005():
     """cli.compile: Testing exceptions management from core API"""
     runner = CliRunner()
 
@@ -290,7 +290,7 @@ def test_fail_005(settings, caplog):
     (['--backend=yaml'], 'settings.yml', pyaml.dump),
     (['--backend=json'], 'settings.json', json.dump),
 ])
-def test_success_001(settings, caplog, options, filename, dumper):
+def test_success_001(options, filename, dumper):
     """cli.compile: Testing compile success on basic config, a main Sass
        source and a partial source to ignore"""
     runner = CliRunner()
