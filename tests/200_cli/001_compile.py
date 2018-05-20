@@ -345,7 +345,7 @@ def test_success_001(options, filename, dumper):
             "",
             """#content.wide { margin: 50px 15px; }""",
             "",
-            """/*# sourceMappingURL=css/main.map */""",
+            """/*# sourceMappingURL=main.map */""",
         ))
         with open(os.path.join(test_cwd, "css", "main.css"), 'r') as f:
             css_compiled = f.read()

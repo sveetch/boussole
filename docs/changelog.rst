@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.2.3 - Unreleased
+Version 1.2.3 - 2018/05/20
 --------------------------
 
 * **Introduced new settings** ``CUSTOM_IMPORT_EXTENSIONS`` which default value is ``['.css']`` to keep CSS source including behavior as default just like before libsass==3.5.3, close #29;
