@@ -57,7 +57,9 @@ class SassCompileHelper(ScssFinder):
                 source_comments=settings.SOURCE_COMMENTS,
                 include_paths=settings.LIBRARY_PATHS,
                 custom_import_extensions=settings.CUSTOM_IMPORT_EXTENSIONS,
-                # Sourcemap is allways in the same directory than compiled file
+                # Sourcemap is allways in the same directory than compiled
+                # CSS file
+                output_filename_hint=destination,
                 source_map_filename=source_map_destination,
             )
         except sass.CompileError as e:

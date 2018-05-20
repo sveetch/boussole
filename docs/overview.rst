@@ -96,7 +96,7 @@ SOURCE_COMMENTS
 SOURCE_MAP
     Default: ``False``
 
-    (boolean) If ``True``, generate a source map for each compiled file. Source map filename will be the same that compiled file but with extension changed to ``.map``.
+    (boolean) If ``True``, generate a source map for each compiled file. Source map filename will be the same that compiled file but with extension changed to ``.map``. The source map file is allways created in the same directory than CSS file.
 EXCLUDES
     Default: ``[]``
 

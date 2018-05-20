@@ -5,7 +5,6 @@ related to issue #29
 """
 import os
 import io
-import json
 import pytest
 
 from boussole.conf.model import Settings
