@@ -19,5 +19,5 @@
     :members:
     :show-inheritance:
 
-.. automodule:: boussole.conf.discover
+.. automodule:: boussole.conf.discovery
     :members:

@@ -8,14 +8,14 @@ from boussole.conf.json_backend import SettingsBackendJson
 from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-@pytest.mark.parametrize("context,name,klass", [
-    ({}, 'json', SettingsBackendJson),
-    ({'backend_name': 'yaml'}, 'yaml', SettingsBackendYaml),
-    ({'backend_name': 'json'}, 'json', SettingsBackendJson),
+@pytest.mark.parametrize("name,klass", [
+    ('json', SettingsBackendJson),
+    ('yaml', SettingsBackendYaml),
+    ('json', SettingsBackendJson),
 ])
-def test_init(projectstarter, context, name, klass):
+def test_init(projectstarter, name, klass):
     """Default backend"""
-    p = projectstarter(**context)
+    p = projectstarter(name)
 
     assert p.backend_name == name
     assert isinstance(p.backend_engine, klass) == True
@@ -27,7 +27,7 @@ def test_init(projectstarter, context, name, klass):
 ])
 def test_get_backend(projectstarter, name, klass):
     """Get backend"""
-    p = projectstarter()
+    p = projectstarter(name)
 
     engine = p.get_backend_engine(name)
 

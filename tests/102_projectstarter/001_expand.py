@@ -1,22 +1,22 @@
 # -*- coding: utf-8 -*-
-import os
 import json
+import os
 import pytest
 
 
-@pytest.mark.parametrize("sources,attempted", [
+@pytest.mark.parametrize("sources,expected", [
     # basic
     (
         [
             '.',
-            'settings.json',
+            'foo.json',
             'scss',
             'css',
             '/home/foo',
         ],
         (
             '/home/foo',
-            '/home/foo/settings.json',
+            '/home/foo/foo.json',
             '/home/foo/scss',
             '/home/foo/css',
         ),
@@ -25,14 +25,14 @@ import pytest
     (
         [
             '/home/foo',
-            'settings.json',
+            'foo.json',
             'scss',
             'css',
             '/home/bar',
         ],
         (
             '/home/foo',
-            '/home/foo/settings.json',
+            '/home/foo/foo.json',
             '/home/foo/scss',
             '/home/foo/css',
         ),
@@ -41,14 +41,14 @@ import pytest
     (
         [
             '/home/bar',
-            '/home/foo/settings.json',
+            '/home/foo/foo.json',
             '/home/foo/scss',
             '/home/foo/css',
             '/home/meuh',
         ],
         (
             '/home/bar',
-            '/home/foo/settings.json',
+            '/home/foo/foo.json',
             '/home/foo/scss',
             '/home/foo/css',
         ),
@@ -57,14 +57,14 @@ import pytest
     (
         [
             '/home/foo',
-            "settings.json",
+            "foo.json",
             "sass/scss",
             "../project/static/css",
             '/home/bar',
         ],
         (
             '/home/foo',
-            '/home/foo/settings.json',
+            '/home/foo/foo.json',
             '/home/foo/sass/scss',
             '/home/project/static/css',
         ),
@@ -73,20 +73,20 @@ import pytest
     (
         [
             '/home/foo',
-            "/home/bar/settings.json",
+            "/home/bar/foo.json",
             "sass/scss",
             "../project/static/css",
             '/home/meuh',
         ],
         (
             '/home/foo',
-            '/home/bar/settings.json',
+            '/home/bar/foo.json',
             '/home/foo/sass/scss',
             '/home/project/static/css',
         ),
     ),
 ])
-def test_expand(projectstarter, sources, attempted):
-    results = projectstarter().expand(*sources)
+def test_expand(projectstarter, sources, expected):
+    results = projectstarter('json').expand(*sources)
 
-    assert results == attempted
+    assert results == expected

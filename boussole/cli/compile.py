@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
-import os
 import click
 import logging
+import os
 
 import six
 
-from boussole.exceptions import BoussoleBaseException, SettingsBackendError
-from boussole.finder import ScssFinder
 from boussole.compiler import SassCompileHelper
+from boussole.conf.discovery import Discover
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
+from boussole.exceptions import BoussoleBaseException
+from boussole.finder import ScssFinder
 from boussole.project import ProjectBase
 
 
@@ -27,22 +30,24 @@ def compile_command(context, backend, config):
     logger = logging.getLogger("boussole")
     logger.info(u"Building project")
 
-    # Load settings file
+    # Discover settings file
     try:
-        project = ProjectBase(backend_name=backend, basedir=os.getcwd())
+        discovering = Discover(backends=[SettingsBackendJson,
+                                         SettingsBackendYaml])
+        config_filepath, config_engine = discovering.search(
+            filepath=config,
+            basedir=os.getcwd(),
+            kind=backend
+        )
 
-        # If not given, config file name is setted from backend default
-        # filename
-        if not config:
-            config = project.backend_engine._default_filename
-
-        settings = project.backend_engine.load(filepath=config)
-    except SettingsBackendError as e:
+        project = ProjectBase(backend_name=config_engine._kind_name)
+        settings = project.backend_engine.load(filepath=config_filepath)
+    except BoussoleBaseException as e:
         logger.critical(six.text_type(e))
         raise click.Abort()
 
     logger.debug(u"Settings file: {} ({})".format(
-                 config, backend))
+                 config_filepath, config_engine._kind_name))
     logger.debug(u"Project sources directory: {}".format(
                  settings.SOURCES_PATH))
     logger.debug(u"Project destination directory: {}".format(

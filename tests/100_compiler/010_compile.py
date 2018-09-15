@@ -8,7 +8,7 @@ from boussole.conf.model import Settings
 
 def test_001(compiler, temp_builds_dir):
     """
-    compiler.SassCompileHelper.safe_compile: Basic sample without source map
+    Basic sample without source map
     """
     basedir = temp_builds_dir.join('compiler_safecompile').strpath
 

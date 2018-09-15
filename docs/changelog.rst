@@ -5,6 +5,17 @@
 Changelog
 =========
 
+Version 1.3.0 - 2018/09/30
+--------------------------
+
+**Add settings file discovering**
+
+Introduce a new way to load settings file with a discovering which either just load given an explicit file path or try to find it from base directory and available settings backends.
+
+This should not include backward incompatible behavior, it just adds capacity to find another backend default filename kind.
+
+Concretely, before this release only ``settings.json`` would be finded when no explicit file path was given and now it will be able to find also a file ``settings.yml`` if it exists in current directory.
+
 Version 1.2.3 - 2018/05/20
 --------------------------
 
