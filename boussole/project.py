@@ -13,9 +13,9 @@ class ProjectBase(object):
     """
     Project base
 
-    Keyword Arguments:
-        backend_name (string): Default backend name, can be either ``json`` or
-            ``yaml``. Default value is ``json``.
+    Arguments:
+        backend_name (string): Backend name, can be either ``json`` or
+            ``yaml``.
 
     Attributes:
         _engines: Available Configuration backends. Read only.
@@ -27,7 +27,7 @@ class ProjectBase(object):
         'yaml': SettingsBackendYaml,
     }
 
-    def __init__(self, backend_name='json', **kwargs):
+    def __init__(self, backend_name, **kwargs):
         self.backend_name = backend_name
         self.backend_engine = self.get_backend_engine(self.backend_name,
                                                       **kwargs)

@@ -5,8 +5,8 @@ Settings backend post processing
 
 Post processing methods are used to modify or validate given settings items.
 
-Backends inherit from ``SettingsPostProcessor`` to be able to use it in their
-``clean()`` method.
+Base backend inherit from ``SettingsPostProcessor`` to be able to use it in
+its ``clean()`` method.
 """
 import os
 

@@ -7,16 +7,24 @@ from boussole.conf.base_backend import SettingsBackendBase
 
 
 def test_ok_001(settings):
-    """conf.base_backendSettingsBackendBase: Filepath check case 1"""
+    """
+    conf.base_backendSettingsBackendBase: Filepath check case 1
+    """
     backend = SettingsBackendBase()
 
-    result = backend.check_filepath(settings.fixtures_path, filename=SettingsBackendBase._default_filename)
+    result = backend.check_filepath(
+        settings.fixtures_path,
+        filename=SettingsBackendBase._default_filename
+    )
 
-    assert result == os.path.join(settings.fixtures_path, SettingsBackendBase._default_filename)
+    assert result == os.path.join(settings.fixtures_path,
+                                  SettingsBackendBase._default_filename)
 
 
 def test_ok_002(settings):
-    """conf.base_backendSettingsBackendBase: Filepath check case 2"""
+    """
+    conf.base_backendSettingsBackendBase: Filepath check case 2
+    """
     backend = SettingsBackendBase()
 
     result = backend.check_filepath(settings.sample_path, filename="dummy")
@@ -25,7 +33,10 @@ def test_ok_002(settings):
 
 
 def test_error_001(settings):
-    """conf.base_backendSettingsBackendBase: Filepath check error case 1 (dont exist)"""
+    """
+    conf.base_backendSettingsBackendBase: Filepath check error case 1
+    (dont exist)
+    """
     backend = SettingsBackendBase()
 
     with pytest.raises(SettingsBackendError):
@@ -33,7 +44,10 @@ def test_error_001(settings):
 
 
 def test_error_002(settings):
-    """conf.base_backendSettingsBackendBase: Filepath check error case 2 (filename is a dir)"""
+    """
+    conf.base_backendSettingsBackendBase: Filepath check error case 2
+    (filename is a dir)
+    """
     backend = SettingsBackendBase()
 
     with pytest.raises(SettingsBackendError):

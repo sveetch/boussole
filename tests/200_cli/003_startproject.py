@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import json
+import os
 
 import pytest
 
@@ -8,6 +8,13 @@ import click
 from click.testing import CliRunner
 
 from boussole.cli.console_script import cli_frontend
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
+
+
+# Backend default filename shortcuts
+YAML_FILENAME = SettingsBackendYaml._default_filename
+JSON_FILENAME = SettingsBackendJson._default_filename
 
 
 def test_001(settings, caplog):
@@ -20,12 +27,12 @@ def test_001(settings, caplog):
 
         sourcedir = os.path.join(test_cwd, "scss")
         targetdir = os.path.join(test_cwd, "css")
-        config_filepath = os.path.join(test_cwd, "settings.json")
+        config_filepath = os.path.join(test_cwd, JSON_FILENAME)
 
         opts = [
             'startproject',
             '--basedir={}'.format(test_cwd),
-            '--config={}'.format("settings.json"),
+            '--config={}'.format(JSON_FILENAME),
             '--sourcedir={}'.format("scss"),
             '--targetdir={}'.format("css"),
         ]
@@ -83,12 +90,12 @@ def test_002(settings, caplog):
 
         sourcedir = os.path.join(test_cwd, "css")
         targetdir = os.path.join(test_cwd, "css")
-        config_filepath = os.path.join(test_cwd, "settings.json")
+        config_filepath = os.path.join(test_cwd, JSON_FILENAME)
 
         opts = [
             'startproject',
             '--basedir={}'.format(test_cwd),
-            '--config={}'.format("settings.json"),
+            '--config={}'.format(JSON_FILENAME),
             '--sourcedir={}'.format("css"),
             '--targetdir={}'.format("css"),
         ]

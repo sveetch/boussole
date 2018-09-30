@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-import os
 import json
+import os
 import pyaml
 
 import pytest
@@ -9,16 +9,25 @@ import click
 from click.testing import CliRunner
 
 from boussole.cli.console_script import cli_frontend
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
+
+
+# Backend default filename shortcuts
+YAML_FILENAME = SettingsBackendYaml._default_filename
+JSON_FILENAME = SettingsBackendJson._default_filename
 
 
 @pytest.mark.parametrize("options,filename", [
-    ([], 'settings.json'),
-    (['--backend=yaml'], 'settings.yml'),
-    (['--backend=json'], 'settings.json'),
+    ([], JSON_FILENAME),
+    (['--backend=yaml'], YAML_FILENAME),
+    (['--backend=json'], JSON_FILENAME),
 ])
 def test_error_verbosity_001(caplog, options, filename):
-    """cli.compile: Testing default verbosity (aka INFO level) on setting
-       error with different backends"""
+    """
+    Testing default verbosity (aka INFO level) on setting error with
+    different backends
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -27,6 +36,8 @@ def test_error_verbosity_001(caplog, options, filename):
 
         # Default verbosity
         result = runner.invoke(cli_frontend, ['compile']+options)
+
+        assert result.exit_code == 1
 
         assert caplog.record_tuples == [
             (
@@ -37,17 +48,18 @@ def test_error_verbosity_001(caplog, options, filename):
             (
                 'boussole',
                 50,
-                'Unable to find settings file: {}/{}'.format(test_cwd, filename)
+                'Unable to find any settings in directory: {}'.format(test_cwd)
             )
         ]
 
 
         assert 'Aborted!' in result.output
-        assert result.exit_code == 1
 
 
 def test_error_verbosity_002(caplog):
-    """cli.compile: Testing silent on setting error"""
+    """
+    Testing silent on setting error
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -57,9 +69,11 @@ def test_error_verbosity_002(caplog):
         # Silent
         result = runner.invoke(cli_frontend, ['-v 0', 'compile'])
 
-        error_msg = 'Unable to find settings file: {}/settings.json'.format(
+        error_msg = 'Unable to find any settings in directory: {}'.format(
             test_cwd
         )
+
+        assert result.exit_code == 1
 
         assert caplog.record_tuples == [
             (
@@ -68,7 +82,6 @@ def test_error_verbosity_002(caplog):
                 error_msg
             )
         ]
-        assert result.exit_code == 1
 
         # Totally silent output excepted the one from click.Abort()
         assert error_msg not in result.output
@@ -76,7 +89,9 @@ def test_error_verbosity_002(caplog):
 
 
 def test_error_verbosity_003(caplog):
-    """cli.compile: Testing debug level verbosity on setting error"""
+    """
+    Testing debug level verbosity on setting error
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -86,9 +101,11 @@ def test_error_verbosity_003(caplog):
         # Silent
         result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
 
-        error_msg = 'Unable to find settings file: {}/settings.json'.format(
+        error_msg = 'Unable to find any settings in directory: {}'.format(
             test_cwd
         )
+
+        assert result.exit_code == 1
 
         assert caplog.record_tuples == [
             (
@@ -104,12 +121,12 @@ def test_error_verbosity_003(caplog):
         ]
         assert error_msg in result.output
         assert 'Aborted!' in result.output
-        assert result.exit_code == 1
 
 
 def test_error_verbosity_004(caplog):
-    """cli.compile: Testing debug level verbosity on some file to
-       compile"""
+    """
+    Testing debug level verbosity on some file to compile
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -118,7 +135,7 @@ def test_error_verbosity_004(caplog):
 
         # Need a file to compile, as setting error is not really verbose
         # Write a minimal config file
-        with open('settings.json', 'w') as f:
+        with open(JSON_FILENAME, 'w') as f:
             f.write(json.dumps({
                 'SOURCES_PATH': '.',
                 'TARGET_PATH': './css',
@@ -146,7 +163,7 @@ def test_error_verbosity_004(caplog):
         assert result.exit_code == 1
         assert caplog.record_tuples == [
             ('boussole', 20, 'Building project'),
-            ('boussole', 10, u'Settings file: settings.json (json)'),
+            ('boussole', 10, u'Settings file: {}/{} (json)'.format(test_cwd, JSON_FILENAME)),
             ('boussole', 10, 'Project sources directory: {}'.format(test_cwd)),
             ('boussole', 10, 'Project destination directory: {}/css'.format(test_cwd)),
             ('boussole', 10, 'Exclude patterns: []'),
@@ -158,8 +175,9 @@ def test_error_verbosity_004(caplog):
 
 
 def test_fail_001():
-    """cli.compile: Testing basic compile fail on default config filename
-       (does not exists)"""
+    """
+    Testing basic compile fail on default config filename (does not exists)
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -173,8 +191,10 @@ def test_fail_001():
 
 
 def test_fail_002():
-    """cli.compile: Testing basic compile fail on given path directory (not a
-       filename) as config file"""
+    """
+    Testing basic compile fail on given path directory (not a filename) as
+    config file
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -185,33 +205,35 @@ def test_fail_002():
 
         result = runner.invoke(cli_frontend, ['compile', config_arg])
 
-        assert 'Aborted!' in result.output
         assert result.exit_code == 1
+        assert 'Aborted!' in result.output
 
 
 def test_fail_003():
-    """cli.compile: Testing basic compile fail on invalid config file (invalid
-       JSON)"""
+    """
+    Testing basic compile fail on invalid config file (invalid JSON)
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
     with runner.isolated_filesystem():
         test_cwd = os.getcwd()
 
-        with open('settings.json', 'w') as f:
+        with open(JSON_FILENAME, 'w') as f:
             f.write('Invalid settings file content')
 
         result = runner.invoke(cli_frontend, ['compile'])
 
-        msg = """No JSON object could be decoded from file: {}/settings.json"""
+        msg = """No JSON object could be decoded from file: {}/{}"""
         assert result.exit_code == 1
-        assert msg.format(test_cwd) in result.output
+        assert msg.format(test_cwd, JSON_FILENAME) in result.output
         assert 'Aborted!' in result.output
 
 
 def test_fail_004():
-    """cli.compile: Testing exceptions management from sass compiler on
-       invalid syntax"""
+    """
+    Testing exceptions management from sass compiler on invalid syntax
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -219,7 +241,7 @@ def test_fail_004():
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open('settings.json', 'w') as f:
+        with open(JSON_FILENAME, 'w') as f:
             f.write(json.dumps({
                 'SOURCES_PATH': '.',
                 'TARGET_PATH': './css',
@@ -249,7 +271,9 @@ def test_fail_004():
 
 
 def test_fail_005():
-    """cli.compile: Testing exceptions management from core API"""
+    """
+    Testing exceptions management from core API
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -257,7 +281,7 @@ def test_fail_005():
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open('settings.json', 'w') as f:
+        with open(JSON_FILENAME, 'w') as f:
             f.write(json.dumps({
                 'SOURCES_PATH': '.',
                 'TARGET_PATH': './css',
@@ -286,13 +310,15 @@ def test_fail_005():
 
 
 @pytest.mark.parametrize("options,filename,dumper", [
-    ([], 'settings.json', json.dump),
-    (['--backend=yaml'], 'settings.yml', pyaml.dump),
-    (['--backend=json'], 'settings.json', json.dump),
+    ([], JSON_FILENAME, json.dump),
+    (['--backend=yaml'], YAML_FILENAME, pyaml.dump),
+    (['--backend=json'], JSON_FILENAME, json.dump),
 ])
 def test_success_001(options, filename, dumper):
-    """cli.compile: Testing compile success on basic config, a main Sass
-       source and a partial source to ignore"""
+    """
+    Testing compile success on basic config, a main Sass source and a partial
+    source to ignore
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
