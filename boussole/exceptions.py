@@ -51,6 +51,14 @@ class CircularImport(BoussoleBaseException):
     pass
 
 
+class SettingsDiscoveryError(BoussoleBaseException):
+    """
+    Exception to be raised when config discovery has failed to find settings
+    file.
+    """
+    pass
+
+
 class SettingsBackendError(BoussoleBaseException):
     """
     Exception to be raised when config loading has failed from a backend.

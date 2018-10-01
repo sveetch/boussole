@@ -5,10 +5,36 @@
 Changelog
 =========
 
-Version 1.2.3 - 2018/01/04
+Version 1.5.0 - Unreleased
 --------------------------
 
-* Add support for ``sass`` files
+**Add support for old Sass syntax**
+
+Version 1.4.0 - 2018/10/01
+--------------------------
+
+**Improved packaging**
+
+We moved every package informations into ``setup.cfg`` and now ``setup.py`` is only an entrypoint for setuptools. tox and pytest configurations has been moved also into ``setup.cfg``.
+
+Makefile has been updated and python-venv has been dropped in profit of virtualenv to ease development.
+
+Version 1.3.0 - 2018/09/30
+--------------------------
+
+**Add settings file discovering**
+
+Introduce a new way to load settings file with a discovering which either just load given an explicit file path or try to find it from base directory and available settings backends.
+
+This should not include backward incompatible behavior, it just adds capacity to find another backend default filename kind.
+
+Concretely, before this release only ``settings.json`` would be finded when no explicit file path was given and now it will be able to find also a file ``settings.yml`` if it exists in current directory.
+
+Version 1.2.3 - 2018/05/20
+--------------------------
+
+* **Introduced new settings** ``CUSTOM_IMPORT_EXTENSIONS`` which default value is ``['.css']`` to keep CSS source including behavior as default just like before libsass==3.5.3, close #29;
+* Fixed source map url, close #28;
 
 Version 1.2.2 - 2017/12/12
 --------------------------
@@ -30,7 +56,7 @@ Version 1.2.0 - 2017/01/21
 * Updated tests requirements;
 * Removed python 3.4 from tox envs;
 * Added ``--poll`` option on watch command to use Watchdog polling observer instead of the native platform observer, close #22;
-* Fixed compiler tests for changes about sourcemap since last libsass version;
+* Fixed compiler tests for changes about source map since last libsass version;
 * Fixed Sass brand name according to http://sassnotsass.com/;
 * Validated tests with ``libsass==0.12.3``;
 

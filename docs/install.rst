@@ -12,7 +12,7 @@ have the right environment (needed devel libs, etc..).
 
 
 .. Note::
-    Because some requirements need to compile some C modules, this would take
+    Because some requirements need to compile some C modules, this may takes
     some minutes to install Boussole again for each of your projects under
     their own virtual environment.
 

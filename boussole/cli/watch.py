@@ -9,11 +9,14 @@ import six
 from watchdog.observers import Observer
 from watchdog.observers.polling import PollingObserver
 
-from boussole.exceptions import SettingsBackendError
+from boussole.conf.discovery import Discover
+from boussole.conf.json_backend import SettingsBackendJson
+from boussole.conf.yaml_backend import SettingsBackendYaml
+from boussole.exceptions import BoussoleBaseException
 from boussole.inspector import ScssInspector
+from boussole.project import ProjectBase
 from boussole.watcher import (WatchdogLibraryEventHandler,
                               WatchdogProjectEventHandler)
-from boussole.project import ProjectBase
 
 
 @click.command('watch', short_help='Watch for change on your Sass project.')
@@ -48,20 +51,24 @@ def watch_command(context, backend, config, poll):
     logger = logging.getLogger("boussole")
     logger.info("Watching project")
 
-    # Load settings file
+    # Discover settings file
     try:
-        project = ProjectBase(backend_name=backend, basedir=os.getcwd())
+        discovering = Discover(backends=[SettingsBackendJson,
+                                         SettingsBackendYaml])
+        config_filepath, config_engine = discovering.search(
+            filepath=config,
+            basedir=os.getcwd(),
+            kind=backend
+        )
 
-        # If not given, config file name is setted from backend default
-        # filename
-        if not config:
-            config = project.backend_engine._default_filename
-
-        settings = project.backend_engine.load(filepath=config)
-    except SettingsBackendError as e:
+        project = ProjectBase(backend_name=config_engine._kind_name)
+        settings = project.backend_engine.load(filepath=config_filepath)
+    except BoussoleBaseException as e:
         logger.critical(six.text_type(e))
         raise click.Abort()
 
+    logger.debug(u"Settings file: {} ({})".format(
+                 config_filepath, config_engine._kind_name))
     logger.debug(u"Project sources directory: {}".format(
                 settings.SOURCES_PATH))
     logger.debug(u"Project destination directory: {}".format(
