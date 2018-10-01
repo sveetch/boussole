@@ -20,22 +20,20 @@ Boussole is developed with:
 * Respecting flake and pip8 rules using `Flake8`_;
 * `Sphinx`_ for documentation with enabled `Napoleon`_ extension (using only the *Google style*);
 
-Every requirement is available in file ``requirements/dev.txt``.
-
 Install for development
 ***********************
 
-First ensure you have `pip`_ and ``python-venv`` package installed then type: ::
+First ensure you have `pip`_ and `virtualenv`_ package installed then type: ::
 
     git clone https://github.com/sveetch/boussole.git
     cd boussole
-    make install-dev
+    make install
 
 Boussole will be installed in editable mode from the last commit on master branch.
 
 When it's done, you will be able to check for boussole version, just type: ::
 
-    venv/bin/boussole version
+    .venv/bin/boussole version
 
 Unittests
 ---------

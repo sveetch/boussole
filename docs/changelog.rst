@@ -5,6 +5,15 @@
 Changelog
 =========
 
+Version 1.4.0 - 2018/10/01
+--------------------------
+
+**Improved packaging**
+
+We moved every package informations into ``setup.cfg`` and now ``setup.py`` is only an entrypoint for setuptools. tox and pytest configurations has been moved also into ``setup.cfg``.
+
+Makefile has been updated and python-venv has been dropped in profit of virtualenv to ease development.
+
 Version 1.3.0 - 2018/09/30
 --------------------------
 
