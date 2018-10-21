@@ -5,6 +5,15 @@
 Changelog
 =========
 
+Version 1.4.1 - 2018/10/21
+--------------------------
+
+**Fixed packaging**
+
+``setup.py`` has been forgotted from previous release and still contained information.
+
+So it has been cleaned an ``setup.cfg`` has been updated to include missing ``[options.entry_points]`` section.
+
 Version 1.4.0 - 2018/10/01
 --------------------------
 
