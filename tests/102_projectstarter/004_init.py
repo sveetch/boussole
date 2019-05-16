@@ -8,11 +8,12 @@ import pytest
 from boussole.exceptions import SettingsInvalidError
 
 
-@pytest.mark.parametrize("name,ext,module", [
-    ('json', 'json', json),
-    ('yaml', 'yml', yaml),
+@pytest.mark.parametrize("name,ext,module,module_opts", [
+    ('json', 'json', json, {}),
+    ('yaml', 'yml', yaml, {"Loader": yaml.FullLoader}),
 ])
-def test_success(projectstarter, temp_builds_dir, name, ext, module):
+def test_success(projectstarter, temp_builds_dir, name, ext, module,
+                 module_opts):
     """Testing on default values"""
     tmp_dirname = 'projectstarter_init_success_{}'.format(name)
     settings_filename = "settings.{}".format(ext)
@@ -39,7 +40,7 @@ def test_success(projectstarter, temp_builds_dir, name, ext, module):
     assert os.path.exists(os.path.join(basedir, "css")) == True
 
     with open(os.path.join(basedir, settings_filename), "r") as fp:
-        assert module.load(fp) == {
+        assert module.load(fp, **module_opts) == {
             'SOURCES_PATH': 'scss',
             'TARGET_PATH': 'css',
             "LIBRARY_PATHS": [],

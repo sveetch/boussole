@@ -8,7 +8,10 @@ Changelog
 Version 1.5.0 - Unreleased
 --------------------------
 
-**Indented Sass syntax support**
+**Indented Sass syntax support and fix some warnings from PyYaml and
+libsass-python**
+
+* Fixed PyYAML ``load()`` deprecation warning, close #36;
 
 Indented Sass syntax support
 ............................

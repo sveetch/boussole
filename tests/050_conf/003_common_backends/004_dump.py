@@ -10,17 +10,19 @@ from boussole.conf.json_backend import SettingsBackendJson
 from boussole.conf.yaml_backend import SettingsBackendYaml
 
 
-@pytest.mark.parametrize("backend_engine,loader", [
+@pytest.mark.parametrize("backend_engine,loader,loader_opts", [
     (
         SettingsBackendJson,
-        json.loads
+        json.loads,
+        {},
     ),
     (
         SettingsBackendYaml,
-        yaml.load
+        yaml.load,
+        {"Loader": yaml.FullLoader},
     ),
 ])
-def test_ok(temp_builds_dir, backend_engine, loader):
+def test_ok(temp_builds_dir, backend_engine, loader, loader_opts):
     """Dump data from backend"""
     tmp_dirname = 'backend_dump_{}'.format(backend_engine._kind_name)
     settings_filename = backend_engine._default_filename
@@ -43,4 +45,4 @@ def test_ok(temp_builds_dir, backend_engine, loader):
         content = fp.read()
 
     # Compare initial datas dict with parsed content from dumped datas file
-    assert datas == loader(content)
+    assert datas == loader(content, **loader_opts)

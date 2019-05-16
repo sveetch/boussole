@@ -57,7 +57,7 @@ class SettingsBackendYaml(SettingsBackendBase):
 
         """
         try:
-            parsed = yaml.load(content)
+            parsed = yaml.load(content, Loader=yaml.FullLoader)
         except yaml.YAMLError as exc:
             msg = "No YAML object could be decoded from file: {}\n{}"
             raise SettingsBackendError(msg.format(filepath, exc))
