@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.5.0 - Unreleased
+Version 1.5.0 - 2019/05/17
 --------------------------
 
 **Indented Sass syntax support and fix some warnings**
