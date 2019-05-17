@@ -58,9 +58,6 @@ Here is a full sample of available settings for project configuration with JSON 
             ],
             "TARGET_PATH": "/home/bar",
             "OUTPUT_STYLES": "nested",
-            "CUSTOM_IMPORT_EXTENSIONS": [
-                ".css"
-            ],
             "SOURCE_COMMENTS": false,
             "SOURCE_MAP": false,
             "EXCLUDES": [
@@ -92,10 +89,6 @@ OUTPUT_STYLES
     Default: ``nested``
 
     (string) keyword of output style type used to compile your Sass sources. Can be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
-CUSTOM_IMPORT_EXTENSIONS
-    Default: ``[".css"]``
-
-    (list) List of enabled source extensions allowed to be included from ``@import`` directive. This aims to allow to treat some sources as Sass source to include. Default value is made so using ``@import 'foo'`` will include ``foo.css`` source if it exists. Set an empty list if you want to only allow Sass source extensions.
 SOURCE_COMMENTS
     Default: ``False``
 

@@ -54,10 +54,6 @@ SETTINGS_MANIFEST = {
         'default': False,
         'postprocess': [],
     },
-    'CUSTOM_IMPORT_EXTENSIONS': {
-        'default': ['.css'],
-        'postprocess': [],
-    },
     'SOURCE_MAP': {
         'default': False,
         'postprocess': [],

@@ -8,10 +8,29 @@ Changelog
 Version 1.5.0 - Unreleased
 --------------------------
 
-**Indented Sass syntax support and fix some warnings from PyYaml and
-libsass-python**
+**Indented Sass syntax support and fix some warnings**
 
-* Fixed PyYAML ``load()`` deprecation warning, close #36;
+Fixed warning from libsass-python about 'custom_import_extensions'
+..................................................................
+
+Libsass has reverted its previous change from version 3.5.3 which ignored CSS
+files on default. This has required to add a new option
+``CUSTOM_IMPORT_EXTENSIONS`` in Boussole 1.2.3 to enable CSS files support.
+
+Since CSS support is back again on default, we removed useless setting
+``CUSTOM_IMPORT_EXTENSIONS`` and don't use anymore
+``custom_import_extensions`` argument with libsass-python compiler.
+
+This remove previous warning from libsass-python about
+``custom_import_extensions`` deprecation.
+
+Fixed PyYAML 'load()' deprecation warning
+.........................................
+
+For a recent security issue, PyYAML has introduced a change to its ``load()``
+method to be more safe.
+
+We now use the full loader mode so it does not trigger a warning anymore.
 
 Indented Sass syntax support
 ............................
