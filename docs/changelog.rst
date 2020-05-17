@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.5.1 - Unreleased
+Version 1.5.1 - 2020/05/17
 --------------------------
 
 *Minor update to improve quality on development*
