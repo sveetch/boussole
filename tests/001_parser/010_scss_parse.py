@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
 
 
 def test_comment_001(settings, parser):

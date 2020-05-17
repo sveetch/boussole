@@ -5,6 +5,22 @@
 Changelog
 =========
 
+Version 1.5.1 - Unreleased
+--------------------------
+
+*Minor update to improve quality on development*
+
+Since libsass-python 0.19.4, a new minor feature has been added which add the
+column position in some error messages. This was breaking tests but without any
+impact in Boussole functioning.
+
+For sanity, we added a minor check against libsass-python version in a test to
+continue support for libsass-python from 0.18.x to 0.20.x versions. It adds a
+new dependency to ``packaging`` package only in development requirements.
+
+Finally the Tox configuration has been updated to perform tests against supported
+libsass-python versions and flake coverage has been done on tests.
+
 Version 1.5.0 - 2019/05/17
 --------------------------
 
@@ -157,7 +173,7 @@ Version 1.1.0 - 2016/11/26
 Version 1.0.2 - 2016/10/26
 --------------------------
 
-Upgrade ``libsass-python`` dependancy to ``>=0.11.2`` to profit from
+Upgrade ``libsass-python`` dependency to ``>=0.11.2`` to profit from
 ``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
 
 Version 1.0.1 - 2016/09/10

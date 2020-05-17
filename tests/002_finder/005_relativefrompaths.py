@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import pytest
 
 from boussole.exceptions import FinderException
@@ -92,9 +91,11 @@ def test_008(finder):
 
 
 def test_009(finder):
-    """Unable to find relative path raise an exception"""
+    """
+    Unable to find relative path raise an exception
+    """
     with pytest.raises(FinderException):
-        results = finder.get_relative_from_paths("/home/foo/pika/bim/bam/plop", [
+        finder.get_relative_from_paths("/home/foo/pika/bim/bam/plop", [
             "/etc",
             "/home/foo/pika/bim/bom",
             "/home/bar/pika",

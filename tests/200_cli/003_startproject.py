@@ -2,9 +2,6 @@
 import json
 import os
 
-import pytest
-
-import click
 from click.testing import CliRunner
 
 from boussole.cli.console_script import cli_frontend
@@ -18,7 +15,9 @@ JSON_FILENAME = SettingsBackendJson._default_filename
 
 
 def test_001(settings, caplog):
-    """cli.startproject: Basic"""
+    """
+    Basic
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -48,12 +47,14 @@ def test_001(settings, caplog):
             (
                 'boussole',
                 20,
-                "Project directory structure and configuration file have been created."
+                ("Project directory structure and configuration file have "
+                 "been created.")
             ),
             (
                 'boussole',
                 20,
-                "Now you should start to create some Sass sources into '{}', then compile them using:".format(sourcedir)
+                ("Now you should start to create some Sass sources into '{}', "
+                 "then compile them using:").format(sourcedir)
             ),
             (
                 'boussole',
@@ -80,8 +81,9 @@ def test_001(settings, caplog):
 
 
 def test_002(settings, caplog):
-    """cli.startproject: Error from given arguments (multiple identical
-       paths)"""
+    """
+    Error from given arguments (multiple identical paths)
+    """
     runner = CliRunner()
 
     # Temporary isolated current dir
@@ -89,8 +91,6 @@ def test_002(settings, caplog):
         test_cwd = os.getcwd()
 
         sourcedir = os.path.join(test_cwd, "css")
-        targetdir = os.path.join(test_cwd, "css")
-        config_filepath = os.path.join(test_cwd, JSON_FILENAME)
 
         opts = [
             'startproject',

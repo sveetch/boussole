@@ -3,7 +3,6 @@
 Sass indented syntax tests only cover differences with scss syntax
 """
 import os
-import pytest
 
 
 def test_sample_001(settings, sass_parser):

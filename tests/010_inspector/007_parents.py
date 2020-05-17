@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
+
 
 def test_001_basic(settings, inspector):
     """Looking for parents of basic sample"""
@@ -22,6 +22,7 @@ def test_001_basic(settings, inspector):
         os.path.join(settings.sample_path, 'main_with_subimports.scss'),
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
     ])
+
 
 def test_002_vendor(settings, inspector):
     """Looking for parents of vendor component"""
@@ -62,6 +63,7 @@ def test_002_vendor(settings, inspector):
         os.path.join(settings.sample_path, 'main_circular_3.scss'),
         os.path.join(settings.sample_path, 'main_using_libs.scss'),
     ])
+
 
 def test_003_library(settings, inspector):
     """Looking for parents of a library component"""

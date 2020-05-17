@@ -1,27 +1,49 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
 
 
 def test_relative_001(settings, finder):
-    """Mirror all compilable sources in relative mode"""
-    assert finder.mirror_sources(os.path.join(settings.sample_path, 'components')) == [
+    """
+    Mirror all compilable sources in relative mode
+    """
+    result = finder.mirror_sources(
+        os.path.join(settings.sample_path, 'components')
+    )
+
+    assert result == [
         ('twin_2.scss', 'twin_2.css'),
         ('twin_3.scss', 'twin_3.css'),
     ]
 
 
 def test_absolute_002(settings, finder):
-    """Mirror all compilable sources in absolute mode"""
-    assert finder.mirror_sources(os.path.join(settings.sample_path, 'components'), targetdir=settings.tests_path) == [
-        (os.path.join(settings.sample_path, 'components', 'twin_2.scss'), os.path.join(settings.tests_path, 'twin_2.css')),
-        (os.path.join(settings.sample_path, 'components', 'twin_3.scss'), os.path.join(settings.tests_path, 'twin_3.css')),
+    """
+    Mirror all compilable sources in absolute mode
+    """
+    result = finder.mirror_sources(
+        os.path.join(settings.sample_path, 'components'),
+        targetdir=settings.tests_path
+    )
+
+    assert result == [
+        (
+            os.path.join(settings.sample_path, 'components', 'twin_2.scss'),
+            os.path.join(settings.tests_path, 'twin_2.css')
+        ),
+        (
+            os.path.join(settings.sample_path, 'components', 'twin_3.scss'),
+            os.path.join(settings.tests_path, 'twin_3.css')
+        ),
     ]
 
 
 def test_relative_recursive_003(settings, finder):
-    """Mirror all compilable sources in relative mode"""
-    assert finder.mirror_sources(settings.sample_path) == [
+    """
+    Mirror all compilable sources in relative mode
+    """
+    result = finder.mirror_sources(settings.sample_path)
+
+    assert result == [
         ('main_basic.scss', 'main_basic.css'),
         ('main_circular_0.scss', 'main_circular_0.css'),
         ('main_circular_1.scss', 'main_circular_1.css'),
@@ -48,11 +70,21 @@ def test_relative_recursive_003(settings, finder):
 
 
 def test_absolute_recursive_004(settings, finder):
-    """Mirror all compilable sources in absolute mode"""
-    # To avoid to write every os path join, i'm so lazy..
-    absolutize = lambda x,y: (os.path.join(settings.sample_path, x), os.path.join(settings.tests_path, y))
+    """
+    Mirror all compilable sources in absolute mode
+    """
+    # To avoid to write every os path join
+    absolutize = lambda x, y: (  # noqa: E731
+        os.path.join(settings.sample_path, x),
+        os.path.join(settings.tests_path, y)
+    )
 
-    assert finder.mirror_sources(settings.sample_path, targetdir=settings.tests_path) == [
+    result = finder.mirror_sources(
+        settings.sample_path,
+        targetdir=settings.tests_path
+    )
+
+    assert result == [
         absolutize('main_basic.scss', 'main_basic.css'),
         absolutize('main_circular_0.scss', 'main_circular_0.css'),
         absolutize('main_circular_1.scss', 'main_circular_1.css'),
@@ -79,7 +111,9 @@ def test_absolute_recursive_004(settings, finder):
 
 
 def test_relative_excludes_005(settings, finder):
-    """Mirror allowed compilable sources in relative mode"""
+    """
+    Mirror allowed compilable sources in relative mode
+    """
     excludes = [
         'main_error.scss',
         'main_circular_5.scss',
@@ -93,7 +127,9 @@ def test_relative_excludes_005(settings, finder):
         '*/twin_*.scss',
     ]
 
-    assert finder.mirror_sources(settings.sample_path, excludes=excludes) == [
+    result = finder.mirror_sources(settings.sample_path, excludes=excludes)
+
+    assert result == [
         ('main_basic.scss', 'main_basic.css'),
         ('main_commented.scss', 'main_commented.css'),
         ('main_depth_import-1.scss', 'main_depth_import-1.css'),

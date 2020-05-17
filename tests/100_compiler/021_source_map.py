@@ -2,7 +2,6 @@
 import os
 import io
 import json
-import pytest
 
 from boussole.conf.model import Settings
 
@@ -35,13 +34,13 @@ def test_source_map_path_001(compiler, temp_builds_dir):
 
     # Create sample source to compile
     with io.open(src, 'w', encoding='utf-8') as f:
-        result = f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
+        f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
 
     # Compile
     success, message = compiler.safe_compile(basic_settings, src, dst)
 
-    assert os.path.exists(dst) == True
-    assert os.path.exists(src_map) == True
+    assert os.path.exists(dst)
+    assert os.path.exists(src_map)
 
     with io.open(dst, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -49,13 +48,11 @@ def test_source_map_path_001(compiler, temp_builds_dir):
     with io.open(src_map, 'r', encoding='utf-8') as f:
         sourcemap = json.load(f)
 
-    #print content
-    #print "."*60
-    #print sourcemap
-
     # Assert compiled file is ok
-    assert content == ("""#content { color: #ff0000; font-weight: bold; }\n\n"""
-                      """/*# sourceMappingURL=app.map */""")
+    assert content == (
+        """#content { color: #ff0000; font-weight: bold; }\n\n"""
+        """/*# sourceMappingURL=app.map */"""
+    )
 
     # Drop keys we don't care for this test
     del sourcemap['version']
@@ -100,13 +97,13 @@ def test_source_map_path_002(compiler, temp_builds_dir):
 
     # Create sample source to compile
     with io.open(src, 'w', encoding='utf-8') as f:
-        result = f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
+        f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
 
     # Compile
     success, message = compiler.safe_compile(basic_settings, src, dst)
 
-    assert os.path.exists(dst) == True
-    assert os.path.exists(src_map) == True
+    assert os.path.exists(dst)
+    assert os.path.exists(src_map)
 
     with io.open(dst, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -114,13 +111,11 @@ def test_source_map_path_002(compiler, temp_builds_dir):
     with io.open(src_map, 'r', encoding='utf-8') as f:
         sourcemap = json.load(f)
 
-    #print content
-    #print "."*60
-    #print sourcemap
-
     # Assert compiled file is ok
-    assert content == ("""#content { color: #ff0000; font-weight: bold; }\n\n"""
-                      """/*# sourceMappingURL=app.map */""")
+    assert content == (
+        """#content { color: #ff0000; font-weight: bold; }\n\n"""
+        """/*# sourceMappingURL=app.map */"""
+    )
 
     # Drop keys we don't care for this test
     del sourcemap['version']
@@ -161,13 +156,13 @@ def test_source_map_content(compiler, temp_builds_dir):
 
     # Create sample source to compile
     with io.open(src, 'w', encoding='utf-8') as f:
-        result = f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
+        f.write(u"""#content{ color:#ff0000; font-weight:bold; }""")
 
     # Compile
     success, message = compiler.safe_compile(basic_settings, src, dst)
 
-    assert os.path.exists(dst) == True
-    assert os.path.exists(src_map) == True
+    assert os.path.exists(dst)
+    assert os.path.exists(src_map)
 
     with io.open(dst, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -176,8 +171,10 @@ def test_source_map_content(compiler, temp_builds_dir):
         sourcemap = json.load(f)
 
     # Assert compiled file is ok
-    assert content == ("""#content { color: #ff0000; font-weight: bold; }\n\n"""
-                      """/*# sourceMappingURL=app.map */""")
+    assert content == (
+        """#content { color: #ff0000; font-weight: bold; }\n\n"""
+        """/*# sourceMappingURL=app.map */"""
+    )
 
     # Drop 'version' key since it will cause problem with futur libsass
     # versions
@@ -193,4 +190,3 @@ def test_source_map_content(compiler, temp_builds_dir):
                      "IAAI,GAAI"),
         "names": []
     }
-

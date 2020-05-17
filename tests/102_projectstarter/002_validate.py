@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-import json
 import pytest
 
 from boussole.exceptions import SettingsInvalidError
@@ -24,9 +22,10 @@ from boussole.exceptions import SettingsInvalidError
     ),
 ])
 def test_ok(projectstarter, paths):
-    """validate various correct paths"""
-
-    assert projectstarter('json').valid_paths(*paths) == True
+    """
+    validate various correct paths
+    """
+    assert projectstarter('json').valid_paths(*paths)
 
 
 @pytest.mark.parametrize("paths", [
@@ -57,7 +56,8 @@ def test_ok(projectstarter, paths):
     ),
 ])
 def test_wrong(projectstarter, paths):
-    """fail on duplicated paths"""
-
+    """
+    fail on duplicated paths
+    """
     with pytest.raises(SettingsInvalidError):
         projectstarter('json').valid_paths(*paths)

@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-import os
 import pytest
-
-from boussole.parser import ScssImportsParser, SassImportsParser
 
 
 @pytest.mark.parametrize('filepath,expected_parser', [
@@ -16,7 +13,7 @@ from boussole.parser import ScssImportsParser, SassImportsParser
 ])
 def test_get_parser(inspector, filepath, expected_parser):
     """
-    Check
+    Inspector should guess the correct parser name from filename.
     """
     result = inspector.get_parser(filepath)
 

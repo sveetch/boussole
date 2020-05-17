@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-import os
-import pytest
-
 from boussole.conf.base_backend import SettingsBackendBase
 
 
 def test_001_empty_nobasedir(settings, sample_project_settings):
-    """no path given and with empty basedir"""
+    """
+    no path given and with empty basedir
+    """
     backend = SettingsBackendBase()
 
     result = backend.parse_filepath()
@@ -18,7 +17,9 @@ def test_001_empty_nobasedir(settings, sample_project_settings):
 
 
 def test_002_empty_basedir(settings, sample_project_settings):
-    """no path given and with a basedir"""
+    """
+    no path given and with a basedir
+    """
     backend = SettingsBackendBase(basedir="/home/bart/www")
 
     result = backend.parse_filepath()
@@ -30,7 +31,9 @@ def test_002_empty_basedir(settings, sample_project_settings):
 
 
 def test_003_filename_nobasedir(settings, sample_project_settings):
-    """filename and empty basedir"""
+    """
+    filename and empty basedir
+    """
     backend = SettingsBackendBase()
 
     result = backend.parse_filepath(filepath="settings_custom.txt")
@@ -42,7 +45,9 @@ def test_003_filename_nobasedir(settings, sample_project_settings):
 
 
 def test_004_filename_basedir(settings, sample_project_settings):
-    """filename and filled basedir"""
+    """
+    filename and filled basedir
+    """
     backend = SettingsBackendBase(basedir="/home/bart/www")
 
     result = backend.parse_filepath(filepath="settings_custom.txt")
@@ -54,7 +59,9 @@ def test_004_filename_basedir(settings, sample_project_settings):
 
 
 def test_005_relative_nobasedir(settings, sample_project_settings):
-    """relative filepath and empty basedir"""
+    """
+    relative filepath and empty basedir
+    """
     backend = SettingsBackendBase()
 
     result = backend.parse_filepath(filepath="foo/settings_custom.txt")
@@ -66,7 +73,9 @@ def test_005_relative_nobasedir(settings, sample_project_settings):
 
 
 def test_006_relative_basedir(settings, sample_project_settings):
-    """relative filepath and filled basedir"""
+    """
+    relative filepath and filled basedir
+    """
     backend = SettingsBackendBase(basedir="/home/bart/www")
 
     result = backend.parse_filepath(filepath="foo/settings_custom.txt")
@@ -78,7 +87,9 @@ def test_006_relative_basedir(settings, sample_project_settings):
 
 
 def test_007_absolute_nobasedir(settings, sample_project_settings):
-    """absolute filepath and empty basedir"""
+    """
+    absolute filepath and empty basedir
+    """
     backend = SettingsBackendBase()
 
     result = backend.parse_filepath(filepath="/home/bart/www/settings_custom.txt")
@@ -90,8 +101,10 @@ def test_007_absolute_nobasedir(settings, sample_project_settings):
 
 
 def test_008_absolute_basedir(settings, sample_project_settings):
-    """absolute filepath and filled basedir to ensure basedir is ignored with
-       absolute filepath"""
+    """
+    absolute filepath and filled basedir to ensure basedir is ignored with
+    absolute filepath
+    """
     backend = SettingsBackendBase(basedir="/home/no/pasaran")
 
     result = backend.parse_filepath(filepath="/home/bart/www/settings_custom.txt")
@@ -103,7 +116,9 @@ def test_008_absolute_basedir(settings, sample_project_settings):
 
 
 def test_010_normalize_01_basedir(settings, sample_project_settings):
-    """filename and filled basedir, need normalize"""
+    """
+    filename and filled basedir, need normalize
+    """
     backend = SettingsBackendBase(basedir="/home/bart/www")
 
     result = backend.parse_filepath(filepath="./settings_custom.txt")
@@ -115,7 +130,9 @@ def test_010_normalize_01_basedir(settings, sample_project_settings):
 
 
 def test_009_normalize_02_basedir(settings, sample_project_settings):
-    """filename and filled basedir, need normalize"""
+    """
+    filename and filled basedir, need normalize
+    """
     backend = SettingsBackendBase(basedir="/home/bart/www")
 
     result = backend.parse_filepath(filepath="../settings_custom.txt")
@@ -127,7 +144,9 @@ def test_009_normalize_02_basedir(settings, sample_project_settings):
 
 
 def test_011_normalize_nobasedir(settings, sample_project_settings):
-    """filename and empty basedir, normalize can't do anything"""
+    """
+    filename and empty basedir, normalize can't do anything
+    """
     backend = SettingsBackendBase()
 
     result = backend.parse_filepath(filepath="../settings_custom.txt")

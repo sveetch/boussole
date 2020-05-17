@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
+
 
 def test_001(settings, inspector):
-    """inspector.ScssInspector: Sub import dependencies"""
+    """
+    Sub import dependencies
+    """
     sourcepath = os.path.join(settings.sample_path, 'main_with_subimports.scss')
     sources = [
         sourcepath,
     ]
 
     inspector.inspect(*sources)
-
-    import json
 
     results = inspector.children(sourcepath)
 
@@ -23,4 +23,4 @@ def test_001(settings, inspector):
         os.path.join(settings.sample_path, "components/_webfont_icons.scss"),
     ])
 
-    assert inspector.parents(sourcepath)  == set([])
+    assert inspector.parents(sourcepath) == set([])

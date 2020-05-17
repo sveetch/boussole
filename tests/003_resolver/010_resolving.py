@@ -5,6 +5,7 @@ import pytest
 from boussole.exceptions import UnresolvablePath
 from boussole.exceptions import UnclearResolution
 
+
 def test_basic(settings, parser, resolver):
     """Resolve paths from basic sample"""
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')

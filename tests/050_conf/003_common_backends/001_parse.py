@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import pytest
 
 from boussole.exceptions import SettingsBackendError
@@ -12,7 +11,9 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
     SettingsBackendYaml,
 ])
 def test_ok(settings, sample_project_settings, backend_engine):
-    """Backend content parsing success"""
+    """
+    Backend content parsing success
+    """
     backend = backend_engine(basedir=settings.fixtures_path)
 
     path, filename = backend.parse_filepath()
@@ -27,9 +28,10 @@ def test_ok(settings, sample_project_settings, backend_engine):
     ("settings_error.json", SettingsBackendJson),
     ("settings_error.yml", SettingsBackendYaml),
 ])
-def test_error(settings, sample_project_settings, filename,
-                   backend_engine):
-    """Backend content parsing error"""
+def test_error(settings, sample_project_settings, filename, backend_engine):
+    """
+    Backend content parsing error
+    """
     backend = backend_engine(basedir=settings.fixtures_path)
 
     path, filename = backend.parse_filepath(filepath=filename)

@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-import pytest
 
 
 def test_001(settings, finder):

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
-import logging
-import pytest
 
-from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
-                   UnitTestableLibraryEventHandler,
+from utils import (DummyBaseEvent, DummyMoveEvent, UnitTestableLibraryEventHandler,
                    UnitTestableProjectEventHandler, start_env,
                    build_scss_sample_structure, build_sass_sample_structure)
 
@@ -122,8 +119,9 @@ def test_move_sass_010(temp_builds_dir):
 
 
 def test_move_scss_011(temp_builds_dir):
-    """'Move' event from a source depending from
-       main sample"""
+    """
+    'Move' event from a source depending from main sample
+    """
     basedir = temp_builds_dir.join('watcher_move_scss_011')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -176,8 +174,9 @@ def test_move_scss_012(temp_builds_dir):
 
 
 def test_modified_020(temp_builds_dir):
-    """'Modified' event on included partial
-       source"""
+    """
+    'Modified' event on included partial source
+    """
     basedir = temp_builds_dir.join('watcher_success_020')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -204,7 +203,9 @@ def test_modified_020(temp_builds_dir):
 
 
 def test_created_030(temp_builds_dir):
-    """'Created' event for a new main source"""
+    """
+    'Created' event for a new main source
+    """
     basedir = temp_builds_dir.join('watcher_success_030')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -237,7 +238,9 @@ def test_created_030(temp_builds_dir):
 
 
 def test_deleted_040(temp_builds_dir):
-    """'Deleted' event for a main source"""
+    """
+    'Deleted' event for a main source
+    """
     basedir = temp_builds_dir.join('watcher_success_040')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -262,8 +265,9 @@ def test_deleted_040(temp_builds_dir):
 
 
 def test_whole_050(temp_builds_dir):
-    """Routine using some events on various
-       sources"""
+    """
+    Routine using some events on various sources
+    """
     basedir = temp_builds_dir.join('watcher_success_050')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -338,8 +342,9 @@ def test_whole_050(temp_builds_dir):
 
 
 def test_library_modified_101(temp_builds_dir):
-    """watcher.SassLibraryEventHandler: 'Modified' event on a library
-       component"""
+    """
+    'Modified' event on a library component
+    """
     basedir = temp_builds_dir.join('watcher_success_101')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)

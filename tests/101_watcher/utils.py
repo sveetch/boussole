@@ -7,7 +7,6 @@ import os
 from boussole.conf.model import Settings
 from boussole.inspector import ScssInspector
 from boussole.watcher import SassLibraryEventHandler, SassProjectEventHandler
-from boussole.logs import init_logger
 
 
 class DummyBaseEvent(object):

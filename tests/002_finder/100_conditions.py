@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-import pytest
 
 
 def test_001(settings, finder):
@@ -13,9 +11,8 @@ def test_001(settings, finder):
         '/home/food/drink/_azzuro.scss',
     ]
 
-    results = [filepath for filepath in sources \
+    results = [filepath for filepath in sources
                if finder.match_conditions(filepath)]
-
 
     assert results == [
         '/home/foo/hip.scss',
@@ -34,7 +31,8 @@ def test_002(settings, finder):
     results = []
 
     for filepath in sources:
-        if not finder.match_conditions(filepath,
+        if not finder.match_conditions(
+            filepath,
             sourcedir=None,
             nopartial=False,
             exclude_patterns=[],
@@ -43,7 +41,6 @@ def test_002(settings, finder):
             continue
 
         results.append(filepath)
-
 
     assert results == [
         '/home/foo/hip.scss',
@@ -61,7 +58,8 @@ def test_003(settings, finder):
     results = []
 
     for filepath in sources:
-        if not finder.match_conditions(filepath,
+        if not finder.match_conditions(
+            filepath,
             sourcedir=None,
             nopartial=False,
             exclude_patterns=[],
@@ -70,7 +68,6 @@ def test_003(settings, finder):
             continue
 
         results.append(filepath)
-
 
     assert results == [
         '/home/food/pizza.scss',
@@ -91,7 +88,8 @@ def test_004(settings, finder):
     results = []
 
     for filepath in sources:
-        if not finder.match_conditions(filepath,
+        if not finder.match_conditions(
+            filepath,
             sourcedir="/home",
             nopartial=False,
             exclude_patterns=[
@@ -102,7 +100,6 @@ def test_004(settings, finder):
             continue
 
         results.append(filepath)
-
 
     assert results == [
         '/home/foo/hip.scss',
@@ -126,7 +123,8 @@ def test_005(settings, finder):
     results = []
 
     for filepath in sources:
-        if not finder.match_conditions(filepath,
+        if not finder.match_conditions(
+            filepath,
             sourcedir="/home/foo",
             exclude_patterns=[],
             excluded_libdirs=["/etc/sound", "/home/food"]
@@ -134,7 +132,6 @@ def test_005(settings, finder):
             continue
 
         results.append(filepath)
-
 
     assert results == [
         '/home/foo/hip.scss',

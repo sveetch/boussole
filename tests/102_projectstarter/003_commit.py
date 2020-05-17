@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+
 import yaml
+
 import pytest
+
 
 @pytest.mark.parametrize("name,ext,module,module_opts", [
     ('json', 'json', json, {}),
@@ -10,7 +13,9 @@ import pytest
 ])
 def test_commit_basic(projectstarter, temp_builds_dir, name, ext, module,
                       module_opts):
-    """Commit with basic values for every backends"""
+    """
+    Commit with basic values for every backends
+    """
     tmp_dirname = 'projectstarter_commit_{}'.format(name)
     settings_filename = "settings.{}".format(ext)
 
@@ -27,9 +32,9 @@ def test_commit_basic(projectstarter, temp_builds_dir, name, ext, module,
 
     projectstarter('json').commit(*opts)
 
-    assert os.path.exists(os.path.join(basedir, settings_filename)) == True
-    assert os.path.exists(os.path.join(basedir, "scss")) == True
-    assert os.path.exists(os.path.join(basedir, "css")) == True
+    assert os.path.exists(os.path.join(basedir, settings_filename))
+    assert os.path.exists(os.path.join(basedir, "scss"))
+    assert os.path.exists(os.path.join(basedir, "css"))
 
     with open(os.path.join(basedir, settings_filename), "r") as fp:
         assert module.load(fp, **module_opts) == {

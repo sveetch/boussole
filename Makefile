@@ -46,7 +46,7 @@ install: venv
 .PHONY: install
 
 flake:
-	$(FLAKE) --show-source boussole
+	$(FLAKE) --show-source --statistics boussole tests
 .PHONY: flake
 
 tests:

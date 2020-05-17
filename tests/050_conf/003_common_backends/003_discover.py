@@ -108,7 +108,7 @@ def test_get_backend_fail(filepath, kind):
     disco = Discover([SettingsBackendJson, SettingsBackendYaml])
 
     with pytest.raises(SettingsDiscoveryError):
-        backend = disco.get_engine(filepath, kind=kind)
+        disco.get_engine(filepath, kind=kind)
 
 
 def test_search_empty():
@@ -213,7 +213,7 @@ def test_search_success(temp_builds_dir, datas):
     if datas['fake_filename']:
         settings_filepath = os.path.join(test_basedir, datas['fake_filename'])
         with io.open(settings_filepath, 'w', encoding='utf-8') as f:
-            result = f.write(u"""Dummy""")
+            f.write(u"""Dummy""")
 
     # Makes search
     disco = Discover(backends=datas['backends'])
@@ -282,11 +282,13 @@ def test_search_fail(temp_builds_dir, datas):
     if datas['fake_filename']:
         settings_filepath = os.path.join(test_basedir, datas['fake_filename'])
         with io.open(settings_filepath, 'w', encoding='utf-8') as f:
-            result = f.write(u"""Dummy""")
+            f.write(u"""Dummy""")
 
     # Makes search
     disco = Discover(backends=datas['backends'])
     with pytest.raises(datas['expected_exception']):
-        discovered_filepath, discovered_engine = disco.search(filepath=datas['filepath'],
-                                                            basedir=datas['basedir'],
-                                                            kind=datas['kind'])
+        disco.search(
+            filepath=datas['filepath'],
+            basedir=datas['basedir'],
+            kind=datas['kind']
+        )

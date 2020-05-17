@@ -5,8 +5,11 @@ import pyaml
 
 import pytest
 
-import click
+from packaging.version import Version, parse
+
 from click.testing import CliRunner
+
+from sass import __version__ as libsass_version
 
 from boussole.cli.console_script import cli_frontend
 from boussole.conf.json_backend import SettingsBackendJson
@@ -51,7 +54,6 @@ def test_error_verbosity_001(caplog, options, filename):
                 'Unable to find any settings in directory: {}'.format(test_cwd)
             )
         ]
-
 
         assert 'Aborted!' in result.output
 
@@ -156,19 +158,59 @@ def test_error_verbosity_004(caplog):
         # Silent
         result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
 
-        error_msg = ("Error: Invalid CSS after \"    color: red;\": expected \"}\", "
-                    "was \"\"\n        on line 3 of main.scss\n>>     "
-                    "color: red;\n   --------------^\n")
+        # Since libsass-python 0.19.4, the error output has a tiny change to
+        # introduce column position. So here we support both cases (with or
+        # without column in error) to be compatible from 0.18.x to 0.20.x
+        if parse(libsass_version) >= Version("0.19.4"):
+            error_msg = (
+                "Error: Invalid CSS after \"    color: red;\": expected \"}\", "
+                "was \"\"\n        on line 3:15 of main.scss\n>>     "
+                "color: red;\n   --------------^\n"
+            )
+        else:
+            error_msg = (
+                "Error: Invalid CSS after \"    color: red;\": expected \"}\", "
+                "was \"\"\n        on line 3 of main.scss\n>>     "
+                "color: red;\n   --------------^\n"
+            )
 
         assert result.exit_code == 1
         assert caplog.record_tuples == [
-            ('boussole', 20, 'Building project'),
-            ('boussole', 10, u'Settings file: {}/{} (json)'.format(test_cwd, JSON_FILENAME)),
-            ('boussole', 10, 'Project sources directory: {}'.format(test_cwd)),
-            ('boussole', 10, 'Project destination directory: {}/css'.format(test_cwd)),
-            ('boussole', 10, 'Exclude patterns: []'),
-            ('boussole', 10, 'Compile: {}/main.scss'.format(test_cwd)),
-            ('boussole', 40, error_msg)
+            (
+                'boussole',
+                20,
+                'Building project'
+            ),
+            (
+                'boussole',
+                10,
+                u'Settings file: {}/{} (json)'.format(test_cwd, JSON_FILENAME)
+            ),
+            (
+                'boussole',
+                10,
+                'Project sources directory: {}'.format(test_cwd)
+            ),
+            (
+                'boussole',
+                10,
+                'Project destination directory: {}/css'.format(test_cwd)
+            ),
+            (
+                'boussole',
+                10,
+                'Exclude patterns: []'
+            ),
+            (
+                'boussole',
+                10,
+                'Compile: {}/main.scss'.format(test_cwd)
+            ),
+            (
+                'boussole',
+                40,
+                error_msg
+            )
         ]
         assert error_msg in result.output
         assert 'Aborted!' in result.output
@@ -182,8 +224,6 @@ def test_fail_001():
 
     # Temporary isolated current dir
     with runner.isolated_filesystem():
-        test_cwd = os.getcwd()
-
         result = runner.invoke(cli_frontend, ['compile'])
 
         assert result.exit_code == 1

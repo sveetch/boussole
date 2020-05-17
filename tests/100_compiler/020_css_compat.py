@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 import io
-import pytest
 
 from boussole.conf.model import Settings
 
@@ -31,7 +30,7 @@ def test_css_compat_ok(compiler, temp_builds_dir):
 
     # Create sample main Sass source
     with io.open(src, 'w', encoding='utf-8') as f:
-        result = f.write(
+        f.write(
             u"""
             @import "dummy";
             #content{
@@ -39,28 +38,32 @@ def test_css_compat_ok(compiler, temp_builds_dir):
             font-weight: bold;
             &.foo{ border: 1px solid #000000; }
             }
-            """)
+            """
+        )
 
     # Create sample main Sass source
     with io.open(css_include, 'w', encoding='utf-8') as f:
-        result = f.write(
+        f.write(
             u"""
             .dummy{
                 color: #00ff00;
             }
-            """)
+            """
+        )
 
     # Compile
     success, message = compiler.safe_compile(basic_settings, src, dst)
 
-    assert os.path.exists(dst) == True
+    assert os.path.exists(dst)
 
     # Assert compiled file is ok
     with io.open(dst, 'r', encoding='utf-8') as f:
         content = f.read()
 
-    attempted = (""".dummy { color: #00ff00; }\n\n"""
-                 """#content { color: #ff0000; font-weight: bold; }\n\n"""
-                 """#content.foo { border: 1px solid #000000; }\n""")
+    attempted = (
+        """.dummy { color: #00ff00; }\n\n"""
+        """#content { color: #ff0000; font-weight: bold; }\n\n"""
+        """#content.foo { border: 1px solid #000000; }\n"""
+    )
 
     assert content == attempted

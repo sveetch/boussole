@@ -123,7 +123,7 @@ def sample_project_settings():
        Warning, this will raise exception from everything involving
        'Backend.clean()' because every paths does not exists"""
     return {
-        #'COMPILER_ARGS': [],
+        # 'COMPILER_ARGS': [],
         'LIBRARY_PATHS': [
             u'/home/lib1',
             u'/home/lib2',

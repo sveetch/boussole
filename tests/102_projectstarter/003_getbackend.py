@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
-
 import pytest
 
 from boussole.exceptions import SettingsBackendError
@@ -14,11 +12,13 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
     ('json', SettingsBackendJson),
 ])
 def test_init(projectstarter, name, klass):
-    """Default backend"""
+    """
+    Default backend
+    """
     p = projectstarter(name)
 
     assert p.backend_name == name
-    assert isinstance(p.backend_engine, klass) == True
+    assert isinstance(p.backend_engine, klass)
 
 
 @pytest.mark.parametrize("name,klass", [
@@ -26,15 +26,19 @@ def test_init(projectstarter, name, klass):
     ('yaml', SettingsBackendYaml),
 ])
 def test_get_backend(projectstarter, name, klass):
-    """Get backend"""
+    """
+    Get backend
+    """
     p = projectstarter(name)
 
     engine = p.get_backend_engine(name)
 
-    assert isinstance(engine, klass) == True
+    assert isinstance(engine, klass)
 
 
 def test_error(projectstarter):
-    """Error on default backend"""
+    """
+    Error on default backend
+    """
     with pytest.raises(SettingsBackendError):
         projectstarter(backend_name='wrong')

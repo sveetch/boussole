@@ -3,6 +3,7 @@ import pytest
 
 from boussole.exceptions import InvalidImportRule
 
+
 def test_ok_001(settings, parser):
     """parser.ScssImportsParser: Single quote"""
     assert parser.strip_quotes("'foo'") == "foo"

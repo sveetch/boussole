@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import json
+
 import yaml
 
 import pytest
@@ -14,7 +15,9 @@ from boussole.exceptions import SettingsInvalidError
 ])
 def test_success(projectstarter, temp_builds_dir, name, ext, module,
                  module_opts):
-    """Testing on default values"""
+    """
+    Testing on default values
+    """
     tmp_dirname = 'projectstarter_init_success_{}'.format(name)
     settings_filename = "settings.{}".format(ext)
 
@@ -35,9 +38,9 @@ def test_success(projectstarter, temp_builds_dir, name, ext, module,
         "targetdir": os.path.join(basedir, "css"),
     }
 
-    assert os.path.exists(os.path.join(basedir, settings_filename)) == True
-    assert os.path.exists(os.path.join(basedir, "scss")) == True
-    assert os.path.exists(os.path.join(basedir, "css")) == True
+    assert os.path.exists(os.path.join(basedir, settings_filename))
+    assert os.path.exists(os.path.join(basedir, "scss"))
+    assert os.path.exists(os.path.join(basedir, "css"))
 
     with open(os.path.join(basedir, settings_filename), "r") as fp:
         assert module.load(fp, **module_opts) == {
@@ -55,7 +58,9 @@ def test_success(projectstarter, temp_builds_dir, name, ext, module,
     ('yaml', 'yml', yaml),
 ])
 def test_error(projectstarter, temp_builds_dir, name, ext, module):
-    """Raised exception caused by duplicate paths"""
+    """
+    Raised exception caused by duplicate paths
+    """
     tmp_dirname = 'projectstarter_init_error_{}'.format(name)
     settings_filename = "settings.{}".format(ext)
 
@@ -63,10 +68,9 @@ def test_error(projectstarter, temp_builds_dir, name, ext, module):
     os.makedirs(basedir)
 
     with pytest.raises(SettingsInvalidError):
-        results = projectstarter(backend_name=name).init(*(
+        projectstarter(backend_name=name).init(*(
             '.',
             settings_filename,
             'css',
             'css',
         ), cwd=basedir)
-

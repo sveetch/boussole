@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import os
 import pytest
 
 from boussole.exceptions import FinderException
@@ -99,12 +98,16 @@ from boussole.exceptions import FinderException
     ),
 ])
 def test_allowed_001(settings, finder, filepath, excludes, expected):
-    """Allowed simple filename"""
+    """
+    Allowed simple filename
+    """
     allowed = finder.is_allowed(filepath, excludes=excludes)
     assert expected == allowed
 
 
 def test_allowed_exception_201(settings, finder):
-    """Absolute path raise an exception"""
+    """
+    Absolute path raise an exception
+    """
     with pytest.raises(FinderException):
-        allowed = finder.is_allowed("/foo.scss", excludes=[])
+        finder.is_allowed("/foo.scss", excludes=[])

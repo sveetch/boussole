@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 import os
-import logging
-import pytest
 
-from boussole.exceptions import UnresolvablePath
-
-from utils import (DummyBaseEvent, DummyMoveEvent, DummyBaseHandler,
-                   UnitTestableLibraryEventHandler,
-                   UnitTestableProjectEventHandler, start_env,
+from utils import (DummyBaseEvent, UnitTestableProjectEventHandler, start_env,
                    build_scss_sample_structure)
 
 
 def test_index_001(caplog, temp_builds_dir):
-    """watcher.SassProjectEventHandler: UnresolvablePath on index from 'on_any_event'"""
+    """
+    UnresolvablePath on index from 'on_any_event'
+    """
     basedir = temp_builds_dir.join('watcher_fails_001')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -26,7 +22,6 @@ def test_index_001(caplog, temp_builds_dir):
         **watcher_opts
     )
 
-    #with pytest.raises(UnresolvablePath):
     # First indexing is a success
     project_handler.on_any_event(object())
 
@@ -42,20 +37,23 @@ def test_index_001(caplog, temp_builds_dir):
     project_handler.on_any_event(object())
 
     # Error from core API is catched
-    assert project_handler._event_error == True
+    assert project_handler._event_error
     # Logged error
+    msg = "Imported path 'idontexist' does not exist in '{}'"
     assert caplog.record_tuples == [
         (
             'boussole',
             40,
-            "Imported path 'idontexist' does not exist in '{}'".format(basedir.join('sass').strpath)
+            msg.format(basedir.join('sass').strpath)
         )
     ]
 
 
 def test_deleted_001(caplog, temp_builds_dir):
-    """watcher.SassProjectEventHandler: UnresolvablePath on 'Deleted' event for a partial
-       source included by other files"""
+    """
+    UnresolvablePath on 'Deleted' event for a partial source included by other
+    files
+    """
     basedir = temp_builds_dir.join('watcher_fails_041')
 
     bdir, inspector, settings_object, watcher_opts = start_env(basedir)
@@ -75,12 +73,13 @@ def test_deleted_001(caplog, temp_builds_dir):
     project_handler.on_deleted(DummyBaseEvent(bdir('sass/_toinclude.scss')))
 
     # Error from core API is catched
-    assert project_handler._event_error == True
+    assert project_handler._event_error
     # Logged error
+    msg = "Imported path 'toinclude' does not exist in '{}'"
     assert caplog.record_tuples == [
         (
             'boussole',
             40,
-            "Imported path 'toinclude' does not exist in '{}'".format(basedir.join('sass').strpath)
+            msg.format(basedir.join('sass').strpath)
         )
     ]

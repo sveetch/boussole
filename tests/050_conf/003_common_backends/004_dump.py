@@ -5,7 +5,6 @@ import yaml
 
 import pytest
 
-from boussole.exceptions import SettingsBackendError
 from boussole.conf.json_backend import SettingsBackendJson
 from boussole.conf.yaml_backend import SettingsBackendYaml
 

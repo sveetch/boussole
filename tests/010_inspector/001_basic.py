@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-import pytest
 
 
 def test_001(settings, inspector):
-    """Basic sample in confined space"""
+    """
+    Basic sample in confined space
+    """
     sourcepath = os.path.join(settings.sample_path, 'main_basic.scss')
     inspector.inspect(sourcepath)
 
@@ -19,7 +20,9 @@ def test_001(settings, inspector):
 
 
 def test_encoding(settings, inspector):
-    """Inspecting files with unicode, initially related to issue #17"""
+    """
+    Inspecting files with unicode, initially related to issue #17
+    """
     sourcepath = os.path.join(settings.sample_path, 'main_encoding.scss')
     inspector.inspect(sourcepath)
 
