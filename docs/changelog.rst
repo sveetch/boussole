@@ -5,6 +5,19 @@
 Changelog
 =========
 
+Version 1.6.0 - 2021/01/30
+--------------------------
+
+*Minor update to improve compatibility with project using recent Click versions*
+
+Click requirement has been relaxed to only require for version greater or equal
+to ``5.1.0``. This has been currently tested to ``7.1.2`` so it's surely safe
+from 5.x to 7.x versions.
+
+**This will be the last version with Python2 support. A next release will come
+soon to remove its support and focus on Python3 only.** This will may also drop
+support for old Click and libsass versions.
+
 Version 1.5.1 - 2020/05/17
 --------------------------
 
