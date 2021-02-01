@@ -11,18 +11,42 @@ from boussole.watcher import SassLibraryEventHandler, SassProjectEventHandler
 
 class DummyBaseEvent(object):
     """
-    Dummy event to pass to almost all handler event methods
+    Dummy event base to pass to almost all handler event methods
     """
+    event_type = "boussole-dummy"
+    is_directory = False
+
     def __init__(self, filepath):
         self.src_path = filepath
-
-
-class DummyMoveEvent(object):
-    """
-    Dummy event to pass to handler event 'move' method
-    """
-    def __init__(self, filepath):
         self.dest_path = filepath
+
+
+class DummyCreatedEvent(DummyBaseEvent):
+    """
+    Dummy event to pass to handler event 'on_created' method
+    """
+    event_type = "created"
+
+
+class DummyModifiedEvent(DummyBaseEvent):
+    """
+    Dummy event to pass to handler event 'on_modified' method
+    """
+    event_type = "modified"
+
+
+class DummyDeletedEvent(DummyBaseEvent):
+    """
+    Dummy event to pass to handler event 'on_deleted' method
+    """
+    event_type = "deleted"
+
+
+class DummyMoveEvent(DummyBaseEvent):
+    """
+    Dummy event to pass to handler event 'on_moved' method
+    """
+    event_type = "moved"
 
 
 class DummyBaseHandler(object):

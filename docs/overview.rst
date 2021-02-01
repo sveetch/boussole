@@ -81,6 +81,8 @@ LIBRARY_PATHS
     Default: ``[]``
 
     (list) A list of paths (string) to your library imported from your Sass sources. Never try to add your source dir as a library and vice versa, this will trouble resolver and compiler.
+
+    If you plan to use some Sass libraries installed from npm, just add the path to ``node_modules`` directory, then you will be able to import them from your sources.
 TARGET_PATH
     Default: None, this is a required setting.
 
@@ -142,15 +144,19 @@ Watch
 
 Watcher will constantly watch about changes on files in your ``SOURCES_PATH`` directory.
 
-When an event occurs, it will compile eligible sources from the file dependencies and itself. Managed events can be :
+When an event occurs, it will compile eligible sources from the file dependencies and itself.
+
+Managed events can be :
 
 * File creation;
 * File modification;
 * File move;
 * File deletion.
 
+Event about directories (like directory creation or moving) are ignored.
+
 .. Note::
-    Compile errors won't break the watcher, meaning you can resolve them and it will try again to compile.
+    Compile errors won't break the watcher so you can resolve them and try again to compile.
 
 
 **Usage** ::
@@ -162,8 +168,6 @@ When an event occurs, it will compile eligible sources from the file dependencie
 
 Boussole has its own internal code to inspect Sass sources to be aware of sources paths it has to watch for.
 
-It results inspection does not have exactly the same path resolution process than libsass.
-
-It can lead to troubleshooting situations where ``compile`` command can build some sources that can fails with ``watch`` command because the latter need to inspect sources to be able to find dependencies and choke on unclear path resolution.
+In some rare circumstances inspection may lead to issues where ``compile`` command can build your sources but can fails with ``watch`` command because the latter need to inspect sources to be able to find dependencies and choke on unclear path resolution.
 
 These unclear paths are almost allways due to some Sass libraries trying to import components using a relative path outside of itself like with ``../``. This is often the case with libraries that have been made to be included in your main scss directory.

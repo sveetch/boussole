@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
 
-from utils import (DummyBaseEvent, UnitTestableProjectEventHandler, start_env,
-                   build_scss_sample_structure)
+from utils import (
+    DummyCreatedEvent, DummyModifiedEvent, DummyDeletedEvent,
+    UnitTestableProjectEventHandler,
+    start_env, build_scss_sample_structure
+)
 
 
 def test_index_001(caplog, temp_builds_dir):
@@ -23,7 +26,9 @@ def test_index_001(caplog, temp_builds_dir):
     )
 
     # First indexing is a success
-    project_handler.on_any_event(object())
+    project_handler.on_any_event(
+        DummyCreatedEvent("foo.scss")
+    )
 
     # Write some error file
     source = "\n".join((
@@ -34,7 +39,9 @@ def test_index_001(caplog, temp_builds_dir):
         f.write(source)
 
     # Second indexing raise exception but catched
-    project_handler.on_any_event(object())
+    project_handler.on_any_event(
+        DummyModifiedEvent("foo.scss")
+    )
 
     # Error from core API is catched
     assert project_handler._event_error
@@ -70,7 +77,7 @@ def test_deleted_001(caplog, temp_builds_dir):
     os.remove(bdir('sass/_toinclude.scss'))
 
     # Error is catched
-    project_handler.on_deleted(DummyBaseEvent(bdir('sass/_toinclude.scss')))
+    project_handler.on_deleted(DummyDeletedEvent(bdir('sass/_toinclude.scss')))
 
     # Error from core API is catched
     assert project_handler._event_error

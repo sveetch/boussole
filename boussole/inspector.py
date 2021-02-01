@@ -80,8 +80,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
     def look_source(self, sourcepath, library_paths=None):
         """
-        Open a SCSS file (sourcepath) and find all involved file through
-        imports.
+        Open a SCSS file (sourcepath) and find all involved files from
+        import rules.
 
         This will fill internal buffers ``_CHILDREN_MAP`` and ``_PARENTS_MAP``.
 

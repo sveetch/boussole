@@ -48,6 +48,13 @@ class SassLibraryEventHandler(object):
             occured within an event. ``index()`` will reboot it to ``False``
             each time a new event occurs.
     """
+    SUPPORTED_EVENTS = (
+        "moved",
+        "created",
+        "modified",
+        "deleted",
+    )
+
     def __init__(self, settings, inspector, *args, **kwargs):
         self.settings = settings
         self.inspector = inspector
@@ -62,11 +69,48 @@ class SassLibraryEventHandler(object):
 
         super(SassLibraryEventHandler, self).__init__(*args, **kwargs)
 
-    def index(self):
+    def is_valid_event(self, event):
+        """
+        Check if given event is valid event for index method.
+
+        An event is considered valid if event type is supported (from
+        ``SassLibraryEventHandler.SUPPORTED_EVENTS``) and file is allowed (from
+        method ``ImportPathsResolver.is_allowed_source``).
+
+        Args:
+            event (watchdog.events.FileSystemEvent): Watchdog file system event.
+
+        Returns:
+            bool: True if valid, else False.
+        """
+        # Don't continue for non supported event
+        if event.event_type not in self.SUPPORTED_EVENTS or event.is_directory:
+            return False
+
+        # We commonly care only about destination path, but it is missing from
+        # some event where the source path is the only one available and so the
+        # legit path to look at
+        target_path = event.src_path
+        if hasattr(event, "dest_path"):
+            target_path = event.dest_path
+
+        # Don't continue for files we don't care about
+        if not self.inspector.is_allowed_source(target_path):
+            return False
+
+        return True
+
+    def index(self, event):
         """
         Reset inspector buffers and index project sources dependencies.
 
         This have to be executed each time an event occurs.
+
+        Args:
+            event (watchdog.events.FileSystemEvent): Watchdog file system event.
+
+        Returns:
+            bool: True if allowed, else False.
 
         Note:
             If a Boussole exception occurs during operation, it will be catched
@@ -74,6 +118,10 @@ class SassLibraryEventHandler(object):
             be stopped without blocking or breaking watchdog observer.
         """
         self._event_error = False
+
+        # Don't continue for non valid event
+        if not self.is_valid_event(event):
+            return
 
         try:
             compilable_files = self.finder.mirror_sources(
@@ -142,14 +190,14 @@ class SassLibraryEventHandler(object):
 
     def compile_dependencies(self, sourcepath, include_self=False):
         """
-        Apply compile on all dependencies
+        Register source(s) for compile and possibly its dependencies.
 
         Args:
             sourcepath (string): Sass source path to compile to its
                 destination using project settings.
 
         Keyword Arguments:
-            include_self (bool): If ``True`` the given sourcepath is add to
+            include_self (bool): If ``True`` the given sourcepath is added to
                 items to compile, else only its dependencies are compiled.
         """
         items = self.inspector.parents(sourcepath)
@@ -170,7 +218,7 @@ class SassLibraryEventHandler(object):
         Args:
             event: Watchdog event ``watchdog.events.FileSystemEvent``.
         """
-        self.index()
+        self.index(event)
 
     def on_moved(self, event):
         """
@@ -236,10 +284,6 @@ class SassLibraryEventHandler(object):
     def on_deleted(self, event):
         """
         Called when a file or directory is deleted.
-
-        Todo:
-            May be bugged with inspector and sass compiler since the source
-            does not exists anymore.
 
         Args:
             event: Watchdog event, ``watchdog.events.DirDeletedEvent`` or

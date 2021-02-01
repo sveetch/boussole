@@ -1,9 +1,99 @@
 # -*- coding: utf-8 -*-
 import os
+import uuid
 
-from utils import (DummyBaseEvent, DummyMoveEvent, UnitTestableLibraryEventHandler,
-                   UnitTestableProjectEventHandler, start_env,
-                   build_scss_sample_structure, build_sass_sample_structure)
+import pytest
+
+from watchdog.events import (
+    DirMovedEvent, FileCreatedEvent, FileModifiedEvent, FileDeletedEvent,
+    FileMovedEvent,
+)
+
+from utils import (
+    DummyCreatedEvent, DummyModifiedEvent, DummyDeletedEvent, DummyMoveEvent,
+    DummyBaseEvent,
+    UnitTestableLibraryEventHandler, UnitTestableProjectEventHandler,
+    start_env, build_scss_sample_structure, build_sass_sample_structure
+)
+
+
+@pytest.mark.parametrize('event,expected', [
+    (
+        DummyBaseEvent("foo.scss"),
+        False,
+    ),
+    (
+        DirMovedEvent("foo.scss", "bar.scss"),
+        False,
+    ),
+    (
+        FileCreatedEvent("/home/foo/"),
+        False,
+    ),
+    (
+        FileCreatedEvent("foo"),
+        False,
+    ),
+    (
+        FileCreatedEvent("foo.txt"),
+        False,
+    ),
+    (
+        FileCreatedEvent("foo.scss.part"),
+        False,
+    ),
+    (
+        FileCreatedEvent("foo.scss~"),
+        False,
+    ),
+    (
+        FileCreatedEvent("foo.scss"),
+        True,
+    ),
+    (
+        FileCreatedEvent("foo.sass"),
+        True,
+    ),
+    (
+        FileCreatedEvent("foo.css"),
+        True,
+    ),
+    (
+        FileModifiedEvent("foo.scss"),
+        True,
+    ),
+    (
+        FileDeletedEvent("foo.scss"),
+        True,
+    ),
+    (
+        FileMovedEvent("foo.scss", "bar.scss"),
+        True,
+    ),
+])
+def test_is_valid_event(temp_builds_dir, event, expected):
+    """
+    Testing 'handler.compilable_files' return the right paths with *.scss files
+    """
+    # Use an uuid to make each temp parameter directory unique
+    basedir = temp_builds_dir.join(
+        "watcher_is_valid_event_{}".format(
+            str(uuid.uuid4())
+        )
+    )
+
+    bdir, inspector, settings_object, watcher_opts = start_env(basedir)
+
+    build_scss_sample_structure(settings_object, basedir)
+
+    # Init handler
+    project_handler = UnitTestableProjectEventHandler(
+        settings_object,
+        inspector,
+        **watcher_opts
+    )
+
+    assert project_handler.is_valid_event(event) == expected
 
 
 def test_compilablefiles_scss(temp_builds_dir):
@@ -25,7 +115,9 @@ def test_compilablefiles_scss(temp_builds_dir):
 
     # Manually call on_any_event since we directly access to
     # 'handler.compilable_files' bypassing the event hierarchy
-    project_handler.on_any_event(object())
+    project_handler.on_any_event(
+        DummyCreatedEvent("foo.scss")
+    )
 
     assert project_handler.compilable_files == {
         bdir('sass/main.scss'): bdir('css/main.css'),
@@ -53,7 +145,9 @@ def test_compilablefiles_sass(temp_builds_dir):
 
     # Manually call on_any_event since we directly access to
     # 'handler.compilable_files' bypassing the event hierarchy
-    project_handler.on_any_event(object())
+    project_handler.on_any_event(
+        DummyCreatedEvent("foo.scss")
+    )
 
     assert project_handler.compilable_files == {
         bdir('sass/main.sass'): bdir('css/main.css'),
@@ -190,7 +284,9 @@ def test_modified_020(temp_builds_dir):
         **watcher_opts
     )
 
-    project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
+    project_handler.on_modified(
+        DummyModifiedEvent(bdir('sass/_toinclude.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -227,7 +323,9 @@ def test_created_030(temp_builds_dir):
     with open(basedir.join('sass/new_main.scss').strpath, 'w') as f:
         f.write(source)
 
-    project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
+    project_handler.on_created(
+        DummyCreatedEvent(bdir('sass/new_main.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -256,7 +354,9 @@ def test_deleted_040(temp_builds_dir):
 
     os.remove(bdir('sass/main_importing.scss'))
 
-    project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+    project_handler.on_deleted(
+        DummyDeletedEvent(bdir('sass/main_importing.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -282,7 +382,9 @@ def test_whole_050(temp_builds_dir):
     )
 
     # Modify a partial source
-    project_handler.on_modified(DummyBaseEvent(bdir('sass/_toinclude.scss')))
+    project_handler.on_modified(
+        DummyModifiedEvent(bdir('sass/_toinclude.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -301,7 +403,9 @@ def test_whole_050(temp_builds_dir):
     with open(basedir.join('sass/new_main.scss').strpath, 'w') as f:
         f.write(source)
 
-    project_handler.on_created(DummyBaseEvent(bdir('sass/new_main.scss')))
+    project_handler.on_created(
+        DummyCreatedEvent(bdir('sass/new_main.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -317,7 +421,9 @@ def test_whole_050(temp_builds_dir):
     os.remove(bdir('css/main_importing.css'))
     os.remove(bdir('sass/main_importing.scss'))
 
-    project_handler.on_deleted(DummyBaseEvent(bdir('sass/main_importing.scss')))
+    project_handler.on_deleted(
+        DummyDeletedEvent(bdir('sass/main_importing.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -329,7 +435,9 @@ def test_whole_050(temp_builds_dir):
     ]
 
     # Simulate moved source
-    project_handler.on_moved(DummyMoveEvent(bdir('sass/_toinclude.scss')))
+    project_handler.on_moved(
+        DummyMoveEvent(bdir('sass/_toinclude.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()
@@ -358,9 +466,13 @@ def test_library_modified_101(temp_builds_dir):
         **watcher_opts
     )
 
-    project_handler.on_modified(DummyBaseEvent(bdir('lib/components/_buttons.scss')))
+    project_handler.on_modified(
+        DummyModifiedEvent(bdir('lib/components/_buttons.scss'))
+    )
 
-    project_handler.on_modified(DummyBaseEvent(bdir('lib/libmain.scss')))
+    project_handler.on_modified(
+        DummyModifiedEvent(bdir('lib/libmain.scss'))
+    )
 
     results = os.listdir(basedir.join("css").strpath)
     results.sort()

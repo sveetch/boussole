@@ -5,18 +5,25 @@
 Changelog
 =========
 
-Version 1.6.0 - 2021/01/30
+Version 1.6.0 - 2021/02/01
 --------------------------
 
-*Minor update to improve compatibility with project using recent Click versions*
+*Last Python2 support, compatibility for recent Click versions and improve
+performance*
+
+**This will be the last version with Python2 support. A next release will come
+soon to remove its support and focus on Python3 only.** This will may also drop
+support for old Click and libsass versions.
 
 Click requirement has been relaxed to only require for version greater or equal
 to ``5.1.0``. This has been currently tested to ``7.1.2`` so it's surely safe
 from 5.x to 7.x versions.
 
-**This will be the last version with Python2 support. A next release will come
-soon to remove its support and focus on Python3 only.** This will may also drop
-support for old Click and libsass versions.
+Watcher has been modified to avoid performing indexation on every event and
+every file. It should give a few performance improvements and also avoid a bug
+with editors making a transition writing file when saving modification (like
+a ``foo.scss.part`` when writing on ``foo.scss``) which may leaded to incorrect
+errors.
 
 Version 1.5.1 - 2020/05/17
 --------------------------

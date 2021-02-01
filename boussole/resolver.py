@@ -34,6 +34,24 @@ class ImportPathsResolver(object):
     CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css']
     STRICT_PATH_VALIDATION = True
 
+    def is_allowed_source(self, path):
+        """
+        Check given path is an allowed source file.
+
+        A source file must have the right file extension to be allowed.
+
+        Args:
+            path (string): A file path, either relative or absolute.
+
+        Returns:
+            bool: True if allowed, else False.
+        """
+        name, extension = os.path.splitext(path)
+        if (extension and extension[1:] in self.CANDIDATE_EXTENSIONS):
+            return True
+
+        return False
+
     def candidate_paths(self, filepath):
         """
         Return candidates path for given path
@@ -139,47 +157,51 @@ class ImportPathsResolver(object):
         basepaths = [basedir]
         resolved_paths = []
 
-        # Add given library paths to the basepaths for resolving
-        # Accept a string if not allready in basepaths
-        if library_paths and isinstance(library_paths, string_types) and \
-           library_paths not in basepaths:
-            basepaths.append(library_paths)
-        # Add path item from list if not allready in basepaths
-        elif library_paths:
-            for k in list(library_paths):
-                if k not in basepaths:
-                    basepaths.append(k)
+        if paths:
+            # Add given library paths to the basepaths for resolving
+            # Accept a string if not allready in basepaths
+            if (
+                library_paths and
+                isinstance(library_paths, string_types) and
+                library_paths not in basepaths
+            ):
+                basepaths.append(library_paths)
+            # Add path item from list if not allready in basepaths
+            elif library_paths:
+                for k in list(library_paths):
+                    if k not in basepaths:
+                        basepaths.append(k)
 
-        for import_rule in paths:
-            candidates = self.candidate_paths(import_rule)
+            for import_rule in paths:
+                candidates = self.candidate_paths(import_rule)
 
-            # Search all existing candidates:
-            # * If more than one candidate raise an error;
-            # * If only one, accept it;
-            # * If no existing candidate raise an error;
-            stack = []
-            for i, basepath in enumerate(basepaths):
-                checked = self.check_candidate_exists(basepath, candidates)
-                if checked:
-                    stack.extend(checked)
+                # Search all existing candidates:
+                # * If more than one candidate raise an error;
+                # * If only one, accept it;
+                # * If no existing candidate raise an error;
+                stack = []
+                for i, basepath in enumerate(basepaths):
+                    checked = self.check_candidate_exists(basepath, candidates)
+                    if checked:
+                        stack.extend(checked)
 
-            # More than one existing candidate
-            if len(stack) > 1:
-                raise UnclearResolution(
-                    "rule '{}' This is not clear for these paths: {}".format(
-                        import_rule, ', '.join(stack)
-                    )
-                )
-            # Accept the single one
-            elif len(stack) == 1:
-                resolved_paths.append(os.path.normpath(stack[0]))
-            # No validated candidate
-            else:
-                if self.STRICT_PATH_VALIDATION:
-                    raise UnresolvablePath(
-                        "Imported path '{}' does not exist in '{}'".format(
-                            import_rule, basedir
+                # More than one existing candidate
+                if len(stack) > 1:
+                    raise UnclearResolution(
+                        "rule '{}' This is not clear for these paths: {}".format(
+                            import_rule, ', '.join(stack)
                         )
                     )
+                # Accept the single one
+                elif len(stack) == 1:
+                    resolved_paths.append(os.path.normpath(stack[0]))
+                # No validated candidate
+                else:
+                    if self.STRICT_PATH_VALIDATION:
+                        raise UnresolvablePath(
+                            "Imported path '{}' does not exist in '{}'".format(
+                                import_rule, basedir
+                            )
+                        )
 
         return resolved_paths

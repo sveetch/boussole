@@ -222,7 +222,6 @@ class ScssFinder(object):
         Find all scss sources that should be compiled, aka all sources that
         are not "partials" Sass sources.
 
-
         Args:
             sourcedir (str): Directory path to scan.
 
