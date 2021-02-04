@@ -13,7 +13,7 @@ from boussole.conf import SETTINGS_MANIFEST
 
 
 # Default values for initial settings object
-DEFAULT_SETTINGS = {k: copy.deepcopy(v['default'])
+DEFAULT_SETTINGS = {k: copy.deepcopy(v["default"])
                     for k, v in SETTINGS_MANIFEST.items()}
 
 

@@ -41,12 +41,12 @@ class SettingsBackendBase(SettingsPostProcessor):
         _file_extension: Default filename extension.
             Value is ``txt``.
     """
-    _default_filename = 'settings.txt'
-    _kind_name = 'txt'
-    _file_extension = 'txt'
+    _default_filename = "settings.txt"
+    _kind_name = "txt"
+    _file_extension = "txt"
 
     def __init__(self, basedir=None):
-        self.basedir = basedir or ''
+        self.basedir = basedir or ""
         self.projectdir = self.basedir
 
     def parse_filepath(self, filepath=None):
@@ -116,7 +116,7 @@ class SettingsBackendBase(SettingsPostProcessor):
             string: File content.
 
         """
-        with io.open(filepath, 'r', encoding='utf-8') as fp:
+        with io.open(filepath, "r", encoding="utf-8") as fp:
             content = fp.read()
         return content
 

@@ -6,8 +6,6 @@ Inspector
 Inspector is in charge to inspect a project about Sass stylesheets to search
 for their dependencies.
 """
-from __future__ import unicode_literals
-
 import io
 import os
 
@@ -39,8 +37,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
             instance.
     """
     parsers = {
-        'scss': ScssImportsParser(),
-        'sass': SassImportsParser(),
+        "scss": ScssImportsParser(),
+        "sass": SassImportsParser(),
     }
 
     def __init__(self, *args, **kwargs):
@@ -97,7 +95,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
         # children of a previous source
         if sourcepath not in self._CHILDREN_MAP:
             parser = self.get_parser(sourcepath)
-            with io.open(sourcepath, 'r', encoding='utf-8') as fp:
+            with io.open(sourcepath, "r", encoding="utf-8") as fp:
                 finded_paths = parser.parse(fp.read())
 
             children = self.resolve(sourcepath, finded_paths,
@@ -138,7 +136,7 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
                 resolve paths if resolving fails on the base source path.
                 Default to None.
         """
-        library_paths = kwargs.get('library_paths', None)
+        library_paths = kwargs.get("library_paths", None)
 
         for sourcepath in args:
             self.look_source(sourcepath, library_paths=library_paths)

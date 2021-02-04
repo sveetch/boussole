@@ -24,9 +24,9 @@ class SettingsBackendYaml(SettingsBackendBase):
         _file_extension: Default filename extension.
             Value is ``yml``.
     """
-    _default_filename = 'settings.yml'
-    _kind_name = 'yaml'
-    _file_extension = 'yml'
+    _default_filename = "settings.yml"
+    _kind_name = "yaml"
+    _file_extension = "yml"
 
     def dump(self, content, filepath, indent=4):
         """
@@ -36,7 +36,7 @@ class SettingsBackendYaml(SettingsBackendBase):
             content (str): Settings content.
             filepath (str): Settings file location.
         """
-        with open(filepath, 'w') as fp:
+        with open(filepath, "w") as fp:
             pyaml.dump(content, dst=fp, indent=indent)
 
     def parse(self, filepath, content):

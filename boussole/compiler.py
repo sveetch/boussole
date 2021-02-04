@@ -11,8 +11,6 @@ a Sass source using `libsass-python`_.
 import os
 import io
 
-import six
-
 import sass
 
 from boussole.finder import ScssFinder
@@ -62,7 +60,7 @@ class SassCompileHelper(ScssFinder):
                 source_map_filename=source_map_destination,
             )
         except sass.CompileError as e:
-            return False, six.text_type(e)
+            return False, str(e)
         else:
             # Compiler return a tuple (css, map) if sourcemap is
             # enabled
@@ -97,7 +95,7 @@ class SassCompileHelper(ScssFinder):
         if directory and not os.path.exists(directory):
             os.makedirs(directory)
 
-        with io.open(destination, 'w', encoding='utf-8') as f:
+        with io.open(destination, "w", encoding="utf-8") as f:
             f.write(content)
 
         return destination

@@ -23,43 +23,43 @@ Also note, that Sass files from libraries directories are never compiled.
 # Manifest define default values and post process methods for each setting
 # Warning: Order does matter on "postprocess" methods
 SETTINGS_MANIFEST = {
-    'LIBRARY_PATHS': {
-        'default': [],
-        'postprocess': (
-            '_patch_expand_paths',
-            '_validate_paths',
+    "LIBRARY_PATHS": {
+        "default": [],
+        "postprocess": (
+            "_patch_expand_paths",
+            "_validate_paths",
         ),
     },
-    'SOURCES_PATH': {
-        'default': None,
-        'postprocess': (
-            '_validate_required',
-            '_patch_expand_path',
-            '_validate_path',
+    "SOURCES_PATH": {
+        "default": None,
+        "postprocess": (
+            "_validate_required",
+            "_patch_expand_path",
+            "_validate_path",
         ),
     },
-    'TARGET_PATH': {
-        'default': None,
-        'postprocess': (
-            '_validate_required',
-            '_patch_expand_path',
-            '_validate_path',
+    "TARGET_PATH": {
+        "default": None,
+        "postprocess": (
+            "_validate_required",
+            "_patch_expand_path",
+            "_validate_path",
         ),
     },
-    'OUTPUT_STYLES': {
-        'default': 'nested',
-        'postprocess': [],
+    "OUTPUT_STYLES": {
+        "default": "nested",
+        "postprocess": [],
     },
-    'SOURCE_COMMENTS': {
-        'default': False,
-        'postprocess': [],
+    "SOURCE_COMMENTS": {
+        "default": False,
+        "postprocess": [],
     },
-    'SOURCE_MAP': {
-        'default': False,
-        'postprocess': [],
+    "SOURCE_MAP": {
+        "default": False,
+        "postprocess": [],
     },
-    'EXCLUDES': {
-        'default': [],
-        'postprocess': [],
+    "EXCLUDES": {
+        "default": [],
+        "postprocess": [],
     },
 }

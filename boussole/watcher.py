@@ -11,8 +11,6 @@ infinite loop, so note that handlers directly output some informations on a
 import os
 import logging
 
-import six
-
 from pathtools.patterns import match_path
 from watchdog.events import PatternMatchingEventHandler
 
@@ -140,7 +138,7 @@ class SassLibraryEventHandler(object):
             )
         except BoussoleBaseException as e:
             self._event_error = True
-            self.logger.error(six.text_type(e))
+            self.logger.error(str(e))
 
     def compile_source(self, sourcepath):
         """
@@ -161,10 +159,10 @@ class SassLibraryEventHandler(object):
         relpath = os.path.relpath(sourcepath, self.settings.SOURCES_PATH)
 
         conditions = {
-            'sourcedir': None,
-            'nopartial': True,
-            'exclude_patterns': self.settings.EXCLUDES,
-            'excluded_libdirs': self.settings.LIBRARY_PATHS,
+            "sourcedir": None,
+            "nopartial": True,
+            "exclude_patterns": self.settings.EXCLUDES,
+            "excluded_libdirs": self.settings.LIBRARY_PATHS,
         }
         if self.finder.match_conditions(sourcepath, **conditions):
             destination = self.finder.get_destination(
@@ -172,7 +170,7 @@ class SassLibraryEventHandler(object):
                 targetdir=self.settings.TARGET_PATH
             )
 
-            self.logger.debug(u"Compile: {}".format(sourcepath))
+            self.logger.debug("Compile: {}".format(sourcepath))
             success, message = self.compiler.safe_compile(
                 self.settings,
                 sourcepath,
@@ -180,7 +178,7 @@ class SassLibraryEventHandler(object):
             )
 
             if success:
-                self.logger.info(u"Output: {}".format(message))
+                self.logger.info("Output: {}".format(message))
             else:
                 self.logger.error(message)
 
@@ -235,15 +233,16 @@ class SassLibraryEventHandler(object):
             # We are only interested for final file, not transitional file
             # from editors (like *.part)
             pathtools_options = {
-                'included_patterns': self.patterns,
-                'excluded_patterns': self.ignore_patterns,
-                'case_sensitive': self.case_sensitive,
+                "included_patterns": self.patterns,
+                "excluded_patterns": self.ignore_patterns,
+                "case_sensitive": self.case_sensitive,
             }
             # Apply pathtool matching on destination since Watchdog only
             # automatically apply it on source
             if match_path(event.dest_path, **pathtools_options):
-                self.logger.info(u"Change detected from a move on: %s",
-                                 event.dest_path)
+                self.logger.info(
+                    "Change detected from a move on: {}".format(event.dest_path)
+                )
                 self.compile_dependencies(event.dest_path)
 
     def on_created(self, event):
@@ -262,8 +261,9 @@ class SassLibraryEventHandler(object):
                 or ``watchdog.events.FileCreatedEvent``.
         """
         if not self._event_error:
-            self.logger.info(u"Change detected from a create on: %s",
-                             event.src_path)
+            self.logger.info(
+                "Change detected from a create on: {}".format(event.src_path)
+            )
 
             self.compile_dependencies(event.src_path)
 
@@ -276,8 +276,9 @@ class SassLibraryEventHandler(object):
                 ``watchdog.events.FileModifiedEvent``.
         """
         if not self._event_error:
-            self.logger.info(u"Change detected from an edit on: %s",
-                             event.src_path)
+            self.logger.info(
+                "Change detected from an edit on: {}".format(event.src_path)
+            )
 
             self.compile_dependencies(event.src_path)
 
@@ -290,8 +291,9 @@ class SassLibraryEventHandler(object):
                 ``watchdog.events.FileDeletedEvent``.
         """
         if not self._event_error:
-            self.logger.info(u"Change detected from deletion of: %s",
-                             event.src_path)
+            self.logger.info(
+                "Change detected from deletion of: {}".format(event.src_path)
+            )
             # Never try to compile the deleted source
             self.compile_dependencies(event.src_path, include_self=False)
 

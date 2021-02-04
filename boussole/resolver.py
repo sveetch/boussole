@@ -8,8 +8,6 @@ given source directory and libraries directories paths.
 """
 import os
 
-from six import string_types
-
 from boussole.exceptions import UnresolvablePath
 from boussole.exceptions import UnclearResolution
 
@@ -31,7 +29,7 @@ class ImportPathsResolver(object):
             disable (``False``) exception raising when a path can not be
             resolved.
     """
-    CANDIDATE_EXTENSIONS = ['scss', 'sass', 'css']
+    CANDIDATE_EXTENSIONS = ["scss", "sass", "css"]
     STRICT_PATH_VALIDATION = True
 
     def is_allowed_source(self, path):
@@ -162,7 +160,7 @@ class ImportPathsResolver(object):
             # Accept a string if not allready in basepaths
             if (
                 library_paths and
-                isinstance(library_paths, string_types) and
+                isinstance(library_paths, str) and
                 library_paths not in basepaths
             ):
                 basepaths.append(library_paths)

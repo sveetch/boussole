@@ -36,7 +36,7 @@ def init_logger(level, printout=True):
         handler = logging.StreamHandler()
         handler.setFormatter(
             colorlog.ColoredFormatter(
-                '%(asctime)s - %(log_color)s%(message)s',
+                "%(asctime)s - %(log_color)s%(message)s",
                 datefmt="%H:%M:%S"
             )
         )

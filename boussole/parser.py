@@ -19,11 +19,7 @@ Note:
     The only way is to not use multiline comments when you use the Sass index
     syntax.
 """
-from __future__ import unicode_literals
-
 import re
-
-from six.moves import filter
 
 from boussole.exceptions import InvalidImportRule
 
@@ -98,8 +94,10 @@ class ScssImportsParser(object):
         * Starts with http:// or https:// (this for external load only)
         * Ends with ".css" (they are not intended to be compiled)
         """
-        return not(path.startswith('http://') or
-                   path.startswith('https://') or path.endswith('.css'))
+        return not(
+            path.startswith("http://") or path.startswith("https://") or
+            path.endswith(".css")
+        )
 
     def flatten_rules(self, declarations):
         """

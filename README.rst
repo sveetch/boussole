@@ -21,7 +21,7 @@ Features
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
 * **Expose a Core API** to use it from Python code;
-* Support for **Python2.7** and **Python>=3.5**;
+* Support **Python>=3.5**;
 
 Links
 *****

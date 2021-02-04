@@ -23,8 +23,8 @@ class ProjectBase(object):
         backend_engine: Backend engine selected from given name.
     """
     _engines = {
-        'json': SettingsBackendJson,
-        'yaml': SettingsBackendYaml,
+        "json": SettingsBackendJson,
+        "yaml": SettingsBackendYaml,
     }
 
     def __init__(self, backend_name, **kwargs):
@@ -75,8 +75,9 @@ class ProjectStarter(ProjectBase):
             cp = list(args)
             current = cp.pop(i)
             if current in cp:
-                raise SettingsInvalidError("Multiple occurences finded for "
-                                           "path: {}".format(current))
+                raise SettingsInvalidError(
+                    "Multiple occurences finded for path: {}".format(current)
+                )
 
         return True
 
@@ -149,8 +150,8 @@ class ProjectStarter(ProjectBase):
 
         # Dump settings file
         self.backend_engine.dump({
-            'SOURCES_PATH': sourcedir,
-            'TARGET_PATH': targetdir,
+            "SOURCES_PATH": sourcedir,
+            "TARGET_PATH": targetdir,
             "LIBRARY_PATHS": [],
             "OUTPUT_STYLES": "nested",
             "SOURCE_COMMENTS": False,
@@ -178,7 +179,7 @@ class ProjectStarter(ProjectBase):
             dict: A dict containing expanded given paths.
         """
         if not basedir:
-            basedir = '.'
+            basedir = "."
 
         # Expand home directory if any
         abs_basedir, abs_config, abs_sourcedir, abs_targetdir = self.expand(
@@ -196,8 +197,8 @@ class ProjectStarter(ProjectBase):
                         abs_targetdir)
 
         return {
-            'basedir': abs_basedir,
-            'config': abs_config,
-            'sourcedir': abs_sourcedir,
-            'targetdir': abs_targetdir,
+            "basedir": abs_basedir,
+            "config": abs_config,
+            "sourcedir": abs_sourcedir,
+            "targetdir": abs_targetdir,
         }

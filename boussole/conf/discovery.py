@@ -158,9 +158,9 @@ class Discover:
         """
         # None values would cause trouble with path joining
         if filepath is None:
-            filepath = ''
+            filepath = ""
         if basedir is None:
-            basedir = '.'
+            basedir = "."
 
         if not basedir and not filepath:
             msg = "Either basedir or filepath is required for discovering"

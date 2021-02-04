@@ -20,7 +20,7 @@ class SettingsPostProcessor(object):
     settings manifest (default manifest comes from ``SETTINGS_MANIFEST``).
     """
     settings_manifesto = SETTINGS_MANIFEST
-    projectdir = ''
+    projectdir = ""
 
     def post_process(self, settings):
         """
@@ -44,8 +44,8 @@ class SettingsPostProcessor(object):
         for k in settings:
             # Search for post process rules for setting in manifest
             if k in self.settings_manifesto and \
-               self.settings_manifesto[k].get('postprocess', None) is not None:
-                rules = self.settings_manifesto[k]['postprocess']
+               self.settings_manifesto[k].get("postprocess", None) is not None:
+                rules = self.settings_manifesto[k]["postprocess"]
 
                 # Chain post process rules from each setting
                 for method_name in rules:

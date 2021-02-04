@@ -4,8 +4,6 @@ import os
 import click
 import logging
 
-import six
-
 from watchdog.observers import Observer
 from watchdog.observers.polling import PollingObserver
 
@@ -64,16 +62,16 @@ def watch_command(context, backend, config, poll):
         project = ProjectBase(backend_name=config_engine._kind_name)
         settings = project.backend_engine.load(filepath=config_filepath)
     except BoussoleBaseException as e:
-        logger.critical(six.text_type(e))
+        logger.critical(str(e))
         raise click.Abort()
 
-    logger.debug(u"Settings file: {} ({})".format(
+    logger.debug("Settings file: {} ({})".format(
                  config_filepath, config_engine._kind_name))
-    logger.debug(u"Project sources directory: {}".format(
+    logger.debug("Project sources directory: {}".format(
                 settings.SOURCES_PATH))
-    logger.debug(u"Project destination directory: {}".format(
+    logger.debug("Project destination directory: {}".format(
                 settings.TARGET_PATH))
-    logger.debug(u"Exclude patterns: {}".format(
+    logger.debug("Exclude patterns: {}".format(
                 settings.EXCLUDES))
 
     # Watcher settings
@@ -88,10 +86,10 @@ def watch_command(context, backend, config, poll):
     inspector = ScssInspector()
 
     if not poll:
-        logger.debug(u"Using Watchdog native platform observer")
+        logger.debug("Using Watchdog native platform observer")
         observer = Observer()
     else:
-        logger.debug(u"Using Watchdog polling observer")
+        logger.debug("Using Watchdog polling observer")
         observer = PollingObserver()
 
     # Init event handlers
@@ -109,14 +107,14 @@ def watch_command(context, backend, config, poll):
         observer.schedule(lib_handler, libpath, recursive=True)
 
     # Start watching
-    logger.warning(u"Launching the watcher, use CTRL+C to stop it")
+    logger.warning("Launching the watcher, use CTRL+C to stop it")
     observer.start()
 
     try:
         while True:
             time.sleep(1)
     except KeyboardInterrupt:
-        logger.warning(u"CTRL+C used, stopping..")
+        logger.warning("CTRL+C used, stopping..")
         observer.stop()
 
     observer.join()

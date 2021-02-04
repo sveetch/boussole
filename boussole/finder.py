@@ -42,7 +42,7 @@ class ScssFinder(object):
         FINDER_STYLESHEET_EXTS: List of file extensions regarded as
             compilable stylesheet sources.
     """
-    FINDER_STYLESHEET_EXTS = ['scss', 'sass']
+    FINDER_STYLESHEET_EXTS = ["scss", "sass"]
 
     def get_relative_from_paths(self, filepath, paths):
         """
@@ -87,7 +87,7 @@ class ScssFinder(object):
             bool: True if file is a partial source, else False.
         """
         path, filename = os.path.split(filepath)
-        return filename.startswith('_')
+        return filename.startswith("_")
 
     def is_allowed(self, filepath, excludes=[]):
         """
@@ -211,7 +211,7 @@ class ScssFinder(object):
         Returns:
             str: Destination filepath.
         """
-        dst = self.change_extension(filepath, 'css')
+        dst = self.change_extension(filepath, "css")
         if targetdir:
             dst = os.path.join(targetdir, dst)
         return dst
@@ -244,18 +244,18 @@ class ScssFinder(object):
             dirs.sort()
             files.sort()
             for item in files:
-                # Store relative directory but drop it if at root ('.')
+                # Store relative directory but drop it if at root (".")
                 relative_dir = os.path.relpath(root, sourcedir)
-                if relative_dir == '.':
-                    relative_dir = ''
+                if relative_dir == ".":
+                    relative_dir = ""
 
                 # Matching all conditions
                 absolute_filepath = os.path.join(root, item)
                 conditions = {
-                    'sourcedir': sourcedir,
-                    'nopartial': True,
-                    'exclude_patterns': excludes,
-                    'excluded_libdirs': [],
+                    "sourcedir": sourcedir,
+                    "nopartial": True,
+                    "exclude_patterns": excludes,
+                    "excluded_libdirs": [],
                 }
                 if self.match_conditions(absolute_filepath, **conditions):
                     relative_filepath = os.path.join(relative_dir, item)

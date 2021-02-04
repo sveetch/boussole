@@ -21,9 +21,9 @@ class SettingsBackendJson(SettingsBackendBase):
         _file_extension: Default filename extension.
             Value is ``json``.
     """
-    _default_filename = 'settings.json'
-    _kind_name = 'json'
-    _file_extension = 'json'
+    _default_filename = "settings.json"
+    _kind_name = "json"
+    _file_extension = "json"
 
     def dump(self, content, filepath, indent=4):
         """
@@ -33,7 +33,7 @@ class SettingsBackendJson(SettingsBackendBase):
             content (str): Settings content.
             filepath (str): Settings file location.
         """
-        with open(filepath, 'w') as fp:
+        with open(filepath, "w") as fp:
             json.dump(content, fp, indent=indent)
 
     def parse(self, filepath, content):
