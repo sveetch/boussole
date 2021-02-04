@@ -22,7 +22,8 @@ Features
 ********
 
 * Stand on `LibSass`_ which is **very fast**;
-* **Per project configuration** so you can use it once to compile all of your Sass files from a same project;
+* **Per project configuration** so you can use it once to compile all of your
+  Sass files from a same project;
 * **Simple and useful** command line;
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;

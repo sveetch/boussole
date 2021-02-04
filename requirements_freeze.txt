@@ -1,10 +1,10 @@
 # Pinned versions during last development installation
-six==1.14.0
-click==5.1
+six==1.15.0
+click==7.1.2
 pathtools==0.1.2
-watchdog==0.10.2
-libsass==0.20.0
+watchdog==1.0.2
+libsass==0.20.1
 pyaml==20.4.0
-PyYAML==5.3.1
-colorama==0.4.3
-colorlog==4.1.0
+PyYAML==5.4.1
+colorama==0.4.4
+colorlog==4.7.2

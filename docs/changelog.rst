@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 1.6.0 - 2021/02/01
+Version 1.6.0 - 2021/02/04
 --------------------------
 
 *Last Python2 support, compatibility for recent Click versions and improve
