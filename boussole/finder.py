@@ -14,7 +14,7 @@ files, meaning it will ignore all partials Sass stylesheets (see
 import fnmatch
 import os
 
-from boussole.exceptions import FinderException
+from .exceptions import FinderException
 
 
 def paths_by_depth(paths):

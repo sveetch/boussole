@@ -10,8 +10,9 @@ its ``clean()`` method.
 """
 import os
 
-from boussole.conf import SETTINGS_MANIFEST
-from boussole.exceptions import SettingsInvalidError
+from ..exceptions import SettingsInvalidError
+
+from . import SETTINGS_MANIFEST
 
 
 class SettingsPostProcessor(object):

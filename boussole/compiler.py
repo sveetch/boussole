@@ -13,7 +13,7 @@ import io
 
 import sass
 
-from boussole.finder import ScssFinder
+from .finder import ScssFinder
 
 
 class SassCompileHelper(ScssFinder):

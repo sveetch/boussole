@@ -10,9 +10,9 @@ Version 2.0.0 - Unreleased
 
 DONE:
     * Drop Python2 support (remove six, unicode litteral, config);
+    * Drop pathtools dependency (only used in watcher);
 
 TODO:
-    * Drop pathtools dependency (only need in watcher);
     * Update doc config, use livereload and with new RTD config file;
     * Add new boussole config filename (boussole.json, etc..);
 

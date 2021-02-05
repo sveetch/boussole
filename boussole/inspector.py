@@ -11,9 +11,9 @@ import os
 
 from collections import defaultdict
 
-from boussole.exceptions import CircularImport
-from boussole.parser import ScssImportsParser, SassImportsParser
-from boussole.resolver import ImportPathsResolver
+from .exceptions import CircularImport
+from .parser import ScssImportsParser, SassImportsParser
+from .resolver import ImportPathsResolver
 
 
 class ScssInspector(ImportPathsResolver, ScssImportsParser):

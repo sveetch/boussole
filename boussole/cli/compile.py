@@ -3,23 +3,33 @@ import click
 import logging
 import os
 
-from boussole.compiler import SassCompileHelper
-from boussole.conf.discovery import Discover
-from boussole.conf.json_backend import SettingsBackendJson
-from boussole.conf.yaml_backend import SettingsBackendYaml
-from boussole.exceptions import BoussoleBaseException
-from boussole.finder import ScssFinder
-from boussole.project import ProjectBase
+from ..compiler import SassCompileHelper
+from ..conf.discovery import Discover
+from ..conf.json_backend import SettingsBackendJson
+from ..conf.yaml_backend import SettingsBackendYaml
+from ..exceptions import BoussoleBaseException
+from ..finder import ScssFinder
+from ..project import ProjectBase
 
 
-@click.command("watch", short_help="Compile Sass project sources to CSS.")
-@click.option("--backend", metavar="STRING",
-              type=click.Choice(["json", "yaml"]),
-              help="Settings format name",
-              default="json")
-@click.option("--config", default=None, metavar="PATH",
-              help="Path to a Boussole config file",
-              type=click.Path(exists=True))
+@click.command(
+    "watch",
+    short_help="Compile Sass project sources to CSS."
+)
+@click.option(
+    "--backend",
+    metavar="STRING",
+    type=click.Choice(["json", "yaml"]),
+    help="Settings format name",
+    default="json"
+)
+@click.option(
+    "--config",
+    default=None,
+    metavar="PATH",
+    help="Path to a Boussole config file",
+    type=click.Path(exists=True)
+)
 @click.pass_context
 def compile_command(context, backend, config):
     """

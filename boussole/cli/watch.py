@@ -7,25 +7,38 @@ import logging
 from watchdog.observers import Observer
 from watchdog.observers.polling import PollingObserver
 
-from boussole.conf.discovery import Discover
-from boussole.conf.json_backend import SettingsBackendJson
-from boussole.conf.yaml_backend import SettingsBackendYaml
-from boussole.exceptions import BoussoleBaseException
-from boussole.inspector import ScssInspector
-from boussole.project import ProjectBase
-from boussole.watcher import (WatchdogLibraryEventHandler,
-                              WatchdogProjectEventHandler)
+from ..conf.discovery import Discover
+from ..conf.json_backend import SettingsBackendJson
+from ..conf.yaml_backend import SettingsBackendYaml
+from ..exceptions import BoussoleBaseException
+from ..inspector import ScssInspector
+from ..project import ProjectBase
+from ..watcher import WatchdogLibraryEventHandler, WatchdogProjectEventHandler
 
 
-@click.command("watch", short_help="Watch for change on your Sass project.")
-@click.option("--backend", metavar="STRING",
-              type=click.Choice(["json", "yaml"]),
-              help="Settings format name",
-              default="json")
-@click.option("--config", default=None, metavar="PATH",
-              help="Path to a Boussole config file",
-              type=click.Path(exists=True))
-@click.option("--poll", is_flag=True, help="Use Watchdog polling observer")
+@click.command(
+    "watch",
+    short_help="Watch for change on your Sass project."
+)
+@click.option(
+    "--backend",
+    metavar="STRING",
+    type=click.Choice(["json", "yaml"]),
+    help="Settings format name",
+    default="json"
+)
+@click.option(
+    "--config",
+    default=None,
+    metavar="PATH",
+    help="Path to a Boussole config file",
+    type=click.Path(exists=True)
+)
+@click.option(
+    "--poll",
+    is_flag=True,
+    help="Use Watchdog polling observer"
+)
 @click.pass_context
 def watch_command(context, backend, config, poll):
     """

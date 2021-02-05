@@ -15,9 +15,10 @@ Actually available backends are JSON and YAML.
 import io
 import os
 
-from boussole.exceptions import SettingsBackendError
-from boussole.conf.model import Settings
-from boussole.conf.post_processor import SettingsPostProcessor
+from ..exceptions import SettingsBackendError
+
+from .model import Settings
+from .post_processor import SettingsPostProcessor
 
 
 class SettingsBackendBase(SettingsPostProcessor):

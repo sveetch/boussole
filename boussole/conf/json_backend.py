@@ -5,8 +5,9 @@ JSON settings backend
 """
 import json
 
-from boussole.exceptions import SettingsBackendError
-from boussole.conf.base_backend import SettingsBackendBase
+from ..exceptions import SettingsBackendError
+
+from .base_backend import SettingsBackendBase
 
 
 class SettingsBackendJson(SettingsBackendBase):

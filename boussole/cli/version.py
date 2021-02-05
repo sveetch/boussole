@@ -2,7 +2,9 @@
 import click
 
 from sass import __version__ as libsasspython_version
+
 from _sass import libsass_version
+
 from boussole import __version__
 
 

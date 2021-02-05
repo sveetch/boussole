@@ -7,7 +7,7 @@ Backend discover
 import os
 from collections import OrderedDict
 
-from boussole.exceptions import SettingsDiscoveryError
+from ..exceptions import SettingsDiscoveryError
 
 
 class Discover:

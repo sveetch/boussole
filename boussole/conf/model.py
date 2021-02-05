@@ -9,7 +9,7 @@ interfaces.
 """
 import copy
 
-from boussole.conf import SETTINGS_MANIFEST
+from . import SETTINGS_MANIFEST
 
 
 # Default values for initial settings object

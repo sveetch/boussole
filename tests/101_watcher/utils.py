@@ -16,9 +16,9 @@ class DummyBaseEvent(object):
     event_type = "boussole-dummy"
     is_directory = False
 
-    def __init__(self, filepath):
-        self.src_path = filepath
-        self.dest_path = filepath
+    def __init__(self, src, dst=None):
+        self.src_path = src
+        self.dest_path = dst or src
 
 
 class DummyCreatedEvent(DummyBaseEvent):

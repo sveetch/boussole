@@ -4,9 +4,9 @@ Project management
 """
 import os
 
-from boussole.exceptions import SettingsInvalidError, SettingsBackendError
-from boussole.conf.json_backend import SettingsBackendJson
-from boussole.conf.yaml_backend import SettingsBackendYaml
+from .exceptions import SettingsInvalidError, SettingsBackendError
+from .conf.json_backend import SettingsBackendJson
+from .conf.yaml_backend import SettingsBackendYaml
 
 
 class ProjectBase(object):

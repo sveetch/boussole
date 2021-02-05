@@ -3,11 +3,12 @@ Main entrance to commandline actions
 """
 import click
 
-from boussole.cli.version import version_command
-from boussole.cli.compile import compile_command
-from boussole.cli.watch import watch_command
-from boussole.cli.startproject import startproject_command
-from boussole.logs import init_logger
+from ..logs import init_logger
+
+from .compile import compile_command
+from .startproject import startproject_command
+from .version import version_command
+from .watch import watch_command
 
 
 # Help alias on "-h" argument
@@ -18,11 +19,18 @@ BOUSSOLE_LOGGER_CONF = ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL", None)
 
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.option("-v", "--verbose", type=click.IntRange(min=0, max=5), default=4,
-              metavar="INTEGER",
-              help="An integer between 0 and 5, where '0' make a totaly "
-              "silent output and '5' set level to DEBUG (the most verbose "
-              "level). Default to '4' (Info level).")
+@click.option(
+    "-v",
+    "--verbose",
+    type=click.IntRange(min=0, max=5),
+    default=4,
+    metavar="INTEGER",
+    help=(
+        "An integer between 0 and 5, where '0' make a totaly "
+        "silent output and '5' set level to DEBUG (the most verbose "
+        "level). Default to '4' (Info level)."
+    )
+)
 @click.pass_context
 def cli_frontend(ctx, verbose):
     """

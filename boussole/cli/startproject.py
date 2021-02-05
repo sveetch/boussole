@@ -3,36 +3,55 @@ import os
 import click
 import logging
 
-from boussole.exceptions import SettingsInvalidError
-from boussole.project import ProjectStarter
+from ..exceptions import SettingsInvalidError
+from ..project import ProjectStarter
 
 
-@click.command("startproject", short_help="Create a new Sass project.")
-@click.option("--basedir", metavar="PATH",
-              prompt="Project base directory",
-              help=("Base directory where settings filename and project "
-                    "structure will be created."),
-              default=".")
-@click.option("--sourcedir", metavar="PATH",
-              prompt="Sources directory",
-              help="Directory (within base dir) for your Sass sources.",
-              default="scss")
-@click.option("--targetdir", metavar="PATH",
-              prompt="Target directory",
-              help="Directory (within base dir) where to write compiled "
-                   "files.",
-              default="css")
-@click.option("--backend", metavar="STRING",
-              prompt="Settings format name",
-              type=click.Choice(["json", "yaml"]),
-              help="Settings format name",
-              default="json")
-@click.option("--config", metavar="PATH",
-              help="Settings file name",
-              default=None)
+@click.command(
+    "startproject",
+    short_help="Create a new Sass project."
+)
+@click.option(
+    "--basedir",
+    metavar="PATH",
+    prompt="Project base directory",
+    help=(
+        "Base directory where settings filename and project structure will "
+        "be created."
+    ),
+    default="."
+)
+@click.option(
+    "--sourcedir",
+    metavar="PATH",
+    prompt="Sources directory",
+    help="Directory (within base dir) for your Sass sources.",
+    default="scss"
+)
+@click.option(
+    "--targetdir",
+    metavar="PATH",
+    prompt="Target directory",
+    help="Directory (within base dir) where to write compiled files.",
+    default="css"
+)
+@click.option(
+    "--backend",
+    metavar="STRING",
+    prompt="Settings format name",
+    type=click.Choice(["json", "yaml"]),
+    help="Settings format name",
+    default="json"
+)
+@click.option(
+    "--config",
+    metavar="PATH",
+    help="Settings file name",
+    default=None
+)
 @click.pass_context
-def startproject_command(context, basedir, sourcedir, targetdir,
-                         backend, config):
+def startproject_command(context, basedir, sourcedir, targetdir, backend,
+                         config):
     """
     Create a new Sass project
 

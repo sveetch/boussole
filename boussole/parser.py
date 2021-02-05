@@ -21,7 +21,7 @@ Note:
 """
 import re
 
-from boussole.exceptions import InvalidImportRule
+from .exceptions import InvalidImportRule
 
 
 class ScssImportsParser(object):

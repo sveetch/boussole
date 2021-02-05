@@ -11,12 +11,13 @@ infinite loop, so note that handlers directly output some informations on a
 import os
 import logging
 
-from pathtools.patterns import match_path
+
 from watchdog.events import PatternMatchingEventHandler
 
-from boussole.exceptions import BoussoleBaseException
-from boussole.finder import ScssFinder
-from boussole.compiler import SassCompileHelper
+from .compiler import SassCompileHelper
+from .exceptions import BoussoleBaseException
+from .finder import ScssFinder
+from .utils import match_path
 
 
 class SassLibraryEventHandler(object):
@@ -233,8 +234,8 @@ class SassLibraryEventHandler(object):
             # We are only interested for final file, not transitional file
             # from editors (like *.part)
             pathtools_options = {
-                "included_patterns": self.patterns,
-                "excluded_patterns": self.ignore_patterns,
+                "included_patterns": set(self.patterns),
+                "excluded_patterns": set(self.ignore_patterns),
                 "case_sensitive": self.case_sensitive,
             }
             # Apply pathtool matching on destination since Watchdog only

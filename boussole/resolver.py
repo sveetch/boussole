@@ -8,8 +8,7 @@ given source directory and libraries directories paths.
 """
 import os
 
-from boussole.exceptions import UnresolvablePath
-from boussole.exceptions import UnclearResolution
+from .exceptions import UnresolvablePath, UnclearResolution
 
 
 class ImportPathsResolver(object):
