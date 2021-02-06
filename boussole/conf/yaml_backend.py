@@ -25,7 +25,7 @@ class SettingsBackendYaml(SettingsBackendBase):
         _file_extension: Default filename extension.
             Value is ``yml``.
     """
-    _default_filename = "settings.yml"
+    _default_filename = "boussole.yml"
     _kind_name = "yaml"
     _file_extension = "yml"
 

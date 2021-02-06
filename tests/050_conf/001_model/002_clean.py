@@ -25,9 +25,9 @@ def test_002_custom(settings, sample_project_settings):
 
     # Add some dummy settings to remove
     fake_settings.update({
-        'foo': True,
-        'bar': 42,
-        'plonk': [],
+        "foo": True,
+        "bar": 42,
+        "plonk": [],
     })
 
     assert settings_object.clean(fake_settings) == sample_project_settings

@@ -18,15 +18,15 @@ class FixturesSettingsTestMixin(object):
     """Mixin containing some basic settings"""
     def __init__(self):
         # Base fixture datas directory
-        self.tests_dir = 'tests'
+        self.tests_dir = "tests"
         self.tests_path = os.path.normpath(
             os.path.join(
                 os.path.abspath(os.path.dirname(boussole.__file__)),
-                '..',
+                "..",
                 self.tests_dir,
             )
         )
-        self.fixtures_dir = 'data_fixtures'
+        self.fixtures_dir = "data_fixtures"
         self.fixtures_path = os.path.join(
             self.tests_path,
             self.fixtures_dir
@@ -41,8 +41,8 @@ class FixturesSettingsTestMixin(object):
         self.sass_sample_path = os.path.join(self.fixtures_path, self.sass_sample_dir)
 
         # Some sample libraries
-        self.lib1_dir = 'library_1'
-        self.lib2_dir = 'library_2'
+        self.lib1_dir = "library_1"
+        self.lib2_dir = "library_2"
         self.lib1_path = os.path.join(self.fixtures_path, self.lib1_dir)
         self.lib2_path = os.path.join(self.fixtures_path, self.lib2_dir)
         self.libraries_fixture_paths = [
@@ -51,10 +51,10 @@ class FixturesSettingsTestMixin(object):
         ]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def temp_builds_dir(tmpdir_factory):
     """Prepare a temporary build directory"""
-    fn = tmpdir_factory.mktemp('builds')
+    fn = tmpdir_factory.mktemp("builds")
     return fn
 
 
@@ -123,16 +123,16 @@ def sample_project_settings():
        Warning, this will raise exception from everything involving
        'Backend.clean()' because every paths does not exists"""
     return {
-        # 'COMPILER_ARGS': [],
-        'LIBRARY_PATHS': [
-            u'/home/lib1',
-            u'/home/lib2',
+        # "COMPILER_ARGS": [],
+        "LIBRARY_PATHS": [
+            "/home/lib1",
+            "/home/lib2",
         ],
-        'SOURCES_PATH': u'/home/foo',
-        'TARGET_PATH': u'/home/bar',
-        'OUTPUT_STYLES': u'nested',
-        'SOURCE_COMMENTS': False,
-        'SOURCE_MAP': False,
+        "SOURCES_PATH": "/home/foo",
+        "TARGET_PATH": "/home/bar",
+        "OUTPUT_STYLES": "nested",
+        "SOURCE_COMMENTS": False,
+        "SOURCE_MAP": False,
         "EXCLUDES": [],
     }
 
@@ -143,15 +143,15 @@ def custom_project_settings():
        module level)"""
     fixtures_settings = FixturesSettingsTestMixin()
     return {
-        'LIBRARY_PATHS': [
-            os.path.join(fixtures_settings.fixtures_path, u'library_1'),
-            os.path.join(fixtures_settings.fixtures_path, u'library_2'),
+        "LIBRARY_PATHS": [
+            os.path.join(fixtures_settings.fixtures_path, "library_1"),
+            os.path.join(fixtures_settings.fixtures_path, "library_2"),
         ],
-        'SOURCES_PATH': os.path.join(fixtures_settings.fixtures_path, u'sample_project'),
-        'TARGET_PATH': fixtures_settings.fixtures_path,
-        'OUTPUT_STYLES': u'expanded',
-        'SOURCE_COMMENTS': True,
-        'SOURCE_MAP': False,
+        "SOURCES_PATH": os.path.join(fixtures_settings.fixtures_path, "sample_project"),
+        "TARGET_PATH": fixtures_settings.fixtures_path,
+        "OUTPUT_STYLES": "expanded",
+        "SOURCE_COMMENTS": True,
+        "SOURCE_MAP": False,
         "EXCLUDES": [
             "main_error.scss",
             "main_circular_5.scss",

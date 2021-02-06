@@ -25,8 +25,6 @@ class Discover:
         * Search for any of these available settings file names;
         * If no available settings file name if finded, discovering fail;
         * If one file name is given assume backend from file name;
-
-    backends (list): List of backend engines to get available backend engines.
     """
 
     def __init__(self, backends=[]):
@@ -82,7 +80,7 @@ class Discover:
 
         Raises:
             boussole.exceptions.SettingsDiscoveryError: If extension is
-            unknowed or if given format name is unknowed.
+                unknowed or if given format name is unknowed.
 
         Returns:
             object: Backend engine class.

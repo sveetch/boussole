@@ -29,11 +29,11 @@ def test_001(settings, caplog):
         config_filepath = os.path.join(test_cwd, JSON_FILENAME)
 
         opts = [
-            'startproject',
-            '--basedir={}'.format(test_cwd),
-            '--config={}'.format(JSON_FILENAME),
-            '--sourcedir={}'.format("scss"),
-            '--targetdir={}'.format("css"),
+            "startproject",
+            "--basedir={}".format(test_cwd),
+            "--config={}".format(JSON_FILENAME),
+            "--sourcedir={}".format("scss"),
+            "--targetdir={}".format("css"),
         ]
 
         # Execute command with opts
@@ -45,21 +45,21 @@ def test_001(settings, caplog):
         # Validate return log output
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 20,
                 ("Project directory structure and configuration file have "
                  "been created.")
             ),
             (
-                'boussole',
+                "boussole",
                 20,
                 ("Now you should start to create some Sass sources into '{}', "
                  "then compile them using:").format(sourcedir)
             ),
             (
-                'boussole',
+                "boussole",
                 20,
-                '    boussole compile --config={}'.format(config_filepath)
+                "    boussole compile --config={}".format(config_filepath)
             ),
         ]
 
@@ -71,8 +71,8 @@ def test_001(settings, caplog):
         # Validate created configuration file
         with open(config_filepath, "r") as fp:
             assert json.load(fp) == {
-                'SOURCES_PATH': 'scss',
-                'TARGET_PATH': 'css',
+                "SOURCES_PATH": "scss",
+                "TARGET_PATH": "css",
                 "LIBRARY_PATHS": [],
                 "OUTPUT_STYLES": "nested",
                 "SOURCE_COMMENTS": False,
@@ -93,11 +93,11 @@ def test_002(settings, caplog):
         sourcedir = os.path.join(test_cwd, "css")
 
         opts = [
-            'startproject',
-            '--basedir={}'.format(test_cwd),
-            '--config={}'.format(JSON_FILENAME),
-            '--sourcedir={}'.format("css"),
-            '--targetdir={}'.format("css"),
+            "startproject",
+            "--basedir={}".format(test_cwd),
+            "--config={}".format(JSON_FILENAME),
+            "--sourcedir={}".format("css"),
+            "--targetdir={}".format("css"),
         ]
 
         # Execute command with opts
@@ -109,8 +109,8 @@ def test_002(settings, caplog):
         # Validate return log output
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 50,
-                'Multiple occurences finded for path: {}'.format(sourcedir)
+                "Multiple occurences finded for path: {}".format(sourcedir)
             )
         ]

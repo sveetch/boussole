@@ -10,6 +10,7 @@ Install
 It should be safe enough to install it on Linux, MacOSX and Windows until you
 have the right environment (needed devel libs, etc..).
 
+For development usage see :ref:`install_development`.
 
 .. Note::
     Because some requirements need to compile some C modules, this may takes

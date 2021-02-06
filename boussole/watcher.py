@@ -154,8 +154,8 @@ class SassLibraryEventHandler(object):
 
         Returns:
             tuple or None: A pair of (sourcepath, destination), if source has
-                been compiled (or at least tried). If the source was not
-                eligible to compile, return will be ``None``.
+            been compiled (or at least tried). If the source was not
+            eligible to compile, return will be ``None``.
         """
         relpath = os.path.relpath(sourcepath, self.settings.SOURCES_PATH)
 
@@ -303,11 +303,11 @@ class SassProjectEventHandler(SassLibraryEventHandler):
     """
     Watch mixin handler for project sources.
 
-    Warning:
-        DO NOT use this handler to watch libraries, there is a risk the
-        compiler will try to compile their sources in a wrong directory.
-
     Source that trigger event is compiled (if eligible) with its dependencies.
+
+    Warning:
+        DO NOT use this handler to watch libraries, there is a risk for
+        compiler trying to compile their sources in a wrong directory.
     """
     def compile_dependencies(self, sourcepath, include_self=True):
         """
@@ -334,7 +334,7 @@ class WatchdogProjectEventHandler(SassProjectEventHandler,
     Watchdog event handler for project sources.
 
     Warning:
-        DO NOT use this handler to watch libraries, there is a risk the
-        compiler will try to compile their sources in a wrong directory.
+        DO NOT use this handler to watch libraries, there is a risk for
+        compiler trying to compile their sources in a wrong directory.
     """
     pass

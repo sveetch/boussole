@@ -50,8 +50,8 @@ class ScssInspector(ImportPathsResolver, ScssImportsParser):
 
         Arguments:
             path (str): Path to split to find extension which will select the
-            right parser. If file path does not have any extension or does not
-            match any enabled extension, ``scss`` will be assumed on default.
+                right parser. If file path does not have any extension or does not
+                match any enabled extension, ``scss`` will be assumed on default.
 
         Returns:
             parser: Either ``ScssImportsParser`` or ``SassImportsParser``

@@ -32,8 +32,8 @@ def test_002_expand_homedir(settings, sample_project_settings):
     )
 
     assert expand_result == os.path.join(
-        os.path.expanduser('~'),
-        'foo'
+        os.path.expanduser("~"),
+        "foo"
     )
 
 
@@ -111,7 +111,7 @@ def test_010_expands(settings, sample_project_settings):
 
     expected = [
         "/foo/bar",
-        os.path.join(os.path.expanduser('~'), 'foo'),
+        os.path.join(os.path.expanduser("~"), "foo"),
         os.path.join(settings.fixtures_path, "tests/data_fixtures/sample_project"),
         os.path.join(settings.fixtures_path, "tests/data_fixtures/sample_project"),
         os.path.join(settings.fixtures_path, "foo/coco/bar"),

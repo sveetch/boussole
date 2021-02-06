@@ -11,9 +11,9 @@ Parser is in charge to find every ``@import`` rules in given Sass content.
 It has been built following `Sass Reference`_ about ``@import`` rule.
 
 Note:
-    Sass indented syntax parser has a flaw which cause multiline comments are
-    not catched. If you have commented ``@import`` in multiline comments they
-    will be matched as true importations to resolve and inspect, it can leads
+    Sass indented syntax parser has a flaw which cause multiline comments to be
+    incorrectly parsed. If you have commented ``@import`` in multiline comments
+    they will be matched as true importations to resolve and inspect, it can leads
     to some errors.
 
     The only way is to not use multiline comments when you use the Sass index
@@ -56,7 +56,7 @@ class ScssImportsParser(object):
 
         Raises:
             InvalidImportRule: Raise exception if the rule is badly quoted
-            (not started or not ended quotes).
+                (not started or not ended quotes).
 
         Returns:
             string: The given rule unquoted.

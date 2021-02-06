@@ -61,7 +61,7 @@ class ScssFinder(object):
 
         Raises:
             boussole.exception.FinderException: If no ``filepath`` start could
-            be finded.
+                be finded.
 
         Returns:
             str: Relative filepath where the start coming from ``paths`` is
@@ -81,7 +81,7 @@ class ScssFinder(object):
 
         Args:
             filepath (str): A file path. Can be absolute, relative or just a
-            filename.
+                filename.
 
         Returns:
             bool: True if file is a partial source, else False.
@@ -186,7 +186,7 @@ class ScssFinder(object):
 
         Args:
             filepath (str): A file path (relative or absolute).
-            new_extension (str): New extension name (without leading dot) to
+                new_extension (str): New extension name (without leading dot) to
                 apply.
 
         Returns:
@@ -292,10 +292,10 @@ class ScssFinder(object):
 
         Returns:
             list: A list of pairs ``(source, target)``. Where ``target`` is the
-                ``source`` path but renamed with ``.css`` extension. Relative
-                directory from source dir is left unchanged but if given,
-                returned paths will be absolute (using ``sourcedir`` for
-                sources and ``targetdir`` for targets).
+            ``source`` path but renamed with ``.css`` extension. Relative
+            directory from source dir is left unchanged but if given,
+            returned paths will be absolute (using ``sourcedir`` for
+            sources and ``targetdir`` for targets).
         """
         sources = self.compilable_sources(
             sourcedir,

@@ -8,30 +8,30 @@ class SettingsPostProcessorTest(SettingsPostProcessor):
     manifest for testing processor itself
     """
     settings_manifesto = {
-        'field1': {
-            'default': [],
-            'postprocess': (
-                '_dummy_start',
+        "field1": {
+            "default": [],
+            "postprocess": (
+                "_dummy_start",
             ),
         },
-        'field2': {
-            'default': None,
-            'postprocess': (
-                '_dummy_start',
-                '_dummy_end1',
-                '_dummy_end2',
+        "field2": {
+            "default": None,
+            "postprocess": (
+                "_dummy_start",
+                "_dummy_end1",
+                "_dummy_end2",
             ),
         },
-        'field3': {
-            'default': [],
-            'postprocess': (
-                '_dummy_end2',
-                '_dummy_end1',
+        "field3": {
+            "default": [],
+            "postprocess": (
+                "_dummy_end2",
+                "_dummy_end1",
             ),
         },
-        'field4': {
-            'default': [],
-            'postprocess': [],
+        "field4": {
+            "default": [],
+            "postprocess": [],
         },
     }
 

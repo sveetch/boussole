@@ -23,7 +23,7 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
 ])
 def test_ok(temp_builds_dir, backend_engine, loader, loader_opts):
     """Dump data from backend"""
-    tmp_dirname = 'backend_dump_{}'.format(backend_engine._kind_name)
+    tmp_dirname = "backend_dump_{}".format(backend_engine._kind_name)
     settings_filename = backend_engine._default_filename
     basedir = temp_builds_dir.join(tmp_dirname).strpath
 
@@ -32,8 +32,8 @@ def test_ok(temp_builds_dir, backend_engine, loader, loader_opts):
     destination = os.path.join(basedir, settings_filename)
 
     datas = {
-        'foo': 'bar',
-        'donald': ['riri', 'fifi', 'loulou']
+        "foo": "bar",
+        "donald": ["riri", "fifi", "loulou"]
     }
 
     backend = backend_engine()

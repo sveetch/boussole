@@ -23,9 +23,9 @@ def test_002_polluted(settings, sample_project_settings):
 
     # Add some wrong settings
     settings_object.update({
-        'PLOP': True,
-        'Foo': 42,
-        'BAR': [1, 5, 10]
+        "PLOP": True,
+        "Foo": 42,
+        "BAR": [1, 5, 10]
     })
 
     assert settings_object._settings == sample_project_settings
@@ -40,16 +40,16 @@ def test_003_mixed(settings, sample_project_settings):
 
     # Add one available setting and some other wrong settings
     settings_object.update({
-        'OUTPUT_STYLES': 'compressed',
-        'PLOP': True,
-        'Foo': 42,
-        'BAR': [1, 5, 10]
+        "OUTPUT_STYLES": "compressed",
+        "PLOP": True,
+        "Foo": 42,
+        "BAR": [1, 5, 10]
     })
 
     # New settings reference with modified setting
     mixed = copy.deepcopy(sample_project_settings)
     mixed.update({
-        'OUTPUT_STYLES': 'compressed',
+        "OUTPUT_STYLES": "compressed",
     })
 
     assert settings_object._settings == mixed

@@ -23,8 +23,8 @@ JSON_FILENAME = SettingsBackendJson._default_filename
 
 @pytest.mark.parametrize("options,filename", [
     ([], JSON_FILENAME),
-    (['--backend=yaml'], YAML_FILENAME),
-    (['--backend=json'], JSON_FILENAME),
+    (["--backend=yaml"], YAML_FILENAME),
+    (["--backend=json"], JSON_FILENAME),
 ])
 def test_error_verbosity_001(caplog, options, filename):
     """
@@ -38,24 +38,24 @@ def test_error_verbosity_001(caplog, options, filename):
         test_cwd = os.getcwd()
 
         # Default verbosity
-        result = runner.invoke(cli_frontend, ['compile']+options)
+        result = runner.invoke(cli_frontend, ["compile"]+options)
 
         assert result.exit_code == 1
 
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 20,
-                'Building project'
+                "Building project"
             ),
             (
-                'boussole',
+                "boussole",
                 50,
-                'Unable to find any settings in directory: {}'.format(test_cwd)
+                "Unable to find any settings in directory: {}".format(test_cwd)
             )
         ]
 
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_error_verbosity_002(caplog):
@@ -69,9 +69,9 @@ def test_error_verbosity_002(caplog):
         test_cwd = os.getcwd()
 
         # Silent
-        result = runner.invoke(cli_frontend, ['-v 0', 'compile'])
+        result = runner.invoke(cli_frontend, ["-v 0", "compile"])
 
-        error_msg = 'Unable to find any settings in directory: {}'.format(
+        error_msg = "Unable to find any settings in directory: {}".format(
             test_cwd
         )
 
@@ -79,7 +79,7 @@ def test_error_verbosity_002(caplog):
 
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 50,
                 error_msg
             )
@@ -87,7 +87,7 @@ def test_error_verbosity_002(caplog):
 
         # Totally silent output excepted the one from click.Abort()
         assert error_msg not in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_error_verbosity_003(caplog):
@@ -101,9 +101,9 @@ def test_error_verbosity_003(caplog):
         test_cwd = os.getcwd()
 
         # Silent
-        result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
+        result = runner.invoke(cli_frontend, ["-v 5", "compile"])
 
-        error_msg = 'Unable to find any settings in directory: {}'.format(
+        error_msg = "Unable to find any settings in directory: {}".format(
             test_cwd
         )
 
@@ -111,18 +111,18 @@ def test_error_verbosity_003(caplog):
 
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 20,
-                'Building project'
+                "Building project"
             ),
             (
-                'boussole',
+                "boussole",
                 50,
                 error_msg
             )
         ]
         assert error_msg in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_error_verbosity_004(caplog):
@@ -137,11 +137,11 @@ def test_error_verbosity_004(caplog):
 
         # Need a file to compile, as setting error is not really verbose
         # Write a minimal config file
-        with open(JSON_FILENAME, 'w') as f:
+        with open(JSON_FILENAME, "w") as f:
             f.write(json.dumps({
-                'SOURCES_PATH': '.',
-                'TARGET_PATH': './css',
-                'OUTPUT_STYLES': 'compact',
+                "SOURCES_PATH": ".",
+                "TARGET_PATH": "./css",
+                "OUTPUT_STYLES": "compact",
             }, indent=4))
         # Create needed dirs
         os.makedirs(os.path.join(test_cwd, "css"))
@@ -152,11 +152,11 @@ def test_error_verbosity_004(caplog):
             """#content{""",
             """    color: red;""",
         ))
-        with open('main.scss', 'w') as f:
+        with open("main.scss", "w") as f:
             f.write(source)
 
         # Silent
-        result = runner.invoke(cli_frontend, ['-v 5', 'compile'])
+        result = runner.invoke(cli_frontend, ["-v 5", "compile"])
 
         # Since libsass-python 0.19.4, the error output has a tiny change to
         # introduce column position. So here we support both cases (with or
@@ -177,43 +177,43 @@ def test_error_verbosity_004(caplog):
         assert result.exit_code == 1
         assert caplog.record_tuples == [
             (
-                'boussole',
+                "boussole",
                 20,
-                'Building project'
+                "Building project"
             ),
             (
-                'boussole',
+                "boussole",
                 10,
-                u'Settings file: {}/{} (json)'.format(test_cwd, JSON_FILENAME)
+                u"Settings file: {}/{} (json)".format(test_cwd, JSON_FILENAME)
             ),
             (
-                'boussole',
+                "boussole",
                 10,
-                'Project sources directory: {}'.format(test_cwd)
+                "Project sources directory: {}".format(test_cwd)
             ),
             (
-                'boussole',
+                "boussole",
                 10,
-                'Project destination directory: {}/css'.format(test_cwd)
+                "Project destination directory: {}/css".format(test_cwd)
             ),
             (
-                'boussole',
+                "boussole",
                 10,
-                'Exclude patterns: []'
+                "Exclude patterns: []"
             ),
             (
-                'boussole',
+                "boussole",
                 10,
-                'Compile: {}/main.scss'.format(test_cwd)
+                "Compile: {}/main.scss".format(test_cwd)
             ),
             (
-                'boussole',
+                "boussole",
                 40,
                 error_msg
             )
         ]
         assert error_msg in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_fail_001():
@@ -224,10 +224,10 @@ def test_fail_001():
 
     # Temporary isolated current dir
     with runner.isolated_filesystem():
-        result = runner.invoke(cli_frontend, ['compile'])
+        result = runner.invoke(cli_frontend, ["compile"])
 
         assert result.exit_code == 1
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_fail_002():
@@ -241,12 +241,12 @@ def test_fail_002():
     with runner.isolated_filesystem():
         test_cwd = os.getcwd()
 
-        config_arg = '--config={}'.format(test_cwd)
+        config_arg = "--config={}".format(test_cwd)
 
-        result = runner.invoke(cli_frontend, ['compile', config_arg])
+        result = runner.invoke(cli_frontend, ["compile", config_arg])
 
         assert result.exit_code == 1
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_fail_003():
@@ -259,15 +259,15 @@ def test_fail_003():
     with runner.isolated_filesystem():
         test_cwd = os.getcwd()
 
-        with open(JSON_FILENAME, 'w') as f:
-            f.write('Invalid settings file content')
+        with open(JSON_FILENAME, "w") as f:
+            f.write("Invalid settings file content")
 
-        result = runner.invoke(cli_frontend, ['compile'])
+        result = runner.invoke(cli_frontend, ["compile"])
 
         msg = """No JSON object could be decoded from file: {}/{}"""
         assert result.exit_code == 1
         assert msg.format(test_cwd, JSON_FILENAME) in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_fail_004():
@@ -281,11 +281,11 @@ def test_fail_004():
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open(JSON_FILENAME, 'w') as f:
+        with open(JSON_FILENAME, "w") as f:
             f.write(json.dumps({
-                'SOURCES_PATH': '.',
-                'TARGET_PATH': './css',
-                'OUTPUT_STYLES': 'compact',
+                "SOURCES_PATH": ".",
+                "TARGET_PATH": "./css",
+                "OUTPUT_STYLES": "compact",
             }, indent=4))
 
         # Create needed dirs
@@ -297,17 +297,17 @@ def test_fail_004():
             """#content{""",
             """    color: red;""",
         ))
-        with open('main.scss', 'w') as f:
+        with open("main.scss", "w") as f:
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['compile'])
+        result = runner.invoke(cli_frontend, ["compile"])
 
         msg = """Invalid CSS after "    color: red;": expected "}", was """""
 
         assert result.exit_code == 1
         assert msg in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 def test_fail_005():
@@ -321,11 +321,11 @@ def test_fail_005():
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open(JSON_FILENAME, 'w') as f:
+        with open(JSON_FILENAME, "w") as f:
             f.write(json.dumps({
-                'SOURCES_PATH': '.',
-                'TARGET_PATH': './css',
-                'OUTPUT_STYLES': 'compact',
+                "SOURCES_PATH": ".",
+                "TARGET_PATH": "./css",
+                "OUTPUT_STYLES": "compact",
             }, indent=4))
 
         # Create needed dirs
@@ -336,23 +336,23 @@ def test_fail_005():
             """/* Main sample */""",
             """@import "mip";""",
         ))
-        with open('main.scss', 'w') as f:
+        with open("main.scss", "w") as f:
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['compile'])
+        result = runner.invoke(cli_frontend, ["compile"])
 
         msg = """File to import not found or unreadable: mip"""
 
         assert result.exit_code == 1
         assert msg in result.output
-        assert 'Aborted!' in result.output
+        assert "Aborted!" in result.output
 
 
 @pytest.mark.parametrize("options,filename,dumper", [
     ([], JSON_FILENAME, json.dump),
-    (['--backend=yaml'], YAML_FILENAME, pyaml.dump),
-    (['--backend=json'], JSON_FILENAME, json.dump),
+    (["--backend=yaml"], YAML_FILENAME, pyaml.dump),
+    (["--backend=json"], JSON_FILENAME, json.dump),
 ])
 def test_success_001(options, filename, dumper):
     """
@@ -366,12 +366,12 @@ def test_success_001(options, filename, dumper):
         test_cwd = os.getcwd()
 
         # Write a minimal config file
-        with open(filename, 'w') as f:
+        with open(filename, "w") as f:
             datas = {
-                'SOURCES_PATH': '.',
-                'TARGET_PATH': './css',
-                'OUTPUT_STYLES': 'compact',
-                'SOURCE_MAP': True,
+                "SOURCES_PATH": ".",
+                "TARGET_PATH": "./css",
+                "OUTPUT_STYLES": "compact",
+                "SOURCE_MAP": True,
             }
             dumper(datas, f, indent=4)
 
@@ -389,7 +389,7 @@ def test_success_001(options, filename, dumper):
             """}""",
             """@import "sass_addon";""",
         ))
-        with open('main.scss', 'w') as f:
+        with open("main.scss", "w") as f:
             f.write(source)
 
         # Write a minimal main scss source
@@ -398,7 +398,7 @@ def test_success_001(options, filename, dumper):
             """#sass-addon""",
             """    color: blue""",
         ))
-        with open('_sass_addon.sass', 'w') as f:
+        with open("_sass_addon.sass", "w") as f:
             f.write(source)
 
         # Write a partial Sass source
@@ -408,11 +408,11 @@ def test_success_001(options, filename, dumper):
             """    color: gold !important;""",
             """}""",
         ))
-        with open('_toignore.scss', 'w') as f:
+        with open("_toignore.scss", "w") as f:
             f.write(source)
 
         # Invoke command action
-        result = runner.invoke(cli_frontend, ['compile']+options)
+        result = runner.invoke(cli_frontend, ["compile"]+options)
 
         # Attempted compiled CSS
         css_attempted = "\n".join((
@@ -426,7 +426,7 @@ def test_success_001(options, filename, dumper):
             "",
             """/*# sourceMappingURL=main.map */""",
         ))
-        with open(os.path.join(test_cwd, "css", "main.css"), 'r') as f:
+        with open(os.path.join(test_cwd, "css", "main.css"), "r") as f:
             css_compiled = f.read()
 
         # Command success signal exit
@@ -437,6 +437,6 @@ def test_success_001(options, filename, dumper):
         results = os.listdir(os.path.join(test_cwd, "css"))
         results.sort()
         assert results == [
-            'main.css',
-            'main.map',
+            "main.css",
+            "main.map",
         ]

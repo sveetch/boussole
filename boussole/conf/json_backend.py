@@ -22,7 +22,7 @@ class SettingsBackendJson(SettingsBackendBase):
         _file_extension: Default filename extension.
             Value is ``json``.
     """
-    _default_filename = "settings.json"
+    _default_filename = "boussole.json"
     _kind_name = "json"
     _file_extension = "json"
 

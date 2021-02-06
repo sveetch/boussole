@@ -10,12 +10,12 @@ def test_001_success(settings, temp_builds_dir):
     """
     Validate existing file path
     """
-    basedir = temp_builds_dir.join('postprocessor_validate_path_001')
+    basedir = temp_builds_dir.join("postprocessor_validate_path_001")
     os.makedirs(basedir.strpath)
 
     processor = SettingsPostProcessor()
 
-    foo = basedir.join('foo.txt')
+    foo = basedir.join("foo.txt")
     foo.write("Hello world!")
 
     result = processor._validate_path({}, "DUMMY_NAME", foo.strpath)
@@ -27,12 +27,12 @@ def test_002_exception(settings, temp_builds_dir):
     """
     Validate not existing file path
     """
-    basedir = temp_builds_dir.join('postprocessor_validate_path_002')
+    basedir = temp_builds_dir.join("postprocessor_validate_path_002")
     os.makedirs(basedir.strpath)
 
     processor = SettingsPostProcessor()
 
-    foo = basedir.join('foo.txt')
+    foo = basedir.join("foo.txt")
 
     with pytest.raises(SettingsInvalidError):
         processor._validate_path({}, "DUMMY_NAME", foo.strpath)
@@ -42,15 +42,15 @@ def test_003_list_success(settings, temp_builds_dir):
     """
     Validate existing file paths
     """
-    basedir = temp_builds_dir.join('postprocessor_validate_path_003')
+    basedir = temp_builds_dir.join("postprocessor_validate_path_003")
     os.makedirs(basedir.strpath)
 
     processor = SettingsPostProcessor()
 
-    foo = basedir.join('foo.txt')
+    foo = basedir.join("foo.txt")
     foo.write("Hello world!")
 
-    bar = basedir.join('bar.txt')
+    bar = basedir.join("bar.txt")
     bar.write("Hello plop!")
 
     result = processor._validate_paths({}, "DUMMY_NAME", (
@@ -68,15 +68,15 @@ def test_004_list_exception(settings, temp_builds_dir):
     """
     Validate existing file paths
     """
-    basedir = temp_builds_dir.join('postprocessor_validate_path_004')
+    basedir = temp_builds_dir.join("postprocessor_validate_path_004")
     os.makedirs(basedir.strpath)
 
     processor = SettingsPostProcessor()
 
-    foo = basedir.join('foo.txt')
+    foo = basedir.join("foo.txt")
     foo.write("Hello world!")
 
-    bar = basedir.join('bar.txt')
+    bar = basedir.join("bar.txt")
     bar.write("Hello plop!")
 
     with pytest.raises(SettingsInvalidError):

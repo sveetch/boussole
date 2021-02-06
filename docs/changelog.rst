@@ -11,10 +11,9 @@ Version 2.0.0 - Unreleased
 DONE:
     * Drop Python2 support (remove six, unicode litteral, config);
     * Drop pathtools dependency (only used in watcher);
-
-TODO:
+    * (backward incompatible) Changed default settings filename from ``settings``
+      to ``boussole``;
     * Update doc config, use livereload and with new RTD config file;
-    * Add new boussole config filename (boussole.json, etc..);
 
 Version 1.6.0 - 2021/02/04
 --------------------------

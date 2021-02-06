@@ -39,13 +39,15 @@ class SettingsPostProcessor(object):
 
         Returns:
             dict: Settings object possibly modified (depending from applied
-                post processing).
+            post processing).
 
         """
         for k in settings:
             # Search for post process rules for setting in manifest
-            if k in self.settings_manifesto and \
-               self.settings_manifesto[k].get("postprocess", None) is not None:
+            if (
+                k in self.settings_manifesto and
+                self.settings_manifesto[k].get("postprocess", None) is not None
+            ):
                 rules = self.settings_manifesto[k]["postprocess"]
 
                 # Chain post process rules from each setting
@@ -118,11 +120,8 @@ class SettingsPostProcessor(object):
 
         """
         if not os.path.exists(value):
-            raise SettingsInvalidError("Path from setting '{name}' does not "
-                                       "exists: {value}".format(
-                                           name=name,
-                                           value=value
-                                       ))
+            msg = "Path from setting '{name}' does not exists: {value}"
+            raise SettingsInvalidError(msg.format(name=name, value=value))
 
         return value
 
@@ -164,8 +163,7 @@ class SettingsPostProcessor(object):
 
         """
         if not value:
-            raise SettingsInvalidError(("Required value from setting '{name}' "
-                                        "must not be "
-                                        "empty.").format(name=name))
+            msg = "Required value from setting '{name}' must not be empty."
+            raise SettingsInvalidError(msg.format(name=name))
 
         return value

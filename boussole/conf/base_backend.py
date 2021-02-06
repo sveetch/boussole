@@ -42,7 +42,7 @@ class SettingsBackendBase(SettingsPostProcessor):
         _file_extension: Default filename extension.
             Value is ``txt``.
     """
-    _default_filename = "settings.txt"
+    _default_filename = "boussole.txt"
     _kind_name = "txt"
     _file_extension = "txt"
 

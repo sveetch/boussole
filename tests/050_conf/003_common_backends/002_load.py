@@ -22,10 +22,10 @@ def test_basic(settings, custom_project_settings, backend_engine):
 
 
 @pytest.mark.parametrize("filename,backend_engine", [
-    ("settings_polluted.json", SettingsBackendJson),
-    ("settings_custom.json", SettingsBackendJson),
-    ("settings_polluted.yml", SettingsBackendYaml),
-    ("settings_custom.yml", SettingsBackendYaml),
+    ("boussole_polluted.json", SettingsBackendJson),
+    ("boussole_custom.json", SettingsBackendJson),
+    ("boussole_polluted.yml", SettingsBackendYaml),
+    ("boussole_custom.yml", SettingsBackendYaml),
 ])
 def test_polluted(settings, custom_project_settings, filename, backend_engine):
     """
@@ -37,19 +37,19 @@ def test_polluted(settings, custom_project_settings, filename, backend_engine):
 
     assert settings_object._settings == custom_project_settings
 
-    assert settings_object.TARGET_PATH == custom_project_settings['TARGET_PATH']
-    assert settings_object.SOURCES_PATH == custom_project_settings['SOURCES_PATH']
-    assert settings_object.LIBRARY_PATHS == custom_project_settings['LIBRARY_PATHS']
-    assert settings_object.OUTPUT_STYLES == custom_project_settings['OUTPUT_STYLES']
+    assert settings_object.TARGET_PATH == custom_project_settings["TARGET_PATH"]
+    assert settings_object.SOURCES_PATH == custom_project_settings["SOURCES_PATH"]
+    assert settings_object.LIBRARY_PATHS == custom_project_settings["LIBRARY_PATHS"]
+    assert settings_object.OUTPUT_STYLES == custom_project_settings["OUTPUT_STYLES"]
 
     # Wrong settings that does not exist and should have been removed
-    assert getattr(settings_object, 'FOO', None) is None
-    assert getattr(settings_object, 'BAR', None) is None
+    assert getattr(settings_object, "FOO", None) is None
+    assert getattr(settings_object, "BAR", None) is None
 
 
 @pytest.mark.parametrize("filename,backend_engine", [
-    ("settings_custom.json", SettingsBackendJson),
-    ("settings_custom.yml", SettingsBackendYaml),
+    ("boussole_custom.json", SettingsBackendJson),
+    ("boussole_custom.yml", SettingsBackendYaml),
 ])
 def test_custom(settings, custom_project_settings, filename, backend_engine):
     """
