@@ -9,13 +9,13 @@ def test_001(compiler, temp_builds_dir):
     """
     Basic sample without source map
     """
-    basedir = temp_builds_dir.join('compiler_safecompile').strpath
+    basedir = temp_builds_dir.join("compiler_safecompile").strpath
 
     basic_settings = Settings(initial={
-        'SOURCES_PATH': 'scss',
-        'TARGET_PATH': 'css',
-        'SOURCE_MAP': False,
-        'OUTPUT_STYLES': 'compact',
+        "SOURCES_PATH": "scss",
+        "TARGET_PATH": "css",
+        "SOURCE_MAP": False,
+        "OUTPUT_STYLES": "compact",
     })
 
     sourcedir = os.path.join(basedir, basic_settings.SOURCES_PATH)
@@ -29,9 +29,9 @@ def test_001(compiler, temp_builds_dir):
     os.makedirs(targetdir)
 
     # Create sample source to compile
-    with io.open(src, 'w', encoding='utf-8') as f:
+    with io.open(src, "w", encoding="utf-8") as f:
         f.write(
-            u"""#content{
+            """#content{
             color: #ff0000;
             font-weight: bold;
             &.foo{ border: 1px solid #000000; }
@@ -46,7 +46,7 @@ def test_001(compiler, temp_builds_dir):
     assert os.path.exists(src_map) is False
 
     # Assert compiled file is ok
-    with io.open(dst, 'r', encoding='utf-8') as f:
+    with io.open(dst, "r", encoding="utf-8") as f:
         content = f.read()
 
     assert content == (

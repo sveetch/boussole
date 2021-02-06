@@ -9,13 +9,13 @@ def test_css_compat_ok(compiler, temp_builds_dir):
     """
     Ensure CSS import compatibility is ok
     """
-    basedir = temp_builds_dir.join('compiler_css_compat_ok').strpath
+    basedir = temp_builds_dir.join("compiler_css_compat_ok").strpath
 
     basic_settings = Settings(initial={
-        'SOURCES_PATH': 'scss',
-        'TARGET_PATH': 'css',
-        'SOURCE_MAP': False,
-        'OUTPUT_STYLES': 'compact',
+        "SOURCES_PATH": "scss",
+        "TARGET_PATH": "css",
+        "SOURCE_MAP": False,
+        "OUTPUT_STYLES": "compact",
     })
 
     sourcedir = os.path.join(basedir, basic_settings.SOURCES_PATH)
@@ -29,9 +29,9 @@ def test_css_compat_ok(compiler, temp_builds_dir):
     os.makedirs(targetdir)
 
     # Create sample main Sass source
-    with io.open(src, 'w', encoding='utf-8') as f:
+    with io.open(src, "w", encoding="utf-8") as f:
         f.write(
-            u"""
+            """
             @import "dummy";
             #content{
             color: #ff0000;
@@ -42,9 +42,9 @@ def test_css_compat_ok(compiler, temp_builds_dir):
         )
 
     # Create sample main Sass source
-    with io.open(css_include, 'w', encoding='utf-8') as f:
+    with io.open(css_include, "w", encoding="utf-8") as f:
         f.write(
-            u"""
+            """
             .dummy{
                 color: #00ff00;
             }
@@ -57,7 +57,7 @@ def test_css_compat_ok(compiler, temp_builds_dir):
     assert os.path.exists(dst)
 
     # Assert compiled file is ok
-    with io.open(dst, 'r', encoding='utf-8') as f:
+    with io.open(dst, "r", encoding="utf-8") as f:
         content = f.read()
 
     attempted = (

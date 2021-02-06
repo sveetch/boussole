@@ -184,7 +184,7 @@ def test_error_verbosity_004(caplog):
             (
                 "boussole",
                 10,
-                u"Settings file: {}/{} (json)".format(test_cwd, JSON_FILENAME)
+                "Settings file: {}/{} (json)".format(test_cwd, JSON_FILENAME)
             ),
             (
                 "boussole",
@@ -416,7 +416,7 @@ def test_success_001(options, filename, dumper):
 
         # Attempted compiled CSS
         css_attempted = "\n".join((
-            u"""/* Main scss sample */""",
+            """/* Main scss sample */""",
             """#content { color: red; }""",
             "",
             """#content.wide { margin: 50px 15px; }""",

@@ -86,12 +86,16 @@ def startproject_command(context, basedir, sourcedir, targetdir, backend,
         logger.critical(str(e))
         raise click.Abort()
     else:
-        logger.info(u"Project directory structure and configuration file have "
-                    "been created.")
+        logger.info((
+            "Project directory structure and configuration file have "
+            "been created."
+        ))
 
-        logger.info(u"Now you should start to create some Sass sources into "
-                    "'{}', then compile them "
-                    "using:".format(results["sourcedir"]))
+        logger.info((
+            "Now you should start to create some Sass sources into "
+            "'{}', then compile them using:"
+        ).format(results["sourcedir"]))
 
-        logger.info(u"    boussole compile "
-                    "--config={}".format(results["config"]))
+        logger.info(
+            "    boussole compile --config={}".format(results["config"])
+        )

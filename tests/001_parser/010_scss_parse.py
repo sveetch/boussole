@@ -24,7 +24,7 @@ def test_comment_003(settings, parser):
 
 def test_unicode(settings, parser):
     """Just checkin parser on unicode character"""
-    result = parser.parse(u"""// Look this unicode char: →""")
+    result = parser.parse("""// Look this unicode char: →""")
     assert result == []
 
 
