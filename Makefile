@@ -12,21 +12,22 @@ APPLICATION_NAME=boussole
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo
-	@echo "  install             -- to install this project with virtualenv and Pip"
+	@echo "  install               -- to install this project with virtualenv and Pip"
 	@echo ""
-	@echo "  clean               -- to clean EVERYTHING (Warning)"
-	@echo "  clean-doc           -- to remove documentation builds"
-	@echo "  clean-install       -- to clean Python side installation"
-	@echo "  clean-pycache       -- to remove all __pycache__, this is recursive from current directory"
+	@echo "  clean                 -- to clean EVERYTHING (Warning)"
+	@echo "  clean-doc             -- to remove documentation builds"
+	@echo "  clean-install         -- to clean Python side installation"
+	@echo "  clean-pycache         -- to remove all __pycache__, this is recursive from current directory"
 	@echo ""
-	@echo "  docs                -- to build documentation"
-	@echo "  livedocs            -- to run livereload server to rebuild documentation on source changes"
+	@echo "  docs                  -- to build documentation"
+	@echo "  livedocs              -- to run livereload server to rebuild documentation on source changes"
 	@echo ""
-	@echo "  flake               -- to launch Flake8 checking"
-	@echo "  tests               -- to launch tests using Pytest"
-	@echo "  quality             -- to launch Flake8, tests, check package and build documentation"
+	@echo "  flake                 -- to launch Flake8 checking"
+	@echo "  tests                 -- to launch tests using Pytest"
+	@echo "  quality               -- to launch Flake8, tests, check package and build documentation"
 	@echo ""
-	@echo "  release             -- to release package for latest version on PyPi (once release has been pushed to repository)"
+	@echo "  freeze-dependencies   -- to write a frozen.txt file with installed dependencies versions"
+	@echo "  release               -- to release package for latest version on PyPi (once release has been pushed to repository)"
 	@echo
 
 clean-pycache:
@@ -111,6 +112,13 @@ build-package:
 	$(VENV_PATH)/bin/python setup.py sdist
 .PHONY: build-package
 
+freeze-dependencies:
+	@echo ""
+	@echo "==== Freeze dependencies versions ===="
+	@echo ""
+	$(VENV_PATH)/bin/python freezer.py
+.PHONY: freeze-dependencies
+
 release: build-package
 	@echo ""
 	@echo "==== Release ===="
@@ -126,7 +134,7 @@ check-release: build-package
 .PHONY: check-release
 
 
-quality: tests flake docs check-release
+quality: tests flake docs freeze-dependencies check-release
 	@echo ""
 	@echo "♥ ♥ Everything should be fine ♥ ♥"
 	@echo ""

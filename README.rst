@@ -36,7 +36,7 @@ Dependancies
 * `six`_;
 * `Watchdog`_ >=0.8.3;
 * `click`_ >=5.1;
-* `libsass-python`_ >=0.18.0;
+* `libsass-python`_ >=0.19.4;
 * `colorama`_;
 * `colorlog`_;
 * `pyaml`_;

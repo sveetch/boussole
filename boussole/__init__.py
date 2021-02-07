@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Commandline interface to build Sass projects using libsass-python"""
-from __future__ import absolute_import, unicode_literals
-
 import os
+
 from setuptools.config import read_configuration
 
 import pkg_resources
+
 
 PROJECT_DIR = os.path.join(os.path.dirname(__file__), "..")
 

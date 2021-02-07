@@ -5,15 +5,25 @@
 Changelog
 =========
 
-Version 2.0.0 - Unreleased
+Version 2.0.0 - 2021/02/06
 --------------------------
 
-DONE:
-    * Drop Python2 support (remove six, unicode litteral, config);
-    * Drop pathtools dependency (only used in watcher);
-    * (backward incompatible) Changed default settings filename from ``settings``
-      to ``boussole``;
-    * Update doc config, use livereload and with new RTD config file;
+*Drop Python2 support, change configuration filename and some minor improvements*
+
+* **[Backward incompatible]** Drop Python2 support (remove six, unicode litteral,
+  update package configuration, etc..);
+* **[Backward incompatible]** Changed default configuration filename from
+  ``settings`` to ``boussole``. This was required to avoid clash with some other
+  projects since "settings" is a too common word;
+* Drop ``pathtools`` package dependency since it is an abandoned project;
+* Update doc config, use livereload and with new RTD config file;
+* Drop support for libsass-python ``<0.19.4``.
+
+For new configuration filename change you have two way to resolve it:
+
+* Just change your configuration filename to the new one, like if you were
+  using ``settings.json``, you will rename it to ``boussole.json``;
+* Use option ``--config`` to explicitely use your own configuration filename;
 
 Version 1.6.0 - 2021/02/04
 --------------------------

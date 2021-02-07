@@ -5,11 +5,7 @@ import pyaml
 
 import pytest
 
-from packaging.version import Version, parse
-
 from click.testing import CliRunner
-
-from sass import __version__ as libsass_version
 
 from boussole.cli.console_script import cli_frontend
 from boussole.conf.json_backend import SettingsBackendJson
@@ -158,21 +154,11 @@ def test_error_verbosity_004(caplog):
         # Silent
         result = runner.invoke(cli_frontend, ["-v 5", "compile"])
 
-        # Since libsass-python 0.19.4, the error output has a tiny change to
-        # introduce column position. So here we support both cases (with or
-        # without column in error) to be compatible from 0.18.x to 0.20.x
-        if parse(libsass_version) >= Version("0.19.4"):
-            error_msg = (
-                "Error: Invalid CSS after \"    color: red;\": expected \"}\", "
-                "was \"\"\n        on line 3:15 of main.scss\n>>     "
-                "color: red;\n   --------------^\n"
-            )
-        else:
-            error_msg = (
-                "Error: Invalid CSS after \"    color: red;\": expected \"}\", "
-                "was \"\"\n        on line 3 of main.scss\n>>     "
-                "color: red;\n   --------------^\n"
-            )
+        error_msg = (
+            "Error: Invalid CSS after \"    color: red;\": expected \"}\", "
+            "was \"\"\n        on line 3:15 of main.scss\n>>     "
+            "color: red;\n   --------------^\n"
+        )
 
         assert result.exit_code == 1
         assert caplog.record_tuples == [
