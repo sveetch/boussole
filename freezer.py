@@ -26,7 +26,7 @@ def flatten_requirement(requirement):
     Returns:
         string: Package name.
     """
-    return requirement.project_name
+    return requirement.key
 
 
 def extract_pkg_version(package_name):
@@ -86,20 +86,16 @@ def get_install_dependencies(requirements=None, ignore=[]):
     """
     reqs = subprocess.check_output([sys.executable, '-m', 'pip', 'freeze'])
 
-    # All dependencies except ignored ones
-    if not requirements:
-        return [
-            item.decode('utf-8')
-            for item in reqs.splitlines()
-            if item.decode('utf-8') not in ignore
-        ]
-
-    # Filter from requirement names and ignored ones
+    # Filter from requirement names (if any) and ignored ones
     deps = []
     for item in reqs.splitlines():
         pkg = item.decode('utf-8')
-        name = pkg.split("==")[0]
-        if name in requirements and name not in ignore:
+        name = pkg.split("==")[0].lower()
+
+        if (
+            (requirements is None or name in requirements) and
+            name not in ignore
+        ):
             deps.append(pkg)
 
     return deps
