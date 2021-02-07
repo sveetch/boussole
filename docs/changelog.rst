@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 2.0.0 - Unreleased
+Version 2.0.0 - 2021/02/07
 --------------------------
 
 *Drop Python2 support, change configuration filename and some minor improvements*
