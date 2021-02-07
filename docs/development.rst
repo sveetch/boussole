@@ -86,22 +86,38 @@ yourself before.
 
 And go on ``http://localhost:8002/`` or your server machine IP with port 8002.
 
-Releasing
----------
-
-When you have a release to do, after you have correctly push all your commits
-you can use the shortcut: ::
-
-    make release
-
-Which will build the package release and send it to Pypi with `twine`_.
-You may think to
-`configure your Pypi account <https://twine.readthedocs.io/en/latest/#configuration>`_
-on your machine to avoid to input it each time.
-
 Contribution
 ------------
 
 * Every new feature or changed behavior must pass tests, Flake8 code quality
   and must be documented.
 * Every feature or behavior must be compatible for all supported environment.
+
+Releasing
+---------
+
+First thing is to ensure changelog have been correctly updated with informations
+about your release.
+
+Before releasing, use tox to perform tests on all supported environments then
+finally launch a full quality job which will check about everything (tests,
+flake, doc, etc..): ::
+
+    make quality
+
+When finishing a release, you must update the frozen dependencies file: ::
+
+    make freeze-dependencies
+
+Remember to do it when the release version is finalized like ``2.0.0``, not during
+a pre release like ``2.0.0-pre.1``.
+
+When it's done, push everything to the repository and make attempted release: ::
+
+    make release
+
+This will build the package release and send it to Pypi with `twine`_.
+You may think to
+`configure your Pypi account <https://twine.readthedocs.io/en/latest/#configuration>`_
+on your machine to avoid to input it each time and obviously you need to be
+granted to manage this project.

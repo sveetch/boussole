@@ -5,7 +5,7 @@
 Changelog
 =========
 
-Version 2.0.0 - 2021/02/06
+Version 2.0.0 - Unreleased
 --------------------------
 
 *Drop Python2 support, change configuration filename and some minor improvements*
@@ -18,6 +18,9 @@ Version 2.0.0 - 2021/02/06
 * Drop ``pathtools`` package dependency since it is an abandoned project;
 * Update doc config, use livereload and with new RTD config file;
 * Drop support for libsass-python ``<0.19.4``.
+* Rename ``requirements_freeze.txt`` to ``frozen.txt``;
+* Add a new script for development which help to automatically update the
+  ``frozen.txt`` file;
 
 For new configuration filename change you have two way to resolve it:
 

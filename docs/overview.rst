@@ -29,7 +29,7 @@ Project configuration
 *********************
 
 A project **configuration lives in a file** which default attempted name is
-``settings.json`` (JSON backend) or ``settings.yml`` (YAML backend).
+``boussole.json`` (JSON backend) or ``boussole.yml`` (YAML backend).
 
 Backend format
 --------------
@@ -49,9 +49,9 @@ as command argument with ``--config`` option.
 Discovering is allways performed from current directory and will try to find a
 settings file using available backend default filename.
 
-Such as if you have a ``settings.yml`` in your current directory, Boussole will
+Such as if you have a ``boussole.yml`` in your current directory, Boussole will
 assume it's your settings file to open. JSON backend is the first one to be
-checked so if you have both ``settings.json`` and ``settings.yml`` in your current
+checked so if you have both ``boussole.json`` and ``boussole.yml`` in your current
 directory, the JSON will be used.
 
 You may possibly enforce a single backend to be used in discovery using the
@@ -106,6 +106,9 @@ LIBRARY_PATHS
     If you plan to use some Sass libraries installed from npm, just add the path to
     ``node_modules`` directory, then you will be able to import them from your
     sources.
+
+    However, some project may install hundreds of npm packages which may involve
+    a little performance loss with the watcher mode on some systems.
 TARGET_PATH
     Default: None, this is a required setting.
 

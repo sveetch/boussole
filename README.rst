@@ -16,7 +16,8 @@ Features
 ********
 
 * Stand on `LibSass`_ which is **very fast**;
-* **Per project configuration** so you can use it once to compile all of your SASS files from a same project;
+* **Per project configuration** so you can use it once to compile all of your
+  Sass files from a same project;
 * **Simple and useful** command line;
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
@@ -26,17 +27,21 @@ Features
 Links
 *****
 
-* Read the documentation on `Read the docs <http://boussole.readthedocs.io/>`_;
-* Download its `PyPi package <http://pypi.python.org/pypi/boussole>`_;
+* Read the documentation on `Read the docs <https://boussole.readthedocs.io/>`_;
+* Download its `PyPi package <https://pypi.org/project/boussole/>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/boussole>`_;
 
 Dependancies
 ************
 
-* `six`_;
-* `Watchdog`_ >=0.8.3;
 * `click`_ >=5.1;
-* `libsass-python`_ >=0.19.4;
 * `colorama`_;
 * `colorlog`_;
+* `libsass-python`_ >=0.19.4;
 * `pyaml`_;
+* `Watchdog`_ >=0.8.3;
+
+Credits
+*******
+
+Logo has been created by **Sébastien Bianco**.

@@ -33,20 +33,19 @@ Features
 Links
 *****
 
-* Read the documentation on `Read the docs <http://boussole.readthedocs.io/>`_;
-* Download its `PyPi package <http://pypi.python.org/pypi/boussole>`_;
+* Read the documentation on `Read the docs <https://boussole.readthedocs.io/>`_;
+* Download its `PyPi package <https://pypi.org/project/boussole/>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/boussole>`_;
 
 Dependancies
 ************
 
-* `six`_;
-* `Watchdog`_ >=0.8.3;
 * `click`_ >=5.1;
-* `libsass-python`_ >=0.18.0;
 * `colorama`_;
 * `colorlog`_;
+* `libsass-python`_ >=0.19.4;
 * `pyaml`_;
+* `Watchdog`_ >=0.8.3;
 
 User’s Guide
 ************
@@ -55,7 +54,7 @@ User’s Guide
    :maxdepth: 2
 
    install.rst
-   tutorial.rst
+   quickstart.rst
    overview.rst
 
 Developer’s Guide
