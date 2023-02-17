@@ -180,6 +180,20 @@ class ScssFinder(object):
 
         return True
 
+    def append_suffix(self, filepath, suffix):
+        """
+        Change final filename by appending a suffix.
+
+        Args:
+            filepath (str): A file path (relative or absolute).
+            suffix (str): Suffix to append
+
+        Returns:
+            str: Filepath with the new filename.
+        """
+        filename, ext = os.path.splitext(filepath)
+        return '.'.join([filename, suffix, ext[1:]])
+
     def change_extension(self, filepath, new_extension):
         """
         Change final filename extension.

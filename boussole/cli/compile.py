@@ -10,6 +10,7 @@ from ..conf.yaml_backend import SettingsBackendYaml
 from ..exceptions import BoussoleBaseException
 from ..finder import ScssFinder
 from ..project import ProjectBase
+from ..utils import file_md5
 
 
 @click.command(
@@ -79,6 +80,10 @@ def compile_command(context, backend, config):
     errors = 0
     for src, dst in compilable_files:
         logger.debug("Compile: {}".format(src))
+
+        if settings.HASH_SUFFIXES:
+            filehash = file_md5(src)[:10]
+            dst = compiler.append_suffix(dst, filehash)
 
         output_opts = {}
         success, message = compiler.safe_compile(settings, src, dst)

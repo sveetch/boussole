@@ -76,6 +76,7 @@ format:
             ],
             "TARGET_PATH": "/home/bar",
             "OUTPUT_STYLES": "nested",
+            "HASH_SUFFIXES": false,
             "SOURCE_COMMENTS": false,
             "SOURCE_MAP": false,
             "EXCLUDES": [
@@ -118,6 +119,11 @@ OUTPUT_STYLES
 
     (string) keyword of output style type used to compile your Sass sources. Can
     be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
+HASH_SUFFIXES
+    Default: ``False``
+
+    (boolean) If ``True``, an MD5 hash will be appended to the filename of each
+    compiled file.
 SOURCE_COMMENTS
     Default: ``False``
 

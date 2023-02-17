@@ -4,6 +4,7 @@ Utils
 =====
 
 """
+import hashlib
 from pathlib import PureWindowsPath, PurePosixPath
 
 
@@ -48,3 +49,21 @@ def match_path(path, included_patterns, excluded_patterns, case_sensitive):
         any(path.match(p) for p in included_patterns) and
         not any(path.match(p) for p in excluded_patterns)
     )
+
+
+def file_md5(filename):
+    """
+    Generates an MD5 hash based on the content of the provided file.
+
+    Arguments:
+        filename (string): A file path (relative or absolute).
+
+    Returns:
+        str: MD5 hash string
+    """
+    hash_md5 = hashlib.md5()
+    with open(filename, "rb") as fp:
+        for chunk in iter(lambda: fp.read(4096), b""):
+            hash_md5.update(chunk)
+
+    return hash_md5.hexdigest()
