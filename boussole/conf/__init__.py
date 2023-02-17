@@ -50,6 +50,10 @@ SETTINGS_MANIFEST = {
         "default": "nested",
         "postprocess": [],
     },
+    "HASH_SUFFIXES": {
+        "default": False,
+        "postprocess": [],
+    },
     "SOURCE_COMMENTS": {
         "default": False,
         "postprocess": [],

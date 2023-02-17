@@ -17,7 +17,7 @@ from watchdog.events import PatternMatchingEventHandler
 from .compiler import SassCompileHelper
 from .exceptions import BoussoleBaseException
 from .finder import ScssFinder
-from .utils import match_path
+from .utils import match_path, file_md5
 
 
 class SassLibraryEventHandler(object):
@@ -170,6 +170,9 @@ class SassLibraryEventHandler(object):
                 relpath,
                 targetdir=self.settings.TARGET_PATH
             )
+            if self.settings.HASH_SUFFIXES:
+                filehash = file_md5(sourcepath)[:10]
+                destination = self.compiler.append_suffix(destination, filehash)
 
             self.logger.debug("Compile: {}".format(sourcepath))
             success, message = self.compiler.safe_compile(

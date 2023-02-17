@@ -5,6 +5,13 @@
 Changelog
 =========
 
+Version 2.1.0 - Unreleased
+--------------------------
+
+* Added new option ``HASH_SUFFIXES`` that append hash suffixes to filenames when
+  enabled;
+
+
 Version 2.0.0 - 2021/02/07
 --------------------------
 
@@ -27,6 +34,7 @@ For new configuration filename change you have two way to resolve it:
 * Just change your configuration filename to the new one, like if you were
   using ``settings.json``, you will rename it to ``boussole.json``;
 * Use option ``--config`` to explicitely use your own configuration filename;
+
 
 Version 1.6.0 - 2021/02/04
 --------------------------

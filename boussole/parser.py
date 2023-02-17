@@ -94,7 +94,7 @@ class ScssImportsParser(object):
         * Starts with http:// or https:// (this for external load only)
         * Ends with ".css" (they are not intended to be compiled)
         """
-        return not(
+        return not (
             path.startswith("http://") or path.startswith("https://") or
             path.endswith(".css")
         )

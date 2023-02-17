@@ -131,6 +131,7 @@ def sample_project_settings():
         "SOURCES_PATH": "/home/foo",
         "TARGET_PATH": "/home/bar",
         "OUTPUT_STYLES": "nested",
+        "HASH_SUFFIXES": False,
         "SOURCE_COMMENTS": False,
         "SOURCE_MAP": False,
         "EXCLUDES": [],
@@ -150,6 +151,7 @@ def custom_project_settings():
         "SOURCES_PATH": os.path.join(fixtures_settings.fixtures_path, "sample_project"),
         "TARGET_PATH": fixtures_settings.fixtures_path,
         "OUTPUT_STYLES": "expanded",
+        "HASH_SUFFIXES": False,
         "SOURCE_COMMENTS": True,
         "SOURCE_MAP": False,
         "EXCLUDES": [

@@ -32,7 +32,7 @@ help:
 
 clean-pycache:
 	@echo ""
-	@echo "==== Clear cache ===="
+	@echo "==== Clear Python cache ===="
 	@echo ""
 	find . -type d -name "__pycache__"|xargs rm -Rf
 	find . -name "*\.pyc"|xargs rm -f

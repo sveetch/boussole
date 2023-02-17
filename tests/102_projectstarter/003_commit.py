@@ -42,6 +42,7 @@ def test_commit_basic(projectstarter, temp_builds_dir, name, ext, module,
             'TARGET_PATH': 'css',
             "LIBRARY_PATHS": [],
             "OUTPUT_STYLES": "nested",
+            "HASH_SUFFIXES": False,
             "SOURCE_COMMENTS": False,
             "EXCLUDES": []
         }
