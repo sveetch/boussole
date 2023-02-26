@@ -9,6 +9,9 @@ Version 2.1.0 - Unreleased
 --------------------------
 
 * Added new option ``HASH_SUFFIX`` to append a hash suffix to built filenames;
+* Changed ``setup.cfg`` to move every requirements that are not useful for tests into
+  a new extra requirement ``[quality]`` so Tox will be faster to install without
+  useless requirements. The Makefile install task still install everything;
 
 
 Version 2.0.0 - 2021/02/07

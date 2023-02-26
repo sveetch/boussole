@@ -45,6 +45,7 @@ clean-install:
 	@echo "==== Clear installation ===="
 	@echo ""
 	rm -Rf $(VENV_PATH)
+	rm -Rf dist
 	rm -Rf $(PACKAGE_SLUG).egg-info
 .PHONY: clean-install
 
@@ -72,7 +73,7 @@ install: venv
 	@echo ""
 	@echo "==== Install everything for development ===="
 	@echo ""
-	$(PIP) install -e .[dev]
+	$(PIP) install -e .[dev,quality]
 .PHONY: install
 
 docs:
