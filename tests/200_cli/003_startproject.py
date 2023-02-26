@@ -75,7 +75,7 @@ def test_001(settings, caplog):
                 "TARGET_PATH": "css",
                 "LIBRARY_PATHS": [],
                 "OUTPUT_STYLES": "nested",
-                "HASH_SUFFIXES": False,
+                "HASH_SUFFIX": None,
                 "SOURCE_COMMENTS": False,
                 "EXCLUDES": []
             }

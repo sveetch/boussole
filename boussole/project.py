@@ -154,7 +154,7 @@ class ProjectStarter(ProjectBase):
             "TARGET_PATH": targetdir,
             "LIBRARY_PATHS": [],
             "OUTPUT_STYLES": "nested",
-            "HASH_SUFFIXES": False,
+            "HASH_SUFFIX": None,
             "SOURCE_COMMENTS": False,
             "EXCLUDES": []
         }, abs_config, indent=4)

@@ -79,13 +79,13 @@ def watch_command(context, backend, config, poll):
         raise click.Abort()
 
     logger.debug("Settings file: {} ({})".format(
-                 config_filepath, config_engine._kind_name))
-    logger.debug("Project sources directory: {}".format(
-                settings.SOURCES_PATH))
-    logger.debug("Project destination directory: {}".format(
-                settings.TARGET_PATH))
-    logger.debug("Exclude patterns: {}".format(
-                settings.EXCLUDES))
+        config_filepath, config_engine._kind_name
+    ))
+    logger.debug("Project sources directory: {}".format(settings.SOURCES_PATH))
+    logger.debug("Project destination directory: {}".format(settings.TARGET_PATH))
+    logger.debug("Exclude patterns: {}".format(settings.EXCLUDES))
+    if settings.HASH_SUFFIX:
+        logger.debug("Build hash: {}".format(settings.HASH_SUFFIX))
 
     # Watcher settings
     watcher_templates_patterns = {

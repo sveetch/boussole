@@ -340,7 +340,7 @@ def test_fail_005():
     (["--backend=yaml"], YAML_FILENAME, pyaml.dump),
     (["--backend=json"], JSON_FILENAME, json.dump),
 ])
-def test_success_001(options, filename, dumper):
+def test_success_basic(options, filename, dumper):
     """
     Testing compile success on basic config, a main Sass source and a partial
     source to ignore and mixed Sass format (imported sass source from scss)
@@ -401,7 +401,7 @@ def test_success_001(options, filename, dumper):
         result = runner.invoke(cli_frontend, ["compile"]+options)
 
         # Attempted compiled CSS
-        css_attempted = "\n".join((
+        expected_css = "\n".join((
             """/* Main scss sample */""",
             """#content { color: red; }""",
             "",
@@ -413,16 +413,88 @@ def test_success_001(options, filename, dumper):
             """/*# sourceMappingURL=main.map */""",
         ))
         with open(os.path.join(test_cwd, "css", "main.css"), "r") as f:
-            css_compiled = f.read()
+            compiled_css = f.read()
 
         # Command success signal exit
         assert result.exit_code == 0
         # Source is correctly compiled
-        assert css_compiled == css_attempted
+        assert compiled_css == expected_css
         # Partial source to ignore is ignored
         results = os.listdir(os.path.join(test_cwd, "css"))
         results.sort()
         assert results == [
             "main.css",
             "main.map",
+        ]
+
+
+@pytest.mark.parametrize("options,filename,dumper", [
+    ([], JSON_FILENAME, json.dump),
+    (["--backend=yaml"], YAML_FILENAME, pyaml.dump),
+    (["--backend=json"], JSON_FILENAME, json.dump),
+])
+def test_success_hash(caplog, options, filename, dumper):
+    """
+    Testing compile success on basic config with hash suffix enabled should produce
+    CSS files with a hash in filename.
+    """
+    runner = CliRunner()
+
+    # Temporary isolated current dir
+    with runner.isolated_filesystem():
+        test_cwd = os.getcwd()
+        print(test_cwd)
+
+        # Write a minimal config file
+        with open(filename, "w") as f:
+            datas = {
+                "SOURCES_PATH": ".",
+                "TARGET_PATH": "./css",
+                "OUTPUT_STYLES": "compact",
+                "SOURCE_MAP": True,
+                "HASH_SUFFIX": "dummy-hash",
+            }
+            dumper(datas, f, indent=4)
+
+        # Create needed dirs
+        os.makedirs(os.path.join(test_cwd, "css"))
+
+        # Write a minimal main scss source
+        source = "\n".join((
+            """/* Main scss sample */""",
+            """#content{""",
+            """    color: red;""",
+            """    &.wide{""",
+            """        margin: 50px 15px;""",
+            """    }""",
+            """}""",
+        ))
+        with open("main.scss", "w") as f:
+            f.write(source)
+
+        # Invoke command action
+        result = runner.invoke(cli_frontend, ["-v 5", "compile"] + options)
+
+        # Attempted compiled CSS
+        expected_css = "\n".join((
+            """/* Main scss sample */""",
+            """#content { color: red; }""",
+            "",
+            """#content.wide { margin: 50px 15px; }""",
+            "",
+            """/*# sourceMappingURL=main.dummy-hash.map */""",
+        ))
+        with open(os.path.join(test_cwd, "css", "main.dummy-hash.css"), "r") as f:
+            compiled_css = f.read()
+
+        # Command success signal exit
+        assert result.exit_code == 0
+        # Source is correctly compiled
+        assert compiled_css == expected_css
+        # Partial source to ignore is ignored
+        results = os.listdir(os.path.join(test_cwd, "css"))
+        results.sort()
+        assert results == [
+            "main.dummy-hash.css",
+            "main.dummy-hash.map",
         ]

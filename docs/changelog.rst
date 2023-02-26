@@ -8,8 +8,7 @@ Changelog
 Version 2.1.0 - Unreleased
 --------------------------
 
-* Added new option ``HASH_SUFFIXES`` that append hash suffixes to filenames when
-  enabled;
+* Added new option ``HASH_SUFFIX`` to append a hash suffix to built filenames;
 
 
 Version 2.0.0 - 2021/02/07

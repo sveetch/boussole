@@ -28,7 +28,7 @@ libraries compatibles with libsass should be safe to compile.
 Project configuration
 *********************
 
-A project **configuration lives in a file** which default attempted name is
+A project **configuration lives in a file** which default expected name is
 ``boussole.json`` (JSON backend) or ``boussole.yml`` (YAML backend).
 
 Backend format
@@ -76,7 +76,7 @@ format:
             ],
             "TARGET_PATH": "/home/bar",
             "OUTPUT_STYLES": "nested",
-            "HASH_SUFFIXES": false,
+            "HASH_SUFFIX": null,
             "SOURCE_COMMENTS": false,
             "SOURCE_MAP": false,
             "EXCLUDES": [
@@ -94,54 +94,117 @@ References
 
 
 SOURCES_PATH
-    Default: ``None``, this is a required setting.
+............
 
-    (string) Path to the directory containing your project Sass sources to compile.
+* **Default:** ``None``
+* **Type:** string
+* **Required:** True
+
+Path to the directory containing your project Sass sources to compile.
+
 LIBRARY_PATHS
-    Default: ``[]``
+.............
 
-    (list) A list of paths (string) to your library imported from your Sass sources.
-    Never try to add your source dir as a library and vice versa, this will trouble
-    resolver and compiler.
+* **Default:** ``[]``
+* **Type:** list
+* **Required:** False
 
-    If you plan to use some Sass libraries installed from npm, just add the path to
-    ``node_modules`` directory, then you will be able to import them from your
-    sources.
+A list of paths (string) to your library imported from your Sass sources.
+Never try to add your source dir as a library and vice versa, this will trouble
+resolver and compiler.
 
-    However, some project may install hundreds of npm packages which may involve
-    a little performance loss with the watcher mode on some systems.
+If you plan to use some Sass libraries installed from Npm, just add the path to
+``node_modules`` directory, then you will be able to import them from your
+sources.
+
+However, some project may install hundreds of npm packages which may involve
+a little performance loss with the watcher mode on some systems.
+
 TARGET_PATH
-    Default: None, this is a required setting.
+...........
 
-    (string) Directory path where will be writed your compiled Sass sources.
+* **Default:** ``None``
+* **Type:** string
+* **Required:** True
+
+Directory path where will be writed your compiled Sass sources.
+
 OUTPUT_STYLES
-    Default: ``nested``
+.............
 
-    (string) keyword of output style type used to compile your Sass sources. Can
-    be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
-HASH_SUFFIXES
-    Default: ``False``
+* **Default:** ``nested``
+* **Type:** string
+* **Required:** False
 
-    (boolean) If ``True``, an MD5 hash will be appended to the filename of each
-    compiled file.
+Keyword of output style type used to compile your Sass sources. Can
+be either ``compact``, ``expanded``, ``nested`` or ``compressed``.
+
+HASH_SUFFIX
+...........
+
+* **Default:** ``None``
+* **Type:** None or boolean or string
+* **Required:** False
+
+If enabled this option will add a hash between file
+name and file extension. It have different behavior depending given value:
+
+* If it is an empty string, ``None`` or ``False``, this option is disabled. This is the
+  default value;
+* If value is ``:blake2``, a hash will be added using "blake2" for a length of
+  20 characters (almost guaranteed to be unique);
+* If value is ``:uuid``, a hash will be added using "uuid4" with for a length of
+  32 characters (guaranteed to be unique);
+* If ``True``, assume to use the default hash engine which is ``:blake2``;
+* If it is a string that do not match any hash engine name, it will just be added
+  as it;
+
+For example for a ``foo.css`` file to build with this option set to ``:blake2``,
+the built file will be ``foo.6fa1d8fcfd719046d762.css``.
+
+Generated hashes (with "blake2" or "uuid4") will change on each compile except in
+watch mode where the hash will be the same during your watch session (if you break
+the watch mode then launch it again the hash will change).
+
+.. NOTE::
+    This option is mostly useful for production builds, remember that each time you
+    compile sources to CSS, their filename will change.
+
+
 SOURCE_COMMENTS
-    Default: ``False``
+...............
 
-    (boolean) If ``True``, comments about source lines will be added to each rule
-    in resulted CSS from compile.
+* **Default:** ``False``
+* **Type:** boolean
+* **Required:** False
+
+If ``True``, comments about source lines will be added to each rule in resulted CSS
+from compile.
+
 SOURCE_MAP
-    Default: ``False``
+..........
 
-    (boolean) If ``True``, generate a source map for each compiled file. Source map
-    filename will be the same that compiled file but with extension changed to
-    ``.map``. The source map file is allways created in the same directory than CSS
-    file.
+* **Default:** ``False``
+* **Type:** boolean
+* **Required:** False
+
+If ``True``, generate a source map for each compiled file. Source map
+filename will be the same that compiled file but with extension changed to
+``.map``. The source map file is allways created in the same directory than CSS
+file.
+
+If ``HASH_SUFFIX`` is enabled, the source map filename will also adopt the hash.
+
 EXCLUDES
-    Default: ``[]``
+........
 
-    (list) A list of glob pattern (string) to exclude some paths/files from compile.
-    Remember these pattern are allways matched against relative paths (from project
-    directory).
+* **Default:** ``[]``
+* **Type:** list
+* **Required:** False
+
+A list of glob pattern (string) to exclude some paths/files from compile.
+Remember these pattern are allways matched against relative paths (from project
+directory).
 
 
 Help

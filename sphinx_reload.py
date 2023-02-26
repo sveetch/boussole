@@ -19,7 +19,7 @@ from livereload import Server, shell
 
 server = Server()
 
-# Watch root documents (not recursive)
+# Watch documents
 server.watch(
     "docs/*.rst",
     shell(
@@ -27,17 +27,15 @@ server.watch(
         cwd="docs"
     )
 )
-
-# Watch application API documents
 server.watch(
-    "docs/api/*.rst",
+    "docs/*/**.rst",
     shell(
         "make html",
         cwd="docs"
     )
 )
 
-# Watch modules for autodoc review from core docs
+# Watch modules for autodoc review
 server.watch(
     "boussole/*.py",
     shell(
@@ -46,7 +44,7 @@ server.watch(
     )
 )
 server.watch(
-    "boussole/conf/*.py",
+    "boussole/*/**.py",
     shell(
         "make html",
         cwd="docs"

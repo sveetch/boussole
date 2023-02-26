@@ -12,7 +12,7 @@ from ..exceptions import SettingsDiscoveryError
 
 class Discover:
     """
-    Should be able to find a settings file without any specific backend given,
+    Discovery is able to find a settings file without any specific backend given,
     just a directory path (the base dir) is required.
 
     So:

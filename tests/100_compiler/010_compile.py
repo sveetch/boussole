@@ -5,11 +5,11 @@ import io
 from boussole.conf.model import Settings
 
 
-def test_001(compiler, temp_builds_dir):
+def test_basic(compiler, temp_builds_dir):
     """
     Basic sample without source map
     """
-    basedir = temp_builds_dir.join("compiler_safecompile").strpath
+    basedir = temp_builds_dir.join("compiler_safecompile_basic").strpath
 
     basic_settings = Settings(initial={
         "SOURCES_PATH": "scss",

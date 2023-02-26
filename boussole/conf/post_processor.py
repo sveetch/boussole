@@ -9,6 +9,9 @@ Base backend inherit from ``SettingsPostProcessor`` to be able to use it in
 its ``clean()`` method.
 """
 import os
+import datetime
+from hashlib import blake2b
+from uuid import uuid4
 
 from ..exceptions import SettingsInvalidError
 
@@ -165,5 +168,42 @@ class SettingsPostProcessor(object):
         if not value:
             msg = "Required value from setting '{name}' must not be empty."
             raise SettingsInvalidError(msg.format(name=name))
+
+        return value
+
+    def _patch_hash_suffix(self, settings, name, value):
+        """
+        Coerce setting ``HASH_SUFFIX`` to the right value.
+
+        Args:
+            settings (dict): Current settings.
+            name (str): Setting name.
+            value (str): Required value to patch.
+
+        Returns:
+            object: It may be:
+
+            * None if value is an empty string, None or False;
+            * If value is ``:blake2``, this will return a hash from black2b with a
+              length of 20 characters (almost guaranteed to be unique);
+            * If value is ``:blake2``, this will return a hash from uuid4 with a
+              length of 32 characters (guaranteed to be unique);
+            * If True, assume it enables the default hash engine which is ``:blake2``;
+            * A string if value is a string that do not match any hash engine name;
+
+        """
+        if not value:
+            return None
+
+        if value is True or value == ":blake2":
+            # Use the current datetime with microseconds to build the hash
+            value = blake2b(
+                datetime.datetime.now().isoformat().encode('utf-8'),
+                digest_size=10
+            ).hexdigest()
+        elif value == ":uuid":
+            # UUID is unique ID that does not need any content, we just remove dashes
+            # for shorter string
+            value = str(uuid4()).replace("-", "")
 
         return value

@@ -6,7 +6,7 @@
     ],
     "TARGET_PATH": "/home/bar",
     "OUTPUT_STYLES": "nested",
-    "HASH_SUFFIXES": false,
+    "HASH_SUFFIX": null,
     "SOURCE_COMMENTS": false,
     "SOURCE_MAP": false,
     "EXCLUDES": []

@@ -136,7 +136,7 @@ class SettingsBackendBase(SettingsPostProcessor):
             dict: Dictionnary containing parsed setting options.
 
         """
-        return {}
+        return content
 
     def dump(self, content, filepath):
         """
@@ -152,11 +152,11 @@ class SettingsBackendBase(SettingsPostProcessor):
             dict: Dictionnary containing parsed setting options.
 
         """
-        return {}
+        return content
 
     def clean(self, settings):
         """
-        Clean given settings for backend needs.
+        Clean and patch given settings for backend needs.
 
         Default backend only apply available post processor methods.
 

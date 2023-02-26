@@ -10,7 +10,6 @@ from ..conf.yaml_backend import SettingsBackendYaml
 from ..exceptions import BoussoleBaseException
 from ..finder import ScssFinder
 from ..project import ProjectBase
-from ..utils import file_md5
 
 
 @click.command(
@@ -56,20 +55,21 @@ def compile_command(context, backend, config):
         raise click.Abort()
 
     logger.debug("Settings file: {} ({})".format(
-                 config_filepath, config_engine._kind_name))
-    logger.debug("Project sources directory: {}".format(
-                 settings.SOURCES_PATH))
-    logger.debug("Project destination directory: {}".format(
-                 settings.TARGET_PATH))
-    logger.debug("Exclude patterns: {}".format(
-                 settings.EXCLUDES))
+        config_filepath, config_engine._kind_name
+    ))
+    logger.debug("Project sources directory: {}".format(settings.SOURCES_PATH))
+    logger.debug("Project destination directory: {}".format(settings.TARGET_PATH))
+    logger.debug("Exclude patterns: {}".format(settings.EXCLUDES))
+    if settings.HASH_SUFFIX:
+        logger.debug("Build hash: {}".format(settings.HASH_SUFFIX))
 
     # Find all sources with their destination path
     try:
         compilable_files = ScssFinder().mirror_sources(
             settings.SOURCES_PATH,
             targetdir=settings.TARGET_PATH,
-            excludes=settings.EXCLUDES
+            excludes=settings.EXCLUDES,
+            hashid=settings.HASH_SUFFIX,
         )
     except BoussoleBaseException as e:
         logger.error(str(e))
@@ -80,10 +80,6 @@ def compile_command(context, backend, config):
     errors = 0
     for src, dst in compilable_files:
         logger.debug("Compile: {}".format(src))
-
-        if settings.HASH_SUFFIXES:
-            filehash = file_md5(src)[:10]
-            dst = compiler.append_suffix(dst, filehash)
 
         output_opts = {}
         success, message = compiler.safe_compile(settings, src, dst)

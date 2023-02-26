@@ -41,7 +41,7 @@ def test_css_compat_ok(compiler, temp_builds_dir):
             """
         )
 
-    # Create sample main Sass source
+    # Create sample CSS partial source
     with io.open(css_include, "w", encoding="utf-8") as f:
         f.write(
             """

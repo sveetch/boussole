@@ -2,7 +2,7 @@
 from boussole.conf.base_backend import SettingsBackendBase
 
 
-def test_ok_001(settings):
+def test_parse_ok_001(settings):
     """
     Dummy content parsing
     """
@@ -13,4 +13,7 @@ def test_ok_001(settings):
 
     content = backend.open(filepath)
 
-    assert backend.parse(filepath, content) == {}
+    assert backend.parse(filepath, content) == (
+        """Fake settings file as SettingsBackendBase dont implement a full """
+        """usable interface."""
+    )

@@ -2,7 +2,7 @@
 from boussole.conf.base_backend import SettingsBackendBase
 
 
-def test_ok_001(settings):
+def test_open_ok_001(settings):
     """
     Open given filepath
     """

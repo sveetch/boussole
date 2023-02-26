@@ -1,26 +1,16 @@
-# -*- coding: utf-8 -*-
+import pytest
 
 
-def test_001(settings, finder):
-    result = finder.change_extension("foo.scss", 'css')
-    assert result == "foo.css"
-
-
-def test_002(settings, finder):
-    result = finder.change_extension("foo.backup.scss", 'css')
-    assert result == "foo.backup.css"
-
-
-def test_003(settings, finder):
-    result = finder.change_extension("bar/foo.scss", 'css')
-    assert result == "bar/foo.css"
-
-
-def test_004(settings, finder):
-    result = finder.change_extension("/home/bar/foo.scss", 'css')
-    assert result == "/home/bar/foo.css"
-
-
-def test_005(settings, finder):
-    result = finder.change_extension("/home/bar/foo.backup.scss", 'css')
-    assert result == "/home/bar/foo.backup.css"
+@pytest.mark.parametrize("source, new, hashid, expected", [
+    ("foo.scss", "css", None, "foo.css"),
+    ("foo.backup.scss", "css", None, "foo.backup.css"),
+    ("bar/foo.scss", "css", None, "bar/foo.css"),
+    ("/home/bar/foo.scss", "css", None, "/home/bar/foo.css"),
+    ("/home/bar/foo.backup.scss", "css", None, "/home/bar/foo.backup.css"),
+    ("foo.scss", "css", "hash", "foo.hash.css"),
+    ("foo.backup.scss", "css", "hash", "foo.backup.hash.css"),
+    ("/home/bar/foo.backup.scss", "css", "hash", "/home/bar/foo.backup.hash.css"),
+])
+def test_change_extension(settings, finder, source, new, hashid, expected):
+    result = finder.change_extension(source, new, hashid)
+    assert result == expected

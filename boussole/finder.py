@@ -154,7 +154,7 @@ class ScssFinder(object):
         # 'startswith' usage
         excluded_libdirs = [os.path.join(d, "") for d in excluded_libdirs]
 
-        # Match an filename extension admitted as compilable stylesheet
+        # Match a filename extension admitted as compilable stylesheet
         filename, ext = os.path.splitext(filepath)
         ext = ext[1:]
         if ext not in self.FINDER_STYLESHEET_EXTS:
@@ -194,40 +194,50 @@ class ScssFinder(object):
         filename, ext = os.path.splitext(filepath)
         return '.'.join([filename, suffix, ext[1:]])
 
-    def change_extension(self, filepath, new_extension):
+    def change_extension(self, filepath, new_extension, hashid=None):
         """
-        Change final filename extension.
+        Alter filename to change its file extensions and possibly a hash ID between
+        them.
 
         Args:
             filepath (str): A file path (relative or absolute).
-                new_extension (str): New extension name (without leading dot) to
-                apply.
+            new_extension (str): New extension name (without leading dot) to apply.
+
+        Keyword Arguments:
+            hashid (str): Hash ID to add between file name and extension if given.
 
         Returns:
             str: Filepath with new extension.
         """
         filename, ext = os.path.splitext(filepath)
-        return '.'.join([filename, new_extension])
 
-    def get_destination(self, filepath, targetdir=None):
+        if hashid:
+            return '.'.join([filename, hashid, new_extension])
+        else:
+            return '.'.join([filename, new_extension])
+
+    def get_destination(self, filepath, targetdir=None, hashid=None):
         """
         Return destination path from given source file path.
 
         Destination is allways a file with extension ``.css``.
 
         Args:
-            filepath (str): A file path. The path is allways relative to
-                sources directory. If not relative, ``targetdir`` won't be
-                joined.
-            absolute (bool): If given will be added at beginning of file
-                path.
+            filepath (str): A file path. The path is allways relative to sources
+                directory. If not relative, ``targetdir`` won't be joined.
+
+        Keyword Arguments:
+            targetdir (str): If given will be added at beginning of file path.
+            hashid (str): Hash ID to add between file name and extension if given.
 
         Returns:
             str: Destination filepath.
         """
-        dst = self.change_extension(filepath, "css")
+        dst = self.change_extension(filepath, "css", hashid=hashid)
+
         if targetdir:
             dst = os.path.join(targetdir, dst)
+
         return dst
 
     def compilable_sources(self, sourcedir, absolute=False, recursive=True,
@@ -288,7 +298,7 @@ class ScssFinder(object):
         return filepaths
 
     def mirror_sources(self, sourcedir, targetdir=None, recursive=True,
-                       excludes=[]):
+                       excludes=[], hashid=None):
         """
         Mirroring compilable sources filepaths to their targets.
 
@@ -303,6 +313,7 @@ class ScssFinder(object):
             excludes (list): A list of excluding patterns (glob patterns).
                 Patterns are matched against the relative filepath (from its
                 sourcedir).
+            hashid (str): Hash ID to include into destination filenames.
 
         Returns:
             list: A list of pairs ``(source, target)``. Where ``target`` is the
@@ -321,7 +332,7 @@ class ScssFinder(object):
 
         for filepath in sources:
             src = filepath
-            dst = self.get_destination(src, targetdir=targetdir)
+            dst = self.get_destination(src, targetdir=targetdir, hashid=hashid)
 
             # In absolute mode
             if targetdir:
