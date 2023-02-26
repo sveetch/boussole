@@ -1,5 +1,4 @@
 .. _click: http://click.pocoo.org/6/
-.. _`@feth`: https://github.com/feth
 
 =========
 Changelog
@@ -8,10 +7,12 @@ Changelog
 Version 2.1.0 - Unreleased
 --------------------------
 
-* Added new option ``HASH_SUFFIX`` to append a hash suffix to built filenames;
+* Added new option ``HASH_SUFFIX`` to append a hash suffix to built filenames, thanks
+  to `@arichr <https://github.com/arichr>`_ for its contribution;
 * Changed ``setup.cfg`` to move every requirements that are not useful for tests into
   a new extra requirement ``[quality]`` so Tox will be faster to install without
   useless requirements. The Makefile install task still install everything;
+* Update install documentation to close issues #39 and #40;
 
 
 Version 2.0.0 - 2021/02/07
@@ -238,7 +239,8 @@ close #17;
 Version 1.0.0 - 2016/08/01
 --------------------------
 
-Added Python 3.4 support, thanks to `@feth`_ for its contributions.
+Added Python 3.4 support, thanks to `@feth <https://github.com/feth>`_ for its
+contributions.
 
 * Added ``six`` as requirement;
 * Use the 'key' param in sorted: 'cmp' is removed

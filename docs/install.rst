@@ -3,22 +3,18 @@
 Install
 =======
 
-::
+Just use the Pip command: ::
 
     pip install boussole
 
-It should be safe enough to install it on Linux, MacOSX and Windows until you
-have the right environment (needed devel libs, etc..).
+Or possibly your prefered package installer.
 
-For development guideline see :ref:`intro_development`.
+It should be safe enough to install it on Linux, MacOSX and Windows if you have a
+proper environment.
 
 .. Note::
-    Because some requirements need to compile some C modules, this may takes
-    some minutes to install Boussole again for each of your projects under
-    their own virtual environment.
+    Some OS versions or special environments may encounter some install issues, that
+    are not related to Boussole itself. You could find some workaround in this
+    `Stackoverflow thread about installing packages with Pip <https://stackoverflow.com/questions/35898734/pip-installs-packages-successfully-but-executables-not-found-from-command-line/43368894#43368894>`_.
 
-    Also Libsass compatibility should be safe enough for your future projects.
-
-    So we recommend you to install this software at your system level if
-    installation speed is important to you.
-
+For development install you should see :ref:`intro_development`.
