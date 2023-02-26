@@ -12,6 +12,9 @@
 Boussole
 ========
 
+Commandline interface to build `Sass`_ projects using `libsass-python`_.
+
+
 Features
 ********
 
@@ -22,7 +25,8 @@ Features
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
 * **Expose a Core API** to use it from Python code;
-* Support **Python>=3.5**;
+* Support **Python>=3.7**;
+
 
 Links
 *****
@@ -31,7 +35,8 @@ Links
 * Download its `PyPi package <https://pypi.org/project/boussole/>`_;
 * Clone it on its `Github repository <https://github.com/sveetch/boussole>`_;
 
-Dependancies
+
+Dependencies
 ************
 
 * `click`_ >=5.1;
@@ -40,6 +45,7 @@ Dependancies
 * `libsass-python`_ >=0.19.4;
 * `pyaml`_;
 * `Watchdog`_ >=0.8.3;
+
 
 Credits
 *******

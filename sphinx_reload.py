@@ -21,6 +21,13 @@ server = Server()
 
 # Watch documents
 server.watch(
+    "README.rst",
+    shell(
+        "make html",
+        cwd="docs"
+    )
+)
+server.watch(
     "docs/*.rst",
     shell(
         "make html",

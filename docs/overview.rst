@@ -168,7 +168,10 @@ the watch mode then launch it again the hash will change).
 
 .. NOTE::
     This option is mostly useful for production builds, remember that each time you
-    compile sources to CSS, their filename will change.
+    compile sources to CSS their filename will change.
+
+    Also Boussole is not aware of previously built files so with this option enabled
+    you will need to care about cleaning files with a hash.
 
 
 SOURCE_COMMENTS

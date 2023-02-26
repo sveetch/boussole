@@ -3,6 +3,7 @@ VENV_PATH=.venv
 PIP=$(VENV_PATH)/bin/pip
 FLAKE=$(VENV_PATH)/bin/flake8
 PYTEST=$(VENV_PATH)/bin/pytest
+TOX=$(VENV_PATH)/bin/tox
 TWINE=$(VENV_PATH)/bin/twine
 SPHINX_RELOAD=$(VENV_PATH)/bin/python sphinx_reload.py
 PACKAGE_NAME=boussole
@@ -24,6 +25,7 @@ help:
 	@echo ""
 	@echo "  flake                 -- to launch Flake8 checking"
 	@echo "  tests                 -- to launch tests using Pytest"
+	@echo "  tox                   -- to launch tests for every Tox environments"
 	@echo "  quality               -- to launch Flake8, tests, check package and build documentation"
 	@echo ""
 	@echo "  freeze-dependencies   -- to write a frozen.txt file with installed dependencies versions"
@@ -73,7 +75,7 @@ install: venv
 	@echo ""
 	@echo "==== Install everything for development ===="
 	@echo ""
-	$(PIP) install -e .[dev,quality]
+	$(PIP) install -e .[dev,quality,doc]
 .PHONY: install
 
 docs:
@@ -103,6 +105,13 @@ tests:
 	@echo ""
 	$(PYTEST) -vv tests/
 .PHONY: tests
+
+tox:
+	@echo ""
+	@echo "==== Launching tests with Tox environments ===="
+	@echo ""
+	$(TOX)
+.PHONY: tox
 
 build-package:
 	@echo ""

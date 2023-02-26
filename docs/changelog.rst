@@ -7,11 +7,19 @@ Changelog
 Version 2.1.0 - Unreleased
 --------------------------
 
+*Update Python supports and added new feature for hashed filenames*
+
+**Until critical bugfixes, this will be the last version for Python 3.7, next release
+will upgrade to Python 3.8 to benefit from some improvements.**
+
+* **[Backward incompatible]** Dropped Python<3.7 support;
+* Added support for Python 3.7 to 3.10;
+* Added support for libsass-python up to 0.22.0;
 * Added new option ``HASH_SUFFIX`` to append a hash suffix to built filenames, thanks
   to `@arichr <https://github.com/arichr>`_ for its contribution;
 * Changed ``setup.cfg`` to move every requirements that are not useful for tests into
-  a new extra requirement ``[quality]`` so Tox will be faster to install without
-  useless requirements. The Makefile install task still install everything;
+  new extra requirements parts ``quality`` and ``doc`` so Tox will be faster to install
+  without useless requirements. The Makefile ``install`` task still install everything;
 * Update install documentation to close issues #39 and #40;
 
 
