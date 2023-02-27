@@ -4,7 +4,7 @@
 Changelog
 =========
 
-Version 2.1.0 - Unreleased
+Version 2.1.0 - 2023/02/27
 --------------------------
 
 *Update Python supports and added new feature for hashed filenames*
