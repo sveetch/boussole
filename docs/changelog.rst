@@ -4,7 +4,7 @@
 Changelog
 =========
 
-Version 2.1.1 - Unreleased
+Version 2.1.1 - 2023/08/18
 --------------------------
 
 A minor version only to update ``.readthedocs.yml`` file to follow service deprecations
