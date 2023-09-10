@@ -4,6 +4,16 @@
 Changelog
 =========
 
+Version 2.1.2 - 2023/09/10
+--------------------------
+
+*A set of minor fixes on packaging and documentation*
+
+* Removed ``packaging`` development requirement that is useless since libsass-python
+  ``<0.19.4`` support has been dropped;
+* Fixed documentation requirements;
+
+
 Version 2.1.1 - 2023/08/18
 --------------------------
 
