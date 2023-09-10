@@ -4,6 +4,13 @@
 Changelog
 =========
 
+Version 2.1.3 - Unreleased
+--------------------------
+
+A minor version again for a new attempt to fix documentation building on RTD which
+fails because of incompatibility with Python>=3.10 and Sphinx extension "Napoleon".
+
+
 Version 2.1.2 - 2023/09/10
 --------------------------
 
