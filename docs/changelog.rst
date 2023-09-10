@@ -4,7 +4,7 @@
 Changelog
 =========
 
-Version 2.1.3 - Unreleased
+Version 2.1.3 - 2023/09/10
 --------------------------
 
 A minor version again for a new attempt to fix documentation building on RTD which

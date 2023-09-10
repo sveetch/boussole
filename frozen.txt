@@ -1,4 +1,4 @@
-# Frozen requirement versions from '2.1.2rc1' installation
+# Frozen requirement versions from '2.1.2' installation
 click==8.1.7
 colorama==0.4.6
 colorlog==6.7.0
