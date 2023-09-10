@@ -1,1 +1,1 @@
-boussole
+boussole[doc]
