@@ -25,7 +25,7 @@ Features
 * **Watch mode** for no waste of time during web design integration;
 * **Full Python stack**, no Ruby or Node.js stuff needed;
 * **Expose a Core API** to use it from Python code;
-* Support **Python>=3.7**;
+* Support **Python>=3.8**;
 
 
 Links
@@ -40,7 +40,6 @@ Dependencies
 ************
 
 * `click`_ >=5.1;
-* `colorama`_;
 * `colorlog`_;
 * `libsass-python`_ >=0.19.4;
 * `pyaml`_;
