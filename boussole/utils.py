@@ -48,3 +48,24 @@ def match_path(path, included_patterns, excluded_patterns, case_sensitive):
         any(path.match(p) for p in included_patterns) and
         not any(path.match(p) for p in excluded_patterns)
     )
+
+
+def debug_click_invoke(result, caplog=None):
+    """
+    Output important informations on Click invoke result and optionally caplog.
+
+    If command has raised an exception, it will be raised up.
+    """
+    print("=> result.output <=")
+    print(result.output)
+    print()
+
+    if caplog:
+        print("=> caplog.record_tuples <=")
+        print(caplog.record_tuples)
+        print()
+
+    print("=> result.exception <=")
+    print(result.exception)
+    if result.exception is not None:
+        raise result.exception

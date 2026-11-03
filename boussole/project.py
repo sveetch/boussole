@@ -77,6 +77,7 @@ class ProjectStarter(ProjectBase):
             current = cp.pop(i)
             print("🧱   - cp:", cp)
             print("🧱   - current:", current)
+            print("🧱   - current is in cp:", (current in cp))
             if current in cp:
                 raise SettingsInvalidError(
                     "Multiple occurences finded for path: {}".format(current)
