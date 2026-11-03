@@ -13,6 +13,25 @@ from boussole.conf.yaml_backend import SettingsBackendYaml
 YAML_FILENAME = SettingsBackendYaml._default_filename
 JSON_FILENAME = SettingsBackendJson._default_filename
 
+def debug_click_invoke(result, caplog=None):
+    """
+    Output important informations on Click invoke result and optionally caplog.
+
+    It invoke command has raised an exception, raise it up.
+    """
+    print("=> result.output <=")
+    print(result.output)
+    print()
+
+    if caplog:
+        print("=> caplog.record_tuples <=")
+        print(caplog.record_tuples)
+        print()
+
+    print("=> result.exception <=")
+    print(result.exception)
+    if result.exception is not None:
+        raise result.exception
 
 def test_001(settings, caplog):
     """
@@ -30,14 +49,19 @@ def test_001(settings, caplog):
 
         opts = [
             "startproject",
-            "--basedir={}".format(test_cwd),
-            "--config={}".format(JSON_FILENAME),
-            "--sourcedir={}".format("scss"),
-            "--targetdir={}".format("css"),
+            "--basedir", test_cwd,
+            "--backend", "json",
+            "--config", JSON_FILENAME,
+            "--sourcedir", "scss",
+            "--targetdir", "css",
         ]
 
         # Execute command with opts
         result = runner.invoke(cli_frontend, opts)
+
+        #temp
+        print("💸")
+        debug_click_invoke(result, caplog=caplog)
 
         # Command stop on success exit code
         assert result.exit_code == 0
@@ -95,14 +119,19 @@ def test_002(settings, caplog):
 
         opts = [
             "startproject",
-            "--basedir={}".format(test_cwd),
-            "--config={}".format(JSON_FILENAME),
-            "--sourcedir={}".format("css"),
-            "--targetdir={}".format("css"),
+            "--basedir", test_cwd,
+            "--backend", "json",
+            "--config", JSON_FILENAME,
+            "--sourcedir", "css",
+            "--targetdir", "css",
         ]
 
         # Execute command with opts
         result = runner.invoke(cli_frontend, opts)
+
+        #temp
+        print("💸")
+        debug_click_invoke(result, caplog=caplog)
 
         # Command stop on success exit code
         assert result.exit_code == 1

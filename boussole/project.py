@@ -71,9 +71,12 @@ class ProjectStarter(ProjectBase):
         Returns:
             bool: ``True`` if paths are validated.
         """
+        print("🧱 valid_paths:", args)
         for i, path in enumerate(args, start=0):
             cp = list(args)
             current = cp.pop(i)
+            print("🧱   - cp:", cp)
+            print("🧱   - current:", current)
             if current in cp:
                 raise SettingsInvalidError(
                     "Multiple occurences finded for path: {}".format(current)
