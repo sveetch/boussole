@@ -66,7 +66,7 @@ class SassLibraryEventHandler(object):
         self.source_files = []
         self._event_error = False
 
-        super(SassLibraryEventHandler, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
     def is_valid_event(self, event):
         """
@@ -86,12 +86,10 @@ class SassLibraryEventHandler(object):
         if event.event_type not in self.SUPPORTED_EVENTS or event.is_directory:
             return False
 
-        # We commonly care only about destination path, but it is missing from
-        # some event where the source path is the only one available and so the
-        # legit path to look at
-        target_path = event.src_path
-        if hasattr(event, "dest_path"):
-            target_path = event.dest_path
+        # 'Creation' or 'deletion' event only have a "source" path but some other event
+        # like 'moving' have a "destination" which is the path we will take care of
+        event_dst_path = getattr(event, "dest_path", None)
+        target_path = event_dst_path if event_dst_path else event.src_path
 
         # Don't continue for files we don't care about
         if not self.inspector.is_allowed_source(target_path):
@@ -315,22 +313,17 @@ class SassProjectEventHandler(SassLibraryEventHandler):
         Same as inherit method but the default value for keyword argument
         ``ìnclude_self`` is ``True``.
         """
-        return super(SassProjectEventHandler, self).compile_dependencies(
-            sourcepath,
-            include_self=include_self
-        )
+        return super().compile_dependencies(sourcepath, include_self=include_self)
 
 
-class WatchdogLibraryEventHandler(SassLibraryEventHandler,
-                                  PatternMatchingEventHandler):
+class WatchdogLibraryEventHandler(SassLibraryEventHandler, PatternMatchingEventHandler):
     """
     Watchdog event handler for library sources
     """
     pass
 
 
-class WatchdogProjectEventHandler(SassProjectEventHandler,
-                                  PatternMatchingEventHandler):
+class WatchdogProjectEventHandler(SassProjectEventHandler, PatternMatchingEventHandler):
     """
     Watchdog event handler for project sources.
 

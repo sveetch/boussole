@@ -4,15 +4,23 @@
 Changelog
 =========
 
+Development
+***********
+
+* Fixed ``SassLibraryEventHandler.is_valid_event`` to work correctly with
+  Watchdog>=4.0.0, related to #48;
+* Updated internal 'freezer.py' script to work without 'packaging.pkg_resources';
+
+
 Version 2.1.3 - 2023/09/10
---------------------------
+**************************
 
 A minor version again for a new attempt to fix documentation building on RTD which
 fails because of incompatibility with Python>=3.10 and Sphinx extension "Napoleon".
 
 
 Version 2.1.2 - 2023/09/10
---------------------------
+**************************
 
 *A set of minor fixes on packaging and documentation*
 
@@ -22,14 +30,14 @@ Version 2.1.2 - 2023/09/10
 
 
 Version 2.1.1 - 2023/08/18
---------------------------
+**************************
 
 A minor version only to update ``.readthedocs.yml`` file to follow service deprecations
 changes.
 
 
 Version 2.1.0 - 2023/02/27
---------------------------
+**************************
 
 *Update Python supports and added new feature for hashed filenames*
 
@@ -48,7 +56,7 @@ will upgrade to Python 3.8 to benefit from some improvements.**
 
 
 Version 2.0.0 - 2021/02/07
---------------------------
+**************************
 
 *Drop Python2 support, change configuration filename and some minor improvements*
 
@@ -72,7 +80,7 @@ For new configuration filename change you have two way to resolve it:
 
 
 Version 1.6.0 - 2021/02/04
---------------------------
+**************************
 
 *Last Python2 support, compatibility for recent Click versions and improve
 performance*
@@ -92,7 +100,7 @@ a ``foo.scss.part`` when writing on ``foo.scss``) which may leaded to incorrect
 errors.
 
 Version 1.5.1 - 2020/05/17
---------------------------
+**************************
 
 *Minor update to improve quality on development*
 
@@ -108,7 +116,7 @@ Finally the Tox configuration has been updated to perform tests against supporte
 libsass-python versions and flake coverage has been done on tests.
 
 Version 1.5.0 - 2019/05/17
---------------------------
+**************************
 
 **Indented Sass syntax support and fix some warnings**
 
@@ -167,7 +175,7 @@ there are ``@import`` rules inside a multiline comments, causing these rules to
 be taken as correct imports to check for.
 
 Version 1.4.1 - 2018/10/21
---------------------------
+**************************
 
 **Fixed packaging**
 
@@ -178,7 +186,7 @@ So it has been cleaned an ``setup.cfg`` has been updated to include missing
 ``[options.entry_points]`` section.
 
 Version 1.4.0 - 2018/10/01
---------------------------
+**************************
 
 **Improved packaging**
 
@@ -190,7 +198,7 @@ Makefile has been updated and python-venv has been dropped in profit of
 virtualenv to ease development.
 
 Version 1.3.0 - 2018/09/30
---------------------------
+**************************
 
 **Add settings file discovering**
 
@@ -206,7 +214,7 @@ explicit file path was given and now it will be able to find also a file
 ``settings.yml`` if it exists in current directory.
 
 Version 1.2.3 - 2018/05/20
---------------------------
+**************************
 
 * **Introduced new settings** ``CUSTOM_IMPORT_EXTENSIONS`` which default value
   is ``['.css']`` to keep CSS source including behavior as default just like
@@ -214,14 +222,14 @@ Version 1.2.3 - 2018/05/20
 * Fixed source map url, close #28;
 
 Version 1.2.2 - 2017/12/12
---------------------------
+**************************
 
 * Removed ``pytest-catchlog`` from tests requirements since it has been merged
   in ``pytest==3.3.0``;
 * Upgraded to ``pytest>=3.3.0`` in tests requirements;
 
 Version 1.2.1 - 2017/11/15
---------------------------
+**************************
 
 * Updated Makefile and development document to add everything for development
   install;
@@ -229,7 +237,7 @@ Version 1.2.1 - 2017/11/15
 * Document watcher behavior about inspection, close #24;
 
 Version 1.2.0 - 2017/01/21
---------------------------
+**************************
 
 * Fixed pytest warning about deprecated section name in ``setup.cfg``;
 * Updated tests requirements;
@@ -241,7 +249,7 @@ Version 1.2.0 - 2017/01/21
 * Validated tests with ``libsass==0.12.3``;
 
 Version 1.1.0 - 2016/11/26
---------------------------
+**************************
 
 * YAML backend for settings, close #7 :
 
@@ -257,19 +265,19 @@ Version 1.1.0 - 2016/11/26
 
 
 Version 1.0.2 - 2016/10/26
---------------------------
+**************************
 
 Upgrade ``libsass-python`` dependency to ``>=0.11.2`` to profit from
 ``libsass==3.3.6`` (include bugfix for segfault with ``@extends`` and ``:not``);
 
 Version 1.0.1 - 2016/09/10
---------------------------
+**************************
 
 Fixed encoding issue with inspector that leaded to some bugs with watcher,
 close #17;
 
 Version 1.0.0 - 2016/08/01
---------------------------
+**************************
 
 Added Python 3.4 support, thanks to `@feth <https://github.com/feth>`_ for its
 contributions.
@@ -291,13 +299,13 @@ contributions.
 * Added Python 3.4 interpreter in available tox environments;
 
 Version 0.9.2 - 2016/07/30
---------------------------
+**************************
 
 Fixed some tests related to directory/files structures that were not
 consistant because of ``os.walk`` arbitrary order, close #16;
 
 Version 0.9.1 - 2016/07/29
---------------------------
+**************************
 
 * Added tox configuration file starting with Python2.7;
 * Fixed some postprocessor that was failing because of usage of
@@ -311,19 +319,19 @@ Version 0.9.1 - 2016/07/29
 * Updated development documentation;
 
 Version 0.9.0 - 2016/05/01
---------------------------
+**************************
 
 * Added new settings to enabled sourcemap generation, close #6;
 * Finalize documentation, close #10
 
 Version 0.8.3 - 2016/04/23
---------------------------
+**************************
 
 * New CLI action to start a project, close #8;
 * Added logo to documentation;
 
 Version 0.8.0 - 2016/04/16
---------------------------
+**************************
 
 * Relaxed ``libsass`` version in requirements;
 * Moved ``colorama`` from test to default requirements;
@@ -346,7 +354,7 @@ Version 0.8.0 - 2016/04/16
 * Added some settings validation, close #2;
 
 Version 0.7.0 - 2016/04/07
---------------------------
+**************************
 
 This is almost near Beta version.
 
@@ -376,7 +384,7 @@ This is almost near Beta version.
 * Updated documentation;
 
 Version 0.6.0 - 2016/03/25
---------------------------
+**************************
 
 * Modified conf backend to be more flexible with given base dir and file path;
 * Accorded settings manifest to ``libsass-python`` compiler options;
@@ -386,7 +394,7 @@ Version 0.6.0 - 2016/03/25
   and ``libsass`` versions;
 
 Version 0.5.0 - 2016/03/19
---------------------------
+**************************
 
 * Added CLI structure with `click`_;
 * Lowered click version requirement to 5.1 (since 6.x is not stable yet);
@@ -396,31 +404,31 @@ Version 0.5.0 - 2016/03/19
 * Finished conf management;
 
 Version 0.4.0 - 2016/03/14
---------------------------
+**************************
 
 * Added ``conf`` module to manage project settings;
 * Doc, flake8, unittests for ``conf``;
 
 Version 0.3.0 - 2016/03/10
---------------------------
+**************************
 
 * Added ``finder`` module;
 * Doc, flake8, unittests for ``finder``;
 
 Version 0.2.0 - 2016/03/09
---------------------------
+**************************
 
 Finished changes for the right path resolving/checking behavior with unclear
 resolutions;
 
 Version 0.1.0 - 2016/03/06
---------------------------
+**************************
 
 * Made changes to pass Flake8 validation on API;
 * Started Sphinx documentation;
 
 Version 0.0.9.5 - 2016/03/06
-----------------------------
+****************************
 
 * Document core using Sphinx+Napoleon syntax;
 * Cleaned all debug pointers;
@@ -428,7 +436,7 @@ Version 0.0.9.5 - 2016/03/06
 * Added some last inspector tests;
 
 Version 0.0.9 - 2016/03/05
-----------------------------
+****************************
 
 * Finished inspector to detect almost all circular import;
 * Improved tests;
@@ -436,20 +444,20 @@ Version 0.0.9 - 2016/03/05
 * Still need some debug pointer cleaning and then documentation;
 
 Version 0.0.8 - 2016/03/01
---------------------------
+**************************
 
 * Updated project to use pytest for unittests;
 * updated unittests to fit to pytest usage;
 * Added first inspector tests;
 
 Version 0.0.7 - 2016/02/29
---------------------------
+**************************
 
 * Improved tests;
 * Finished working inspector but not unittested yet;
 
 Version 0.0.6 - 2016/02/25
---------------------------
+**************************
 
 * Added inspector
 * Improved parser to remove comments before looking for import rules, this
@@ -458,28 +466,28 @@ Version 0.0.6 - 2016/02/25
 * Added click as requirement;
 
 Version 0.0.5 - 2016/02/22
---------------------------
+**************************
 
 * Changed resolver behavior to return absolute instead of relative
 * Fixed tests;
 
 Version 0.0.4 - 2016/02/22
---------------------------
+**************************
 
 Finished stable and unittested parser and resolver;
 
 Version 0.0.3 - 2016/02/21
---------------------------
+**************************
 
 Finished first resolver version, still need to do the library_paths thing;
 
 Version 0.0.2 - 2016/02/21
---------------------------
+**************************
 
 * Improved test;
 * Continued on resolver (was named validate previously);
 
 Version 0.0.1 - 2016/02/20
---------------------------
+**************************
 
 First commit

@@ -66,7 +66,7 @@ venv:
 	@echo "==== Install virtual environment ===="
 	@echo ""
 	virtualenv -p $(PYTHON_INTERPRETER) $(VENV_PATH)
-	# This is required for those ones using ubuntu<16.04
+	# Force the last pip and setuptools
 	$(PIP) install --upgrade pip
 	$(PIP) install --upgrade setuptools
 .PHONY: venv
@@ -123,9 +123,7 @@ build-package:
 
 freeze-dependencies:
 	@echo ""
-	@echo "==== Freeze dependencies versions ===="
-	@echo ""
-	$(VENV_PATH)/bin/python freezer.py
+	$(VENV_PATH)/bin/python freezer.py ${PACKAGE_NAME} --destination=frozen.txt
 .PHONY: freeze-dependencies
 
 release: build-package
