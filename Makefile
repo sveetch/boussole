@@ -75,7 +75,7 @@ install: venv
 	@echo ""
 	@echo "==== Install everything for development ===="
 	@echo ""
-	$(PIP) install -e .[dev,quality,doc]
+	$(PIP) install -e .[dev,quality,doc,doc-live]
 .PHONY: install
 
 docs:
